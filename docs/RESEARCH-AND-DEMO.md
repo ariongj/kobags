@@ -4,7 +4,7 @@ Reviewed 15 September 2026. The supplied audit and implementation brief are refe
 
 ## Direction
 
-The main page opens directly into the bag studio. It connects product choice, logo placement and an indicative preview to a structured quote request. The original Kobags logo, navy/green identity, product photographs, manufacturing photographs, printing video and certificate scans are retained.
+The full brand homepage opens at `/`; the dedicated interactive design landing page is at `/design`. It connects product choice, logo placement and an indicative preview to a structured quote request. The original Kobags logo, navy/green identity, product photographs, manufacturing photographs, printing video and certificate scans are retained.
 
 The studio uses a separately generated, unprinted bag illustration so the buyer's logo does not overlap lettering in the original catalog photography. It is explicitly labeled illustrative; real shape, colors, dimensions and print area require production approval. It is not presented as a Kobags product photograph or approved dieline.
 
@@ -26,7 +26,9 @@ These are useful interface patterns, not evidence of conversion performance or K
 
 ## Implemented
 
-- Five-family catalog, filtering, three-product comparison and source-backed variant details.
+- Full brand homepage and dedicated `/design` landing page.
+- Five-family catalog with all 15 source-backed size variants, filtering and three-product comparison.
+- Six rewritten journal articles retaining the original slugs, complete legacy URL map and downloadable design/code handoff.
 - Live front/back bag illustration, colors, text, PNG/JPG/WebP logo upload, logo drag, keyboard movement, resizing, rotation, centering, and downloadable concept image.
 - Four-step RFQ with local draft preservation, English/Albanian studio and quote labels, translated key validation errors, quantity guidance and destination/company capture.
 - Server-validated RFQs with immutable configuration snapshots, stable IDs, idempotency and atomic updates.
@@ -67,4 +69,4 @@ Live Kobags forms/systems, CRM, ERP, Kraken.os, production scheduling, shipping/
 7. Target languages/markets and human copy review.
 8. Existing sales/production systems and available integrations.
 9. Production roles, customer isolation, rate limits, file scanning, backups and restore validation.
-10. Preferred production host, one-to-one blog migration, indexable metadata, canonical XML sitemap and monitoring. This private demo intentionally blocks indexing; no production SEO results are claimed.
+10. Preferred production host, client review of the rewritten six-article journal and retained original slugs, indexable metadata, canonical XML sitemap and monitoring. This private demo intentionally blocks indexing; no production SEO results are claimed.

@@ -1,5 +1,149 @@
 "use client";
-import Link from 'next/link';import {usePathname} from 'next/navigation';import {useState,ReactNode} from 'react';import {ArrowUpRight,Menu,Globe2,X} from 'lucide-react';import {useKobags} from './kobags-context';
-export function Header(){const {t,lang,setLang}=useKobags();const [open,setOpen]=useState(false);const path=usePathname();return <><div className="utility"><span>{t('Made in Kosovo. Made for your brand.','Prodhuar në Kosovë. Për markën tuaj.')}</span><Link href="/demo/customer">{t('Customer demo','Demo për klientin')} <ArrowUpRight size={13}/></Link></div><header className="header"><Link href="/" className="brand" aria-label="Kobags Group home"><img src="/assets/logo.png" alt="Kobags Group" width="172" height="52"/></Link><nav className={open?'nav open':'nav'} aria-label="Main navigation">{[['/products','Our bags','Çantat tona'],['/manufacturing','Manufacturing','Prodhimi'],['/sustainability','Our responsibility','Përgjegjësia jonë'],['/partners','Partners','Partnerët']].map(([href,en,sq])=><Link key={href} href={href} className={path===href?'active':''} onClick={()=>setOpen(false)}>{t(en,sq)}</Link>)}</nav><div className="header-actions"><button className="language" onClick={()=>setLang(lang==='en'?'sq':'en')} aria-label={lang==='en'?'Switch to Albanian':'Kalo në anglisht'}><Globe2 size={16}/>{lang.toUpperCase()}</button><Link href="/quote" className="button small navy">{t('Request a quote','Kërko ofertë')} <ArrowUpRight size={16}/></Link><button className="mobile-toggle icon-button" aria-label="Toggle menu" aria-expanded={open} onClick={()=>setOpen(!open)}>{open?<X/>:<Menu/>}</button></div></header></>}
-export function Footer(){const {t}=useKobags();return <footer className="footer"><div className="footer-top"><div><img src="/assets/logo.png" width="164" height="50" alt="Kobags Group"/><p>{t('Your brand, carried further.','Marka juaj, më larg.')}<br/>Lipjan, Kosovo</p></div><div><h3>{t('Explore','Eksploro')}</h3><Link href="/products">Our bags</Link><Link href="/industries">Industries</Link><Link href="/manufacturing">Manufacturing</Link></div><div><h3>{t('Good to know','Informacione')}</h3><Link href="/resources">Buyer resources</Link><Link href="/certifications">Certifications</Link><Link href="/samples">Request samples</Link></div><div><h3>{t('Let’s talk bags','Le të flasim për çantat')}</h3><span>info@kobags-group.com</span><span>+383 43 877 753</span><Link href="/contact">General inquiries <ArrowUpRight size={14}/></Link></div></div><div className="footer-bottom"><span>© 2026 Kobags Group · Private concept demo</span><div><Link href="/privacy">Privacy</Link><Link href="/terms">Terms</Link><Link href="/cookies">Cookies</Link><Link href="/demo/admin">Sales demo ↗</Link></div></div></footer>}
-export function PageHeading({eyebrow,title,children}:{eyebrow:string;title:string;children?:ReactNode}){return <div className="page-heading"><p className="eyebrow">{eyebrow}</p><h1>{title}</h1>{children&&<p className="intro">{children}</p>}</div>}
+import Link from "@/components/site-link";
+import { usePathname } from "next/navigation";
+import { useState, ReactNode } from "react";
+import { ArrowUpRight, Menu, Globe2, X } from "lucide-react";
+import { useKobags } from "./kobags-context";
+export function Header() {
+  const { t, lang, setLang } = useKobags();
+  const [open, setOpen] = useState(false);
+  const path = usePathname();
+  return (
+    <>
+      <div className="utility">
+        <span>
+          {t(
+            "Made in Kosovo. Made for your brand.",
+            "Prodhuar në Kosovë. Për markën tuaj.",
+          )}
+        </span>
+        <Link href="/demo/customer">
+          {t("Customer demo", "Demo për klientin")} <ArrowUpRight size={13} />
+        </Link>
+      </div>
+      <header className="header">
+        <Link href="/" className="brand" aria-label="Kobags Group home">
+          <img
+            src="/assets/logo.png"
+            alt="Kobags Group"
+            width="172"
+            height="52"
+          />
+        </Link>
+        <nav className={open ? "nav open" : "nav"} aria-label="Main navigation">
+          {[
+            ["/", "Home", "Ballina"],
+            ["/products", "Our bags", "Çantat tona"],
+            ["/design", "Design studio", "Studioja"],
+            ["/manufacturing", "Manufacturing", "Prodhimi"],
+            ["/sustainability", "Our responsibility", "Përgjegjësia jonë"],
+            ["/partners", "Partners", "Partnerët"],
+          ].map(([href, en, sq]) => (
+            <Link
+              key={href}
+              href={href}
+              className={path === href ? "active" : ""}
+              onClick={() => setOpen(false)}
+            >
+              {t(en, sq)}
+            </Link>
+          ))}
+        </nav>
+        <div className="header-actions">
+          <button
+            className="language"
+            onClick={() => setLang(lang === "en" ? "sq" : "en")}
+            aria-label={
+              lang === "en" ? "Switch to Albanian" : "Kalo në anglisht"
+            }
+          >
+            <Globe2 size={16} />
+            {lang.toUpperCase()}
+          </button>
+          <Link href="/quote" className="button small navy">
+            {t("Request a quote", "Kërko ofertë")} <ArrowUpRight size={16} />
+          </Link>
+          <button
+            className="mobile-toggle icon-button"
+            aria-label="Toggle menu"
+            aria-expanded={open}
+            onClick={() => setOpen(!open)}
+          >
+            {open ? <X /> : <Menu />}
+          </button>
+        </div>
+      </header>
+    </>
+  );
+}
+export function Footer() {
+  const { t } = useKobags();
+  return (
+    <footer className="footer">
+      <div className="footer-top">
+        <div>
+          <img
+            src="/assets/logo.png"
+            width="164"
+            height="50"
+            alt="Kobags Group"
+          />
+          <p>
+            {t("Your brand, carried further.", "Marka juaj, më larg.")}
+            <br />
+            Lipjan, Kosovo
+          </p>
+        </div>
+        <div>
+          <h3>{t("Explore", "Eksploro")}</h3>
+          <Link href="/products">Our bags</Link>
+          <Link href="/design">Design studio</Link>
+          <Link href="/industries">Industries</Link>
+          <Link href="/manufacturing">Manufacturing</Link>
+        </div>
+        <div>
+          <h3>{t("Good to know", "Informacione")}</h3>
+          <Link href="/resources">Buyer resources</Link>
+          <Link href="/blog">Journal & guides</Link>
+          <Link href="/certifications">Certifications</Link>
+          <Link href="/samples">Request samples</Link>
+        </div>
+        <div>
+          <h3>{t("Let’s talk bags", "Le të flasim për çantat")}</h3>
+          <span>info@kobags-group.com</span>
+          <span>+383 43 877 753</span>
+          <Link href="/contact">
+            General inquiries <ArrowUpRight size={14} />
+          </Link>
+        </div>
+      </div>
+      <div className="footer-bottom">
+        <span>© 2026 Kobags Group · Private concept demo</span>
+        <div>
+          <Link href="/privacy">Privacy</Link>
+          <Link href="/terms">Terms</Link>
+          <Link href="/cookies">Cookies</Link>
+          <Link href="/demo/admin">Sales demo ↗</Link>
+          <Link href="/handoff">Site outline & handoff ↗</Link>
+        </div>
+      </div>
+    </footer>
+  );
+}
+export function PageHeading({
+  eyebrow,
+  title,
+  children,
+}: {
+  eyebrow: string;
+  title: string;
+  children?: ReactNode;
+}) {
+  return (
+    <div className="page-heading">
+      <p className="eyebrow">{eyebrow}</p>
+      <h1>{title}</h1>
+      {children && <p className="intro">{children}</p>}
+    </div>
+  );
+}

@@ -1,21 +1,72 @@
-# Verification record
+# Kobags website — verification record
 
-## Completed
+Completed 15 September 2026. This record supersedes the earlier incomplete v1 check. Tests ran against the compiled local Worker at `http://localhost:8787` with synthetic data. No live Kobags forms, customer records or production systems were used.
 
-- TypeScript check passed for the implemented application.
-- The initial and final full-stack builds passed.
-- The local D1 migration applied successfully.
-- The desktop studio rendered with no browser JavaScript errors.
-- Browser checks exercised D-Cut Large selection, color selection, keyboard artwork movement, rejection of an SVG upload, normalized raster logo upload and PNG preview download.
-- The browser captured the studio and downloaded design image under this directory.
-- Desktop/mobile inspection identified a hidden file input causing horizontal overflow. An explicit screen-reader-only style was applied to fix its width and clipping.
+## Result
 
-## Not completed
+- **Passed:** complete buyer → quotation → artwork correction → approval → production handoff → repeat-request journey.
+- **Passed:** all 32 mapped pages, 41 internal destinations/downloads and 11 legacy redirects.
+- **Passed:** TypeScript checks and complete application builds.
+- **Passed:** extracted handoff source type-check and build, with the original Site identity removed. Existing locked dependencies were reused for this validation; a separate fresh network install was not tested.
+- **Passed:** source archive integrity and required-file checks; runtime state, credentials, installed dependencies and Git history excluded.
 
-The full automated journey stopped at the first quotation-summary assertion. That assertion used an immediate element count after client navigation and may need an explicit wait. The subsequent command to fix the wait and rerun the journey was declined by the execution approval control. It was not rerun through another tool.
+## Buyer and sales workflow
 
-Therefore RFQ submission, full quotation/artwork/reorder integration, the post-fix mobile layout and final end-to-end success are NOT recorded as passed. The provided test remains available for a future approved run. The screenshots reflect the pre-fix overflow layout and are retained as evidence rather than presented as final visual acceptance.
+`qa/browser_journey.py` verified:
 
-The implementation remains a private concept demo, not a production launch.
+- Homepage-to-designer navigation; D-Cut Large and color selection.
+- Keyboard logo movement; rejection of SVG; normalized raster logo upload and PNG preview download.
+- Design/size preservation into the quotation form.
+- Below-minimum quantity rejection and translated Albanian feedback.
+- Quote draft persistence after refresh.
+- Failed submission keeps the entered details; retry saves once.
+- Server-side minimum validation and idempotent repeat submission.
+- Sales owner assignment, notes and issuing a fictional quotation.
+- First artwork proof retains the buyer's uploaded logo.
+- Customer quote acceptance, artwork correction request, stale-proof rejection and latest-revision approval.
+- Production release uses the approved quotation/artwork versions and rejects post-release artwork changes.
+- Published catalog description changes leave existing RFQ snapshots intact.
+- Repeat request gets a fresh ID/key and no inherited quotation or artwork approvals.
+- Mobile designer/catalog navigation and no horizontal page overflow.
 
-WebMCP registration was implemented with feature detection. No supported browser context was available for WebMCP protocol validation.
+## Full website and additional gates
+
+`qa/site_checks.py` verified:
+
+- EN/SQ homepage text switching.
+- Sample, partner and contact form consent, successful save and inquiry review status.
+- Catalog filtering, three-product comparison and disabled fourth selection.
+- All 15 published variants are present. Handle Medium travels from the detail page into the designer and a server-saved RFQ with correct dimensions.
+- Latest quotation, latest artwork and fictional payment condition independently gate release.
+- Production statuses must advance in sequence.
+- Concurrent assignment and note updates both persist.
+- Separate synthetic owner identities receive separate records; a different owner cannot edit the first owner's request.
+- Content drafts/publishing and the certificate/claim review gate.
+- All mapped pages return successfully and each has one H1. Internal links and downloads resolve.
+- Original catalog, product, contact, partner, policy and blog-index redirects work.
+- Unknown content, product and article routes return 404.
+- Mobile homepage, journal, sales workspace and handoff have no horizontal page overflow.
+- Both suites completed with **zero captured browser JavaScript errors**.
+
+## Issues found and repaired
+
+1. The hidden file input's width caused mobile overflow. Its screen-reader-only clipping and dimensions were corrected; mobile checks now pass.
+2. The installed Vinext production Link chunk tried to call an absent dynamic navigation export. Links now use native document navigation. Product/reorder actions save drafts synchronously before changing the page. The complete compiled journey passed after this fix.
+3. Development mock authentication deliberately removes custom identity headers, causing local tests to share one workspace. QA now targets the compiled local Worker, verifies a fresh synthetic workspace before writing, and rejects non-loopback URLs. Authentication code was not weakened to make tests pass.
+4. The first catalog seed omitted some original size variants. The catalog now contains all 15 source-backed variants, with existing-owner reads upgraded without rewriting historic request snapshots.
+
+## Evidence
+
+- `qa-results.json` — completed connected journey; fictional request reference.
+- `site-checks.json` — exact route list, link/redirect counts and additional checks.
+- `desktop-home.png`, `desktop-studio.png`, `desktop-handoff.png`.
+- `customer-artwork.png`, `downloaded-design.png`.
+- `mobile-home.png`, `mobile-studio.png`, `mobile-catalog.png`, `mobile-handoff.png`, `mobile-journal.png`, `mobile-sales.png`.
+
+Desktop screenshots use 1440px-wide views; mobile screenshots use 390 × 844 viewports. The homepage and handoff received visual inspection in addition to the assertions. Screenshots use fictional demonstration data or original public brand assets.
+
+## Practical limits
+
+These checks establish the demonstrated local workflows, not universal correctness or production readiness. They do not constitute a full accessibility, cross-browser, load, penetration or legal audit. Safari/Firefox, screen-reader use, 200% text enlargement, hosted sign-in enforcement, external messaging, payment processing, private original-file storage, backup restoration and live ERP/CRM integration were not tested. Local owner-isolation checks use synthetic trusted-header values; production identity must come from verified hosting authentication.
+
+WebMCP is feature-detected but no supporting browser was available for protocol-level verification. The bag preview remains a 2D illustration with approximate colors/shape, not an approved print template. Original certificate validity and production/product claims still require client approval. EN/SQ covers the homepage and core buying flow; secondary editorial and most administration remain English.

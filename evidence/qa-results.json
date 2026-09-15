@@ -1,0 +1,17 @@
+{
+  "status": "passed",
+  "request": "KBG-DA5EAD2C",
+  "checks": [
+    "designer selection, logo upload, safe image validation, download",
+    "quote draft refresh and Albanian errors",
+    "failed submission preserves input; retry saves once",
+    "server quantity validation and idempotency",
+    "sales owner, notes and quote issue",
+    "artwork correction, stale rejection and approval",
+    "production gates and version references",
+    "catalog publication keeps immutable snapshot",
+    "repeat request has new id and no commercial terms",
+    "all public routes; 404; mobile navigation and overflow"
+  ],
+  "browserErrors": []
+}

@@ -1,1 +1,5 @@
-import {ProductCatalog} from '@/components/product-catalog';export const metadata={title:'Reusable bag collection'};export default function Page(){return <ProductCatalog/>}
+import { ProductCatalog } from "@/components/product-catalog";
+export const metadata = { title: "Reusable bag collection" };
+export default function Page() {
+  return <ProductCatalog />;
+}

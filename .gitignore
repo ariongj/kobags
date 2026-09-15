@@ -46,3 +46,8 @@ next-env.d.ts
 /work/
 
 *.tsbuildinfo
+
+# Local Python QA environment
+/.venv/
+__pycache__/
+*.pyc

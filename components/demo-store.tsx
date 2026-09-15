@@ -1,4 +1,101 @@
 "use client";
-import {useEffect,useState,useCallback} from 'react';import {DemoState} from '@/lib/demo-domain';
-export const errors:Record<string,[string,string]>={MINIMUM:['This quantity is below the wholesale minimum. Please request samples or an exception.','Sasia është nën minimumin. Kërkoni mostra ose përjashtim.'],DATE:['Choose a valid future date.','Zgjidhni një datë të vlefshme në të ardhmen.'],AUTH_REQUIRED:['Sign in to open your private demo.','Identifikohuni për të hapur demonstrimin privat.'],STORAGE_UNAVAILABLE:['The demo storage is unavailable. Your design is still saved in this browser. Please retry.','Ruajtja nuk është e disponueshme. Dizajni juaj ruhet në këtë shfletues. Provoni përsëri.'],RELEASE_GATES:['Accept the latest quote, approve the latest artwork and satisfy its payment condition before release.','Pranoni ofertën e fundit, miratoni dizajnin e fundit dhe plotësoni kushtin e pagesës.'],STALE_ARTWORK:['This proof has changed or requires a new revision. Refresh and review the latest artwork.','Prova ka ndryshuar ose kërkon version të ri. Rifreskoni dhe shqyrtoni dizajnin e fundit.'],STALE_QUOTE:['The quotation has changed or expired. Review the latest version.','Oferta ka ndryshuar ose ka skaduar. Shqyrtoni versionin e fundit.'],EVIDENCE_REVIEW:['Assign a confirmed approval owner and review date before publishing this evidence.','Caktoni përgjegjësin dhe datën e rishikimit para publikimit.'],DEMO_LIMIT:['This demo has reached its storage limit. Export useful records, then reset the synthetic demo.','Demonstrimi ka arritur kufirin e ruajtjes. Eksportoni të dhënat, pastaj rivendoseni.'],SAVE_FAILED:['The request could not be saved. Check your entries and retry; your design has been kept.','Kërkesa nuk u ruajt. Kontrolloni të dhënat dhe provoni përsëri; dizajni është ruajtur.']};
-export function useDemo(){const [state,setState]=useState<DemoState|null>(null);const [error,setError]=useState('');const [busy,setBusy]=useState(false);const refresh=useCallback(async()=>{try{const res=await fetch('/api/demo');const d=await res.json() as {state:DemoState;error?:string;id?:string};if(!res.ok)throw Error(d.error||'SAVE_FAILED');setState(d.state);setError('')}catch(e){setError(e instanceof Error?e.message:'STORAGE_UNAVAILABLE')}},[]);useEffect(()=>{refresh();const f=()=>refresh();window.addEventListener('focus',f);window.addEventListener('kobags-change',f);return()=>{window.removeEventListener('focus',f);window.removeEventListener('kobags-change',f)}},[refresh]);const act=async(a:Record<string,unknown>)=>{setBusy(true);setError('');try{const res=await fetch('/api/demo',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(a)});const d=await res.json() as {state:DemoState;error?:string;id?:string};if(!res.ok)throw Error(d.error||'SAVE_FAILED');setState(d.state);window.dispatchEvent(new Event('kobags-change'));return d.id as string|undefined}catch(e){setError(e instanceof Error?e.message:'SAVE_FAILED');throw e}finally{setBusy(false)}};return {state,error,busy,act,refresh}}
+import { useEffect, useState, useCallback } from "react";
+import { DemoState } from "@/lib/demo-domain";
+export const errors: Record<string, [string, string]> = {
+  MINIMUM: [
+    "This quantity is below the wholesale minimum. Please request samples or an exception.",
+    "Sasia është nën minimumin. Kërkoni mostra ose përjashtim.",
+  ],
+  DATE: [
+    "Choose a valid future date.",
+    "Zgjidhni një datë të vlefshme në të ardhmen.",
+  ],
+  AUTH_REQUIRED: [
+    "Sign in to open your private demo.",
+    "Identifikohuni për të hapur demonstrimin privat.",
+  ],
+  STORAGE_UNAVAILABLE: [
+    "The demo storage is unavailable. Your design is still saved in this browser. Please retry.",
+    "Ruajtja nuk është e disponueshme. Dizajni juaj ruhet në këtë shfletues. Provoni përsëri.",
+  ],
+  RELEASE_GATES: [
+    "Accept the latest quote, approve the latest artwork and satisfy its payment condition before release.",
+    "Pranoni ofertën e fundit, miratoni dizajnin e fundit dhe plotësoni kushtin e pagesës.",
+  ],
+  STALE_ARTWORK: [
+    "This proof has changed or requires a new revision. Refresh and review the latest artwork.",
+    "Prova ka ndryshuar ose kërkon version të ri. Rifreskoni dhe shqyrtoni dizajnin e fundit.",
+  ],
+  STALE_QUOTE: [
+    "The quotation has changed or expired. Review the latest version.",
+    "Oferta ka ndryshuar ose ka skaduar. Shqyrtoni versionin e fundit.",
+  ],
+  EVIDENCE_REVIEW: [
+    "Assign a confirmed approval owner and review date before publishing this evidence.",
+    "Caktoni përgjegjësin dhe datën e rishikimit para publikimit.",
+  ],
+  DEMO_LIMIT: [
+    "This demo has reached its storage limit. Export useful records, then reset the synthetic demo.",
+    "Demonstrimi ka arritur kufirin e ruajtjes. Eksportoni të dhënat, pastaj rivendoseni.",
+  ],
+  SAVE_FAILED: [
+    "The request could not be saved. Check your entries and retry; your design has been kept.",
+    "Kërkesa nuk u ruajt. Kontrolloni të dhënat dhe provoni përsëri; dizajni është ruajtur.",
+  ],
+};
+export function useDemo() {
+  const [state, setState] = useState<DemoState | null>(null);
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
+  const refresh = useCallback(async () => {
+    try {
+      const res = await fetch("/api/demo");
+      const d = (await res.json()) as {
+        state: DemoState;
+        error?: string;
+        id?: string;
+      };
+      if (!res.ok) throw Error(d.error || "SAVE_FAILED");
+      setState(d.state);
+      setError("");
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "STORAGE_UNAVAILABLE");
+    }
+  }, []);
+  useEffect(() => {
+    refresh();
+    const f = () => refresh();
+    window.addEventListener("focus", f);
+    window.addEventListener("kobags-change", f);
+    return () => {
+      window.removeEventListener("focus", f);
+      window.removeEventListener("kobags-change", f);
+    };
+  }, [refresh]);
+  const act = async (a: Record<string, unknown>) => {
+    setBusy(true);
+    setError("");
+    try {
+      const res = await fetch("/api/demo", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(a),
+      });
+      const d = (await res.json()) as {
+        state: DemoState;
+        error?: string;
+        id?: string;
+      };
+      if (!res.ok) throw Error(d.error || "SAVE_FAILED");
+      setState(d.state);
+      window.dispatchEvent(new Event("kobags-change"));
+      return d.id as string | undefined;
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "SAVE_FAILED");
+      throw e;
+    } finally {
+      setBusy(false);
+    }
+  };
+  return { state, error, busy, act, refresh };
+}

@@ -1,2 +1,19 @@
 "use client";
-import {useDemo} from './demo-store';export default function ResourceContent(){const {state}=useDemo();return <div className="resource-guides">{state?.content.filter(c=>['guide','faq'].includes(c.type)&&c.status==='published').map(c=><article key={c.id} className="section-card"><h3>{c.title}</h3><p>{c.body}</p></article>)}</div>}
+import { useDemo } from "./demo-store";
+export default function ResourceContent() {
+  const { state } = useDemo();
+  return (
+    <div className="resource-guides">
+      {state?.content
+        .filter(
+          (c) => ["guide", "faq"].includes(c.type) && c.status === "published",
+        )
+        .map((c) => (
+          <article key={c.id} className="section-card">
+            <h3>{c.title}</h3>
+            <p>{c.body}</p>
+          </article>
+        ))}
+    </div>
+  );
+}

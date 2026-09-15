@@ -1,14 +1,16 @@
 """Run with Python + Playwright against KOBAGS_BASE_URL (local demo default)."""
 import asyncio, json, os, re, uuid
 from pathlib import Path
+from browser_support import BASE, launch
 from playwright.async_api import async_playwright
-BASE=os.getenv('KOBAGS_BASE_URL','http://localhost:5173')
 EVIDENCE=Path(__file__).resolve().parents[1]/'evidence'
 async def main():
  async with async_playwright() as p:
-  browser=await p.chromium.launch(headless=True,executable_path=os.getenv('CHROME_PATH','/home/codex/.cache/ms-playwright/chromium_headless_shell-1234/chrome-headless-shell-linux64/chrome-headless-shell'),args=['--no-sandbox'],env={**os.environ,'LD_LIBRARY_PATH':os.getenv('CHROME_LIBS','/tmp/studio-os-browser-libs/root/usr/lib/x86_64-linux-gnu'),'FONTCONFIG_FILE':os.getenv('FONTCONFIG_FILE','/tmp/kobags-fonts.conf')})
+  browser=await launch(p)
   context=await browser.new_context(viewport={'width':1440,'height':1080},extra_http_headers={'oai-authenticated-user-id':'qa-'+str(uuid.uuid4())})
-  page=await context.new_page();page.set_default_timeout(30000);failures=[];console=[]
+  initial=(await (await context.request.get(BASE+'/api/demo')).json())['state']
+  assert initial['requests']==[] and initial['inquiries']==[], 'Use the compiled local Worker (npm run start), not the shared development mock-auth preview.'
+  page=await context.new_page();page.set_default_timeout(45000);failures=[];console=[]
   page.on('pageerror',lambda e:console.append(str(e)))
   async def go(path):
    await page.goto(BASE+path,wait_until='networkidle');await page.wait_for_timeout(250)
@@ -16,6 +18,8 @@ async def main():
    res=await context.request.post(BASE+'/api/demo',data=action);return res,await res.json()
   async def state():return (await (await context.request.get(BASE+'/api/demo')).json())['state']
   await go('/')
+  await page.get_by_role('link',name='Design your bag',exact=True).first.click()
+  await page.locator('.bag-picker').wait_for()
   await page.get_by_role('button',name='D-Cut',exact=True).click()
   await page.locator('#bag-size').click();await page.get_by_role('option',name=re.compile('Large')).click()
   await page.get_by_role('button',name='Navy blue',exact=True).click()
@@ -33,7 +37,7 @@ async def main():
   await (await dl.value).save_as(str(EVIDENCE/'downloaded-design.png'))
   await page.screenshot(path=str(EVIDENCE/'desktop-studio.png'),full_page=True)
   await page.get_by_role('link',name='Get a quote for this bag').click();await page.wait_for_load_state('networkidle')
-  assert await page.locator('.quote-summary').get_by_text('Large · 50 × 47.5 × 12 cm').count()==1
+  await page.locator('.quote-summary').get_by_text('Large · 50 × 47.5 × 12 cm',exact=True).wait_for()
   await page.get_by_role('button',name='Continue',exact=True).click()
   await page.get_by_role('button',name='Continue',exact=True).click()
   await page.locator('#quantity').fill('4999');await page.get_by_role('button',name='Continue',exact=True).click()
@@ -89,11 +93,11 @@ async def main():
   await page.wait_for_url('**/quote');d=await page.evaluate("JSON.parse(localStorage.getItem('kobags-design-v1'))");assert d['reorderOf']==rid and d['key']!=snap['key']
   await page.get_by_role('button',name='Continue',exact=True).click();await page.get_by_role('checkbox').check();await page.get_by_role('button',name='Submit demo request').click();await page.get_by_text('Your bag has a beginning.').wait_for()
   s=await state();assert len(s['requests'])==2 and s['requests'][0]['quotes']==[] and s['requests'][0]['snapshot']['reorderOf']==rid
-  routes=['/products','/manufacturing','/sustainability','/certifications','/partners','/partners/apply','/resources','/industries','/industries/retail','/samples','/contact','/privacy','/terms','/cookies']
+  routes=['/','/design','/products','/manufacturing','/sustainability','/certifications','/partners','/partners/apply','/resources','/industries','/industries/retail','/samples','/contact','/privacy','/terms','/cookies']
   for path in routes:
    await go(path);assert await page.locator('h1').count()==1,path
   res=await context.request.get(BASE+'/not-a-real-page');assert res.status==404
-  await page.set_viewport_size({'width':390,'height':844});await go('/');await page.screenshot(path=str(EVIDENCE/'mobile-studio.png'),full_page=True)
+  await page.set_viewport_size({'width':390,'height':844});await go('/design');await page.screenshot(path=str(EVIDENCE/'mobile-studio.png'),full_page=True)
   assert not await page.evaluate('document.documentElement.scrollWidth>innerWidth'), 'Mobile horizontal overflow'
   await page.get_by_role('button',name='Toggle menu').click();assert await page.locator('.nav.open').is_visible()
   await page.get_by_role('link',name='Our bags',exact=True).first.click();await page.wait_for_load_state('networkidle')
