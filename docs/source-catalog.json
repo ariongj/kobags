@@ -1,0 +1,414 @@
+{
+  "products": [
+    {
+      "id": "d-cut-bag",
+      "name": "D-Cut Bag",
+      "image": "/uploads/1770030548132-D Cut.png",
+      "variants": [
+        {
+          "sizeLabel": "Small",
+          "productSize": "30 \u00d7 31 \u00d7 5 cm",
+          "materialDescription": "Up to 100% non-woven PP, 60 GSM thickness",
+          "colorOptions": [
+            "red",
+            "dark red",
+            "orange",
+            "brown",
+            "cream",
+            "dark grey",
+            "black",
+            "light blue",
+            "dark blue",
+            "yellow",
+            "light green",
+            "dark green",
+            "white"
+          ],
+          "maxImprintArea": "Up to 85%",
+          "handles": "",
+          "imprintMethod": "Flexographic printed up to 4 colors",
+          "readyToShip": "2\u20134 weeks after artwork approval",
+          "image": "/uploads/1770030548335-1finale.jpg"
+        },
+        {
+          "sizeLabel": "Medium",
+          "productSize": "40 \u00d7 38.5 \u00d7 10 cm",
+          "materialDescription": "Up to 100% non-woven PP, 60 GSM thickness",
+          "colorOptions": [
+            "red",
+            "dark red",
+            "orange",
+            "brown",
+            "cream",
+            "dark grey",
+            "black",
+            "light blue",
+            "dark blue",
+            "yellow",
+            "light green",
+            "dark green",
+            "white"
+          ],
+          "maxImprintArea": "Up to 85%",
+          "handles": "",
+          "imprintMethod": "Flexographic printed up to 4 colors",
+          "readyToShip": "2\u20134 weeks after artwork approval",
+          "image": "/uploads/1770030548667-03.jpg"
+        },
+        {
+          "sizeLabel": "Large",
+          "productSize": "50 \u00d7 47.5 \u00d7 12 cm",
+          "materialDescription": "Up to 100% non-woven PP, 80 GSM thickness",
+          "colorOptions": [
+            "red",
+            "dark red",
+            "orange",
+            "brown",
+            "cream",
+            "dark grey",
+            "black",
+            "light blue",
+            "dark blue",
+            "yellow",
+            "light green",
+            "dark green",
+            "white"
+          ],
+          "maxImprintArea": "Up to 85%",
+          "handles": "",
+          "imprintMethod": "Flexographic printed up to 4 colors",
+          "readyToShip": "2\u20134 weeks after artwork approval",
+          "image": "/uploads/1770030549203-36.jpg"
+        }
+      ]
+    },
+    {
+      "id": "handle-bag",
+      "name": "Handle Bag",
+      "image": "/uploads/1770030705624-Handle.png",
+      "variants": [
+        {
+          "sizeLabel": "Small",
+          "productSize": "30 \u00d7 30 \u00d7 5 cm",
+          "materialDescription": "Up to 100% non-woven PP, 60 GSM thickness",
+          "colorOptions": [
+            "red",
+            "dark red",
+            "orange",
+            "brown",
+            "cream",
+            "dark grey",
+            "black",
+            "light blue",
+            "dark blue",
+            "yellow",
+            "light green",
+            "dark green",
+            "white"
+          ],
+          "maxImprintArea": "Up to 85%",
+          "handles": "Short handles",
+          "imprintMethod": "Flexographic printed up to 4 colors",
+          "readyToShip": "2\u20134 weeks after artwork approval",
+          "image": "/uploads/1770030705831-05.jpg"
+        },
+        {
+          "sizeLabel": "Medium",
+          "productSize": "40 \u00d7 37 \u00d7 10 cm",
+          "materialDescription": "Up to 100% non-woven PP, 60 GSM thickness",
+          "colorOptions": [
+            "red",
+            "dark red",
+            "orange",
+            "brown",
+            "cream",
+            "dark grey",
+            "black",
+            "light blue",
+            "dark blue",
+            "yellow",
+            "light green",
+            "dark green",
+            "white"
+          ],
+          "maxImprintArea": "Up to 85%",
+          "handles": "Short Handles",
+          "imprintMethod": "Flexographic printed up to 4 colors",
+          "readyToShip": "2\u20134 weeks after artwork approval",
+          "image": "/uploads/1770030706311-37finale.jpg"
+        },
+        {
+          "sizeLabel": "Large",
+          "productSize": "50 \u00d7 42.5 \u00d7 15 cm",
+          "materialDescription": "Up to 100% non-woven PP, 60 GSM thickness",
+          "colorOptions": [
+            "red",
+            "dark red",
+            "orange",
+            "brown",
+            "cream",
+            "dark grey",
+            "black",
+            "light blue",
+            "dark blue",
+            "yellow",
+            "light green",
+            "dark green",
+            "white"
+          ],
+          "maxImprintArea": "Up to 85%",
+          "handles": "Short Handles",
+          "imprintMethod": "Flexographic printed up to 4 colors",
+          "readyToShip": "2\u20134 weeks after artwork approval",
+          "image": "/uploads/1770030706877-30.jpg"
+        }
+      ]
+    },
+    {
+      "id": "box-bag",
+      "name": "Box Bag",
+      "image": "/uploads/1770030898769-Box .png",
+      "variants": [
+        {
+          "sizeLabel": "Small",
+          "productSize": "33 \u00d7 25 \u00d7 12 cm",
+          "materialDescription": "Up to 100% non-woven PP, 80 GSM thickness",
+          "colorOptions": [
+            "red",
+            "dark red",
+            "orange",
+            "brown",
+            "cream",
+            "dark grey",
+            "black",
+            "light blue",
+            "dark blue",
+            "yellow",
+            "light green",
+            "dark green",
+            "white"
+          ],
+          "maxImprintArea": "Up to 85%",
+          "handles": "Short handles",
+          "imprintMethod": "Flexographic printed up to 4 colors",
+          "readyToShip": "2\u20134 weeks after artwork approval",
+          "image": "/uploads/1770030898934-07.jpg"
+        },
+        {
+          "sizeLabel": "Medium",
+          "productSize": "40 \u00d7 32.5 \u00d7 15 cm",
+          "materialDescription": "Up to 100% non-woven PP, 80 GSM thickness",
+          "colorOptions": [
+            "red",
+            "dark red",
+            "orange",
+            "brown",
+            "cream",
+            "dark grey",
+            "black",
+            "light blue",
+            "dark blue",
+            "yellow",
+            "light green",
+            "dark green",
+            "white"
+          ],
+          "maxImprintArea": "Up to 85%",
+          "handles": "Short Handles",
+          "imprintMethod": "Flexographic printed up to 4 colors",
+          "readyToShip": "",
+          "image": "/uploads/1770030899274-15.jpg"
+        },
+        {
+          "sizeLabel": "Large",
+          "productSize": "40 \u00d7 40 \u00d7 20 cm",
+          "materialDescription": "Up to 100% non-woven PP, 80 GSM thickness",
+          "colorOptions": [
+            "red",
+            "dark red",
+            "orange",
+            "brown",
+            "cream",
+            "dark grey",
+            "black",
+            "light blue",
+            "dark blue",
+            "yellow",
+            "light green",
+            "dark green",
+            "white"
+          ],
+          "maxImprintArea": "Up to 85%",
+          "handles": "Short Handles",
+          "imprintMethod": "Flexographic printed up to 4 colors",
+          "readyToShip": "2\u20134 weeks after artwork approval",
+          "image": "/uploads/1770030899875-16.jpg"
+        }
+      ]
+    },
+    {
+      "id": "t-shirt-bag",
+      "name": "T-Shirt Bag",
+      "image": "/uploads/1770031046555-T-Shirt.png",
+      "variants": [
+        {
+          "sizeLabel": "Small",
+          "productSize": "29 \u00d7 38 \u00d7 10 cm",
+          "materialDescription": "Up to 100% non-woven PP, 50 GSM thickness",
+          "colorOptions": [
+            "red",
+            "dark red",
+            "orange",
+            "brown",
+            "cream",
+            "dark grey",
+            "black",
+            "light blue",
+            "dark blue",
+            "yellow",
+            "light green",
+            "dark green",
+            "white"
+          ],
+          "maxImprintArea": "Up to 85%",
+          "handles": "T-shirt handles",
+          "imprintMethod": "Flexographic printed up to 4 colors",
+          "readyToShip": "2\u20134 weeks after artwork approval",
+          "image": "/uploads/1770031046757-24finale.jpg"
+        },
+        {
+          "sizeLabel": "Medium",
+          "productSize": "37 \u00d7 45 \u00d7 12 cm",
+          "materialDescription": "Up to 100% non-woven PP, 50 GSM thickness",
+          "colorOptions": [
+            "red",
+            "dark red",
+            "orange",
+            "brown",
+            "cream",
+            "dark grey",
+            "black",
+            "light blue",
+            "dark blue",
+            "yellow",
+            "light green",
+            "dark green",
+            "white"
+          ],
+          "maxImprintArea": "Up to 85%",
+          "handles": "T-shirt handles",
+          "imprintMethod": "Flexographic printed up to 4 colors",
+          "readyToShip": "2\u20134 weeks after artwork approval",
+          "image": "/uploads/1770031047156-25.jpg"
+        },
+        {
+          "sizeLabel": "Large",
+          "productSize": "44 \u00d7 58 \u00d7 14 cm",
+          "materialDescription": "Up to 100% non-woven PP, 50 GSM thickness",
+          "colorOptions": [
+            "red",
+            "dark red",
+            "orange",
+            "brown",
+            "cream",
+            "dark grey",
+            "black",
+            "light blue",
+            "dark blue",
+            "yellow",
+            "light green",
+            "dark green",
+            "white"
+          ],
+          "maxImprintArea": "Up to 85%",
+          "handles": "T-Shirt Handles",
+          "imprintMethod": "Flexographic printed up to 4 colors",
+          "readyToShip": "2\u20134 weeks after artwork approval",
+          "image": "/uploads/1770031047646-26.jpg"
+        }
+      ]
+    },
+    {
+      "id": "string-bag",
+      "name": "String Bag",
+      "image": "/uploads/1770031283043-String.png",
+      "variants": [
+        {
+          "sizeLabel": "Small",
+          "productSize": "30 \u00d7 40 cm",
+          "materialDescription": "Up to 100% non-woven PP, 50 GSM thickness",
+          "colorOptions": [
+            "red",
+            "dark red",
+            "orange",
+            "brown",
+            "cream",
+            "dark grey",
+            "black",
+            "light blue",
+            "dark blue",
+            "yellow",
+            "light green",
+            "dark green",
+            "white"
+          ],
+          "maxImprintArea": "Up to 85%",
+          "handles": "String",
+          "imprintMethod": "Flexographic printed up to 4 colors",
+          "readyToShip": "2\u20134 weeks after artwork approval",
+          "image": "/uploads/1770031283240-22.jpg"
+        },
+        {
+          "sizeLabel": "Medium",
+          "productSize": "40 \u00d7 45 cm",
+          "materialDescription": "Up to 100% non-woven PP, 50 GSM thickness",
+          "colorOptions": [
+            "red",
+            "dark red",
+            "orange",
+            "brown",
+            "cream",
+            "dark grey",
+            "black",
+            "light blue",
+            "dark blue",
+            "yellow",
+            "light green",
+            "dark green",
+            "white"
+          ],
+          "maxImprintArea": "Up to 85%",
+          "handles": "String",
+          "imprintMethod": "Flexographic printed up to 4 colors",
+          "readyToShip": "2\u20134 weeks after artwork approval",
+          "image": "/uploads/1770031283774-23.jpg"
+        },
+        {
+          "sizeLabel": "Large",
+          "productSize": "50 \u00d7 50 cm",
+          "materialDescription": "Up to 100% non-woven PP, 50 GSM thickness",
+          "colorOptions": [
+            "red",
+            "dark red",
+            "orange",
+            "brown",
+            "cream",
+            "dark grey",
+            "black",
+            "light blue",
+            "dark blue",
+            "yellow",
+            "light green",
+            "dark green",
+            "white"
+          ],
+          "maxImprintArea": "Up to 85%",
+          "handles": "String",
+          "imprintMethod": "Flexographic printed up to 4 colors",
+          "readyToShip": "2\u20134 weeks after artwork approval",
+          "image": "/uploads/1770031284206-27.jpg"
+        }
+      ]
+    }
+  ]
+}

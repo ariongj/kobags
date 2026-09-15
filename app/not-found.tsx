@@ -1,0 +1,1 @@
+import Link from 'next/link';export default function NotFound(){return <main className="success-page content-width"><p className="eyebrow">404 / PAGE NOT FOUND</p><h1>This page isn’t in the bag.</h1><p>Explore the product collection or return to the studio to create your bag.</p><Link href="/" className="button">Back to the bag studio</Link></main>}

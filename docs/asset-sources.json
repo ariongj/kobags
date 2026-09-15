@@ -1,0 +1,67 @@
+[
+  {
+    "file": "/tmp/kobags-assets/logo.png",
+    "url": "https://kobags-group.com/kobags-logo.png",
+    "bytes": 104458
+  },
+  {
+    "file": "/tmp/kobags-assets/logo-white.png",
+    "url": "https://kobags-group.com/whitelogo.png",
+    "bytes": 59474
+  },
+  {
+    "file": "/tmp/kobags-assets/d-cut-bag.png",
+    "url": "https://api.kobags-group.com/uploads/1770030548132-D%20Cut.png",
+    "bytes": 1462143
+  },
+  {
+    "file": "/tmp/kobags-assets/handle-bag.png",
+    "url": "https://api.kobags-group.com/uploads/1770030705624-Handle.png",
+    "bytes": 1188728
+  },
+  {
+    "file": "/tmp/kobags-assets/box-bag.png",
+    "url": "https://api.kobags-group.com/uploads/1770030898769-Box%20.png",
+    "bytes": 871982
+  },
+  {
+    "file": "/tmp/kobags-assets/t-shirt-bag.png",
+    "url": "https://api.kobags-group.com/uploads/1770031046555-T-Shirt.png",
+    "bytes": 987429
+  },
+  {
+    "file": "/tmp/kobags-assets/string-bag.png",
+    "url": "https://api.kobags-group.com/uploads/1770031283043-String.png",
+    "bytes": 901748
+  },
+  {
+    "file": "/tmp/kobags-assets/factory-8990.jpg",
+    "url": "https://kobags-group.com/images/factory/271A8990.jpg",
+    "bytes": 114489
+  },
+  {
+    "file": "/tmp/kobags-assets/factory-8999.jpg",
+    "url": "https://kobags-group.com/images/factory/271A8999.jpg",
+    "bytes": 136612
+  },
+  {
+    "file": "/tmp/kobags-assets/factory-9070.jpg",
+    "url": "https://kobags-group.com/images/factory/271A9070.jpg",
+    "bytes": 154839
+  },
+  {
+    "file": "/tmp/kobags-assets/certificate-iso9001.png",
+    "url": "https://kobags-group.com/images/licenses/Certifikimi%201.png",
+    "bytes": 1291452
+  },
+  {
+    "file": "/tmp/kobags-assets/certificate-iso14001.png",
+    "url": "https://kobags-group.com/images/licenses/Certifikimi%202.png",
+    "bytes": 1201801
+  },
+  {
+    "file": "/tmp/kobags-assets/printing-process.mp4",
+    "url": "https://api.kobags-group.com/public/printvideo.mp4",
+    "bytes": 13165322
+  }
+]
