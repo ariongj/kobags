@@ -4,7 +4,7 @@ Reviewed 15 September 2026. The supplied audit and implementation brief are refe
 
 ## Direction
 
-The full brand homepage opens at `/`; the dedicated interactive design landing page is at `/design`. It connects product choice, logo placement and an indicative preview to a structured quote request. The original Kobags logo, navy/green identity, product photographs, manufacturing photographs, printing video and certificate scans are retained.
+The homepage at `/` leads with the real factory, production process and original printing video, then connects that manufacturing story to the collection and designer. The dedicated interactive design landing page is at `/design`. It connects product choice, logo placement and an indicative preview to a structured quote request. The original Kobags logo, navy/green identity, product photographs, manufacturing photographs, printing video and certificate scans are retained.
 
 The studio uses a separately generated, unprinted bag illustration so the buyer's logo does not overlap lettering in the original catalog photography. It is explicitly labeled illustrative; real shape, colors, dimensions and print area require production approval. It is not presented as a Kobags product photograph or approved dieline.
 

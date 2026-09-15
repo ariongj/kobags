@@ -43,7 +43,7 @@ The original article text contains broad environmental/recycled-material languag
 
 ## Homepage outline
 
-Original identity and business scope remain visible: collection, manufacturing, material information, certificates, partners, contact and journal. The new bag designer is an additional conversion path. The root page is the full brand homepage; the designer is its own landing page.
+Original identity and business scope remain visible: collection, manufacturing, material information, certificates, partners, contact and journal. The homepage leads with real production imagery and the factory process. The new bag designer is an additional conversion path. The root page is the full brand homepage; the designer is its own landing page.
 
 ## Indexing
 

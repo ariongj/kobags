@@ -126,7 +126,7 @@ export default function Handoff() {
             {[
               [
                 "Explore the homepage",
-                "Review the brand, collection, factory and buying guidance. Follow “Design your bag” into the studio.",
+                "Review the factory, production process, collection and buying guidance. Follow “Design your bag” into the studio.",
               ],
               [
                 "Make a design",

@@ -1,8 +1,8 @@
 import HomePage from "@/components/home-page";
 export const metadata = {
-  title: "Custom reusable bags manufactured in Kosovo",
+  title: "Bag manufacturing in Kosovo. Made for your brand.",
   description:
-    "Explore the Kobags Group reusable bag collection, manufacturing and material information. Design your own branded bag and request a wholesale quote.",
+    "Discover Kobags Group manufacturing in Lipjan, Kosovo: non-woven materials, custom printing and branded bags. Explore the factory, design your bag and request a wholesale quote.",
 };
 export default function Page() {
   return <HomePage />;

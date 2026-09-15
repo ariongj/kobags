@@ -1,10 +1,10 @@
 # Kobags Group — design handoff
 
-Revision: 15 September 2026. Private concept, prepared from the supplied audit and the original Kobags website. The user's latest brief calls for a complete brand homepage, a working bag designer and a reusable handoff.
+Revision: 15 September 2026. Private concept, prepared from the supplied audit and the original Kobags website. The latest direction balances Kobags' established industrial/manufacturing identity with the new buyer-facing bag designer.
 
 ## 1. Creative direction
 
-**Your brand. Your bag.** A clear manufacturing brand with a tangible, hands-on buying experience. Keep the original Kobags identity and real product/factory evidence. Use generous white space, navy typography and green actions. The new homepage is an editorial brand entry point; the dedicated `/design` page exposes the working designer immediately.
+**Manufacturing bags. Building brands.** The homepage leads with Kobags as a manufacturer: real equipment, material and production footage. The collection shows what the factory produces, and **Your brand. Your bag.** introduces the new customization experience. Preserve the original identity, navy/green palette and factory evidence. The dedicated `/design` page still opens directly into the working designer.
 
 The original logo is retained. This is an extension of Kobags' navy/green identity, not a replacement brand. No new logo, fictional client endorsement or production certification is implied.
 
@@ -34,7 +34,9 @@ Use the existing CSS variables and UI primitives when extending the site. Utilit
 
 ### Brand homepage — `/`
 
-Product photographs form an overlapping hero composition beside the headline and two direct actions. Follow with factory/branding/approval context, a five-bag collection row, a studio introduction, a four-step ordering explanation, original factory imagery, industry/material content, certificate references, FAQs, buying guidance, partner entry and footer.
+A wide original factory photograph anchors the hero, with a navy overlay and two direct actions: explore production and design a bag. On mobile the text and factory photo stack so both remain clear. Manufacturing origin, custom printing and wholesale guidance follow. Before the collection, show the material/print/dispatch story beside the original printing video with manual playback. Then introduce the five bag families, design studio and ordering steps. Finish with industry/material content, certificate evidence, FAQs, buying guidance, partners and footer.
+
+The intended balance is manufacturer first, products and customization next. Do not replace factory evidence with generated industrial imagery or invent capacity, employee, export-market or throughput statistics. Use future client-approved scale figures only when the source and scope are documented.
 
 ### Design landing page — `/design`
 

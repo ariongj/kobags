@@ -2,7 +2,20 @@
 
 Completed 15 September 2026. This record supersedes the earlier incomplete v1 check. Tests ran against the compiled local Worker at `http://localhost:8787` with synthetic data. No live Kobags forms, customer records or production systems were used.
 
-## Result
+## Latest homepage revision — manufacturing and buyer experience
+
+The homepage now opens with original factory imagery and the manufacturing story, then shows the production process/video before the collection and designer. A focused check on the compiled local Worker passed:
+
+- Factory image loads; production content precedes the collection and studio.
+- English/Albanian headings work.
+- The video does not fetch before user action, then plays successfully when selected.
+- Both hero destinations work, including the designer action on mobile.
+- No page overflow at 1440, 1024, 390 or 320px widths; desktop/mobile screenshots reviewed.
+- Zero captured browser JavaScript errors. TypeScript and the compiled build passed.
+
+`homepage-checks.json` records this focused revision. `desktop-home.png` and `mobile-home.png` show the revised manufacturing-led homepage. The wider workflow and source-extraction checks below were completed for the preceding full-site baseline; their application flows are unchanged by this homepage revision.
+
+## Full-site baseline result
 
 - **Passed:** complete buyer → quotation → artwork correction → approval → production handoff → repeat-request journey.
 - **Passed:** all 32 mapped pages, 41 internal destinations/downloads and 11 legacy redirects.

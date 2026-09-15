@@ -1,0 +1,18 @@
+{
+  "status": "passed",
+  "scope": "Manufacturing-led homepage revision",
+  "checks": [
+    "Original factory image loaded",
+    "Factory/process appears before collection and designer",
+    "English and Albanian homepage headings",
+    "Video waits for user action and plays successfully",
+    "Hero manufacturing and designer links work",
+    "Desktop, tablet and 390/320px mobile layout without overflow",
+    "Mobile hero designer action works"
+  ],
+  "videoPlayback": {
+    "played": true,
+    "time": 0.757967
+  },
+  "browserErrors": []
+}

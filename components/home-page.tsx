@@ -20,111 +20,190 @@ export default function HomePage() {
   const minimum = state?.settings.moq || 5000;
   return (
     <main className="brand-home">
-      <section className="home-hero">
-        <div className="home-hero-copy">
+      <section className="industrial-hero">
+        <img
+          className="industrial-hero-photo"
+          src="/assets/factory.webp"
+          alt={t(
+            "Inside the Kobags production facility: machinery and rolls of non-woven material",
+            "Brenda fabrikës Kobags: makineri dhe rula materiali jo të endur",
+          )}
+          width={1400}
+          height={1000}
+          fetchPriority="high"
+        />
+        <div className="industrial-hero-copy">
           <p className="eyebrow">
-            <span className="tiny-rule" />
             {t(
-              "MADE IN KOSOVO. MADE FOR YOUR BUSINESS.",
-              "PRODHUAR NË KOSOVË. PËR BIZNESIN TUAJ.",
+              "NON-WOVEN BAG MANUFACTURING / KOSOVO",
+              "PRODHIMI I ÇANTAVE JO TË ENDURA / KOSOVË",
             )}
           </p>
           <h1>
-            {t("A better way", "Një mënyrë më e mirë")}
+            {t("Manufacturing bags.", "Prodhojmë çanta.")}
             <br />
-            {t("to carry", "për të bartur")}
-            <br />
-            <em>{t("your brand.", "markën tuaj.")}</em>
+            <em>{t("Building brands.", "Ndërtojmë marka.")}</em>
           </h1>
-          <p className="home-lead">
+          <p className="industrial-lead">
             {t(
-              "Custom reusable bags, manufactured in Lipjan. Choose your shape, add your identity and make the everyday unmistakably yours.",
-              "Çanta të personalizuara për ripërdorim, të prodhuara në Lipjan. Zgjidhni formën dhe shtoni identitetin tuaj.",
+              "From material and printing to the finished bag. Kobags brings production in Lipjan together with custom packaging for your business.",
+              "Nga materiali dhe shtypi deri te çanta e përfunduar. Kobags bashkon prodhimin në Lipjan me paketimin e personalizuar për biznesin tuaj.",
             )}
           </p>
           <div className="actions">
-            <Link href="/design" className="button">
+            <Link href="/manufacturing" className="button">
+              {t("Explore our production", "Eksploroni prodhimin")}{" "}
+              <ArrowUpRight size={18} />
+            </Link>
+            <Link href="/design" className="button industrial-secondary">
               {t("Design your bag", "Dizajnoni çantën tuaj")}{" "}
               <ArrowUpRight size={18} />
             </Link>
-            <Link href="/products" className="home-secondary">
-              {t("Explore the collection", "Eksploroni koleksionin")}{" "}
-              <ArrowRight size={17} />
-            </Link>
           </div>
-          <p className="home-minimum">
-            {t("Wholesale from", "Me shumicë nga")}{" "}
-            <strong>
-              {minimum.toLocaleString()} {t("bags", "çanta")}
-            </strong>
-            <span>·</span>
-            <Link href="/samples">
-              {t(
-                "Start with a sample inquiry",
-                "Filloni me kërkesë për mostra",
-              )}
+          <p className="industrial-quote-link">
+            {t(
+              "Planning your next wholesale order?",
+              "Po planifikoni porosinë e radhës?",
+            )}{" "}
+            <Link href="/quote">
+              {t("Talk to us", "Na kontaktoni")} <ArrowRight size={15} />
             </Link>
           </p>
         </div>
-        <div className="home-hero-visual">
-          <span className="home-edition">KOBAGS / THE EVERYDAY COLLECTION</span>
-          <img
-            className="hero-box"
-            src="/assets/box-bag.webp"
-            alt="Original Kobags Box Bag photograph"
-            width={440}
-            height={550}
-          />
-          <img
-            className="hero-handle"
-            src="/assets/handle-bag.webp"
-            alt="Original Kobags Handle Bag photograph"
-            width={480}
-            height={600}
-          />
-          <div className="hero-photo-caption">
-            <span>01 / 05</span>
-            <p>
-              {t("Five shapes.", "Pesë forma.")}
-              <br />
-              <strong>
-                {t("One unmistakable brand.", "Një markë e dallueshme.")}
-              </strong>
-            </p>
-            <Link href="/products" aria-label="Explore all five bag families">
-              <ArrowUpRight size={25} />
-            </Link>
-          </div>
+        <div className="industrial-location">
+          <span>01 / KOBAGS GROUP</span>
+          <p>
+            {t("Inside our production facility", "Brenda fabrikës sonë")}
+            <strong> Lipjan, Kosovo</strong>
+          </p>
         </div>
       </section>
-      <div className="home-proof-strip">
+      <div className="home-proof-strip industrial-proof-strip">
         <span>
-          <Factory size={19} />
+          <Factory size={20} />
           {t("Manufactured in Lipjan, Kosovo", "Prodhuar në Lipjan, Kosovë")}
         </span>
         <span>
-          <Paintbrush size={19} />
-          {t("Custom branding & print", "Personalizim dhe shtyp")}
-        </span>
-        <span>
-          <ShieldCheck size={19} />
+          <Paintbrush size={20} />
           {t(
-            "Artwork approval before production",
-            "Miratim i dizajnit para prodhimit",
+            "Custom flexographic printing",
+            "Shtyp fleksografik i personalizuar",
           )}
         </span>
+        <span>
+          <Package size={20} />
+          {t(
+            "Wholesale from",
+            "Me shumicë nga",
+          )} {minimum.toLocaleString()} {t("bags", "çanta")}
+        </span>
       </div>
+      <section
+        className="home-production home-section"
+        aria-labelledby="production-heading"
+      >
+        <div className="home-production-copy">
+          <p className="eyebrow">
+            {t("THE PRODUCTION BEHIND THE PRODUCT", "PRODHIMI PAS PRODUKTIT")}
+          </p>
+          <h2 id="production-heading">
+            {t("It starts on", "Fillon në")}
+            <br />
+            {t("the factory floor.", "linjën e prodhimit.")}
+          </h2>
+          <p>
+            {t(
+              "The bag is the finished result. Behind it are the material, the machinery and the print process that bring your brief to life.",
+              "Çanta është rezultati përfundimtar. Pas saj janë materiali, makineritë dhe procesi i shtypit që realizojnë kërkesën tuaj.",
+            )}
+          </p>
+          <ol className="production-stages">
+            {[
+              [
+                t("Material & specification", "Materiali dhe specifikimet"),
+                t(
+                  "Non-woven PP, in the shape, size and fabric weight your application needs.",
+                  "PP jo i endur, me formën, madhësinë dhe peshën e materialit që ju nevojitet.",
+                ),
+              ],
+              [
+                t("Your identity, in print", "Identiteti juaj në shtyp"),
+                t(
+                  "Custom flexographic printing, with artwork reviewed before production.",
+                  "Shtyp fleksografik i personalizuar, me dizajn të miratuar para prodhimit.",
+                ),
+              ],
+              [
+                t("From production to dispatch", "Nga prodhimi te dërgimi"),
+                t(
+                  "Confirm the finished specification, production timing and destination with our team.",
+                  "Konfirmoni specifikimet përfundimtare, afatin e prodhimit dhe destinacionin me ekipin tonë.",
+                ),
+              ],
+            ].map(([title, body], i) => (
+              <li key={title}>
+                <span>0{i + 1}</span>
+                <div>
+                  <h3>{title}</h3>
+                  <p>{body}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+          <Link href="/manufacturing" className="text-button">
+            {t("Get to know our manufacturing", "Njihuni me prodhimin tonë")}{" "}
+            <ArrowUpRight size={17} />
+          </Link>
+        </div>
+        <figure className="home-production-film">
+          <div className="production-film-heading">
+            <span>{t("ON THE PRODUCTION LINE", "NË LINJËN E PRODHIMIT")}</span>
+            <span>LIPJAN / KOSOVO</span>
+          </div>
+          <video
+            controls
+            playsInline
+            preload="none"
+            poster="/assets/factory-printing.webp"
+            width={1000}
+            height={750}
+            aria-label={t(
+              "Watch the Kobags printing process",
+              "Shikoni procesin e shtypit në Kobags",
+            )}
+          >
+            <source src="/assets/printing-process.mp4" type="video/mp4" />
+            {t(
+              "Your browser does not support video playback.",
+              "Shfletuesi juaj nuk e mbështet videon.",
+            )}
+          </video>
+          <figcaption>
+            <Paintbrush size={20} />
+            <div>
+              <strong>
+                {t("See the process in motion.", "Shihni procesin në lëvizje.")}
+              </strong>
+              <p>
+                {t(
+                  "A closer look at printing inside Kobags.",
+                  "Një vështrim më i afërt i shtypit në Kobags.",
+                )}
+              </p>
+            </div>
+          </figcaption>
+        </figure>
+      </section>
       <section className="home-collection home-section">
         <div className="section-heading">
           <div>
-            <p className="eyebrow">{t("FIND YOUR FIT", "GJENI FORMËN TUAJ")}</p>
+            <p className="eyebrow">
+              {t("FROM OUR PRODUCTION LINE", "NGA LINJA JONË E PRODHIMIT")}
+            </p>
             <h2>
-              {t("Different shapes.", "Forma të ndryshme.")}
+              {t("Five bag families.", "Pesë lloje çantash.")}
               <br />
-              {t(
-                "The same attention to detail.",
-                "E njëjta vëmendje ndaj detajeve.",
-              )}
+              {t("Made for your business.", "Për biznesin tuaj.")}
             </h2>
           </div>
           <Link href="/products" className="text-button">
@@ -161,7 +240,10 @@ export default function HomePage() {
       <section className="home-studio-feature">
         <div className="studio-feature-copy">
           <p className="eyebrow">
-            {t("MEET YOUR NEW DESIGN STUDIO", "NJOHUNI ME STUDION E DIZAJNIT")}
+            {t(
+              "YOUR DIRECT LINE TO A CUSTOM BAG",
+              "RRUGA JUAJ DREJT NJË ÇANTE TË PERSONALIZUAR",
+            )}
           </p>
           <h2>
             {t("Your brand.", "Marka juaj.")}
@@ -170,8 +252,8 @@ export default function HomePage() {
           </h2>
           <p>
             {t(
-              "You don’t have to imagine it. Choose a bag, upload your logo and see your idea take shape before you ask for a quote.",
-              "Nuk keni nevojë ta imagjinoni. Zgjidhni çantën, ngarkoni logon dhe shihni idenë para se të kërkoni ofertë.",
+              "Put our production to work for your brand. Choose a bag, upload your logo and explore your idea before we prepare your quotation.",
+              "Vendoseni prodhimin tonë në shërbim të markës suaj. Zgjidhni çantën, ngarkoni logon dhe eksploroni idenë para përgatitjes së ofertës.",
             )}
           </p>
           <ul>
@@ -285,36 +367,6 @@ export default function HomePage() {
               <p>{p}</p>
             </article>
           ))}
-        </div>
-      </section>
-      <section className="factory-section">
-        <img
-          src="/assets/factory.webp"
-          alt="Original Kobags manufacturing facility photograph"
-          width={1000}
-          height={680}
-          loading="lazy"
-        />
-        <div>
-          <p className="eyebrow">
-            {t("ROOTED IN KOSOVO", "ME RRËNJË NË KOSOVË")}
-          </p>
-          <h2>
-            {t("Real people.", "Njerëz të vërtetë.")}
-            <br />
-            {t("Real production.", "Prodhim i vërtetë.")}
-            <br />
-            <em>{t("Your next bag.", "Çanta juaj e ardhshme.")}</em>
-          </h2>
-          <p>
-            {t(
-              "Get a closer look at the material, equipment and printing behind your bags, with original photographs and video from Kobags.",
-              "Njihuni me materialin, pajisjet dhe shtypin përmes fotografive dhe videos origjinale të Kobags.",
-            )}
-          </p>
-          <Link href="/manufacturing" className="button navy">
-            {t("Inside Kobags", "Brenda Kobags")} <ArrowUpRight size={17} />
-          </Link>
         </div>
       </section>
       <section className="home-section home-buyer-grid">
