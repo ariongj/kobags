@@ -12,9 +12,9 @@ for d in folders:paths.extend(p for p in (ROOT/d).rglob('*') if p.is_file())
 with zipfile.ZipFile(PUBLIC/'kobags-source.zip','w',zipfile.ZIP_DEFLATED) as z:
  for p in sorted(set(paths)):
   relative=p.relative_to(ROOT)
-  if str(relative) in ['evidence/downloaded-design.png','evidence/studio-v4-download.png']:continue
+  if relative.parts[0]=='evidence' and p.suffix=='.png':continue
   if p.suffix in ['.zip','.pyc'] or '__pycache__' in p.parts or any(part.startswith('.env') for part in relative.parts):continue
   z.write(p,'kobags-website/'+str(relative))
  z.writestr('kobags-website/.openai/hosting.json',json.dumps({'d1':'DB','r2':None},indent=2)+'\n')
- z.writestr('kobags-website/SOURCE-MANIFEST.json',json.dumps({'name':'Kobags website handoff','date':'2026-09-15','type':'reusable source, not a deploy artifact','omitted':['existing Site project ID','credentials and secrets','runtime and customer/demo records','Git history','installed dependencies','build output','nested source ZIP','large generated QA concept PNGs (regenerable with the included checks)'],'verification':'See evidence/VERIFICATION.md and JSON result manifests.','assetRights':'Kobags identity and original media remain subject to their owner’s rights.'},indent=2)+'\n')
+ z.writestr('kobags-website/SOURCE-MANIFEST.json',json.dumps({'name':'Kobags website handoff','date':'2026-09-15','type':'reusable source, not a deploy artifact','omitted':['existing Site project ID','credentials and secrets','runtime and customer/demo records','Git history','installed dependencies','build output','nested source ZIP','lossless QA PNG captures and concept exports (regenerable with included checks); latest JPEG reviews included'],'verification':'See evidence/VERIFICATION.md and JSON result manifests.','assetRights':'Kobags identity and original media remain subject to their owner’s rights.'},indent=2)+'\n')
 print('Created source bundle:',(PUBLIC/'kobags-source.zip').stat().st_size,'bytes')

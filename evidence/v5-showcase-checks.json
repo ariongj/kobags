@@ -1,0 +1,38 @@
+{
+  "status": "passed",
+  "responsiveWidths": [
+    1440,
+    1024,
+    390,
+    320
+  ],
+  "responsiveRoutes": [
+    "/",
+    "/products",
+    "/products/box-bag",
+    "/design",
+    "/quote",
+    "/manufacturing",
+    "/sustainability",
+    "/partners",
+    "/resources",
+    "/contact",
+    "/blog",
+    "/demo/customer",
+    "/demo/admin",
+    "/handoff"
+  ],
+  "checks": [
+    "3D library lazy load",
+    "WebGL geometry and canvas render",
+    "front/back, keyboard and pointer rotation",
+    "animated construction view",
+    "live branding and color saved into designer",
+    "offscreen rendering suspension",
+    "reduced-motion default",
+    "working 2D fallback without WebGL",
+    "56 representative viewport-route layouts without overflow"
+  ],
+  "browserErrors": [],
+  "environment": "Chromium, local compiled Worker, software WebGL for automated rendering; not a physical-device GPU performance benchmark"
+}

@@ -21,7 +21,7 @@ To change the schema, edit `db/schema.ts`, run `npm run db:generate`, inspect th
 
 The downloadable ZIP deliberately contains `.openai/hosting.json` with logical `DB` only and **no existing project ID**. Start in a new folder and repository. Replace brand content/assets and register a new Site only when you intend to publish the new project. The original working checkout remains linked to the existing Kobags private Site; it should continue updating that Site, not create duplicates.
 
-Existing demo records, credentials, provider configuration, Git history, installed dependencies and compiled output are excluded from the ZIP. The two large generated QA concept-download PNGs are also omitted to keep the source download compact; the included checks regenerate them. UI screenshots and result manifests are included. The source bundle contains a small `SOURCE-MANIFEST.json` describing these omissions. Proprietary brand assets are not licensed for unrelated projects.
+Existing demo records, credentials, provider configuration, Git history, installed dependencies and compiled output are excluded from the ZIP. Lossless PNG test captures and generated concept-download PNGs are omitted to keep the source download compact; the included checks regenerate them. Latest JPEG review images and all result manifests are included. The source bundle contains a small `SOURCE-MANIFEST.json` describing these omissions. Proprietary brand assets are not licensed for unrelated projects.
 
 ## Stack and source map
 
@@ -29,7 +29,8 @@ Existing demo records, credentials, provider configuration, Git history, install
 - Cloudflare Worker for rendering and `/api/demo`.
 - Cloudflare D1 through logical binding `DB`.
 - Drizzle schema/migration; prepared D1 queries at runtime.
-- Canvas 2D for the illustrative bag preview and PNG export.
+- Canvas 2D for the detailed bag designer and PNG export.
+- Three.js for the lazily loaded homepage 3D showcase, with a procedural illustrative tote.
 - Local storage for unfinished design, quote step and locale.
 - Existing accessible UI primitives for dialogs, tabs, selects, tables and checkboxes.
 
@@ -46,7 +47,10 @@ lib/journal.ts           Six proposed articles retaining original slugs
 app/api/demo/route.ts     Owner lookup, persistence, concurrency, errors
 components/demo-store.tsx Client read/write hook and translated core errors
 components/kobags-context.tsx Browser draft, locale, optional WebMCP
-app/globals.css          Design tokens, component and responsive styling
+app/globals.css          Base design tokens and component styling
+app/brand-refresh.css    Edition 05 site-wide visual system
+components/bag-showcase.tsx 3D showroom UI and designer handoff
+lib/bag-scene.ts          Three.js geometry, lighting, controls and lifecycle
 db/schema.ts             D1 table schema
 drizzle/                 Included migration and generation metadata
 build/, scripts/         Framework/hosting compatibility helpers
@@ -123,6 +127,18 @@ Pointer movement retains the initial grab offset; arrow keys move by 1% (Shift: 
 
 Use approved per-variant print templates, original-file storage, file validation/scanning and controlled downloads before taking production artwork. Do not derive millimetre-accurate placement from the current percentage-based illustration.
 
+### Homepage 3D showroom
+
+`components/bag-showcase.tsx` uses IntersectionObserver with a 250px margin to import `lib/bag-scene.ts` near the viewport. That separate chunk contains Three.js and OrbitControls. It creates no server-side WebGL context. The model is authored as geometry in code: curved front/back panels, side folds, base, ribbon handles, reinforcement patches and seams. A deterministic canvas bump texture provides fine fabric detail; another canvas texture applies the current brand text. A soft procedural contact shadow avoids expensive shadow-map passes.
+
+The scene exposes color, text, rotation, front/back/reset, pause/play and construction controls. Construction interpolates the relative component positions and overall scale; reduced-motion users receive the end state without the transition. Auto-rotation starts disabled for reduced-motion users, while explicit Play remains available. Pointer interaction pauses automatic rotation. Vertical touch panning remains available for page scrolling.
+
+The renderer caps pixel ratio at 1.75 and stops its animation loop when the section is out of view or the document is hidden. It releases geometries, materials, textures, observers, event listeners and the renderer on cleanup. Context loss and initialization failure expose the existing 2D renderer as a functional fallback. Rotation controls are disabled in that fallback; color/name selection and continuation still work.
+
+The showroom is a local presentation state until the visitor chooses Continue. That action writes the selected Handle Small, color, text, ink, sans typeface and centered placement into the existing synchronous browser draft, then navigates normally to `/design`. It does not create an RFQ or perform a server write.
+
+The 3D model is illustrative and independent of the v4 generated images. It is not a product-specific CAD asset or manufacturing instruction. Approved geometry, physical material references and all variant models remain production inputs. Three.js [documentation](https://threejs.org/docs/) is the API reference; `package-lock.json` records the installed version.
+
 ### Content and integration boundaries
 
 No real messages, payments, ERP/CRM actions or manufacturing jobs are sent. Notifications live in a preview outbox. The only site API is the isolated demo API. Certificate entries can demonstrate review state; changing a demo approval field does not verify an issuer or validate a real claim. Six journal articles are proposed rewrites of the original structure, not migrated editorial approval.
@@ -140,11 +156,12 @@ python3 -m venv .venv
 .venv/bin/python qa/browser_journey.py
 .venv/bin/python qa/site_checks.py
 .venv/bin/python qa/studio_checks.py
+.venv/bin/python qa/showcase_checks.py
 ```
 
-For browser checks, run `npm run start -- --port 8787` after the build and local migration. This serves the compiled Worker at `http://localhost:8787`. The development server intentionally strips custom identity headers and uses a shared local demo; do not use it for isolated multi-owner QA. The tests reject non-loopback URLs and require an empty synthetic owner before any writes. `KOBAGS_BASE_URL` changes the compiled local preview port. `CHROME_PATH` can point to an existing Chromium binary. `CHROME_LIBS` and `FONTCONFIG_FILE` are optional environment-specific overrides. Use `CHROME_NO_SANDBOX=1` only when your local container requires it. Tests create random isolated demo owners; do not run against customer records.
+For browser checks, run `npm run start -- --port 8787` after the build and local migration. This serves the compiled Worker at `http://localhost:8787`. The development server intentionally strips custom identity headers and uses a shared local demo; do not use it for isolated multi-owner QA. The tests reject non-loopback URLs and require an empty synthetic owner before any writes. `KOBAGS_BASE_URL` changes the compiled local preview port. `CHROME_PATH` can point to an existing Chromium binary. `CHROME_LIBS` and `FONTCONFIG_FILE` are optional environment-specific overrides. Use `CHROME_NO_SANDBOX=1` only when your local container requires it. `CHROME_SOFTWARE_GL=1` enables the software WebGL renderer for headless 3D checks in a trusted local container. This is a testing option, not a hosted runtime setting or physical-device performance benchmark. Tests create random isolated demo owners; do not run against customer records.
 
-`qa/browser_journey.py` exercises the full buyer/sales/approval/reorder journey. `qa/site_checks.py` verifies forms, comparison, all pages/downloads, original redirects, owner isolation, concurrent edits, additional release gates and mobile layouts. `qa/studio_checks.py` verifies all five new models, separate artwork styles, numeric entry, pointer movement, upload sharpness, clean exports, mobile layouts and server persistence of the new fields. Result manifests and screenshots are in `evidence/`. Read `evidence/VERIFICATION.md` for the actual completed checks and remaining limits.
+`qa/browser_journey.py` exercises the full buyer/sales/approval/reorder journey. `qa/site_checks.py` verifies forms, comparison, all pages/downloads, original redirects, owner isolation, concurrent edits, additional release gates and mobile layouts. `qa/studio_checks.py` verifies all five new models, separate artwork styles, numeric entry, pointer movement, upload sharpness, clean exports, mobile layouts and server persistence of the new fields. `qa/showcase_checks.py` covers lazy loading, real rotation, construction mode, branding handoff, offscreen pause, reduced motion, the no-WebGL fallback and representative desktop/mobile page layouts. Result manifests and screenshots are in `evidence/`. Read `evidence/VERIFICATION.md` for the actual completed checks and remaining limits.
 
 ## How to extend
 

@@ -42,7 +42,12 @@ export function Header() {
             <Link
               key={href}
               href={href}
-              className={path === href ? "active" : ""}
+              className={
+                path === href || (href !== "/" && path.startsWith(href + "/"))
+                  ? "active"
+                  : ""
+              }
+              aria-current={path === href ? "page" : undefined}
               onClick={() => setOpen(false)}
             >
               {t(en, sq)}
@@ -79,7 +84,32 @@ export function Header() {
 export function Footer() {
   const { t } = useKobags();
   return (
-    <footer className="footer">
+    <footer className="footer footer-v5">
+      <div className="footer-invitation">
+        <div>
+          <p className="eyebrow">
+            {t(
+              "MADE HERE. CARRIED EVERYWHERE.",
+              "PRODHUAR KËTU. MBAJTUR KUDO.",
+            )}
+          </p>
+          <h2>
+            {t("Let’s make your", "Le ta krijojmë")}
+            <br />
+            <em>{t("next brand moment.", "momentin tuaj të ardhshëm.")}</em>
+          </h2>
+        </div>
+        <Link
+          href="/design"
+          className="footer-design-link"
+          aria-label={t(
+            "Design your next bag",
+            "Dizajnoni çantën tuaj të ardhshme",
+          )}
+        >
+          <ArrowUpRight size={38} />
+        </Link>
+      </div>
       <div className="footer-top">
         <div>
           <img

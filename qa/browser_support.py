@@ -9,6 +9,8 @@ async def launch(playwright):
         options['executable_path'] = os.environ['CHROME_PATH']
     if os.getenv('CHROME_NO_SANDBOX') == '1':
         options['args'] = ['--no-sandbox']
+    if os.getenv('CHROME_SOFTWARE_GL') == '1':
+        options.setdefault('args', []).extend(['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'])
     options['env'] = dict(os.environ)
     if os.getenv('CHROME_LIBS'):
         options['env']['LD_LIBRARY_PATH'] = os.environ['CHROME_LIBS']

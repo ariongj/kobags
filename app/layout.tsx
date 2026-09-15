@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "./brand-refresh.css";
 import { KobagsProvider } from "@/components/kobags-context";
 import { Header, Footer } from "@/components/site-shell";
 export const metadata: Metadata = {
   title: {
-    default: "Kobags Group | Design your own bag",
+    default: "Kobags Group | Manufacturing bags. Building brands.",
     template: "%s | Kobags Group",
   },
   description:
-    "Choose a reusable bag, place your logo and preview your design. Explore the Kobags Group wholesale bag studio, manufactured in Kosovo.",
+    "Non-woven bag manufacturing in Kosovo. Explore the factory, customize a bag in the interactive 3D studio and plan your next wholesale order.",
   robots: { index: false, follow: false },
   icons: { icon: "/assets/favicon.png" },
 };
@@ -19,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body className="kobags-v5">
         <KobagsProvider>
           <a href="#main-content" className="skip-link">
             Skip to content

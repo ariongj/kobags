@@ -3,11 +3,11 @@
 ## Brand homepage — `/`
 
 1. Original production-facility photograph and “Manufacturing bags. Building brands.” headline.
-2. Two clear hero paths: explore production and design your bag; wholesale inquiry link.
+2. Two clear hero paths: explore production and design your bag; direct jump to the 3D showroom.
 3. Manufacturing origin, custom flexographic printing and wholesale guidance.
 4. Factory/process introduction with original printing video, under user-controlled playback.
-5. The five original bag families and all 15 published sizes.
-6. “Your brand. Your bag.” studio as a direct route from production capability to a buyer's project.
+5. Interactive 3D showroom: rotate the tote, open its construction, choose a color/name and continue into the detailed designer.
+6. The five original bag families and all 15 published sizes.
 7. Choose → quote → artwork approval → production / dispatch.
 8. Industry use cases, materials, certificate evidence, FAQ, resources and partners.
 9. Complete company/footer navigation.

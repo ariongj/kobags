@@ -37,7 +37,7 @@ export default function Handoff() {
             [
               Palette,
               "Design handoff",
-              "Identity, layouts, components, content and assets.",
+              "Identity, full-site layouts, 3D showroom, components and assets.",
               "/documents/design-handoff.md",
               "Download design notes",
             ],
@@ -126,7 +126,7 @@ export default function Handoff() {
             {[
               [
                 "Explore the homepage",
-                "Review the factory, production process, collection and buying guidance. Follow “Design your bag” into the studio.",
+                "Review the factory and production process. Rotate the 3D bag, explore its construction, change the color and name, then continue into the designer.",
               ],
               [
                 "Make a design",

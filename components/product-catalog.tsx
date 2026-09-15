@@ -28,8 +28,8 @@ export function ProductCatalog() {
       (use === "all" || p.use.toLowerCase().includes(use.toLowerCase())),
   );
   return (
-    <main>
-      <div className="page-heading">
+    <main className="catalog-page-v5">
+      <div className="page-heading catalog-heading-v5">
         <p className="eyebrow">
           {t(
             "FIVE SHAPES. ENDLESS POSSIBILITIES.",
@@ -37,7 +37,9 @@ export function ProductCatalog() {
           )}
         </p>
         <h1>
-          {t("Find your everyday standout.", "Gjeni çantën tuaj të veçantë.")}
+          {t("Five shapes.", "Pesë forma.")}
+          <br />
+          <em>{t("Your signature.", "Identiteti juaj.")}</em>
         </h1>
         <p className="intro">
           {t(
@@ -45,6 +47,11 @@ export function ProductCatalog() {
             "Zgjidhni formën për biznesin tuaj. Ne do ta personalizojmë për ju.",
           )}
         </p>
+        <div className="catalog-heading-bags" aria-hidden="true">
+          <img src="/assets/studio-v4/d-cut.webp" alt="" />
+          <img src="/assets/studio-v4/box.webp" alt="" />
+          <img src="/assets/studio-v4/handle.webp" alt="" />
+        </div>
       </div>
       <div className="content-width">
         <div className="catalog-toolbar">

@@ -1,6 +1,6 @@
 # Kobags Group — design handoff
 
-Revision: 15 September 2026. Private concept, prepared from the supplied audit and the original Kobags website. The latest direction balances Kobags' established industrial/manufacturing identity with the new buyer-facing bag designer.
+Revision: 15 September 2026. Private concept, prepared from the supplied audit and the original Kobags website. Edition 05 reworks the full website around industrial precision and a brand studio: cinematic original factory imagery, a real interactive 3D showroom, stronger typography, a consistent product collection, editorial openings and a shared dark footer.
 
 ## 1. Creative direction
 
@@ -10,19 +10,20 @@ The original logo is retained. This is an extension of Kobags' navy/green identi
 
 ## 2. Design tokens
 
-The source of truth is `app/globals.css`.
+The base is `app/globals.css`; the current visual direction is `app/brand-refresh.css`, imported after it. Use the edition stylesheet for new visual refinements rather than adding competing global overrides.
 
 | Token / role | Value | Use |
 | --- | --- | --- |
-| Navy | `#193b67` | Headings, secondary action, top utility bar |
+| Navy | `#123442` / `#0c2833` | Headings, secondary action, top utility bar |
 | Green | `#087a36` | Primary action, links, focus outline |
+| Light green | `#c6eb9d` | Hero/showroom actions and dark-surface highlights |
 | Body ink | `#213632` | Main copy |
 | Soft canvas | `#f6f7f3` | Product and editorial backgrounds |
 | Border | `#dce3dd` | Inputs, cards, separators |
 | Destructive | `#b83333` | Validation and destructive controls |
 | Body type | Arial, Helvetica, sans-serif | Local system stack; no remote font dependency |
-| Main body | 16px, 1.55 line height | Readable prose |
-| H1 | `clamp(36px, 4.1vw, 60px)` | Main page title; homepage has a larger custom composition |
+| Main body | 16px, 1.55–1.85 line height | Readable prose |
+| H1 | 42–76px, weight 600, tight tracking | Editorial page titles; factory hero scales to 102px |
 | H2 / H3 | 38px / 19px base | Section and card headings; route-specific responsive sizing |
 | Primary button | 14px semibold, 15px × 23px padding | Solid green, white text |
 | Radius | 7–14px in main surfaces | Small controls and restrained rounded panels |
@@ -34,7 +35,15 @@ Use the existing CSS variables and UI primitives when extending the site. Utilit
 
 ### Brand homepage — `/`
 
-A wide original factory photograph anchors the hero, with a navy overlay and two direct actions: explore production and design a bag. On mobile the text and factory photo stack so both remain clear. Manufacturing origin, custom printing and wholesale guidance follow. Before the collection, show the material/print/dispatch story beside the original printing video with manual playback. Then introduce the five bag families, design studio and ordering steps. Finish with industry/material content, certificate evidence, FAQs, buying guidance, partners and footer.
+A cinematic original factory photograph fills the opening with larger navy/white/light-green typography. The photograph stays behind the copy on mobile with a stronger readability overlay. The actions lead to manufacturing and the bag designer; a 360° link jumps to the showroom. Keep the photo/manual-play production film genuine.
+
+The page order is factory hero → manufacturing proof → production process/video → interactive 3D showroom → five-family collection → ordering steps → industry/material content → evidence → FAQs → shared footer. Product cards use original branded photos; the catalog introduction uses the existing blank illustrative mockups. A dark shared footer provides the final design invitation across every route.
+
+### Interactive 3D showroom — `/#bag-showcase`
+
+A large dark stage pairs an orbitable Handle Bag concept with live name and color controls. The tote has volumetric panels, ribbon handles, seam detail and procedural fabric shading. Its construction control separates the panels/handles and then reassembles them. Front/back buttons, rotation arrows, keyboard controls, reset and pause/play complement drag rotation. The 3D model repeats the name on both faces; the dedicated designer supports independent front/back artwork.
+
+The showroom is an illustrative presentation, not approved manufacturing geometry or a measured exploded engineering drawing. It shows one representative tote. All five families remain available in the dedicated studio. Selection carries the front text, bag color and matching ink/typeface into that studio. The scene starts still for reduced-motion users and retains a working 2D fallback when WebGL is unavailable.
 
 The intended balance is manufacturer first, products and customization next. Do not replace factory evidence with generated industrial imagery or invent capacity, employee, export-market or throughput statistics. Use future client-approved scale figures only when the source and scope are documented.
 
@@ -48,7 +57,7 @@ Scoped `.studio-v4` styling uses 16px card corners, 14px control labels, 46px fi
 
 ### Catalog and detail
 
-The catalog shows the five original product families with source photographs, handle/use filters and up to three comparison columns. Detail pages contain Small, Medium and Large published sizes, GSM and a direct design action. Do not label inferred width/height/gusset order until a client drawing establishes it.
+The catalog opens with a large two-line title and layered blank-bag imagery. Refined product cards keep the five original product families with source photographs, handle/use filters and up to three comparison columns. Detail pages contain Small, Medium and Large published sizes, GSM and a direct design action. Do not label inferred width/height/gusset order until a client drawing establishes it.
 
 ### Quote request
 
@@ -56,11 +65,11 @@ Four explicit steps: bag, branding, quantity/destination, company/contact. A per
 
 ### Company and guidance
 
-Manufacturing uses original photographs and controlled video playback. Material information separates PP composition, reuse, recycled content and local recycling. Certificates show original scans with verification status. Journal articles use practical buyer guidance and preserve the original six slugs; all rewrites need editorial sign-off.
+Supporting pages share an editorial header, restrained geometric background, generous spacing and stronger headings. Manufacturing uses original photographs and controlled video playback. Partner, resource and journal cards share the new borders, spacing and hover treatment. Material information separates PP composition, reuse, recycled content and local recycling. Certificates show original scans with verification status. Journal articles use practical buyer guidance and preserve the original six slugs; all rewrites need editorial sign-off.
 
 ### Customer / sales workspaces
 
-These are functional private demo personas. Request detail uses consistent tabs for specification, quotation, artwork and timeline. Show version numbers and approval state close to the corresponding proof. Sales also has inquiry review, content drafts/publishing, unsent notifications and activity/export/reset.
+These are functional private demo personas with the refreshed heading, tab, card and document treatment. Request detail uses consistent tabs for specification, quotation, artwork and timeline. Show version numbers and approval state close to the corresponding proof. Sales also has inquiry review, content drafts/publishing, unsent notifications and activity/export/reset.
 
 ## 4. Responsive behavior
 
@@ -92,6 +101,9 @@ Kobags assets remain subject to their owner's rights. The archive is a handoff f
 | --- | --- |
 | Shell/navigation/footer | `components/site-shell.tsx` |
 | Brand homepage | `components/home-page.tsx` |
+| 3D showroom UI | `components/bag-showcase.tsx` |
+| Procedural 3D tote, controls and animation lifecycle | `lib/bag-scene.ts` |
+| Site-wide edition 05 visual system | `app/brand-refresh.css` |
 | Studio controls and concept export | `components/bag-studio.tsx` |
 | Canvas composition and pointer/keyboard behavior | `components/bag-preview.tsx` |
 | Mockup mapping, silhouette bounds, artwork fonts | `lib/studio-artwork.ts` |

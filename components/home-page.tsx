@@ -3,7 +3,6 @@ import Link from "@/components/site-link";
 import {
   ArrowUpRight,
   ArrowRight,
-  Check,
   Package,
   Paintbrush,
   Factory,
@@ -11,15 +10,15 @@ import {
 } from "lucide-react";
 import { useKobags } from "./kobags-context";
 import { useDemo } from "./demo-store";
-import { products, initialDesign } from "@/lib/catalog";
-import { BagPreview } from "./bag-studio";
+import { products } from "@/lib/catalog";
+import BagShowcase from "./bag-showcase";
 
 export default function HomePage() {
   const { t } = useKobags();
   const { state } = useDemo();
   const minimum = state?.settings.moq || 5000;
   return (
-    <main className="brand-home">
+    <main className="brand-home brand-home-v5">
       <section className="industrial-hero">
         <img
           className="industrial-hero-photo"
@@ -60,6 +59,11 @@ export default function HomePage() {
               <ArrowUpRight size={18} />
             </Link>
           </div>
+          <a className="hero-showroom-link" href="#bag-showcase">
+            <span>360°</span>
+            {t("Explore your bag in 3D", "Eksploroni çantën në 3D")}
+            <ArrowRight size={17} />
+          </a>
           <p className="industrial-quote-link">
             {t(
               "Planning your next wholesale order?",
@@ -69,6 +73,13 @@ export default function HomePage() {
               {t("Talk to us", "Na kontaktoni")} <ArrowRight size={15} />
             </Link>
           </p>
+        </div>
+        <div className="hero-factory-stamp">
+          <Factory size={23} />
+          <span>
+            {t("FROM THE FACTORY FLOOR", "NGA LINJA E PRODHIMIT")}
+            <strong>{t("Made in Lipjan.", "Prodhuar në Lipjan.")}</strong>
+          </span>
         </div>
         <div className="industrial-location">
           <span>01 / KOBAGS GROUP</span>
@@ -194,6 +205,7 @@ export default function HomePage() {
           </figcaption>
         </figure>
       </section>
+      <BagShowcase />
       <section className="home-collection home-section">
         <div className="section-heading">
           <div>
@@ -219,7 +231,9 @@ export default function HomePage() {
               href={"/products/" + p.slug}
             >
               <div>
-                <span>0{i + 1}</span>
+                <span>
+                  0{i + 1} / {p.handle.toUpperCase()}
+                </span>
                 <img
                   src={p.image}
                   alt={p.name}
@@ -232,86 +246,15 @@ export default function HomePage() {
                 {p.name}
                 <ArrowUpRight size={17} />
               </h3>
-              <p>{p.use}</p>
+              <p>
+                {p.use}
+                <span className="product-size-count">
+                  3 {t("sizes", "madhësi")}
+                </span>
+              </p>
             </Link>
           ))}
         </div>
-      </section>
-      <section className="home-studio-feature">
-        <div className="studio-feature-copy">
-          <p className="eyebrow">
-            {t(
-              "YOUR DIRECT LINE TO A CUSTOM BAG",
-              "RRUGA JUAJ DREJT NJË ÇANTE TË PERSONALIZUAR",
-            )}
-          </p>
-          <h2>
-            {t("Your brand.", "Marka juaj.")}
-            <br />
-            <em>{t("Your bag.", "Çanta juaj.")}</em>
-          </h2>
-          <p>
-            {t(
-              "Put our production to work for your brand. Choose a bag, upload your logo and explore your idea before we prepare your quotation.",
-              "Vendoseni prodhimin tonë në shërbim të markës suaj. Zgjidhni çantën, ngarkoni logon dhe eksploroni idenë para përgatitjes së ofertës.",
-            )}
-          </p>
-          <ul>
-            {[
-              [
-                t(
-                  "Place, resize and rotate your logo",
-                  "Vendosni, zmadhoni dhe rrotulloni logon",
-                ),
-              ],
-              [
-                t(
-                  "Explore colors and both sides",
-                  "Eksploroni ngjyrat dhe të dyja anët",
-                ),
-              ],
-              [
-                t(
-                  "Download a preview or request a quote",
-                  "Shkarkoni parapamjen ose kërkoni ofertë",
-                ),
-              ],
-            ].map(([x]) => (
-              <li key={x}>
-                <Check size={17} />
-                {x}
-              </li>
-            ))}
-          </ul>
-          <Link href="/design" className="button">
-            {t("Make it yours", "Personalizojeni")} <ArrowUpRight size={18} />
-          </Link>
-          <small>
-            {t(
-              "An illustrative preview. Final shape, color and print placement require approval.",
-              "Parapamje ilustruese. Forma, ngjyra dhe pozicioni përfundimtar kërkojnë miratim.",
-            )}
-          </small>
-        </div>
-        <Link
-          href="/design"
-          className="studio-feature-preview"
-          aria-label="Open the interactive bag designer"
-        >
-          <div className="feature-preview-top">
-            <span>THE KOBAGS BAG STUDIO</span>
-            <Paintbrush size={18} />
-          </div>
-          <div className="feature-bag-window">
-            <BagPreview design={{ ...initialDesign, color: "Forest green" }} />
-          </div>
-          <div className="feature-preview-bottom">
-            <span>{t("Start with your idea.", "Filloni me idenë tuaj.")}</span>
-            <span className="feature-arrow">
-              <ArrowUpRight size={23} />
-            </span>
-          </div>
-        </Link>
       </section>
       <section className="home-section">
         <div className="section-heading">
@@ -505,29 +448,6 @@ export default function HomePage() {
               <p>{a}</p>
             </details>
           ))}
-        </div>
-      </section>
-      <section className="home-final">
-        <p className="eyebrow">
-          {t(
-            "LET’S MAKE SOMETHING YOU’LL CARRY FORWARD",
-            "LE TË KRIJOJMË DIÇKA PËR TË ARDHMEN",
-          )}
-        </p>
-        <h2>
-          {t(
-            "Your next bag starts here.",
-            "Çanta juaj e ardhshme fillon këtu.",
-          )}
-        </h2>
-        <div className="actions">
-          <Link href="/design" className="button">
-            {t("Design your bag", "Dizajnoni çantën tuaj")}{" "}
-            <ArrowUpRight size={18} />
-          </Link>
-          <Link href="/partners" className="home-secondary">
-            {t("Become a partner", "Bëhuni partner")} <ArrowRight size={17} />
-          </Link>
         </div>
       </section>
     </main>
