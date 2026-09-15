@@ -90,6 +90,7 @@ export const colors = [
   { name: "Royal blue", sq: "Blu mbretërore", hex: "#3864a7" },
 ];
 export type Design = {
+  previewVersion?: "v4";
   product: string;
   size: string;
   color: string;
@@ -103,6 +104,12 @@ export type Design = {
   y: number;
   scale: number;
   rotation: number;
+  textFont?: "sans" | "serif" | "mono";
+  textAlign?: "left" | "center" | "right";
+  backLogoName?: string;
+  backTextFont?: "sans" | "serif" | "mono";
+  backTextAlign?: "left" | "center" | "right";
+  backInk?: string;
   backLogo: string;
   backText: string;
   backX: number;
@@ -125,6 +132,7 @@ export type Design = {
   reorderOf?: string;
 };
 export const initialDesign: Design = {
+  previewVersion: "v4",
   product: "handle-bag",
   size: "Small",
   color: "Forest green",

@@ -1,0 +1,380 @@
+"use client";
+import { useEffect, useRef, useState } from "react";
+import { products, colors, Design, getProduct } from "@/lib/catalog";
+import {
+  artworkFonts,
+  sideArtwork,
+  studioMockups,
+  studioBounds,
+} from "@/lib/studio-artwork";
+
+const imageCache = new Map<string, Promise<HTMLImageElement>>();
+const layerCache = new Map<string, Promise<HTMLCanvasElement>>();
+const LOGICAL = 800;
+const LAYER = 1440;
+function loadImage(src: string) {
+  const cached = imageCache.get(src);
+  if (cached) return cached;
+  const promise = new Promise<HTMLImageElement>((resolve, reject) => {
+    const image = new Image();
+    image.onload = () => resolve(image);
+    image.onerror = () => {
+      imageCache.delete(src);
+      reject(Error("PREVIEW_IMAGE_UNAVAILABLE"));
+    };
+    image.src = src;
+  });
+  // Logo previews can change frequently; retain a small, bounded cache.
+  if (imageCache.size >= 14) imageCache.delete(imageCache.keys().next().value!);
+  imageCache.set(src, promise);
+  return promise;
+}
+async function tintedBag(design: Design) {
+  const slug = getProduct(design.product).slug;
+  const modern = design.previewVersion === "v4" && Boolean(studioMockups[slug]);
+  const source = modern ? studioMockups[slug] : "/assets/studio-bag-atlas.png";
+  const key = source + ":" + slug + ":" + design.color;
+  const old = layerCache.get(key);
+  if (old) return old;
+  const promise = (async () => {
+    const im = await loadImage(source);
+    const layer = document.createElement("canvas");
+    layer.width = LAYER;
+    layer.height = LAYER;
+    const ctx = layer.getContext("2d", { willReadFrequently: true })!;
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = "high";
+    if (modern) {
+      const [left, top, right, bottom] = studioBounds[slug];
+      const sourceWidth = right - left,
+        sourceHeight = bottom - top;
+      const fit =
+        Math.min(680 / sourceWidth, 690 / sourceHeight) * (LAYER / LOGICAL);
+      const width = sourceWidth * fit,
+        height = sourceHeight * fit;
+      ctx.drawImage(
+        im,
+        left,
+        top,
+        sourceWidth,
+        sourceHeight,
+        (LAYER - width) / 2,
+        (LAYER - height) / 2,
+        width,
+        height,
+      );
+    } else {
+      const [left, right] = [
+        [0, 386],
+        [396, 780],
+        [780, 1190],
+        [1200, 1565],
+        [1568, 1983],
+      ][products.findIndex((p) => p.slug === slug)];
+      const fit = Math.min(680 / (right - left), 690 / 640) * (LAYER / LOGICAL);
+      const w = (right - left) * fit,
+        h = 640 * fit;
+      ctx.drawImage(
+        im,
+        left,
+        60,
+        right - left,
+        640,
+        (LAYER - w) / 2,
+        (LAYER - h) / 2,
+        w,
+        h,
+      );
+    }
+    const image = ctx.getImageData(0, 0, LAYER, LAYER);
+    const data = image.data;
+    const hex = (colors.find((c) => c.name === design.color) || colors[0]).hex;
+    const rgb = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
+    for (let i = 0; i < data.length; i += 4) {
+      if (data[i + 3] < 24) {
+        data[i + 3] = 0;
+        continue;
+      }
+      const luminance =
+        0.2126 * data[i] + 0.7152 * data[i + 1] + 0.0722 * data[i + 2];
+      if (!modern && luminance > 237) {
+        data[i + 3] = 0;
+        continue;
+      }
+      // Preserve fabric shading and antialiased alpha. Highlights add neutral light.
+      const shade = modern
+        ? Math.min(1.22, luminance / 220)
+        : Math.min(1.12, 0.4 + luminance / 260);
+      for (let channel = 0; channel < 3; channel++)
+        data[i + channel] = Math.min(
+          255,
+          shade <= 1
+            ? rgb[channel] * shade
+            : rgb[channel] + (255 - rgb[channel]) * (shade - 1) * 0.38,
+        );
+    }
+    ctx.putImageData(image, 0, 0);
+    return layer;
+  })().catch((e) => {
+    layerCache.delete(key);
+    throw e;
+  });
+  if (layerCache.size >= 6) layerCache.delete(layerCache.keys().next().value!);
+  layerCache.set(key, promise);
+  return promise;
+}
+export type ArtworkBounds = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  rotation: number;
+};
+export async function renderBagDesign(
+  target: HTMLCanvasElement,
+  design: Design,
+  {
+    guides = false,
+    resolution = 1600,
+  }: { guides?: boolean; resolution?: number } = {},
+) {
+  const art = sideArtwork(design);
+  const [base, logo] = await Promise.all([
+    tintedBag(design),
+    art.logo ? loadImage(art.logo) : Promise.resolve(null),
+  ]);
+  const work = document.createElement("canvas");
+  work.width = resolution;
+  work.height = resolution;
+  const ctx = work.getContext("2d")!;
+  ctx.scale(resolution / LOGICAL, resolution / LOGICAL);
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
+  ctx.drawImage(base, 0, 0, LOGICAL, LOGICAL);
+  let width = 0,
+    height = 0;
+  const maxWidth = art.scale * 8;
+  ctx.save();
+  ctx.globalCompositeOperation = "source-atop";
+  ctx.translate(art.x * 8, art.y * 8);
+  ctx.rotate((art.rotation * Math.PI) / 180);
+  if (logo) {
+    const fit = Math.min(
+      maxWidth / logo.naturalWidth,
+      Math.min(320, art.scale * 10) / logo.naturalHeight,
+    );
+    width = logo.naturalWidth * fit;
+    height = logo.naturalHeight * fit;
+    ctx.drawImage(logo, -width / 2, -height / 2, width, height);
+  } else if (art.text) {
+    const family =
+      artworkFonts.find((f) => f.value === art.font) || artworkFonts[0];
+    const lines = art.text.split("\n");
+    let fontSize = art.scale * 1.9;
+    ctx.font = `${family.weight} ${fontSize}px ${family.family}`;
+    const measured = Math.max(
+      ...lines.map((line) => ctx.measureText(line).width),
+      1,
+    );
+    fontSize *= Math.min(
+      1,
+      maxWidth / measured,
+      Math.min(320, art.scale * 10) / (fontSize * 1.22 * lines.length),
+    );
+    const lineHeight = fontSize * 1.22;
+    ctx.font = `${family.weight} ${fontSize}px ${family.family}`;
+    width = Math.max(...lines.map((line) => ctx.measureText(line).width), 1);
+    height = lineHeight * lines.length;
+    ctx.fillStyle = art.ink;
+    ctx.textBaseline = "middle";
+    ctx.textAlign = art.align as CanvasTextAlign;
+    const alignX =
+      art.align === "left" ? -width / 2 : art.align === "right" ? width / 2 : 0;
+    lines.forEach((line, i) =>
+      ctx.fillText(line, alignX, (i - (lines.length - 1) / 2) * lineHeight),
+    );
+  }
+  ctx.restore();
+  if (guides && (logo || art.text)) {
+    ctx.save();
+    ctx.translate(art.x * 8, art.y * 8);
+    ctx.rotate((art.rotation * Math.PI) / 180);
+    ctx.strokeStyle = "#178447";
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([6, 5]);
+    ctx.strokeRect(-width / 2 - 12, -height / 2 - 10, width + 24, height + 20);
+    ctx.setLineDash([]);
+    for (const x of [-width / 2 - 12, width / 2 + 12])
+      for (const y of [-height / 2 - 10, height / 2 + 10]) {
+        ctx.fillStyle = "#fff";
+        ctx.fillRect(x - 4, y - 4, 8, 8);
+        ctx.strokeRect(x - 4, y - 4, 8, 8);
+      }
+    ctx.restore();
+    if (Math.abs(art.x - 50) < 0.5) {
+      ctx.save();
+      ctx.strokeStyle = "#17844750";
+      ctx.lineWidth = 1;
+      ctx.setLineDash([4, 7]);
+      ctx.beginPath();
+      ctx.moveTo(400, 200);
+      ctx.lineTo(400, 715);
+      ctx.stroke();
+      ctx.restore();
+    }
+  }
+  target.width = resolution;
+  target.height = resolution;
+  target.getContext("2d")!.drawImage(work, 0, 0);
+  return {
+    x: art.x * 8,
+    y: art.y * 8,
+    width,
+    height,
+    rotation: art.rotation,
+  } as ArtworkBounds;
+}
+export function BagPreview({
+  design,
+  onChange,
+  canvasRef,
+  compact = false,
+  guides = false,
+  onReady,
+}: {
+  design: Design;
+  onChange?: (p: Partial<Design>) => void;
+  canvasRef?: React.RefObject<HTMLCanvasElement | null>;
+  compact?: boolean;
+  guides?: boolean;
+  onReady?: (ready: boolean) => void;
+}) {
+  const ownRef = useRef<HTMLCanvasElement>(null);
+  const ref = canvasRef || ownRef;
+  const [failed, setFailed] = useState(false);
+  const bounds = useRef<ArtworkBounds | null>(null);
+  const drag = useRef<{ dx: number; dy: number } | null>(null);
+  const art = sideArtwork(design);
+  const p = getProduct(design.product);
+  const interactive = Boolean(onChange);
+  useEffect(() => {
+    let current = true;
+    onReady?.(false);
+    if (ref.current) ref.current.dataset.ready = "false";
+    const buffer = document.createElement("canvas");
+    renderBagDesign(buffer, design, {
+      guides: guides && interactive,
+      resolution: compact ? 320 : 1600,
+    })
+      .then((box) => {
+        if (!current || !ref.current) return;
+        setFailed(false);
+        ref.current.width = buffer.width;
+        ref.current.height = buffer.height;
+        ref.current.getContext("2d")!.drawImage(buffer, 0, 0);
+        ref.current.dataset.ready = "true";
+        bounds.current = box;
+        onReady?.(true);
+      })
+      .catch(() => {
+        if (current) {
+          setFailed(true);
+          onReady?.(false);
+        }
+      });
+    return () => {
+      current = false;
+    };
+  }, [design, guides, compact, ref, interactive, onReady]);
+  const position = (event: React.PointerEvent<HTMLCanvasElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    return {
+      x: ((event.clientX - rect.left) / rect.width) * 800,
+      y: ((event.clientY - rect.top) / rect.height) * 800,
+    };
+  };
+  const change = (x: number, y: number) =>
+    onChange?.(
+      art.back
+        ? {
+            backX: Math.max(24, Math.min(76, x)),
+            backY: Math.max(33, Math.min(80, y)),
+          }
+        : {
+            x: Math.max(24, Math.min(76, x)),
+            y: Math.max(33, Math.min(80, y)),
+          },
+    );
+  return (
+    <>
+      {failed ? (
+        <div className="preview-load-error" role="status">
+          Preview unavailable. Your design is saved; reload to try again.
+        </div>
+      ) : null}
+      <canvas
+        ref={ref}
+        width={compact ? 320 : 1600}
+        height={compact ? 320 : 1600}
+        className={"bag-canvas " + (compact ? "compact" : "")}
+        role="img"
+        aria-label={`${p.name}, ${design.color}, ${art.back ? "back" : "front"} branding preview. Illustrative concept.`}
+        tabIndex={onChange ? 0 : undefined}
+        style={{
+          cursor: onChange ? "grab" : "default",
+          touchAction: onChange ? "none" : "auto",
+        }}
+        onPointerDown={(e) => {
+          if (!onChange || !bounds.current || (!art.logo && !art.text)) return;
+          const pos = position(e),
+            b = bounds.current,
+            angle = (-b.rotation * Math.PI) / 180,
+            dx = pos.x - b.x,
+            dy = pos.y - b.y;
+          const localX = dx * Math.cos(angle) - dy * Math.sin(angle),
+            localY = dx * Math.sin(angle) + dy * Math.cos(angle);
+          if (
+            Math.abs(localX) > b.width / 2 + 20 ||
+            Math.abs(localY) > b.height / 2 + 20
+          )
+            return;
+          drag.current = { dx, dy };
+          e.currentTarget.setPointerCapture(e.pointerId);
+          e.currentTarget.style.cursor = "grabbing";
+        }}
+        onPointerMove={(e) => {
+          if (!drag.current) return;
+          const pos = position(e);
+          change((pos.x - drag.current.dx) / 8, (pos.y - drag.current.dy) / 8);
+        }}
+        onPointerUp={(e) => {
+          drag.current = null;
+          e.currentTarget.style.cursor = "grab";
+        }}
+        onPointerCancel={() => {
+          drag.current = null;
+        }}
+        onKeyDown={(e) => {
+          if (!onChange) return;
+          const amount = e.shiftKey ? 5 : 1;
+          const x =
+              e.key === "ArrowLeft"
+                ? -amount
+                : e.key === "ArrowRight"
+                  ? amount
+                  : 0,
+            y =
+              e.key === "ArrowUp"
+                ? -amount
+                : e.key === "ArrowDown"
+                  ? amount
+                  : 0;
+          if (x || y) {
+            e.preventDefault();
+            change(art.x + x, art.y + y);
+          }
+        }}
+      />
+    </>
+  );
+}

@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useRef, useState } from "react";
 import Link from "@/components/site-link";
 import {
   ArrowRight,
@@ -9,15 +9,19 @@ import {
   Upload,
   Move,
   RotateCcw,
-  Minus,
-  Plus,
   Maximize2,
   Package,
   ShieldCheck,
-  Leaf,
   Info,
-  Type,
   ImagePlus,
+  AlignLeft,
+  AlignCenter,
+  AlignRight,
+  SlidersHorizontal,
+  Eye,
+  EyeOff,
+  Trash2,
+  CheckCircle2,
 } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Slider } from "@/components/ui/slider";
@@ -34,7 +38,17 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { products, colors, Design, getProduct } from "@/lib/catalog";
+import { BagPreview, renderBagDesign } from "./bag-preview";
+export { BagPreview } from "./bag-preview";
+import { sideArtwork, artworkFonts } from "@/lib/studio-artwork";
+import { useDemo } from "./demo-store";
+import {
+  products,
+  colors,
+  Design,
+  getProduct,
+  initialDesign,
+} from "@/lib/catalog";
 import { useKobags } from "./kobags-context";
 export function Choice({
   id,
@@ -67,172 +81,63 @@ export function Choice({
     </div>
   );
 }
-export function BagPreview({
-  design,
+const pickerDesigns = Object.fromEntries(
+  products.map((product) => [
+    product.slug,
+    {
+      ...initialDesign,
+      product: product.slug,
+      text: "",
+      logo: "",
+      color: "Natural",
+    },
+  ]),
+);
+function PrecisionInput({
+  value,
+  min,
+  max,
   onChange,
-  canvasRef,
-  compact = false,
+  label,
 }: {
-  design: Design;
-  onChange?: (p: Partial<Design>) => void;
-  canvasRef?: React.RefObject<HTMLCanvasElement | null>;
-  compact?: boolean;
+  value: number;
+  min: number;
+  max: number;
+  onChange: (n: number) => void;
+  label: string;
 }) {
-  const ownRef = useRef<HTMLCanvasElement>(null);
-  const ref = canvasRef || ownRef;
-  const imageRef = useRef<HTMLImageElement | null>(null);
-  const [loaded, setLoaded] = useState(0);
-  const p = getProduct(design.product);
-  const back = design.side === "back";
-  const logo = back ? design.backLogo : design.logo;
-  const text = back ? design.backText : design.text;
-  const x = back ? design.backX : design.x;
-  const y = back ? design.backY : design.y;
-  const scale = back ? design.backScale : design.scale;
-  const rotation = back ? design.backRotation : design.rotation;
-  const drag = useRef(false);
-  useEffect(() => {
-    const im = new Image();
-    im.onload = () => {
-      imageRef.current = im;
-      setLoaded((n) => n + 1);
-    };
-    im.src = "/assets/studio-bag-atlas.png";
-  }, [p.image]);
-  useEffect(() => {
-    const c = ref.current;
-    if (!c) return;
-    const ctx = c.getContext("2d");
-    if (!ctx) return;
-    let cancelled = false;
-    const draw = async () => {
-      ctx.clearRect(0, 0, 800, 800);
-      const im = imageRef.current;
-      if (!im) return;
-      const layer = document.createElement("canvas");
-      layer.width = 800;
-      layer.height = 800;
-      const l = layer.getContext("2d")!;
-      const index = products.findIndex((item) => item.slug === p.slug);
-      const bounds = [
-        [0, 386],
-        [396, 780],
-        [780, 1190],
-        [1200, 1565],
-        [1568, 1983],
-      ][index];
-      const sx = bounds[0];
-      const crop = bounds[1] - sx;
-      const fit = Math.min(680 / crop, 690 / 640);
-      const w = crop * fit,
-        h = 640 * fit;
-      l.drawImage(im, sx, 60, crop, 640, (800 - w) / 2, (800 - h) / 2, w, h);
-      try {
-        const data = l.getImageData(0, 0, 800, 800);
-        const hex = (colors.find((c) => c.name === design.color) || colors[0])
-          .hex;
-        const rgb = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
-        for (let i = 0; i < data.data.length; i += 4) {
-          if (data.data[i + 3] === 0) continue;
-          const lum = (data.data[i] + data.data[i + 1] + data.data[i + 2]) / 3;
-          if (lum > 237) {
-            data.data[i + 3] = 0;
-            continue;
-          }
-          const shade = Math.min(1.18, 0.4 + lum / 260);
-          data.data[i] = rgb[0] * shade;
-          data.data[i + 1] = rgb[1] * shade;
-          data.data[i + 2] = rgb[2] * shade;
-        }
-        l.putImageData(data, 0, 0);
-      } catch {}
-      ctx.drawImage(layer, 0, 0);
-      ctx.save();
-      ctx.translate(x * 8, y * 8);
-      ctx.rotate((rotation * Math.PI) / 180);
-      if (logo) {
-        const mark = new Image();
-        await new Promise<void>((resolve) => {
-          mark.onload = () => resolve();
-          mark.onerror = () => resolve();
-          mark.src = logo;
-        });
-        if (cancelled) return;
-        const w = scale * 8,
-          h = (mark.naturalHeight / mark.naturalWidth) * w;
-        if (mark.naturalWidth) ctx.drawImage(mark, -w / 2, -h / 2, w, h);
-      } else if (text) {
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillStyle = design.ink;
-        ctx.font = `700 ${scale * 1.9}px Arial`;
-        const lines = text.split("\n");
-        lines.forEach((line, i) =>
-          ctx.fillText(
-            line,
-            0,
-            (i - (lines.length - 1) / 2) * scale * 2.1,
-            440,
-          ),
-        );
-      }
-      ctx.restore();
-    };
-    draw();
-    return () => {
-      cancelled = true;
-    };
-  }, [design, loaded, ref, x, y, scale, rotation, logo, text]);
-  const move = (e: React.PointerEvent<HTMLCanvasElement>) => {
-    if (!drag.current || !onChange) return;
-    const r = e.currentTarget.getBoundingClientRect();
-    const dx = Math.max(
-      24,
-      Math.min(76, ((e.clientX - r.left) / r.width) * 100),
-    );
-    const dy = Math.max(
-      33,
-      Math.min(80, ((e.clientY - r.top) / r.height) * 100),
-    );
-    onChange(back ? { backX: dx, backY: dy } : { x: dx, y: dy });
-  };
+  const [entry, setEntry] = useState({
+    value,
+    text: String(Math.round(value)),
+  });
+  if (entry.value !== value)
+    setEntry({ value, text: String(Math.round(value)) });
+  const draft = entry.value === value ? entry.text : String(Math.round(value));
+  const setDraft = (text: string) => setEntry({ value, text });
   return (
-    <canvas
-      ref={ref}
-      width="800"
-      height="800"
-      className={"bag-canvas " + (compact ? "compact" : "")}
-      role="img"
-      aria-label={`${p.name}, ${design.color}, ${back ? "back" : "front"} branding preview. Indicative only.`}
-      tabIndex={onChange ? 0 : undefined}
-      onPointerDown={(e) => {
-        if (onChange) {
-          drag.current = true;
-          e.currentTarget.setPointerCapture(e.pointerId);
-          move(e);
-        }
+    <input
+      type="number"
+      min={min}
+      max={max}
+      step={1}
+      aria-label={label}
+      value={draft}
+      onChange={(event) => {
+        setDraft(event.target.value);
+        const n = event.target.valueAsNumber;
+        if (Number.isFinite(n) && n >= min && n <= max) onChange(n);
       }}
-      onPointerMove={move}
-      onPointerUp={() => (drag.current = false)}
-      onPointerCancel={() => (drag.current = false)}
-      onKeyDown={(e) => {
-        if (!onChange) return;
-        const dx = e.key === "ArrowLeft" ? -1 : e.key === "ArrowRight" ? 1 : 0,
-          dy = e.key === "ArrowUp" ? -1 : e.key === "ArrowDown" ? 1 : 0;
-        if (dx || dy) {
-          e.preventDefault();
-          onChange(
-            back
-              ? {
-                  backX: Math.max(24, Math.min(76, x + dx)),
-                  backY: Math.max(33, Math.min(80, y + dy)),
-                }
-              : {
-                  x: Math.max(24, Math.min(76, x + dx)),
-                  y: Math.max(33, Math.min(80, y + dy)),
-                },
-          );
-        }
+      onBlur={() => {
+        const n = Number(draft);
+        const next =
+          draft.trim() && Number.isFinite(n)
+            ? Math.max(min, Math.min(max, n))
+            : value;
+        setDraft(String(Math.round(next)));
+        onChange(next);
+      }}
+      onKeyDown={(event) => {
+        if (event.key === "Enter") event.currentTarget.blur();
       }}
     />
   );
@@ -245,7 +150,31 @@ export default function BagStudio() {
   const [error, setError] = useState("");
   const [full, setFull] = useState(false);
   const [downloaded, setDownloaded] = useState(false);
+  const [exporting, setExporting] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [previewReady, setPreviewReady] = useState(false);
+  const [guides, setGuides] = useState(true);
+  const art = sideArtwork(design);
+  const { state } = useDemo();
+  const minimum = state?.settings.moq || 5000;
+  const setArtworkPosition = (axis: "x" | "y", value: number) => {
+    if (!Number.isFinite(value)) return;
+    const clamped = Math.max(
+      axis === "x" ? 24 : 33,
+      Math.min(axis === "x" ? 76 : 80, value),
+    );
+    update(
+      art.back
+        ? axis === "x"
+          ? { backX: clamped }
+          : { backY: clamped }
+        : axis === "x"
+          ? { x: clamped }
+          : { y: clamped },
+    );
+  };
   const canvas = useRef<HTMLCanvasElement>(null);
+  const enlargeButton = useRef<HTMLButtonElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const back = design.side === "back";
   const upload = async (file?: File) => {
@@ -263,22 +192,34 @@ export default function BagStudio() {
       );
       return;
     }
+    setUploading(true);
+    const uploadToBack = back;
+    let bitmap: ImageBitmap | undefined;
     try {
-      const bitmap = await createImageBitmap(file);
+      bitmap = await createImageBitmap(file);
       if (bitmap.width > 8000 || bitmap.height > 8000) throw Error();
-      const c = document.createElement("canvas");
-      const fit = Math.min(1, 320 / Math.max(bitmap.width, bitmap.height));
-      c.width = bitmap.width * fit;
-      c.height = bitmap.height * fit;
-      c.getContext("2d")!.drawImage(bitmap, 0, 0, c.width, c.height);
-      const image = c.toDataURL("image/webp", 0.85);
+      let image = "";
+      for (const edge of [1024, 768, 512, 320]) {
+        const c = document.createElement("canvas");
+        const fit = Math.min(1, edge / Math.max(bitmap.width, bitmap.height));
+        c.width = Math.max(1, Math.round(bitmap.width * fit));
+        c.height = Math.max(1, Math.round(bitmap.height * fit));
+        const ctx = c.getContext("2d")!;
+        ctx.imageSmoothingQuality = "high";
+        ctx.drawImage(bitmap, 0, 0, c.width, c.height);
+        image = c.toDataURL("image/webp", 0.94);
+        if (image.length <= 100000) break;
+      }
       if (image.length > 100000) throw Error();
       update(
-        back
-          ? { backLogo: image, backText: "", logoName: file.name }
-          : { logo: image, text: "", logoName: file.name },
+        uploadToBack
+          ? {
+              backLogo: image,
+              backText: "",
+              backLogoName: file.name.slice(0, 150),
+            }
+          : { logo: image, text: "", logoName: file.name.slice(0, 150) },
       );
-      bitmap.close();
       setTab("artwork");
     } catch {
       setError(
@@ -287,36 +228,69 @@ export default function BagStudio() {
           "Imazhi nuk u lexua. Provoni një PNG ose JPG më të vogël.",
         ),
       );
+    } finally {
+      bitmap?.close();
+      setUploading(false);
     }
   };
-  const download = () => {
-    if (!canvas.current) return;
-    const a = document.createElement("a");
-    const output = document.createElement("canvas");
-    output.width = 800;
-    output.height = 880;
-    const ctx = output.getContext("2d")!;
-    ctx.fillStyle = "#f6f7f3";
-    ctx.fillRect(0, 0, 800, 880);
-    ctx.drawImage(canvas.current, 0, 0);
-    ctx.fillStyle = "#193b67";
-    ctx.font = "16px Arial";
-    ctx.textAlign = "center";
-    ctx.fillText("KOBAGS BAG STUDIO · ILLUSTRATIVE CONCEPT", 400, 826);
-    ctx.font = "13px Arial";
-    ctx.fillText(
-      "Final shape, color and print placement require production approval.",
-      400,
-      851,
-    );
-    a.href = output.toDataURL("image/png");
-    a.download = `kobags-${p.slug}-${design.side}-concept.png`;
-    a.click();
-    setDownloaded(true);
-    setTimeout(() => setDownloaded(false), 2500);
+  const download = async () => {
+    if (exporting || !previewReady) return;
+    setExporting(true);
+    setError("");
+    try {
+      const clean = document.createElement("canvas");
+      await renderBagDesign(clean, design, { resolution: 1600 });
+      const output = document.createElement("canvas");
+      output.width = 1600;
+      output.height = 1820;
+      const ctx = output.getContext("2d")!;
+      ctx.fillStyle = "#f6f8f9";
+      ctx.fillRect(0, 0, 1600, 1820);
+      ctx.drawImage(clean, 0, 0);
+      ctx.fillStyle = "#fff";
+      ctx.fillRect(0, 1580, 1600, 240);
+      ctx.strokeStyle = "#dbe3e8";
+      ctx.beginPath();
+      ctx.moveTo(65, 1580);
+      ctx.lineTo(1535, 1580);
+      ctx.stroke();
+      ctx.fillStyle = "#193b67";
+      ctx.font = "600 30px Arial";
+      ctx.fillText("KOBAGS / YOUR DESIGN CONCEPT", 65, 1635);
+      ctx.font = "24px Arial";
+      ctx.fillText(
+        `${p.name} · ${design.size} · ${design.color} · ${back ? "Back" : "Front"}`,
+        65,
+        1685,
+      );
+      ctx.fillStyle = "#62717b";
+      ctx.font = "22px Arial";
+      ctx.fillText(`${v.dimensions} · ${v.gsm} GSM · Non-woven PP`, 65, 1725);
+      ctx.font = "20px Arial";
+      ctx.fillText(
+        "Illustrative preview. Final shape, color and print placement require production approval.",
+        65,
+        1780,
+      );
+      const a = document.createElement("a");
+      a.href = output.toDataURL("image/png");
+      a.download = `kobags-${p.slug}-${design.side}-concept.png`;
+      a.click();
+      setDownloaded(true);
+      setTimeout(() => setDownloaded(false), 2500);
+    } catch {
+      setError(
+        t(
+          "The preview could not be exported. Please try again.",
+          "Parapamja nuk u eksportua. Provoni përsëri.",
+        ),
+      );
+    } finally {
+      setExporting(false);
+    }
   };
   return (
-    <section className="studio-section">
+    <section className="studio-section studio-v4">
       <div className="studio-heading">
         <div>
           <p className="eyebrow">
@@ -329,15 +303,14 @@ export default function BagStudio() {
           </h1>
           <p>
             {t(
-              "Pick a shape. Make it yours. See your next bag come to life.",
-              "Zgjidhni formën. Personalizojeni. Shihni çantën tuaj të ardhshme.",
+              "Choose your bag, add your artwork and make every detail yours.",
+              "Zgjidhni çantën, shtoni dizajnin dhe personalizoni çdo detaj.",
             )}
           </p>
         </div>
         <div className="studio-heading-note">
           <span className="pill">
-            <span className="status-dot" />
-            {t("LIVE DESIGN PREVIEW", "PARAPAMJE E DIZAJNIT")}
+            {t("YOUR PERSONAL DESIGN STUDIO", "STUDIOJA JUAJ E DIZAJNIT")}
           </span>
           <span>
             {t("Made in Lipjan, Kosovo", "Prodhuar në Lipjan, Kosovë")}
@@ -355,8 +328,9 @@ export default function BagStudio() {
                   update({ product: b.slug, size: b.variants[0].name })
                 }
                 aria-pressed={b.slug === p.slug}
+                aria-label={b.name.replace(" Bag", "")}
               >
-                <img src={b.image} alt="" width="72" height="72" />
+                <BagPreview design={pickerDesigns[b.slug]} compact />
                 <span>{b.name.replace(" Bag", "")}</span>
                 {b.slug === p.slug && <Check size={12} />}
               </button>
@@ -369,13 +343,26 @@ export default function BagStudio() {
               </span>
               <button
                 className="icon-button"
+                ref={enlargeButton}
                 onClick={() => setFull(true)}
                 aria-label={t("Enlarge preview", "Zmadho pamjen")}
               >
                 <Maximize2 size={18} />
               </button>
             </div>
-            <BagPreview design={design} onChange={update} canvasRef={canvas} />
+            <BagPreview
+              design={design}
+              onChange={update}
+              canvasRef={canvas}
+              guides={guides && tab === "artwork"}
+              onReady={setPreviewReady}
+            />
+            <div className="stage-artwork-side">
+              {t(
+                back ? "BACK ARTWORK" : "FRONT ARTWORK",
+                back ? "DIZAJNI PRAPA" : "DIZAJNI PËRPARA",
+              )}
+            </div>
             <div className="stage-label">
               <span>NON-WOVEN PP</span>
               <span>
@@ -402,18 +389,26 @@ export default function BagStudio() {
                 )}
               </span>
               <button
-                className="icon-button"
+                className="studio-download"
                 onClick={download}
+                disabled={!previewReady || exporting}
                 aria-label={t("Download design preview", "Shkarko parapamjen")}
               >
-                {downloaded ? <Check size={18} /> : <Download size={18} />}
+                {downloaded ? <Check size={17} /> : <Download size={17} />}
+                <span>
+                  {exporting
+                    ? t("Preparing…", "Duke përgatitur…")
+                    : downloaded
+                      ? t("Downloaded", "U shkarkua")
+                      : t("Download", "Shkarko")}
+                </span>
               </button>
             </div>
           </div>
           <div className="preview-disclaimer">
             <Info size={14} />
             {t(
-              "Illustrative bag rendering. Color, shape, scale and print placement need production approval.",
+              "Visual concept only. Your final material, color and print placement are confirmed before production.",
               "Paraqitje ilustruese. Ngjyra, forma, shkalla dhe shtypi kërkojnë miratim.",
             )}
           </div>
@@ -423,9 +418,7 @@ export default function BagStudio() {
             <span className="eyebrow">
               {t("LET’S MAKE IT YOURS", "TA PERSONALIZOJMË")}
             </span>
-            <h2>
-              {t("A bag with your name on it.", "Një çantë me emrin tuaj.")}
-            </h2>
+            <h2>{t("Make it your own.", "Personalizojeni sipas jush.")}</h2>
           </div>
           <Tabs value={tab} onValueChange={setTab}>
             <TabsList className="editor-tabs">
@@ -521,7 +514,11 @@ export default function BagStudio() {
                   <Upload size={21} />
                 </span>
                 <strong>
-                  {design.logoName || t("Add your logo", "Shtoni logon tuaj")}
+                  {uploading
+                    ? t("Preparing your logo…", "Duke përgatitur logon…")
+                    : art.logo
+                      ? art.name || t("Your uploaded logo", "Logoja e ngarkuar")
+                      : t("Add your logo", "Shtoni logon tuaj")}
                 </strong>
                 <span>
                   {t(
@@ -541,118 +538,281 @@ export default function BagStudio() {
                 <ArrowRight size={15} />
               </button>
             </TabsContent>
-            <TabsContent value="artwork" className="editor-body">
-              <button
-                className="upload-zone short"
-                onClick={() => fileRef.current?.click()}
-                onDragOver={(e) => e.preventDefault()}
-                onDrop={(e) => {
-                  e.preventDefault();
-                  upload(e.dataTransfer.files[0]);
-                }}
-              >
-                <Upload size={20} />
-                <strong>
-                  {t("Upload or drop your logo", "Ngarkoni ose hidhni logon")}
-                </strong>
-                <span>PNG, JPG, WebP · 5 MB</span>
-              </button>
+            <TabsContent value="artwork" className="editor-body artwork-editor">
+              <div className="editing-side">
+                <span>
+                  <SlidersHorizontal size={16} />
+                  {t(
+                    back ? "Editing the back" : "Editing the front",
+                    back
+                      ? "Duke ndryshuar pjesën prapa"
+                      : "Duke ndryshuar pjesën përpara",
+                  )}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setGuides(!guides)}
+                  className="guide-toggle"
+                  aria-label={t(
+                    "Toggle artwork guides",
+                    "Aktivizo udhëzuesit e dizajnit",
+                  )}
+                  aria-pressed={guides}
+                >
+                  {guides ? <Eye size={17} /> : <EyeOff size={17} />}
+                </button>
+              </div>
+              {art.logo ? (
+                <div className="artwork-file">
+                  <div className="artwork-file-thumb">
+                    <img
+                      src={art.logo}
+                      alt={t("Your uploaded artwork", "Dizajni i ngarkuar")}
+                    />
+                  </div>
+                  <div>
+                    <strong>
+                      {art.name || t("Uploaded logo", "Logo e ngarkuar")}
+                    </strong>
+                    <span>
+                      <CheckCircle2 size={13} />
+                      {t("Ready to place", "Gati për pozicionim")}
+                    </span>
+                    <button
+                      className="text-button"
+                      onClick={() => fileRef.current?.click()}
+                      disabled={uploading}
+                    >
+                      {t("Replace logo", "Zëvendëso logon")}
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <button
+                  className="upload-zone short artwork-upload"
+                  onClick={() => fileRef.current?.click()}
+                  disabled={uploading}
+                  onDragOver={(e) => e.preventDefault()}
+                  onDrop={(e) => {
+                    e.preventDefault();
+                    upload(e.dataTransfer.files[0]);
+                  }}
+                >
+                  <ImagePlus size={25} />
+                  <strong>
+                    {uploading
+                      ? t("Preparing your logo…", "Duke përgatitur logon…")
+                      : t(
+                          "Upload or drop your logo",
+                          "Ngarkoni ose hidhni logon",
+                        )}
+                  </strong>
+                  <span>PNG, JPG, WebP · 5 MB</span>
+                </button>
+              )}
+              <div className="artwork-divider">
+                <span>{t("OR ADD TEXT", "OSE SHTONI TEKST")}</span>
+              </div>
               <div className="field">
                 <label htmlFor="brand-text">
                   {t("Or type your brand name", "Ose shkruani emrin e markës")}
                 </label>
                 <textarea
                   id="brand-text"
-                  rows={2}
+                  rows={3}
                   maxLength={60}
-                  value={back ? design.backText : design.text}
-                  onChange={(e) =>
+                  value={art.text}
+                  placeholder={t("Your brand name", "Emri i markës suaj")}
+                  onChange={(e) => {
+                    setError("");
                     update(
                       back
-                        ? { backText: e.target.value, backLogo: "" }
-                        : { text: e.target.value, logo: "" },
-                    )
-                  }
+                        ? {
+                            backText: e.target.value,
+                            backLogo: "",
+                            backLogoName: "",
+                          }
+                        : { text: e.target.value, logo: "", logoName: "" },
+                    );
+                  }}
                 />
+                <div className="text-field-help">
+                  <span>
+                    {t(
+                      "Short and clear works best.",
+                      "Teksti i shkurtër është më i qartë.",
+                    )}
+                  </span>
+                  <span>{art.text.length}/60</span>
+                </div>
               </div>
-              <div className="field-title">
-                <label htmlFor="ink">
-                  {t("Print color", "Ngjyra e shtypit")}
-                </label>
-                <input
-                  type="color"
-                  id="ink"
-                  value={design.ink}
-                  onChange={(e) => update({ ink: e.target.value })}
-                />
-              </div>
-              <div className="range-field">
-                <div className="field-title">
-                  <label id="scale-label">
-                    {t("Artwork size", "Madhësia e dizajnit")}
+              {!art.logo && (
+                <>
+                  <Choice
+                    id="artwork-font"
+                    label={t("Typeface", "Shkronjat")}
+                    value={art.font}
+                    onChange={(value) =>
+                      update(
+                        back
+                          ? { backTextFont: value as Design["backTextFont"] }
+                          : { textFont: value as Design["textFont"] },
+                      )
+                    }
+                    options={artworkFonts.map((f) => ({
+                      value: f.value,
+                      label: f.label,
+                    }))}
+                  />
+                  <div className="text-format-row">
+                    <div
+                      className="text-align-buttons"
+                      role="group"
+                      aria-label={t("Text alignment", "Rreshtimi i tekstit")}
+                    >
+                      {(
+                        [
+                          ["left", AlignLeft],
+                          ["center", AlignCenter],
+                          ["right", AlignRight],
+                        ] as const
+                      ).map(([align, Icon]) => (
+                        <button
+                          key={align}
+                          aria-label={"Align text " + align}
+                          aria-pressed={art.align === align}
+                          onClick={() =>
+                            update(
+                              back
+                                ? { backTextAlign: align }
+                                : { textAlign: align },
+                            )
+                          }
+                        >
+                          <Icon size={18} />
+                        </button>
+                      ))}
+                    </div>
+                    <label className="ink-control" htmlFor="ink">
+                      <span>{t("Text color", "Ngjyra e tekstit")}</span>
+                      <input
+                        type="color"
+                        id="ink"
+                        value={art.ink}
+                        onChange={(e) =>
+                          update(
+                            back
+                              ? { backInk: e.target.value }
+                              : { ink: e.target.value },
+                          )
+                        }
+                      />
+                    </label>
+                  </div>
+                </>
+              )}
+              <div className="artwork-transform">
+                <div className="transform-heading">
+                  <h3>{t("Size & placement", "Madhësia dhe pozicioni")}</h3>
+                  <button
+                    className="text-button"
+                    onClick={() =>
+                      update(
+                        back
+                          ? { backX: 50, backY: 56, backRotation: 0 }
+                          : { x: 50, y: 56, rotation: 0 },
+                      )
+                    }
+                  >
+                    <RotateCcw size={14} />
+                    {t("Center artwork", "Qendro dizajnin")}
+                  </button>
+                </div>
+                <div className="range-field">
+                  <div className="field-title">
+                    <label id="scale-label">
+                      {t("Artwork size", "Madhësia e dizajnit")}
+                    </label>
+                    <span>{art.scale}%</span>
+                  </div>
+                  <Slider
+                    aria-labelledby="scale-label"
+                    min={10}
+                    max={55}
+                    step={1}
+                    value={[art.scale]}
+                    onValueChange={([scale]) =>
+                      update(back ? { backScale: scale } : { scale })
+                    }
+                  />
+                </div>
+                <div className="precision-grid">
+                  <label>
+                    {t("Horizontal", "Horizontalisht")}
+                    <span>
+                      <PrecisionInput
+                        min={24}
+                        max={76}
+                        value={art.x}
+                        label="Horizontal position"
+                        onChange={(n) => setArtworkPosition("x", n)}
+                      />
+                      <small>%</small>
+                    </span>
                   </label>
-                  <span>{back ? design.backScale : design.scale}%</span>
+                  <label>
+                    {t("Vertical", "Vertikalisht")}
+                    <span>
+                      <PrecisionInput
+                        min={33}
+                        max={80}
+                        value={art.y}
+                        label="Vertical position"
+                        onChange={(n) => setArtworkPosition("y", n)}
+                      />
+                      <small>%</small>
+                    </span>
+                  </label>
+                  <label>
+                    {t("Rotation", "Rrotullimi")}
+                    <span>
+                      <PrecisionInput
+                        min={-45}
+                        max={45}
+                        value={art.rotation}
+                        label="Artwork rotation"
+                        onChange={(rotation) =>
+                          update(
+                            back ? { backRotation: rotation } : { rotation },
+                          )
+                        }
+                      />
+                      <small>°</small>
+                    </span>
+                  </label>
                 </div>
-                <Slider
-                  aria-labelledby="scale-label"
-                  min={10}
-                  max={55}
-                  step={1}
-                  value={[back ? design.backScale : design.scale]}
-                  onValueChange={([s]) =>
-                    update(back ? { backScale: s } : { scale: s })
-                  }
-                />
-              </div>
-              <div className="range-field">
-                <div className="field-title">
-                  <label id="rotate-label">{t("Rotation", "Rrotullimi")}</label>
-                  <span>{back ? design.backRotation : design.rotation}°</span>
-                </div>
-                <Slider
-                  aria-labelledby="rotate-label"
-                  min={-45}
-                  max={45}
-                  step={1}
-                  value={[back ? design.backRotation : design.rotation]}
-                  onValueChange={([r]) =>
-                    update(back ? { backRotation: r } : { rotation: r })
-                  }
-                />
               </div>
               <div className="artwork-actions">
+                <p>
+                  {t(
+                    "Drag your artwork or use the arrow keys.",
+                    "Lëvizni dizajnin ose përdorni shigjetat.",
+                  )}
+                </p>
                 <button
-                  className="text-button"
+                  className="text-button remove-artwork"
                   onClick={() =>
                     update(
                       back
-                        ? { backX: 50, backY: 56, backRotation: 0 }
-                        : { x: 50, y: 56, rotation: 0 },
-                    )
-                  }
-                >
-                  <RotateCcw size={14} />
-                  {t("Center artwork", "Qendro dizajnin")}
-                </button>
-                <button
-                  className="text-button"
-                  onClick={() =>
-                    update(
-                      back
-                        ? { backLogo: "", backText: "" }
+                        ? { backLogo: "", backText: "", backLogoName: "" }
                         : { logo: "", text: "", logoName: "" },
                     )
                   }
                 >
+                  <Trash2 size={15} />
                   {t("Remove", "Hiq")}
                 </button>
               </div>
-              <p className="micro">
-                {t(
-                  "Drag the design on the bag, or focus the preview and use the arrow keys.",
-                  "Lëvizni dizajnin mbi çantë, ose përdorni tastet me shigjeta.",
-                )}
-              </p>
             </TabsContent>
           </Tabs>
           <input
@@ -661,7 +821,10 @@ export default function BagStudio() {
             className="sr-only"
             accept="image/png,image/jpeg,image/webp"
             aria-label="Upload logo"
-            onChange={(e) => upload(e.target.files?.[0])}
+            onChange={(e) => {
+              upload(e.target.files?.[0]);
+              e.target.value = "";
+            }}
           />
           {error && (
             <p className="error" role="alert">
@@ -671,7 +834,11 @@ export default function BagStudio() {
           <div className="studio-quote">
             <div>
               <span>{t("Wholesale orders", "Porosi me shumicë")}</span>
-              <strong>{t("From 5,000 bags", "Nga 5.000 çanta")}</strong>
+              <strong>
+                {t("From ", "Nga ") +
+                  minimum.toLocaleString() +
+                  t(" bags", " çanta")}
+              </strong>
             </div>
             <Link href="/quote" className="button">
               {t("Get a quote for this bag", "Kërkoni ofertë për këtë çantë")}{" "}
@@ -710,7 +877,13 @@ export default function BagStudio() {
         </Link>
       </div>
       <Dialog open={full} onOpenChange={setFull}>
-        <DialogContent className="preview-dialog">
+        <DialogContent
+          className="preview-dialog"
+          onCloseAutoFocus={(event) => {
+            event.preventDefault();
+            enlargeButton.current?.focus();
+          }}
+        >
           <DialogTitle>
             {p.name} · {design.color}
           </DialogTitle>
@@ -721,7 +894,11 @@ export default function BagStudio() {
             )}
           </DialogDescription>
           <BagPreview design={design} />
-          <button className="button" onClick={download}>
+          <button
+            className="button"
+            onClick={download}
+            disabled={exporting || !previewReady}
+          >
             <Download size={16} /> {t("Download preview", "Shkarko parapamjen")}
           </button>
         </DialogContent>

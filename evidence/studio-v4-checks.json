@@ -1,0 +1,34 @@
+{
+  "status": "passed",
+  "widths": [
+    1440,
+    1024,
+    800,
+    390,
+    320
+  ],
+  "mockups": [
+    "D-Cut",
+    "Handle",
+    "Box",
+    "T-Shirt",
+    "String"
+  ],
+  "uploadPreviewWidth": 1024,
+  "download": [
+    1600,
+    1820
+  ],
+  "checks": [
+    "five distinct high-resolution model previews",
+    "front/back typeface, color, alignment and filename independence",
+    "partial numeric input and negative rotation",
+    "offset-preserving pointer drag",
+    "1024px upload when payload budget allows",
+    "clean identical exports with guides on or off",
+    "fullscreen preview and rapid draft changes",
+    "responsive layout and quote navigation",
+    "server persistence of optional v4 artwork fields; invalid font rejected"
+  ],
+  "browserErrors": []
+}

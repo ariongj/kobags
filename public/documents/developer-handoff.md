@@ -21,7 +21,7 @@ To change the schema, edit `db/schema.ts`, run `npm run db:generate`, inspect th
 
 The downloadable ZIP deliberately contains `.openai/hosting.json` with logical `DB` only and **no existing project ID**. Start in a new folder and repository. Replace brand content/assets and register a new Site only when you intend to publish the new project. The original working checkout remains linked to the existing Kobags private Site; it should continue updating that Site, not create duplicates.
 
-Existing demo records, credentials, provider configuration, Git history, installed dependencies and compiled output are excluded from the ZIP. The source bundle contains a small `SOURCE-MANIFEST.json` describing these omissions. Proprietary brand assets are not licensed for unrelated projects.
+Existing demo records, credentials, provider configuration, Git history, installed dependencies and compiled output are excluded from the ZIP. The two large generated QA concept-download PNGs are also omitted to keep the source download compact; the included checks regenerate them. UI screenshots and result manifests are included. The source bundle contains a small `SOURCE-MANIFEST.json` describing these omissions. Proprietary brand assets are not licensed for unrelated projects.
 
 ## Stack and source map
 
@@ -113,7 +113,13 @@ Updates compare the stored revision and retry at most three times. A second edit
 
 ### Artwork
 
-The browser accepts PNG/JPG/WebP up to 5MB, normalizes uploads to small raster previews and saves those previews. Original files are not retained. The canvas uses `studio-bag-atlas.png`, separate transform parameters for each side, approximate tinting and logo/text overlays. Keyboard arrows can move artwork. The downloadable PNG is a concept proof.
+The browser accepts PNG/JPG/WebP up to 5MB and 8000px per dimension. It tries WebP preview edges of 1024, 768, 512 and 320 at quality 0.94, retaining the largest candidate at or below 100,000 data-URL characters. Original files are not retained. Each side keeps its own logo/name, text, font, alignment, color, position, scale and rotation.
+
+`components/bag-preview.tsx` waits for all required images before composing an offscreen buffer. Only the latest render writes to the visible canvas, preventing overlapping asynchronous draws. Image and tinted-layer caches are bounded. The main canvas renders at 1600px square; selector tiles use 320px. The five neutral WebP images and alpha silhouette bounds are mapped in `lib/studio-artwork.ts`. Runtime tinting keeps luminance and alpha detail. Text fits proportionally, and logos retain their aspect ratio. The artwork overlay is clipped to the illustrative bag silhouette, not an approved print zone.
+
+Pointer movement retains the initial grab offset; arrow keys move by 1% (Shift: 5%). Editable numeric fields accept incomplete input and clamp on blur. Selection guides remain editor-only. Exports render a separate clean canvas and add a specification footer, yielding a 1600 × 1820 PNG.
+
+`previewVersion: "v4"`, typeface/alignment fields, `backLogoName` and `backInk` are optional validated JSON fields. New browser drafts use v4; saved snapshots lacking that version use the original atlas geometry. No D1 schema migration is required. Existing saved snapshots remain unchanged. Preserve the old atlas until historic snapshots no longer need it. See `docs/studio-asset-note.md` and the exact prompt manifest for provenance.
 
 Use approved per-variant print templates, original-file storage, file validation/scanning and controlled downloads before taking production artwork. Do not derive millimetre-accurate placement from the current percentage-based illustration.
 
@@ -133,16 +139,17 @@ python3 -m venv .venv
 .venv/bin/python -m playwright install chromium
 .venv/bin/python qa/browser_journey.py
 .venv/bin/python qa/site_checks.py
+.venv/bin/python qa/studio_checks.py
 ```
 
 For browser checks, run `npm run start -- --port 8787` after the build and local migration. This serves the compiled Worker at `http://localhost:8787`. The development server intentionally strips custom identity headers and uses a shared local demo; do not use it for isolated multi-owner QA. The tests reject non-loopback URLs and require an empty synthetic owner before any writes. `KOBAGS_BASE_URL` changes the compiled local preview port. `CHROME_PATH` can point to an existing Chromium binary. `CHROME_LIBS` and `FONTCONFIG_FILE` are optional environment-specific overrides. Use `CHROME_NO_SANDBOX=1` only when your local container requires it. Tests create random isolated demo owners; do not run against customer records.
 
-`qa/browser_journey.py` exercises the full buyer/sales/approval/reorder journey. `qa/site_checks.py` verifies forms, comparison, all pages/downloads, original redirects, owner isolation, concurrent edits, additional release gates and mobile layouts. Result manifests and screenshots are in `evidence/`. Read `evidence/VERIFICATION.md` for the actual completed checks and remaining limits.
+`qa/browser_journey.py` exercises the full buyer/sales/approval/reorder journey. `qa/site_checks.py` verifies forms, comparison, all pages/downloads, original redirects, owner isolation, concurrent edits, additional release gates and mobile layouts. `qa/studio_checks.py` verifies all five new models, separate artwork styles, numeric entry, pointer movement, upload sharpness, clean exports, mobile layouts and server persistence of the new fields. Result manifests and screenshots are in `evidence/`. Read `evidence/VERIFICATION.md` for the actual completed checks and remaining limits.
 
 ## How to extend
 
 1. **Another visual direction:** retain flow/data contracts, change tokens and page components; replace identity assets. Use `docs/DESIGN-HANDOFF.md` as the design brief.
-2. **Another product family:** update `catalog.ts`, product validation, preview/template assets, direct detail page behavior and QA. The current canvas atlas is five-family-specific.
+2. **Another product family:** update `catalog.ts`, product validation, preview/template assets, direct detail page behavior and QA. The current mockup map and legacy atlas are five-family-specific.
 3. **Production backend:** replace the aggregate with explicit organization, user, RFQ, quote, artwork, approval and order entities. Keep snapshots and version checks. Add authenticated roles before real data.
 4. **Real artwork:** add private object storage and original file handling, enforce allowed formats/limits, scan files, generate approved-template previews and use authorized signed downloads.
 5. **Messages and integrations:** replace outbox previews with queued/idempotent provider delivery and a delivery log. Connect only after client authorization and sandbox testing.

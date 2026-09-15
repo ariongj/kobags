@@ -40,7 +40,11 @@ The intended balance is manufacturer first, products and customization next. Do 
 
 ### Design landing page — `/design`
 
-Lead with “Your brand. Your bag.” The main work area pairs bag selection and a large interactive preview with material/artwork controls. Keep the quote action next to the current specification. Put context below the working surface. Front and back artwork remain separate while switching views.
+Lead with “Your brand. Your bag.” Use two restrained white cards on desktop: a sticky preview workspace and a controls panel. The five larger shape tiles use the same blank models as the main canvas. A cool pale stage, subtle shadow and visible front/back and download controls keep attention on the bag. At 800px and below, the cards stack.
+
+The bag tab contains size, color, material and logo entry. The artwork tab contains an upload thumbnail/name, a three-line text field, three typefaces, alignment, independent text color, size, position and rotation. Front and back preserve separate settings and upload names. Dashed artwork guides help placement and can be hidden; they never appear in exports. Dragging retains the point grabbed, keyboard arrows move by 1% (Shift: 5%), and Center artwork resets position/rotation. Keep the quote action beside the current specification.
+
+Scoped `.studio-v4` styling uses 16px card corners, 14px control labels, 46px fields, a 410px desktop controls column (365px at narrower desktop), larger shape tiles, and a 48px desktop title. Match those rules when extending this workspace.
 
 ### Catalog and detail
 
@@ -73,11 +77,12 @@ Existing breakpoints are in `app/globals.css`. Extend the relevant component's r
 | `factory.webp`, `factory-printing.webp` | Original public manufacturing evidence |
 | `printing-process.mp4` | Original printing video; controls, no autoplay, preload none |
 | `certificate-iso*.webp` | Original certificate scans; scope/issuer/validity need verification |
-| `studio-bag-atlas.png` | AI-generated blank-bag illustration, tinted and composited at runtime; never label as an actual manufactured sample |
+| `studio-v4/*.webp` | Five individual transparent AI-generated blank-bag mockups, tinted at runtime; current designer |
+| `studio-bag-atlas.png` | Earlier mockup geometry retained for historic artwork snapshots |
 | `docs/asset-sources.json` | Asset source manifest |
 | `docs/source-catalog.json` | Original catalog snapshot with 15 variants |
 
-The atlas is a 2D concept preview. Both sides reuse the same indicative shape; the bag does not change physical proportions for each size. It is not a dieline, a 3D model, a color sample or a guarantee of printable area. Production work should substitute approved per-variant templates or approved 3D assets. Preview downloads carry a concept label.
+The designer is a 2D concept preview. Both sides reuse the same indicative shape; the bag does not change physical proportions for each size. It is not a dieline, a 3D model, a color sample or a guarantee of printable area. Production work should substitute approved per-variant templates or approved 3D assets. Preview downloads carry a concept label.
 
 Kobags assets remain subject to their owner's rights. The archive is a handoff for this project; it does not grant trademark, photo or video rights for unrelated brands. Replace brand assets when using the architecture for another business.
 
@@ -87,7 +92,9 @@ Kobags assets remain subject to their owner's rights. The archive is a handoff f
 | --- | --- |
 | Shell/navigation/footer | `components/site-shell.tsx` |
 | Brand homepage | `components/home-page.tsx` |
-| Bag canvas, controls and export | `components/bag-studio.tsx` |
+| Studio controls and concept export | `components/bag-studio.tsx` |
+| Canvas composition and pointer/keyboard behavior | `components/bag-preview.tsx` |
+| Mockup mapping, silhouette bounds, artwork fonts | `lib/studio-artwork.ts` |
 | Locale and browser draft | `components/kobags-context.tsx` |
 | Catalog and detail | `components/product-catalog.tsx` |
 | Quote steps | `components/quote-flow.tsx` |

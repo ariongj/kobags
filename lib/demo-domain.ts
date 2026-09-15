@@ -176,6 +176,7 @@ const image = z
     "INVALID_IMAGE",
   );
 export const designSchema = z.object({
+  previewVersion: z.literal("v4").optional(),
   product: z.enum([
     "d-cut-bag",
     "handle-bag",
@@ -195,6 +196,15 @@ export const designSchema = z.object({
   y: z.number().min(33).max(80),
   scale: z.number().min(10).max(55),
   rotation: z.number().min(-45).max(45),
+  textFont: z.enum(["sans", "serif", "mono"]).optional(),
+  textAlign: z.enum(["left", "center", "right"]).optional(),
+  backLogoName: z.string().max(150).optional(),
+  backTextFont: z.enum(["sans", "serif", "mono"]).optional(),
+  backTextAlign: z.enum(["left", "center", "right"]).optional(),
+  backInk: z
+    .string()
+    .regex(/^#[0-9a-fA-F]{6}$/)
+    .optional(),
   backLogo: image,
   backText: z.string().max(60),
   backX: z.number().min(24).max(76),
