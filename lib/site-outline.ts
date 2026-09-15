@@ -38,7 +38,7 @@ export const siteSections = [
   },
   {
     title: "04 / Review the whole journey",
-    description: "One private workspace with customer and sales personas.",
+    description: "A separate visitor demo with customer and sales views, through simulated ordering.",
     pages: [
       ["/demo/customer", "Customer workspace"],
       ["/demo/admin", "Sales & content workspace"],

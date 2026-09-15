@@ -422,7 +422,30 @@ export function applyAction(
     const q = r.quotes.at(-1);
     const art = r.artworks.at(-1);
     id = r.id;
-    if (a.type === "assign") {
+    if (a.type === "prepare-demo") {
+      if (r.order || (q && art)) return { state: original, id: r.id };
+      let prepared = original;
+      if (!q)
+        prepared = applyAction(prepared, {
+          type: "issue-quote",
+          id: r.id,
+          unitCents: 45,
+          setupCents: 12000,
+          validUntil: new Date(Date.now() + 14 * 86400000)
+            .toISOString()
+            .slice(0, 10),
+          terms:
+            "Fictional demonstration prices only. Shipping and tax excluded. This is not a Kobags offer. No payment is collected and no real order is sent.",
+          payment: "not-required",
+        }).state;
+      if (!art)
+        prepared = applyAction(prepared, {
+          type: "issue-artwork",
+          id: r.id,
+          caption: "",
+        }).state;
+      return { state: prepared, id: r.id };
+    } else if (a.type === "assign") {
       r.owner = str(a.owner, 100);
       r.events.push(event("Assigned to " + r.owner));
     } else if (a.type === "note") {

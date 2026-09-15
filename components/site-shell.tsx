@@ -70,7 +70,7 @@ export function Header() {
           </Link>
           <button
             className="mobile-toggle icon-button"
-            aria-label="Toggle menu"
+            aria-label={t("Toggle menu", "Hap ose mbyll menynë")}
             aria-expanded={open}
             onClick={() => setOpen(!open)}
           >
@@ -148,7 +148,7 @@ export function Footer() {
         </div>
       </div>
       <div className="footer-bottom">
-        <span>© 2026 Kobags Group · Private concept demo</span>
+        <span>© 2026 Kobags Group · Interactive concept demo</span>
         <div>
           <Link href="/privacy">Privacy</Link>
           <Link href="/terms">Terms</Link>

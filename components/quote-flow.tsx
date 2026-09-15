@@ -53,8 +53,8 @@ export default function QuoteFlow() {
     if (step === 2) {
       if (!Number.isInteger(design.quantity) || design.quantity < minimum)
         return "quantity";
-      if (!design.country.trim() || design.city.trim().length < 2)
-        return "destination";
+      if (!design.country.trim()) return "country";
+      if (design.city.trim().length < 2) return "city";
       if (design.date && design.date < new Date().toISOString().slice(0, 10))
         return "date";
     }
@@ -74,10 +74,11 @@ export default function QuoteFlow() {
       `The published wholesale minimum is ${minimum.toLocaleString()} bags. For a smaller request, use the sample inquiry.`,
       `Minimumi me shumicë është ${minimum.toLocaleString()} çanta. Për sasi më të vogël kërkoni mostra.`,
     ],
-    destination: [
-      "Add your destination country and city.",
-      "Shtoni shtetin dhe qytetin e destinacionit.",
+    country: [
+      "Choose your destination country.",
+      "Zgjidhni shtetin e destinacionit.",
     ],
+    city: ["Add your delivery city.", "Shtoni qytetin e dërgesës."],
     date: [
       "Your requested date must be today or later.",
       "Data e kërkuar duhet të jetë sot ose më vonë.",
@@ -129,13 +130,13 @@ export default function QuoteFlow() {
         </p>
         <p>
           {t(
-            "The same request is ready in the sales workspace. An acknowledgment has been added to the preview outbox; no message was sent.",
-            "E njëjta kërkesë është në hapësirën e shitjeve. Konfirmimi u shtua në kutinë e mesazheve demo; asnjë mesazh nuk u dërgua.",
+            "Continue to prepare a fictional quote, approve your artwork and place a demo order. No sign-in, payment or real order is needed.",
+            "Vazhdoni me ofertën fiktive, miratoni dizajnin dhe vendosni porosinë demo. Pa hyrje në llogari, pagesë ose porosi reale.",
           )}
         </p>
         <div className="actions">
           <Link href={"/demo/customer?id=" + submitted} className="button">
-            {t("View my request", "Shiko kërkesën time")}{" "}
+            {t("Continue to demo order", "Vazhdo te porosia demo")}{" "}
             <ArrowRight size={17} />
           </Link>
           <Link
@@ -200,6 +201,29 @@ export default function QuoteFlow() {
         </p>
       </div>
       <div className="content-width">
+        <div className="demo-details-helper">
+          <span>
+            {t(
+              "Just exploring? Try the journey with example contact details.",
+              "Po e provoni? Përdorni të dhëna kontakti shembull.",
+            )}
+          </span>
+          <button
+            className="text-button"
+            onClick={() =>
+              update({
+                company: design.company || "Mira Market — demo",
+                contact: design.contact || "Demo Buyer",
+                email: design.email || "buyer@example.com",
+                country: design.country || "Kosovo",
+                city: design.city || "Prishtina",
+              })
+            }
+          >
+            {t("Use demo details", "Përdor të dhëna demo")}{" "}
+            <ArrowRight size={15} />
+          </button>
+        </div>
         <div className="quote-progress">
           {[
             [t("Bag & purpose", "Çanta dhe qëllimi")],

@@ -35,3 +35,7 @@
 - `/handoff` — clickable map, review sequence and downloadable handoff documents.
 
 The dedicated design studio is the new capability layered into the original business structure. The homepage remains the main brand landing page. Certification validity, environmental claims and customer-logo permissions require client evidence before production publication.
+
+## Guest demonstration
+
+Design → save request → prepare fictional quote and artwork → accept quote → approve artwork → place simulated order → optional reorder. No login required. Customer and sales views share only the current visitor’s demo records.

@@ -1,6 +1,6 @@
 # Kobags Group — design handoff
 
-Revision: 15 September 2026. Private concept, prepared from the supplied audit and the original Kobags website. Edition 05 reworks the full website around industrial precision and a brand studio: cinematic original factory imagery, a real interactive 3D showroom, stronger typography, a consistent product collection, editorial openings and a shared dark footer.
+Revision: 15 September 2026. Website demonstration, prepared from the supplied audit and the original Kobags website. Edition 05 reworks the full website around industrial precision and a brand studio: cinematic original factory imagery, a real interactive 3D showroom, stronger typography, a consistent product collection, editorial openings and a shared dark footer.
 
 ## 1. Creative direction
 
@@ -69,7 +69,7 @@ Supporting pages share an editorial header, restrained geometric background, gen
 
 ### Customer / sales workspaces
 
-These are functional private demo personas with the refreshed heading, tab, card and document treatment. Request detail uses consistent tabs for specification, quotation, artwork and timeline. Show version numbers and approval state close to the corresponding proof. Sales also has inquiry review, content drafts/publishing, unsent notifications and activity/export/reset.
+These are functional visitor-specific demo personas with the refreshed heading, tab, card and document treatment. Request detail uses consistent tabs for specification, quotation, artwork and timeline. Show version numbers and approval state close to the corresponding proof. Sales also has inquiry review, content drafts/publishing, unsent notifications and activity/export/reset.
 
 ## 4. Responsive behavior
 
@@ -95,6 +95,10 @@ The designer is a 2D concept preview. Both sides reuse the same indicative shape
 
 Kobags assets remain subject to their owner's rights. The archive is a handoff for this project; it does not grant trademark, photo or video rights for unrelated brands. Replace brand assets when using the architecture for another business.
 
+### Guided visitor journey
+
+Visitors need no sign-in to try the complete demo. The quote form can fill fictional contact details; consent remains explicit. After saving a request, the customer journey shows four steps: request saved → quotation → artwork → demo order. Each stage has one clear next action. The demo prepares a fictional quote and a proof using the saved design, then waits for separate buyer approvals. The final **Place demo order** action shows a simulated order reference and destination, with clear no-payment/no-real-order wording. Sales remains available for revisions and progress demonstrations. Different visitors have separate records; a guest returns through an essential seven-day cookie.
+
 ## 6. Component map
 
 | Area | Main implementation |
@@ -110,6 +114,7 @@ Kobags assets remain subject to their owner's rights. The archive is a handoff f
 | Locale and browser draft | `components/kobags-context.tsx` |
 | Catalog and detail | `components/product-catalog.tsx` |
 | Quote steps | `components/quote-flow.tsx` |
+| Guided demo steps | `components/demo-journey.tsx` |
 | Sales/customer views | `components/demo-workspace.tsx` |
 | Inquiry form | `components/inquiry-form.tsx` |
 | Editorial layouts | `app/[...slug]/page.tsx`, `app/blog/` |
@@ -122,7 +127,7 @@ Kobags assets remain subject to their owner's rights. The archive is a handoff f
 - Keep real product specifications separate from proposed copy.
 - Use 5,000 as the published starting MOQ, subject to confirmed scope. Sample inquiries are separate.
 - Express dispatch timing as conditional and separate it from delivery arrival.
-- Use clear language around fictional prices, no outgoing messages and private demo records.
+- Use clear language around fictional prices, no outgoing messages and isolated demo records.
 - EN/SQ covers the homepage and core studio/quote journey. Supporting editorial and most sales copy are English; human Albanian review and full locale coverage remain outstanding.
 - Avoid unsupported recycled-content, plastic-free, carbon-impact, food-contact or durability claims.
 

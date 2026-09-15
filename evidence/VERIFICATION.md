@@ -2,7 +2,33 @@
 
 Completed 15 September 2026. This record supersedes the earlier incomplete v1 check. Tests ran against the compiled local Worker at `http://localhost:8787` with synthetic data. No live Kobags forms, customer records or production systems were used.
 
-## Latest revision — full website redesign and 3D showroom
+## Latest revision — public guest journey through demo ordering
+
+The public demo now gives each anonymous browser a separate session and saved workspace. Visitors can use example contact details, submit their design, prepare a fictional quote/artwork pair, approve each and explicitly place a simulated order. The sales view remains available for revisions and production-stage demonstrations. No payment, outgoing message or real production order is created.
+
+`qa/guest_journey.py` passed with no authenticated-user header on the compiled local Worker, including a full mobile reorder:
+
+- Design, color and branding preserved through submission and artwork.
+- Example contact details, specific missing-city validation and filename-based download feedback.
+- Failed submission retains entered details; retry saves successfully.
+- Quote/artwork preparation and final order confirmation are idempotent.
+- Order creation remains blocked before the required approvals.
+- Refresh and switching between customer/sales views preserve the guest session and order.
+- A second guest and a separate account cannot read or edit the first guest's records.
+- Anonymous writes require the initialized session cookie.
+- Contact, sample and partner inquiries save in the visitor's workspace.
+- Mobile reorder receives fresh quote/artwork approvals and completes another simulated order.
+- Albanian mobile menu label and no horizontal overflow in the checked customer views.
+- Zero captured browser JavaScript errors.
+
+`guest-journey.json` records the completed anonymous request/order. `demo-order-desktop.jpg` and `demo-order-mobile.jpg` show the customer confirmation. Direct helper checks also verified HTTPS Secure/HttpOnly/SameSite cookie flags, continuity, replacement of malformed cookies and account identity precedence; this is not a claim of live cross-browser cookie testing.
+
+The existing signed-in buyer/sales/artwork-correction/reorder journey passed again (`qa-results.json`). The full route suite passed: **32 pages, 43 internal destinations/downloads and 11 legacy redirects** (`site-checks.json`), including ownership/concurrency and production gates. TypeScript and the final application build passed. The isolated 3D suite remains the prior revision's evidence; no scene behavior changed in this revision. Full repository lint and the extracted-source build were not rerun.
+
+The design/code handoff and source ZIP were refreshed and integrity-checked. Test records and session cookies are excluded. Guest continuity lasts up to seven days in the same browser; losing the cookie starts a new workspace and does not delete old rows. Customer/sales are demo personas sharing only that visitor's records. Production customer/staff authorization, storage retention and payments remain separate implementation work.
+
+## Previous revision — full website redesign and 3D showroom
+
 
 Edition 05 reworks the manufacturing-led homepage, catalog, detailed designer, supporting editorial pages, forms, customer/sales workspaces and shared navigation/footer. Original manufacturing imagery, product specifications and connected workflows remain in place.
 

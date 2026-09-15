@@ -149,7 +149,7 @@ export default function BagStudio() {
   const [tab, setTab] = useState("bag");
   const [error, setError] = useState("");
   const [full, setFull] = useState(false);
-  const [downloaded, setDownloaded] = useState(false);
+  const [downloaded, setDownloaded] = useState("");
   const [exporting, setExporting] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [previewReady, setPreviewReady] = useState(false);
@@ -276,8 +276,7 @@ export default function BagStudio() {
       a.href = output.toDataURL("image/png");
       a.download = `kobags-${p.slug}-${design.side}-concept.png`;
       a.click();
-      setDownloaded(true);
-      setTimeout(() => setDownloaded(false), 2500);
+      setDownloaded(a.download);
     } catch {
       setError(
         t(
@@ -405,6 +404,12 @@ export default function BagStudio() {
               </button>
             </div>
           </div>
+          {downloaded && (
+            <p className="saved-feedback" role="status">
+              {t("Preview download started:", "Shkarkimi i parapamjes filloi:")}{" "}
+              {downloaded}
+            </p>
+          )}
           <div className="preview-disclaimer">
             <Info size={14} />
             {t(
@@ -899,8 +904,17 @@ export default function BagStudio() {
             onClick={download}
             disabled={exporting || !previewReady}
           >
-            <Download size={16} /> {t("Download preview", "Shkarko parapamjen")}
+            {downloaded ? <Check size={16} /> : <Download size={16} />}{" "}
+            {exporting
+              ? t("Preparing…", "Duke përgatitur…")
+              : t("Download preview", "Shkarko parapamjen")}
           </button>
+          {downloaded && (
+            <p className="micro" role="status">
+              {t("Preview download started:", "Shkarkimi i parapamjes filloi:")}{" "}
+              {downloaded}
+            </p>
+          )}
         </DialogContent>
       </Dialog>
     </section>

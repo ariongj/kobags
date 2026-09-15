@@ -1,6 +1,6 @@
 # Kobags Group — code and setup handoff
 
-Revision: 15 September 2026. This is a complete private demo with a real persistent data flow. It is not connected to Kobags production systems.
+Revision: 15 September 2026. This is a public demonstration with a persistent, visitor-isolated data flow. It is not connected to Kobags production systems.
 
 ## Quick start
 
@@ -89,6 +89,7 @@ An RFQ snapshot retains bag, size, dimensions, GSM, description, normalized fron
 | --- | --- |
 | `submit` | Save an RFQ once using its design key |
 | `inquiry`, `inquiry-stage` | Save/review sample, partner and general inquiries |
+| `prepare-demo` | Idempotently create missing fictional quotation and artwork, without approving either |
 | `assign`, `note`, `stage` | Sales ownership, notes, pipeline stage |
 | `issue-quote`, `accept-quote`, `quote-change` | Versioned fictional offers and buyer response |
 | `issue-artwork`, `approve-artwork`, `artwork-change` | Versioned proofs and correction/approval |
@@ -101,15 +102,24 @@ An RFQ snapshot retains bag, size, dimensions, GSM, description, normalized fron
 
 Validation covers supported product/size pairs, print colors, quantity, required contact fields, consent, image format/signature, stage sequences and approval versions. Stable submission keys make retries idempotent. Prices are integer EUR cents. No production checkout endpoint exists.
 
-Important responses include 400 for domain/input rejection, 401 for missing hosted identity, 403 for a mismatched supplied Origin, 409 after concurrent-update retry exhaustion, 413 for an oversized request, 415 for non-JSON and 503 for unavailable storage on reads. UI displays translated core errors and preserves browser drafts on a failed submission.
+Important responses include 400 for domain/input rejection, 400 with `DEMO_SESSION_REQUIRED` when a guest POST has no session cookie, 403 for a mismatched supplied Origin, 409 after concurrent-update retry exhaustion, 413 for an oversized request, 415 for non-JSON and 503 for unavailable storage on reads. UI displays translated core errors and preserves browser drafts on a failed submission.
 
 ### Ownership and concurrency
 
-Hosted identity comes from `oai-authenticated-user-id`, supplied by private Sites hosting. Local loopback URLs have a `local-demo` fallback; QA uses random synthetic owner values against localhost only. This header must be trusted only behind an authenticating proxy that removes/replaces caller-supplied identity. Do not expose the Worker on an arbitrary public host and treat an unverified incoming header as authentication.
+`lib/demo-session.ts` preserves account workspaces when Sites forwards `oai-authenticated-user-id`. Anonymous visitors receive a server-generated 256-bit opaque session cookie. HTTPS uses `__Host-kobags-demo` with Secure, HttpOnly, SameSite=Lax and Path=/; local HTTP uses `kobags-demo`. The seven-day cookie is hashed with SHA-256 to form a separate `guest:` owner key; account keys remain `user:`. Guest cookies cannot select account records. No shared anonymous fallback exists.
 
-Customer and sales personas share one signed-in owner's demo records. They are **not** separate authorization roles. Before live use, implement verified sessions, organization membership and server-enforced customer/staff permissions.
+The client shares overlapping initial reads to establish one cookie and initializes the session before writes. GET returns seed data without inserting an empty workspace; the first write creates the row. A guest POST without a cookie returns an actionable session error. Cookies are essential to anonymous continuity: clearing or expiring one starts a new workspace and does not delete the old database row. Server retention/pruning remains a production requirement. Existing signed-in records are not migrated to a guest session.
+
+Customer and sales are two demonstration views of the same visitor workspace, **not** separate authorization roles. Every visitor may simulate both roles for their own records. Before live use, implement verified sessions, organization membership and server-enforced customer/staff permissions. Trust the forwarded account header only behind Sites dispatch, which removes/replaces caller-supplied identity; do not expose the Worker on an arbitrary host and trust that header.
 
 Updates compare the stored revision and retry at most three times. A second edit rereads the latest state before replaying its action. The server does not silently replace another owner's row. Requests are limited to 12 per workspace, inquiries to 30 and total serialized state to 1.8 million characters. POST bodies are limited to 350,000 characters.
+
+
+### Guided demo ordering
+
+The RFQ success page leads directly to the customer journey (`components/demo-journey.tsx`). `prepare-demo` composes the existing issue-quote and issue-artwork transitions in one optimistic update. Its example price is EUR 0.45 per bag plus EUR 120 setup, explicitly fictional. Missing artifacts are created once; existing revisions/approvals are preserved. The buyer reviews and accepts the quotation, reviews and approves artwork, then explicitly selects **Place demo order**. The existing release gates and immutable version references still apply. No charge, outgoing message or manufacturing job is created. The sales view can revise artifacts and advance simulated production stages. Reorders remain new requests requiring fresh approvals.
+
+The quote form offers fictional contact details without checking consent automatically. Missing delivery-country and city feedback is specific. Download feedback persists with its filename, including fullscreen, and the mobile menu label is translated.
 
 ### Navigation compatibility
 
@@ -159,9 +169,9 @@ python3 -m venv .venv
 .venv/bin/python qa/showcase_checks.py
 ```
 
-For browser checks, run `npm run start -- --port 8787` after the build and local migration. This serves the compiled Worker at `http://localhost:8787`. The development server intentionally strips custom identity headers and uses a shared local demo; do not use it for isolated multi-owner QA. The tests reject non-loopback URLs and require an empty synthetic owner before any writes. `KOBAGS_BASE_URL` changes the compiled local preview port. `CHROME_PATH` can point to an existing Chromium binary. `CHROME_LIBS` and `FONTCONFIG_FILE` are optional environment-specific overrides. Use `CHROME_NO_SANDBOX=1` only when your local container requires it. `CHROME_SOFTWARE_GL=1` enables the software WebGL renderer for headless 3D checks in a trusted local container. This is a testing option, not a hosted runtime setting or physical-device performance benchmark. Tests create random isolated demo owners; do not run against customer records.
+For browser checks, run `npm run start -- --port 8787` after the build and local migration. This serves the compiled Worker at `http://localhost:8787`. The development server supplies mock sign-in identity; use the compiled Worker for real anonymous-session and synthetic-account isolation checks. The tests reject non-loopback URLs and require an empty synthetic owner before any writes. `KOBAGS_BASE_URL` changes the compiled local preview port. `CHROME_PATH` can point to an existing Chromium binary. `CHROME_LIBS` and `FONTCONFIG_FILE` are optional environment-specific overrides. Use `CHROME_NO_SANDBOX=1` only when your local container requires it. `CHROME_SOFTWARE_GL=1` enables the software WebGL renderer for headless 3D checks in a trusted local container. This is a testing option, not a hosted runtime setting or physical-device performance benchmark. Tests create random isolated demo owners; do not run against customer records.
 
-`qa/browser_journey.py` exercises the full buyer/sales/approval/reorder journey. `qa/site_checks.py` verifies forms, comparison, all pages/downloads, original redirects, owner isolation, concurrent edits, additional release gates and mobile layouts. `qa/studio_checks.py` verifies all five new models, separate artwork styles, numeric entry, pointer movement, upload sharpness, clean exports, mobile layouts and server persistence of the new fields. `qa/showcase_checks.py` covers lazy loading, real rotation, construction mode, branding handoff, offscreen pause, reduced motion, the no-WebGL fallback and representative desktop/mobile page layouts. Result manifests and screenshots are in `evidence/`. Read `evidence/VERIFICATION.md` for the actual completed checks and remaining limits.
+`qa/guest_journey.py` exercises an anonymous browser from design through quote, artwork approval, simulated order and reorder, plus guest isolation and inquiry saves. `qa/browser_journey.py` exercises the full buyer/sales/approval/reorder journey. `qa/site_checks.py` verifies forms, comparison, all pages/downloads, original redirects, owner isolation, concurrent edits, additional release gates and mobile layouts. `qa/studio_checks.py` verifies all five new models, separate artwork styles, numeric entry, pointer movement, upload sharpness, clean exports, mobile layouts and server persistence of the new fields. `qa/showcase_checks.py` covers lazy loading, real rotation, construction mode, branding handoff, offscreen pause, reduced motion, the no-WebGL fallback and representative desktop/mobile page layouts. Result manifests and screenshots are in `evidence/`. Read `evidence/VERIFICATION.md` for the actual completed checks and remaining limits.
 
 ## How to extend
 

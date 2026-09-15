@@ -35,6 +35,7 @@ import { useKobags } from "./kobags-context";
 import { useDemo, errors } from "./demo-store";
 import { Choice, BagPreview } from "./bag-studio";
 import { Request, DemoState } from "@/lib/demo-domain";
+import { DemoJourney } from "./demo-journey";
 import { initialDesign } from "@/lib/catalog";
 const money = (n: number) =>
   new Intl.NumberFormat("en", { style: "currency", currency: "EUR" }).format(
@@ -86,6 +87,7 @@ export default function DemoWorkspace({
   const [filter, setFilter] = useState("all");
   const [search, setSearch] = useState("");
   const [tab, setTab] = useState("requests");
+  const [detailTab, setDetailTab] = useState("overview");
   const [note, setNote] = useState("");
   const [owner, setOwner] = useState("Demo sales team");
   const [quoteOpen, setQuoteOpen] = useState(false);
@@ -202,16 +204,27 @@ export default function DemoWorkspace({
     if (id) setSelected(id);
   };
   return (
-    <main className="workspace">
+    <main
+      className={
+        role === "customer" && (state?.requests.length || 0) < 2
+          ? "workspace customer-demo-single"
+          : "workspace"
+      }
+    >
       <div className="demo-banner">
         <LockKeyhole size={15} />
         <span>
           {t(
-            "PRIVATE DEMO · Fictional records, preview notifications and simulated production.",
-            "DEMO PRIVAT · Të dhëna fiktive, njoftime paraprake dhe prodhim i simuluar.",
+            "TRY THE DEMO · Your own test workspace. No payments or real orders.",
+            "PROVONI DEMON · Hapësira juaj e testimit. Pa pagesa ose porosi reale.",
           )}
         </span>
-        <Link href={role === "admin" ? "/demo/customer" : "/demo/admin"}>
+        <Link
+          href={
+            (role === "admin" ? "/demo/customer" : "/demo/admin") +
+            (r ? "?id=" + r.id : "")
+          }
+        >
           {role === "admin"
             ? t("Switch to customer demo", "Kalo te demo e klientit")
             : t("Switch to sales demo", "Kalo te demo e shitjeve")}{" "}
@@ -397,7 +410,43 @@ export default function DemoWorkspace({
                         <Download size={18} />
                       </button>
                     </div>
-                    <Tabs defaultValue="overview">
+                    {role === "customer" && (
+                      <DemoJourney
+                        request={r}
+                        busy={busy}
+                        prepare={async () => {
+                          const id = await run(
+                            { type: "prepare-demo", id: r.id },
+                            t(
+                              "Demo quote and artwork are ready for your review.",
+                              "Oferta dhe dizajni demo janë gati për shqyrtim.",
+                            ),
+                          );
+                          if (id) setDetailTab("quotation");
+                        }}
+                        review={(value) => {
+                          setDetailTab(value);
+                          requestAnimationFrame(() =>
+                            document
+                              .querySelector(".detail-tabs")
+                              ?.scrollIntoView({
+                                block: "start",
+                                behavior: "smooth",
+                              }),
+                          );
+                        }}
+                        payment={() =>
+                          run(
+                            { type: "payment", id: r.id },
+                            t(
+                              "Demo payment confirmed. No money was collected.",
+                              "Pagesa demo u konfirmua. Nuk u mor asnjë pagesë.",
+                            ),
+                          )
+                        }
+                      />
+                    )}
+                    <Tabs value={detailTab} onValueChange={setDetailTab}>
                       <TabsList className="detail-tabs">
                         <TabsTrigger value="overview">
                           {t("Specification", "Specifikimet")}
@@ -833,9 +882,16 @@ export default function DemoWorkspace({
                       <TabsContent value="timeline">
                         <div className="handoff">
                           <h3>
-                            {r.order
-                              ? "Demo production handoff"
-                              : "Ready for production?"}
+                            {role === "customer"
+                              ? r.order
+                                ? t("Your demo order", "Porosia juaj demo")
+                                : t(
+                                    "Place your demo order",
+                                    "Vendosni porosinë demo",
+                                  )
+                              : r.order
+                                ? "Demo production handoff"
+                                : "Ready for production?"}
                           </h3>
                           <ul className="gate-list">
                             {[
@@ -931,10 +987,30 @@ export default function DemoWorkspace({
                               Create demo production handoff
                             </button>
                           ) : (
-                            <p>
-                              Once approvals are complete, the sales team can
-                              release this demonstration order.
-                            </p>
+                            <div className="demo-order-confirm">
+                              <p>
+                                {t(
+                                  "This confirms a simulated order using your approved quote and artwork. No payment is collected and nothing is sent to production.",
+                                  "Kjo konfirmon një porosi të simuluar me ofertën dhe dizajnin e miratuar. Nuk merret pagesë dhe nuk nis prodhimi.",
+                                )}
+                              </p>
+                              <button
+                                className="button"
+                                disabled={busy || !releaseReady}
+                                onClick={() =>
+                                  run(
+                                    { type: "release", id: r.id },
+                                    t(
+                                      "Your demo order is placed. No real order was sent.",
+                                      "Porosia demo u vendos. Nuk u dërgua porosi reale.",
+                                    ),
+                                  )
+                                }
+                              >
+                                {t("Place demo order", "Vendos porosinë demo")}{" "}
+                                <ArrowRight size={16} />
+                              </button>
+                            </div>
                           )}
                         </div>
                         <ol className="timeline">

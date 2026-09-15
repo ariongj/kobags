@@ -1,31 +1,27 @@
 import { env } from "cloudflare:workers";
 import { products } from "@/lib/catalog";
 import { seed, applyAction, DemoState } from "@/lib/demo-domain";
+import { demoSession } from "@/lib/demo-session";
 export const dynamic = "force-dynamic";
-function identity(req: Request) {
-  const user = req.headers.get("oai-authenticated-user-id");
-  if (user) return "user:" + user;
-  const host = new URL(req.url).hostname;
-  if (host === "localhost" || host === "127.0.0.1") return "local-demo";
-  throw Error("AUTH_REQUIRED");
-}
-function json(body: unknown, status = 200) {
+function json(body: unknown, status = 200, cookie?: string) {
   return Response.json(body, {
     status,
     headers: {
       "Cache-Control": "no-store",
+      ...(cookie ? { "Set-Cookie": cookie } : {}),
       "X-Robots-Tag": "noindex, nofollow",
       "X-Content-Type-Options": "nosniff",
     },
   });
 }
-async function read(owner: string) {
+async function read(owner: string, create = false) {
   if (!env.DB) throw Error("STORAGE_UNAVAILABLE");
   let row = await env.DB.prepare(
     "SELECT revision,data FROM demo_workspaces WHERE owner = ?",
   )
     .bind(owner)
     .first<{ revision: number; data: string }>();
+  if (!row && !create) return seed();
   if (!row) {
     const d = seed();
     await env.DB.prepare(
@@ -52,19 +48,27 @@ async function read(owner: string) {
   return d;
 }
 export async function GET(req: Request) {
+  let cookie: string | undefined;
   try {
-    return json({ state: await read(identity(req)) });
+    const session = await demoSession(req);
+    cookie = session.cookie;
+    return json({ state: await read(session.owner) }, 200, cookie);
   } catch (e) {
     const message = e instanceof Error ? e.message : "STORAGE_UNAVAILABLE";
     return json(
       { error: message === "AUTH_REQUIRED" ? message : "STORAGE_UNAVAILABLE" },
       message === "AUTH_REQUIRED" ? 401 : 503,
+      cookie,
     );
   }
 }
 export async function POST(req: Request) {
+  let cookie: string | undefined;
   try {
-    const owner = identity(req);
+    const session = await demoSession(req);
+    const owner = session.owner;
+    cookie = session.cookie;
+    if (cookie) return json({ error: "DEMO_SESSION_REQUIRED" }, 400, cookie);
     if (req.headers.get("content-type")?.split(";")[0] !== "application/json")
       return json({ error: "INVALID_REQUEST" }, 415);
     const origin = req.headers.get("origin");
@@ -74,9 +78,9 @@ export async function POST(req: Request) {
     if (body.length > 350000) return json({ error: "FILE_TOO_LARGE" }, 413);
     const action = JSON.parse(body);
     for (let attempt = 0; attempt < 3; attempt++) {
-      const old = await read(owner);
+      const old = await read(owner, true);
       const result = applyAction(old, action);
-      if (result.state === old) return json(result);
+      if (result.state === old) return json(result, 200, cookie);
       const rev = old.revision + 1;
       result.state.revision = rev;
       const saved = await env
@@ -91,7 +95,7 @@ export async function POST(req: Request) {
           old.revision,
         )
         .run();
-      if (saved.meta.changes) return json(result);
+      if (saved.meta.changes) return json(result, 200, cookie);
     }
     return json({ error: "CONFLICT" }, 409);
   } catch (e) {
@@ -120,6 +124,7 @@ export async function POST(req: Request) {
     return json(
       { error: known.includes(raw) ? raw : "SAVE_FAILED" },
       raw === "AUTH_REQUIRED" ? 401 : 400,
+      cookie,
     );
   }
 }

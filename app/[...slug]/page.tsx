@@ -39,7 +39,7 @@ export async function generateMetadata({
   return {
     title: titles[path] || "Page not found",
     description: titles[path]
-      ? titles[path] + " Kobags Group private website concept."
+      ? titles[path] + " Kobags Group website demonstration."
       : undefined,
   };
 }
@@ -557,22 +557,24 @@ export default async function Page({
         {path === "privacy" && (
           <article className="prose">
             <p>
-              This is a private website demonstration, independent of Kobags’
+              This is a public website demonstration, independent of Kobags’
               production systems. Use fictional company and contact details.
             </p>
             <h2>What this demonstration stores</h2>
             <p>
               Your draft design and language preference are stored in your
-              browser. When you submit, the private demo stores your
+              browser. When you submit, your demo workspace stores your
               configuration, normalized logo preview, contact fields and consent
               acknowledgment. Original full-resolution logo files are not
               retained by this demo.
             </p>
             <p>
               Demo requests, quotations, artwork revisions and recorded
-              approvals persist in the demo’s isolated database. Hosted records
-              belong to the signed-in demo owner; this is not a production
-              customer account system.
+              approvals and simulated orders persist in a separate workspace for
+              your demo session. An essential cookie keeps anonymous visitors in
+              their own workspace for up to seven days. Signed-in visitors use
+              their own account workspace. This is not a production customer
+              account system.
             </p>
             <h2>How the information is used</h2>
             <p>
@@ -633,9 +635,12 @@ export default async function Page({
             <h2>Only what the demo needs</h2>
             <p>
               This implementation keeps a design draft, quote step and language
-              preference in browser storage. Private hosting may use essential
-              sign-in cookies. The site does not install advertising or
-              analytics tags.
+              preference in browser storage. An essential, seven-day session
+              cookie connects anonymous visitors to their own saved demo
+              records. Clearing it or changing browsers starts a new demo
+              workspace; cookie expiry does not erase server records. Hosting
+              may also use sign-in cookies for signed-in visitors. The site does
+              not install advertising or analytics tags.
             </p>
             <h2>Clear your design draft</h2>
             <p>

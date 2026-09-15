@@ -20,7 +20,7 @@ export default function CookieControls() {
       {done && (
         <p role="status">
           The local design draft has been cleared. Submitted demo records remain
-          in the private workspace.
+          in your demo workspace.
         </p>
       )}
     </div>

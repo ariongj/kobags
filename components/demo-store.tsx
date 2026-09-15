@@ -10,6 +10,10 @@ export const errors: Record<string, [string, string]> = {
     "Choose a valid future date.",
     "Zgjidhni një datë të vlefshme në të ardhmen.",
   ],
+  DEMO_SESSION_REQUIRED: [
+    "Allow cookies for this demo and try again. Your bag design is still saved.",
+    "Lejoni cookies për demonstrimin dhe provoni përsëri. Dizajni është ruajtur.",
+  ],
   AUTH_REQUIRED: [
     "Sign in to open your private demo.",
     "Identifikohuni për të hapur demonstrimin privat.",
@@ -43,20 +47,27 @@ export const errors: Record<string, [string, string]> = {
     "Kërkesa nuk u ruajt. Kontrolloni të dhënat dhe provoni përsëri; dizajni është ruajtur.",
   ],
 };
+// Share the initial request so parallel consumers establish one guest cookie.
+let pendingRead: Promise<DemoState> | null = null;
+function loadDemo() {
+  if (!pendingRead)
+    pendingRead = (async () => {
+      const res = await fetch("/api/demo");
+      const data = (await res.json()) as { state: DemoState; error?: string };
+      if (!res.ok) throw Error(data.error || "STORAGE_UNAVAILABLE");
+      return data.state;
+    })().finally(() => {
+      pendingRead = null;
+    });
+  return pendingRead;
+}
 export function useDemo() {
   const [state, setState] = useState<DemoState | null>(null);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const refresh = useCallback(async () => {
     try {
-      const res = await fetch("/api/demo");
-      const d = (await res.json()) as {
-        state: DemoState;
-        error?: string;
-        id?: string;
-      };
-      if (!res.ok) throw Error(d.error || "SAVE_FAILED");
-      setState(d.state);
+      setState(await loadDemo());
       setError("");
     } catch (e) {
       setError(e instanceof Error ? e.message : "STORAGE_UNAVAILABLE");
@@ -76,6 +87,7 @@ export function useDemo() {
     setBusy(true);
     setError("");
     try {
+      await loadDemo();
       const res = await fetch("/api/demo", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

@@ -76,7 +76,7 @@ export default function Handoff() {
           <p>
             <strong>A connected demonstration.</strong> Design → request → quote
             → artwork revision → approval → production handoff → repeat request.
-            Demo actions stay within this private workspace.
+            Each visitor can complete the journey in their own demo workspace, without signing in.
           </p>
         </div>
         <section id="outline" className="handoff-section">
@@ -138,11 +138,11 @@ export default function Handoff() {
               ],
               [
                 "Review as sales and buyer",
-                "Sales issues a demo quotation and artwork proof. The customer accepts the quote and can request a correction or approve the latest proof.",
+                "The customer can prepare an example quotation and artwork proof, accept the quote and approve the latest proof. The sales view remains available for revisions.",
               ],
               [
                 "Release and repeat",
-                "Sales can release the demo production handoff after the required approvals and payment condition. A repeat request starts with a new reference and fresh commercial terms.",
+                "The customer places a simulated order after the required approvals. Sales can advance the demonstration production stages. A repeat request starts with a new reference and fresh commercial terms.",
               ],
               [
                 "Review content and operations",

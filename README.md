@@ -1,6 +1,6 @@
 # Kobags Group — complete website and bag studio
 
-A private B2B website demo with the original Kobags identity, cinematic manufacturing homepage, interactive 3D showroom, detailed bag designer, all five product families / 15 sizes, inquiries and connected customer/sales workspaces.
+A public B2B website demo with the original Kobags identity, cinematic manufacturing homepage, interactive 3D showroom, detailed bag designer, all five product families / 15 sizes, inquiries and connected customer/sales workspaces. Visitors can try the complete quote, artwork approval and simulated order journey without signing in.
 
 ## Start here
 
