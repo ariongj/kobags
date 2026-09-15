@@ -3,7 +3,7 @@
 ## Completed
 
 - TypeScript check passed for the implemented application.
-- The initial full-stack build passed; a final build follows the completed source.
+- The initial and final full-stack builds passed.
 - The local D1 migration applied successfully.
 - The desktop studio rendered with no browser JavaScript errors.
 - Browser checks exercised D-Cut Large selection, color selection, keyboard artwork movement, rejection of an SVG upload, normalized raster logo upload and PNG preview download.
@@ -17,3 +17,5 @@ The full automated journey stopped at the first quotation-summary assertion. Tha
 Therefore RFQ submission, full quotation/artwork/reorder integration, the post-fix mobile layout and final end-to-end success are NOT recorded as passed. The provided test remains available for a future approved run. The screenshots reflect the pre-fix overflow layout and are retained as evidence rather than presented as final visual acceptance.
 
 The implementation remains a private concept demo, not a production launch.
+
+WebMCP registration was implemented with feature detection. No supported browser context was available for WebMCP protocol validation.
