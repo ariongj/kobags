@@ -1,12 +1,28 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { colors, type Design } from "./catalog";
+import {
+  sideArtwork,
+  type ArtworkBounds,
+  type ArtworkLayer,
+  type ArtworkTexture,
+} from "./studio-artwork";
+export type StudioSelection = { side: Design["side"]; layer: ArtworkLayer };
+export type StudioEditing = {
+  select: (selection: StudioSelection | null) => void;
+  move: (
+    selection: StudioSelection,
+    position: { x: number; y: number },
+  ) => void;
+  drag: (active: boolean) => void;
+};
 
 export type StudioScene = {
   update: (
     design: Design,
-    front: HTMLCanvasElement,
-    back: HTMLCanvasElement,
+    front: ArtworkTexture,
+    back: ArtworkTexture,
+    selection: StudioSelection | null,
   ) => void;
   view: (side: "front" | "back" | "angle") => void;
   rotate: (direction: number) => void;
@@ -42,6 +58,7 @@ export function createStudioScene(
   host: HTMLDivElement,
   product: string,
   onInteract: () => void,
+  editing?: StudioEditing,
 ): StudioScene {
   const renderer = new THREE.WebGLRenderer({
     alpha: true,
@@ -57,7 +74,7 @@ export function createStudioScene(
   canvas.setAttribute("role", "img");
   canvas.setAttribute(
     "aria-label",
-    "3D bag. Drag or use arrow keys to rotate. Plus and minus to zoom.",
+    "3D bag. Select and drag logo or text to move it. Drag empty space to rotate. Arrow keys move selected artwork; Escape deselects. Plus and minus zoom.",
   );
   host.appendChild(canvas);
   const scene = new THREE.Scene();
@@ -212,12 +229,17 @@ export function createStudioScene(
     geometry.computeVertexNormals();
     return geometry;
   }
-  const faceMaterials: THREE.MeshStandardMaterial[] = [];
+  const faceSides = new Map<THREE.Object3D, Design["side"]>();
   const printTextures: THREE.CanvasTexture[] = [];
   for (const face of [1, -1]) {
     const panel = add(faceGeometry());
     if (face < 0) panel.rotation.y = Math.PI;
-    const texture = new THREE.CanvasTexture(document.createElement("canvas"));
+    faceSides.set(panel, face > 0 ? "front" : "back");
+    // Allocate the final size before the first frame. Uploaded logos load
+    // asynchronously; WebGL texture storage cannot resize after initial use.
+    const artworkCanvas = document.createElement("canvas");
+    artworkCanvas.width = artworkCanvas.height = 1024;
+    const texture = new THREE.CanvasTexture(artworkCanvas);
     texture.colorSpace = THREE.SRGBColorSpace;
     texture.anisotropy = Math.min(4, renderer.capabilities.getMaxAnisotropy());
     textures.add(texture);
@@ -232,10 +254,10 @@ export function createStudioScene(
       polygonOffset: true,
       polygonOffsetFactor: -2,
     });
-    faceMaterials.push(ink);
     const print = add(faceGeometry(), ink);
     print.position.z = face * 0.006;
     if (face < 0) print.rotation.y = Math.PI;
+    faceSides.set(print, face > 0 ? "front" : "back");
     for (const x of [-half + 0.022, half - 0.022]) {
       const pts: THREE.Vector3[] = [];
       const seamTop = product === "t-shirt-bag" ? 0.65 : top - 0.03;
@@ -385,6 +407,7 @@ export function createStudioScene(
     drawing = true;
     controls.update();
     renderer.render(scene, camera);
+    publishArtworkTargets();
     drawing = false;
     host.dataset.angle = controls.getAzimuthalAngle().toFixed(3);
     host.dataset.frame = String(++frame);
@@ -443,7 +466,210 @@ export function createStudioScene(
   }
   controls.addEventListener("start", interacted);
   controls.addEventListener("change", wake);
+  // Raycast the actual visible face; empty fabric remains an orbit gesture.
+  const raycaster = new THREE.Raycaster();
+  const pointer = new THREE.Vector2();
+  const faceBounds: Record<Design["side"], ArtworkBounds[]> = {
+    front: [],
+    back: [],
+  };
+  let currentDesign: Design | null = null;
+  let selection: StudioSelection | null = null;
+  let drag: {
+    pointer: number;
+    selection: StudioSelection;
+    plane: THREE.Plane;
+    dx: number;
+    dy: number;
+  } | null = null;
+  const fullTop = spec.handles ? top + 1.1 : top;
+  const artworkScale = Math.min(650 / width, 690 / (fullTop - bottom));
+  const artworkCenter = (fullTop + bottom) / 2;
+  const faceSign = (side: Design["side"]) => (side === "front" ? 1 : -1);
+  function artworkPoint(x: number, y: number, side: Design["side"]) {
+    const xx = (x - 400) / artworkScale;
+    const yy = artworkCenter + (400 - y) / artworkScale;
+    const t = (yy - bottom) / (top - bottom);
+    const warp =
+      product === "string-bag"
+        ? 1 - 0.2 * Math.pow(t, 6)
+        : 1 + 0.012 * (t - 0.5);
+    return new THREE.Vector3(
+      faceSign(side) * xx,
+      yy,
+      faceSign(side) * (zAt(xx / warp, yy) + 0.006),
+    );
+  }
+  function publishArtworkTargets() {
+    host.dataset.selection = selection
+      ? selection.side + ":" + selection.layer
+      : "";
+    host.dataset.artworkTargets = JSON.stringify(
+      (["front", "back"] as const).flatMap((side) =>
+        faceBounds[side].map((box) => {
+          const world = artworkPoint(box.x, box.y, side);
+          const screen = world.clone().project(camera);
+          return {
+            side,
+            layer: box.layer,
+            x: (screen.x + 1) / 2,
+            y: (1 - screen.y) / 2,
+            visible: (camera.position.z - world.z) * faceSign(side) > 0.1,
+          };
+        }),
+      ),
+    );
+  }
+  function setRay(event: PointerEvent) {
+    const rect = canvas.getBoundingClientRect();
+    pointer.set(
+      ((event.clientX - rect.left) / rect.width) * 2 - 1,
+      1 - ((event.clientY - rect.top) / rect.height) * 2,
+    );
+    camera.updateMatrixWorld();
+    model.updateMatrixWorld(true);
+    raycaster.setFromCamera(pointer, camera);
+  }
+  function pick(event: PointerEvent) {
+    setRay(event);
+    const hit = raycaster.intersectObjects(model.children, false)[0];
+    if (!hit?.uv) return null;
+    const side = faceSides.get(hit.object);
+    if (!side) return null;
+    const x = hit.uv.x * 800,
+      y = (1 - hit.uv.y) * 800;
+    const boxes = [...faceBounds[side]].reverse();
+    // The sidebar can select an overlapping layer before it is dragged.
+    if (selection?.side === side)
+      boxes.sort(
+        (a, b) =>
+          Number(b.layer === selection?.layer) -
+          Number(a.layer === selection?.layer),
+      );
+    const box = boxes.find((b) => {
+      const angle = (-b.rotation * Math.PI) / 180,
+        dx = x - b.x,
+        dy = y - b.y;
+      return (
+        Math.abs(dx * Math.cos(angle) - dy * Math.sin(angle)) <=
+          b.width / 2 + 18 &&
+        Math.abs(dx * Math.sin(angle) + dy * Math.cos(angle)) <=
+          b.height / 2 + 18
+      );
+    });
+    return box?.layer ? { box, side, x, y, point: hit.point } : null;
+  }
+  function deselect() {
+    selection = null;
+    editing?.select(null);
+    wake();
+  }
+  function pointerDown(event: PointerEvent) {
+    if (!editing || event.button !== 0) return;
+    if (drag) {
+      event.stopImmediatePropagation();
+      return;
+    }
+    const hit = pick(event);
+    if (!hit) {
+      deselect();
+      return;
+    }
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    controls.autoRotate = false;
+    // Freeze inertia during artwork movement so the grabbed point stays put.
+    controls.enabled = false;
+    controls.enableDamping = false;
+    controls.update();
+    controls.enableDamping = true;
+    onInteract();
+    selection = { side: hit.side, layer: hit.box.layer! };
+    drag = {
+      pointer: event.pointerId,
+      selection,
+      plane: new THREE.Plane(new THREE.Vector3(0, 0, 1), -hit.point.z),
+      dx: hit.x - hit.box.x,
+      dy: hit.y - hit.box.y,
+    };
+    canvas.setPointerCapture(event.pointerId);
+    canvas.focus({ preventScroll: true });
+    canvas.style.cursor = "grabbing";
+    host.dataset.dragging = "true";
+    editing.select(selection);
+    editing.drag(true);
+    wake();
+  }
+  function moveArtwork(active: StudioSelection, x: number, y: number) {
+    x = THREE.MathUtils.clamp(x, 24, 76);
+    y = THREE.MathUtils.clamp(y, 33, 80);
+    const box = faceBounds[active.side].find((b) => b.layer === active.layer);
+    if (box) {
+      box.x = x * 8;
+      box.y = y * 8;
+    }
+    editing?.move(active, { x, y });
+    wake();
+  }
+  function pointerMove(event: PointerEvent) {
+    if (!editing) return;
+    if (drag) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      if (event.pointerId !== drag.pointer) return;
+      setRay(event);
+      const point = raycaster.ray.intersectPlane(
+        drag.plane,
+        new THREE.Vector3(),
+      );
+      if (!point) return;
+      const x = 400 + point.x * faceSign(drag.selection.side) * artworkScale;
+      const y = 400 - (point.y - artworkCenter) * artworkScale;
+      moveArtwork(drag.selection, (x - drag.dx) / 8, (y - drag.dy) / 8);
+    } else canvas.style.cursor = pick(event) ? "move" : "grab";
+  }
+  function pointerUp(event: PointerEvent) {
+    if (!drag || event.pointerId !== drag.pointer) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    drag = null;
+    controls.enabled = true;
+    canvas.style.cursor = "move";
+    host.dataset.dragging = "false";
+    if (canvas.hasPointerCapture(event.pointerId))
+      canvas.releasePointerCapture(event.pointerId);
+    editing?.drag(false);
+    wake();
+  }
+  canvas.style.cursor = "grab";
+  canvas.addEventListener("pointerdown", pointerDown, true);
+  canvas.addEventListener("pointermove", pointerMove, true);
+  canvas.addEventListener("pointerup", pointerUp, true);
+  canvas.addEventListener("pointercancel", pointerUp, true);
+  canvas.addEventListener("lostpointercapture", pointerUp, true);
   const keyboard = (e: KeyboardEvent) => {
+    if (e.key === "Escape" && selection) {
+      e.preventDefault();
+      e.stopPropagation();
+      deselect();
+      return;
+    }
+    if (selection && currentDesign && editing && e.key.startsWith("Arrow")) {
+      const art = sideArtwork(
+        { ...currentDesign, side: selection.side },
+        selection.layer,
+      );
+      const step = e.shiftKey ? 5 : 1;
+      e.preventDefault();
+      moveArtwork(
+        selection,
+        art.x +
+          (e.key === "ArrowLeft" ? -step : e.key === "ArrowRight" ? step : 0),
+        art.y +
+          (e.key === "ArrowUp" ? -step : e.key === "ArrowDown" ? step : 0),
+      );
+      return;
+    }
     if (
       [
         "ArrowLeft",
@@ -512,13 +738,16 @@ export function createStudioScene(
   host.dataset.model = product;
   host.dataset.ready = "true";
   return {
-    update(design, front, back) {
+    update(design, front, back, selected) {
+      currentDesign = design;
+      selection = selected;
       const hex = (colors.find((c) => c.name === design.color) || colors[0])
         .hex;
       fabric.color.set(hex);
       seamMat.color.set(hex).multiplyScalar(0.84);
-      [front, back].forEach((image, i) => {
-        printTextures[i].image = image;
+      [front, back].forEach((artwork, i) => {
+        faceBounds[i === 0 ? "front" : "back"] = artwork.bounds;
+        printTextures[i].image = artwork.canvas;
         printTextures[i].needsUpdate = true;
       });
       host.dataset.frontArtwork = String(
@@ -554,6 +783,12 @@ export function createStudioScene(
       canvas.removeEventListener("webglcontextlost", lost);
       controls.removeEventListener("start", interacted);
       controls.removeEventListener("change", wake);
+      canvas.removeEventListener("pointerdown", pointerDown, true);
+      canvas.removeEventListener("pointermove", pointerMove, true);
+      canvas.removeEventListener("pointerup", pointerUp, true);
+      canvas.removeEventListener("pointercancel", pointerUp, true);
+      canvas.removeEventListener("lostpointercapture", pointerUp, true);
+      if (drag) editing?.drag(false);
       controls.dispose();
       geometries.forEach((g) => g.dispose());
       materials.forEach((m) => m.dispose());

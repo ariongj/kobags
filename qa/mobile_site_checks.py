@@ -37,7 +37,7 @@ async def main():
   # Enter the designer through the real mobile homepage and rotate with touch.
   await go('/');await page.get_by_role('link',name='Design your bag',exact=True).tap();await page.wait_for_url('**/design');await page.locator('.studio-3d[data-status=ready]').wait_for()
   host=page.locator('.preview-stage .studio-3d-host');canvas=host.locator('canvas');await canvas.scroll_into_view_if_needed();box=await canvas.bounding_box();angle=float(await host.get_attribute('data-angle'))
-  session=await ctx.new_cdp_session(page);x=box['x']+box['width']*.4;y=box['y']+box['height']*.5
+  session=await ctx.new_cdp_session(page);x=box['x']+box['width']*.12;y=box['y']+box['height']*.5
   await session.send('Input.dispatchTouchEvent',{'type':'touchStart','touchPoints':[{'x':x,'y':y}]})
   for offset in [20,40,60,80]:await session.send('Input.dispatchTouchEvent',{'type':'touchMove','touchPoints':[{'x':x+offset,'y':y}]})
   await session.send('Input.dispatchTouchEvent',{'type':'touchEnd','touchPoints':[]})

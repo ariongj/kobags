@@ -174,6 +174,8 @@ export default function BagStudio() {
   const [, refreshHistory] = useState(0);
   const currentDesign = useRef(design);
   currentDesign.current = design;
+  const draggingArtwork = useRef(false);
+  const [selectionKey, setSelectionKey] = useState(0);
   const [activeLayer, setActiveLayer] = useState<ArtworkLayer>("text");
   const update = (patch: Partial<Design>) => {
     const current = currentDesign.current;
@@ -189,7 +191,7 @@ export default function BagStudio() {
       const h = history.current,
         key = current.side + activeLayer + Object.keys(patch).sort().join(","),
         now = Date.now();
-      if (h.key !== key || now - h.time > 650)
+      if (h.key !== key || (!draggingArtwork.current && now - h.time > 650))
         h.past = [...h.past.slice(-19), current];
       h.future = [];
       h.key = key;
@@ -228,6 +230,29 @@ export default function BagStudio() {
   const [uploading, setUploading] = useState(false);
   const [previewReady, setPreviewReady] = useState(false);
   const [guides, setGuides] = useState(true);
+  const selectArtwork = (
+    layer: ArtworkLayer,
+    side: Design["side"] = design.side,
+  ) => {
+    setActiveLayer(layer);
+    setTab("artwork");
+    setSelectionKey((key) => key + 1);
+    if (side !== design.side) update({ side });
+  };
+  const artworkDrag = (active: boolean) => {
+    draggingArtwork.current = active;
+    history.current.key = "";
+    history.current.time = 0;
+  };
+  const studioEditing = {
+    onChange: update,
+    onSelectLayer: selectArtwork,
+    activeLayer,
+    editing: tab === "artwork",
+    selectionKey,
+    guides,
+    onDragChange: artworkDrag,
+  };
   const art = sideArtwork(design, activeLayer);
   const transform = (patch: Parameters<typeof placementPatch>[2]) =>
     update(placementPatch(design, activeLayer, patch));
@@ -323,8 +348,7 @@ export default function BagStudio() {
               ...(!existing.logo && keepText ? { y: 44, scale: 26 } : {}),
             }),
       });
-      setActiveLayer("logo");
-      setTab("artwork");
+      selectArtwork("logo");
     } catch {
       setError(
         t(
@@ -582,8 +606,8 @@ export default function BagStudio() {
           <h1>{t("Build your bag.", "Krijoni çantën tuaj.")}</h1>
           <p>
             {t(
-              "Choose a shape. Add your brand. Turn it around.",
-              "Zgjidhni formën. Shtoni markën. Rrotullojeni.",
+              "Choose a shape. Drag your artwork. Turn it around.",
+              "Zgjidhni formën. Lëvizni dizajnin. Rrotullojeni.",
             )}
           </p>
         </div>
@@ -673,16 +697,17 @@ export default function BagStudio() {
               </button>
             </div>
             {viewMode === "3d" ? (
-              <Studio3D design={design} onReady={setPreviewReady} />
+              <Studio3D
+                design={design}
+                onReady={setPreviewReady}
+                {...studioEditing}
+              />
             ) : (
               <BagPreview
                 design={design}
                 onChange={update}
                 activeLayer={activeLayer}
-                onSelectLayer={(layer) => {
-                  setActiveLayer(layer);
-                  setTab("artwork");
-                }}
+                onSelectLayer={selectArtwork}
                 canvasRef={canvas}
                 guides={guides && tab === "artwork"}
                 onReady={setPreviewReady}
@@ -712,10 +737,10 @@ export default function BagStudio() {
                 <Move size={14} />
                 {t(
                   viewMode === "3d"
-                    ? "Drag to rotate"
+                    ? "Drag artwork to move · drag bag to rotate"
                     : "Drag artwork to position",
                   viewMode === "3d"
-                    ? "Tërhiqni për ta rrotulluar"
+                    ? "Lëvizni dizajnin · tërhiqni çantën për rrotullim"
                     : "Lëvizni dizajnin për ta pozicionuar",
                 )}
               </span>
@@ -935,10 +960,7 @@ export default function BagStudio() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => {
-                    setGuides(!guides);
-                    setViewMode("edit");
-                  }}
+                  onClick={() => setGuides(!guides)}
                   className="guide-toggle"
                   aria-label={t(
                     "Toggle artwork guides",
@@ -960,7 +982,7 @@ export default function BagStudio() {
                 <button
                   type="button"
                   aria-pressed={activeLayer === "logo"}
-                  onClick={() => setActiveLayer("logo")}
+                  onClick={() => selectArtwork("logo")}
                 >
                   <ImagePlus size={17} />
                   <span>
@@ -975,7 +997,7 @@ export default function BagStudio() {
                 <button
                   type="button"
                   aria-pressed={activeLayer === "text"}
-                  onClick={() => setActiveLayer("text")}
+                  onClick={() => selectArtwork("text")}
                 >
                   <Type size={17} />
                   <span>
@@ -1278,8 +1300,8 @@ export default function BagStudio() {
               <div className="artwork-actions">
                 <p>
                   {t(
-                    "Use Place artwork to drag it on the bag.",
-                    "Përdorni Vendos dizajnin për ta lëvizur mbi çantë.",
+                    "Select your logo or text on the bag, then drag to move it.",
+                    "Zgjidhni logon ose tekstin në çantë, pastaj tërhiqeni për ta lëvizur.",
                   )}
                 </p>
                 <button
@@ -1402,7 +1424,7 @@ export default function BagStudio() {
           </DialogDescription>
           <div className="fullscreen-studio-view">
             {viewMode === "3d" ? (
-              <Studio3D design={design} />
+              <Studio3D design={design} {...studioEditing} />
             ) : (
               <BagPreview design={design} />
             )}

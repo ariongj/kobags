@@ -131,7 +131,7 @@ export default function Handoff() {
               ],
               [
                 "Make a design",
-                "Choose a shape and size, rotate it in 3D, add your logo and text, then use Place artwork for precise positioning. Inspect both sides and download the design sheet.",
+                "Choose a shape and size, then add your logo and text. Select and drag either item directly on the 3D bag; drag empty space to rotate. Inspect both sides and download the design sheet.",
               ],
               [
                 "Request a quote",

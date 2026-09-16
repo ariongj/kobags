@@ -2,7 +2,20 @@
 
 Updated 16 September 2026. This record supersedes the earlier incomplete v1 check. Tests ran against the compiled local Worker at `http://localhost:8787` with synthetic data. No live Kobags forms, customer records or production systems were used.
 
-## Latest revision — compact website and five-family 3D designer
+## Latest revision — direct 3D artwork placement and lime wordmark
+
+The header applies the requested `#c6eb9d` to KO and GROUP while preserving navy BAGS and the original silhouette. In the designer, logos and text can be selected and dragged directly on either visible 3D face, including fullscreen and mobile touch. Empty-space dragging continues to rotate the bag.
+
+- The final compiled build and TypeScript check passed.
+- `qa/studio_direct_drag.py` passed: rotated logo/text hit tests, independent layer/face coordinates, offset-preserving drag, a paused gesture as one undo/redo step, keyboard nudges, Escape, sidebar reselection, background orbit, and selection of visible back artwork without a camera snap.
+- Touch dragging passed at 390px, and 320/390/768/1440px layouts had no horizontal overflow. Fullscreen edits update the same draft. Downloads are byte-identical with guides shown or hidden.
+- Visual inspection found an existing asynchronous-image texture allocation issue: a saved uploaded logo could leave the 3D bag blank. Both face textures now start at their final 1024 × 1024 dimensions before WebGL's first render. The final acceptance suite samples actual rendered pixels to verify logo/text visibility after saved-draft loading and fullscreen, rather than checking metadata alone.
+- The five-family 3D regression suite also passed, including rotation, zoom, reduced motion, no-WebGL fallback, shared flat/3D artwork, exports and quote carry-through. Its rotation gesture now starts on empty space, matching the new interaction contract.
+- Desktop/mobile header and designer screenshots were visually reviewed. No captured browser JavaScript errors in either suite. This revision did not repeat all route or database journey checks; the prior recorded coverage is retained below.
+
+Evidence: `studio-direct-drag.json`, `studio-direct-drag-desktop.jpg`, `studio-direct-drag-mobile.jpg`, `header-lime-desktop.jpg`, `header-lime-mobile.jpg` and the updated `studio-3d-*` evidence. Software WebGL and emulated touch do not establish physical-device performance or Safari compatibility.
+
+## Previous revision — compact website and five-family 3D designer
 
 The designer now defaults to a real orbitable 3D model for each of the five bag families. The flat **Place artwork** view, independent front/back layers, existing exports and saved request/proof contracts remain available. The site-wide compact layer reduces oversized openings, duplicate gutters, section/card spacing and footer height. Mobile retains readable form text, larger interaction targets and an accessible quote link in the menu.
 

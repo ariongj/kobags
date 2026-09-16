@@ -22,6 +22,19 @@ export const artworkFonts = [
 export type ArtworkFont = (typeof artworkFonts)[number]["value"];
 export type ArtworkAlignment = "left" | "center" | "right";
 export type ArtworkLayer = "logo" | "text";
+export type ArtworkBounds = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  rotation: number;
+  layer?: ArtworkLayer;
+};
+export type ArtworkTexture = {
+  canvas: HTMLCanvasElement;
+  bounds: ArtworkBounds[];
+};
+
 export function sideArtwork(d: Design, layer?: ArtworkLayer) {
   const back = d.side === "back";
   const placement =

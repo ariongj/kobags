@@ -28,7 +28,7 @@ async def main():
   assert len(set(models.values()))==5
   await page.get_by_role('button',name='Box',exact=True).click();await ready()
   before=await number('angle');await page.get_by_role('button',name='Rotate bag right',exact=True).click();await page.wait_for_timeout(450);assert abs(await number('angle')-before)>.2
-  canvas=page.locator('.preview-stage .studio-3d-host canvas');box=await canvas.bounding_box();before=await number('angle');x=box['x']+box['width']*.5;y=box['y']+box['height']*.5
+  canvas=page.locator('.preview-stage .studio-3d-host canvas');box=await canvas.bounding_box();before=await number('angle');x=box['x']+box['width']*.15;y=box['y']+box['height']*.5
   await page.mouse.move(x,y);await page.mouse.down();await page.mouse.move(x+110,y+20,steps=10);await page.mouse.up();await page.wait_for_timeout(700);assert abs(await number('angle')-before)>.2
   await canvas.focus();before=await number('angle');await page.keyboard.press('ArrowLeft');await page.wait_for_timeout(400);assert abs(await number('angle')-before)>.2
   distance=await number('distance');await page.get_by_role('button',name='Zoom in',exact=True).click();await page.wait_for_function("Number(document.querySelector('.preview-stage .studio-3d-host').dataset.distance)<"+str(distance))

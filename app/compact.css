@@ -928,3 +928,20 @@ body.kobags-v5:has(.studio-compact) .footer-top p {
     padding: 0 0 20px;
   }
 }
+
+/* Client-requested lime KO and GROUP; the original logo silhouette stays intact. */
+.header .brand-wordmark {
+  position: relative;
+  display: block;
+  line-height: 0;
+}
+.header .brand-wordmark::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: #c6eb9d;
+  mask: url("/assets/logo.png") center / 100% 100% no-repeat;
+  -webkit-mask: url("/assets/logo.png") center / 100% 100% no-repeat;
+  clip-path: polygon(0 0, 32% 0, 32% 70%, 100% 70%, 100% 100%, 0 100%);
+}

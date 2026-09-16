@@ -35,12 +35,14 @@ export function Header() {
       </div>
       <header className="header">
         <Link href="/" className="brand" aria-label="Kobags Group home">
-          <img
-            src="/assets/logo.png"
-            alt="Kobags Group"
-            width="172"
-            height="52"
-          />
+          <span className="brand-wordmark">
+            <img
+              src="/assets/logo.png"
+              alt="Kobags Group"
+              width="172"
+              height="52"
+            />
+          </span>
         </Link>
         <nav
           id="site-navigation"

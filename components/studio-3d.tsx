@@ -11,21 +11,57 @@ import {
   LoaderCircle,
 } from "lucide-react";
 import type { Design } from "@/lib/catalog";
-import type { StudioScene } from "@/lib/studio-scene";
+import { placementPatch, type ArtworkLayer } from "@/lib/studio-artwork";
+import type { StudioSelection, StudioScene } from "@/lib/studio-scene";
 import { BagPreview, renderArtworkTexture } from "./bag-preview";
 import { useKobags } from "./kobags-context";
 export default function Studio3D({
   design,
   onReady,
+  onChange,
+  onSelectLayer,
+  activeLayer = "text",
+  editing = false,
+  selectionKey = 0,
+  guides = true,
+  onDragChange,
 }: {
   design: Design;
   onReady?: (ready: boolean) => void;
+  onChange?: (patch: Partial<Design>) => void;
+  onSelectLayer?: (layer: ArtworkLayer, side: Design["side"]) => void;
+  activeLayer?: ArtworkLayer;
+  editing?: boolean;
+  selectionKey?: number;
+  guides?: boolean;
+  onDragChange?: (active: boolean) => void;
 }) {
   const { t } = useKobags();
   const host = useRef<HTMLDivElement>(null);
   const scene = useRef<StudioScene | null>(null);
   const latest = useRef(design);
   latest.current = design;
+  const [selected, setSelected] = useState(editing);
+  const skipSideView = useRef<Design["side"] | null>(null);
+  const settings = useRef({
+    selected,
+    activeLayer,
+    guides,
+    onChange,
+    onSelectLayer,
+    onDragChange,
+  });
+  settings.current = {
+    selected,
+    activeLayer,
+    guides,
+    onChange,
+    onSelectLayer,
+    onDragChange,
+  };
+  useEffect(() => {
+    setSelected(editing);
+  }, [editing, activeLayer, design.side, selectionKey]);
   const generation = useRef(0);
   const [status, setStatus] = useState<"loading" | "ready" | "fallback">(
     "loading",
@@ -36,6 +72,7 @@ export default function Studio3D({
   useEffect(() => {
     const element = host.current!;
     let disposed = false;
+    let unavailable = false;
     setStatus("loading");
     setSpinning(false);
     onReady?.(false);
@@ -47,6 +84,7 @@ export default function Studio3D({
     motionChange();
     motion.addEventListener("change", motionChange);
     const fail = () => {
+      unavailable = true;
       if (!disposed) {
         scene.current?.visible(false);
         setStatus("fallback");
@@ -62,11 +100,20 @@ export default function Studio3D({
     sync.current = (d) => {
       const ticket = ++generation.current,
         instance = scene.current;
-      if (!instance) return;
+      if (!instance || unavailable) return;
       onReady?.(false);
+      const current = settings.current;
+      const selection: StudioSelection | null = current.selected
+        ? { side: d.side, layer: current.activeLayer }
+        : null;
       Promise.all(
         (["front", "back"] as const).map((side) =>
-          renderArtworkTexture({ ...d, side }),
+          renderArtworkTexture(
+            { ...d, side },
+            current.guides && selection?.side === side
+              ? selection.layer
+              : undefined,
+          ),
         ),
       )
         .then(([front, back]) => {
@@ -76,7 +123,7 @@ export default function Studio3D({
             scene.current !== instance
           )
             return;
-          instance.update(d, front, back);
+          instance.update(d, front, back, selection);
           setStatus("ready");
           onReady?.(true);
         })
@@ -85,8 +132,35 @@ export default function Studio3D({
     import("@/lib/studio-scene")
       .then(({ createStudioScene }) => {
         if (disposed) return;
-        scene.current = createStudioScene(element, design.product, () =>
-          setSpinning(false),
+        scene.current = createStudioScene(
+          element,
+          design.product,
+          () => setSpinning(false),
+          {
+            select(selection) {
+              setSelected(!!selection);
+              if (selection) {
+                if (selection.side !== latest.current.side)
+                  skipSideView.current = selection.side;
+                settings.current.onSelectLayer?.(
+                  selection.layer,
+                  selection.side,
+                );
+              }
+            },
+            move(selection, position) {
+              settings.current.onChange?.(
+                placementPatch(
+                  { ...latest.current, side: selection.side },
+                  selection.layer,
+                  position,
+                ),
+              );
+            },
+            drag(active) {
+              settings.current.onDragChange?.(active);
+            },
+          },
         );
         if (latest.current.side === "back") scene.current.view("back");
         sync.current(latest.current);
@@ -104,8 +178,12 @@ export default function Studio3D({
   }, [design.product, onReady]);
   useEffect(() => {
     sync.current(design);
-  }, [design]);
+  }, [design, selected, activeLayer, guides]);
   useEffect(() => {
+    if (skipSideView.current === design.side) {
+      skipSideView.current = null;
+      return;
+    }
     scene.current?.view(design.side);
     setSpinning(false);
     scene.current?.spin(false);
@@ -132,7 +210,14 @@ export default function Studio3D({
       )}
       {status === "fallback" && (
         <>
-          <BagPreview design={design} onReady={onReady} />
+          <BagPreview
+            design={design}
+            onReady={onReady}
+            onChange={onChange}
+            activeLayer={activeLayer}
+            onSelectLayer={(layer) => onSelectLayer?.(layer, design.side)}
+            guides={guides && editing}
+          />
           <p className="studio-3d-fallback" role="status">
             {t(
               "3D is unavailable on this device. Your flat preview and design tools are still available.",

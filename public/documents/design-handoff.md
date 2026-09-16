@@ -51,11 +51,13 @@ The intended balance is manufacturer first, products and customization next. Do 
 
 Lead with “Build your bag.” Keep the working surface compact: a 30px desktop title, 26px mobile title, 360px controls column (330/305px on smaller desktops/tablets), 38px fields and short shape tiles. Use the scoped `.studio-compact` rules at the end of `app/brand-refresh.css`; the older `.studio-v4` rules are the compatibility baseline. Cards stack below 700px, and the mobile preview is 310px tall. Desktop keeps the quote action visible while long editing controls scroll inside their panel. Mobile controls and the quote action stay in normal document flow so nothing covers the form. The designer has a short footer instead of the site's large promotional invitation.
 
-**3D view** opens by default. All five families have distinct volumetric shapes, live bag color, independent front/back logo and text, drag rotation, keyboard arrows, rotation buttons, zoom, reset and optional automatic rotation. Front/back actions select the matching view. Automatic motion starts off and remains disabled for reduced-motion users. Fullscreen keeps the same controls; devices without WebGL receive the existing flat preview.
+**3D view** opens by default. All five families have distinct volumetric shapes, live bag color, independent front/back logo and text, direct logo/text selection and dragging, empty-space drag rotation, keyboard arrows, rotation buttons, zoom, reset and optional automatic rotation. Front/back actions select the matching view. Automatic motion starts off and remains disabled for reduced-motion users. Fullscreen keeps the same controls; devices without WebGL receive the existing flat preview.
 
 The bag tab contains size, color, material, print-color count and an optional custom-dimension request. “Next: add your design” opens the artwork tab. Logo and Text select independent layers and show only the selected layer's controls. Logo includes upload, thumbnail/name and optional white-background cleanup; Text includes a short text field, three typefaces, alignment and ink color. Artwork size is immediately available; coordinates and rotation sit inside the expandable **Position & rotation** section. Undo/redo, Center artwork, remove and copy-to-other-side remain available.
 
-**Place artwork** opens the flat canvas for precise dragging and keyboard placement. Both views use the same saved design. Dragging preserves the initial grab offset; keyboard arrows move by 1% (Shift: 5%). Guides can be hidden and never appear in exports. The clean downloads remain a single-face concept and a two-sided specification sheet. Keep controls readable; achieve compactness by removing duplicate information and revealing advanced tools on demand.
+In **3D view**, click or tap a logo/text layer to select it. Drag it in any direction within the artwork placement limits; a dashed outline follows the selected layer. Drag empty fabric/background to rotate the bag. Selecting visible back artwork switches the editing side without snapping the camera. Arrow keys nudge selected artwork (Shift: larger steps); Escape deselects it. A complete drag is one undo step, even with a pause. Fullscreen and mobile touch use the same editing behavior.
+
+**Place artwork** remains an alternative flat canvas for precise dragging and keyboard placement. Both views use the same saved design. Dragging preserves the initial grab offset; keyboard arrows move by 1% (Shift: 5%). Guides can be hidden and never appear in exports. The clean downloads remain a single-face concept and a two-sided specification sheet. Keep controls readable; achieve compactness by removing duplicate information and revealing advanced tools on demand.
 
 ### Catalog and detail
 
@@ -143,3 +145,7 @@ Before production: approved product dimension drawings and print zones for all 1
 ## Studio and certificate follow-up
 
 The studio also exports a two-sided design sheet with specifications. The certificate section now uses framed original documents on the homepage and an accessible document library with search, zoom, readable metadata and original-file downloads. Maintain both the expiry field and additional conditional date shown on the scans. See `STUDIO-AND-CERTIFICATES-16.09.26.md` for the exact record and implemented handout ideas.
+
+### Header wordmark color — 16 September 2026
+
+The client requested the headline lime (`#c6eb9d`) on the header logo’s KO/bag symbol and GROUP. BAGS stays navy. `components/site-shell.tsx` and `app/compact.css` apply a clipped CSS mask using the original transparent logo, preserving its exact shapes and typography at every screen size. The original asset is unchanged; the footer retains its white treatment.

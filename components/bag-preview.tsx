@@ -125,14 +125,8 @@ async function tintedBag(design: Design) {
   layerCache.set(key, promise);
   return promise;
 }
-export type ArtworkBounds = {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  rotation: number;
-  layer?: ArtworkLayer;
-};
+export type { ArtworkBounds } from "@/lib/studio-artwork";
+import type { ArtworkBounds } from "@/lib/studio-artwork";
 async function paintArtwork(
   ctx: CanvasRenderingContext2D,
   design: Design,
@@ -210,13 +204,40 @@ async function paintArtwork(
   return boxes;
 }
 // The same artwork composition drives flat exports and both faces of the 3D model.
-export async function renderArtworkTexture(design: Design) {
+export async function renderArtworkTexture(
+  design: Design,
+  selected?: ArtworkLayer,
+) {
   const canvas = document.createElement("canvas");
   canvas.width = canvas.height = 1024;
   const ctx = canvas.getContext("2d")!;
   ctx.scale(1024 / LOGICAL, 1024 / LOGICAL);
-  await paintArtwork(ctx, design);
-  return canvas;
+  const bounds = await paintArtwork(ctx, design);
+  const box = bounds.find((b) => b.layer === selected);
+  if (box) {
+    ctx.save();
+    ctx.translate(box.x, box.y);
+    ctx.rotate((box.rotation * Math.PI) / 180);
+    ctx.lineWidth = 4;
+    ctx.strokeStyle = "#ffffff";
+    ctx.strokeRect(
+      -box.width / 2 - 12,
+      -box.height / 2 - 10,
+      box.width + 24,
+      box.height + 20,
+    );
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "#087a36";
+    ctx.setLineDash([9, 5]);
+    ctx.strokeRect(
+      -box.width / 2 - 12,
+      -box.height / 2 - 10,
+      box.width + 24,
+      box.height + 20,
+    );
+    ctx.restore();
+  }
+  return { canvas, bounds };
 }
 export async function renderBagDesign(
   target: HTMLCanvasElement,

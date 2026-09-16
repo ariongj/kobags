@@ -1,0 +1,18 @@
+{
+  "status": "passed",
+  "checks": [
+    "direct logo and text selection on 3D mesh",
+    "independent layer and face movement",
+    "one undo per complete gesture including pauses",
+    "keyboard nudge, escape, sidebar reselection",
+    "empty-space orbit",
+    "back-face selection without camera snap",
+    "clean exports independent of guides",
+    "fullscreen editing",
+    "mobile touch dragging",
+    "320/390/768/1440 layout",
+    "exact lime header treatment",
+    "visible uploaded logo/text after saved-draft load and fullscreen"
+  ],
+  "browserErrors": []
+}
