@@ -133,28 +133,13 @@ export type ArtworkBounds = {
   rotation: number;
   layer?: ArtworkLayer;
 };
-export async function renderBagDesign(
-  target: HTMLCanvasElement,
+async function paintArtwork(
+  ctx: CanvasRenderingContext2D,
   design: Design,
-  {
-    guides = false,
-    resolution = 1600,
-    activeLayer,
-  }: { guides?: boolean; resolution?: number; activeLayer?: ArtworkLayer } = {},
+  composite: GlobalCompositeOperation = "source-over",
 ) {
   const primary = sideArtwork(design);
-  const [base, logo] = await Promise.all([
-    tintedBag(design),
-    primary.logo ? loadImage(primary.logo) : Promise.resolve(null),
-  ]);
-  const work = document.createElement("canvas");
-  work.width = resolution;
-  work.height = resolution;
-  const ctx = work.getContext("2d")!;
-  ctx.scale(resolution / LOGICAL, resolution / LOGICAL);
-  ctx.imageSmoothingEnabled = true;
-  ctx.imageSmoothingQuality = "high";
-  ctx.drawImage(base, 0, 0, LOGICAL, LOGICAL);
+  const logo = primary.logo ? await loadImage(primary.logo) : null;
   const boxes: ArtworkBounds[] = [];
   const layers: ArtworkLayer[] = logo
     ? design.layeredArtwork && primary.text
@@ -169,7 +154,7 @@ export async function renderBagDesign(
       height = 0;
     const maxWidth = art.scale * 8;
     ctx.save();
-    ctx.globalCompositeOperation = "source-atop";
+    ctx.globalCompositeOperation = composite;
     ctx.translate(art.x * 8, art.y * 8);
     ctx.rotate((art.rotation * Math.PI) / 180);
     if (layer === "logo" && logo) {
@@ -222,8 +207,39 @@ export async function renderBagDesign(
       layer,
     });
   }
+  return boxes;
+}
+// The same artwork composition drives flat exports and both faces of the 3D model.
+export async function renderArtworkTexture(design: Design) {
+  const canvas = document.createElement("canvas");
+  canvas.width = canvas.height = 1024;
+  const ctx = canvas.getContext("2d")!;
+  ctx.scale(1024 / LOGICAL, 1024 / LOGICAL);
+  await paintArtwork(ctx, design);
+  return canvas;
+}
+export async function renderBagDesign(
+  target: HTMLCanvasElement,
+  design: Design,
+  {
+    guides = false,
+    resolution = 1600,
+    activeLayer,
+  }: { guides?: boolean; resolution?: number; activeLayer?: ArtworkLayer } = {},
+) {
+  const base = await tintedBag(design);
+  const work = document.createElement("canvas");
+  work.width = resolution;
+  work.height = resolution;
+  const ctx = work.getContext("2d")!;
+  ctx.scale(resolution / LOGICAL, resolution / LOGICAL);
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
+  ctx.drawImage(base, 0, 0, LOGICAL, LOGICAL);
+  const boxes = await paintArtwork(ctx, design, "source-atop");
+  const defaultLayer = sideArtwork(design).logo ? "logo" : "text";
   const guideBox = boxes.find(
-    (box) => box.layer === (activeLayer || layers[0]),
+    (box) => box.layer === (activeLayer || defaultLayer),
   );
   if (guides && guideBox) {
     const art = sideArtwork(design, guideBox.layer),

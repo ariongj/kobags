@@ -1,0 +1,29 @@
+{
+  "status": "passed",
+  "models": [
+    "handle-bag",
+    "box-bag",
+    "d-cut-bag",
+    "t-shirt-bag",
+    "string-bag"
+  ],
+  "widths": [
+    1440,
+    1024,
+    768,
+    390,
+    320
+  ],
+  "desktopQuoteVisibleWithoutScroll": true,
+  "checks": [
+    "five distinct volumetric families",
+    "drag, arrow buttons and keyboard rotation",
+    "zoom, reset, front/back and opt-in spin",
+    "independent front/back logo and text with live textures",
+    "shared artwork state between 3D and precision placement",
+    "two-sided export, fullscreen and quote carry-through",
+    "compact desktop CTA and mobile canvas",
+    "reduced motion and unavailable-WebGL fallback"
+  ],
+  "browserErrors": []
+}

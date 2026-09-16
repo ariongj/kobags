@@ -1,13 +1,25 @@
 "use client";
 import Link from "@/components/site-link";
 import { usePathname } from "next/navigation";
-import { useState, ReactNode } from "react";
+import { useEffect, useRef, useState, ReactNode } from "react";
 import { ArrowUpRight, Menu, Globe2, X } from "lucide-react";
 import { useKobags } from "./kobags-context";
 export function Header() {
   const { t, lang, setLang } = useKobags();
   const [open, setOpen] = useState(false);
   const path = usePathname();
+  const menuButton = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (!open) return;
+    const close = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setOpen(false);
+        menuButton.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", close);
+    return () => document.removeEventListener("keydown", close);
+  }, [open]);
   return (
     <>
       <div className="utility">
@@ -30,7 +42,11 @@ export function Header() {
             height="52"
           />
         </Link>
-        <nav className={open ? "nav open" : "nav"} aria-label="Main navigation">
+        <nav
+          id="site-navigation"
+          className={open ? "nav open" : "nav"}
+          aria-label="Main navigation"
+        >
           {[
             ["/", "Home", "Ballina"],
             ["/products", "Our bags", "Çantat tona"],
@@ -53,6 +69,13 @@ export function Header() {
               {t(en, sq)}
             </Link>
           ))}
+          <Link
+            href="/quote"
+            className="nav-quote"
+            onClick={() => setOpen(false)}
+          >
+            {t("Request a quote", "Kërko ofertë")} <ArrowUpRight size={16} />
+          </Link>
         </nav>
         <div className="header-actions">
           <button
@@ -70,6 +93,8 @@ export function Header() {
           </Link>
           <button
             className="mobile-toggle icon-button"
+            ref={menuButton}
+            aria-controls="site-navigation"
             aria-label={t("Toggle menu", "Hap ose mbyll menynë")}
             aria-expanded={open}
             onClick={() => setOpen(!open)}

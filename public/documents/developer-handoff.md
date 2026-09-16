@@ -29,8 +29,8 @@ Existing demo records, credentials, provider configuration, Git history, install
 - Cloudflare Worker for rendering and `/api/demo`.
 - Cloudflare D1 through logical binding `DB`.
 - Drizzle schema/migration; prepared D1 queries at runtime.
-- Canvas 2D for the detailed bag designer and PNG export.
-- Three.js for the lazily loaded homepage 3D showcase, with a procedural illustrative tote.
+- Canvas 2D for precise artwork placement, shared artwork textures and PNG export.
+- Three.js for the lazily loaded homepage showroom and the five-family 3D designer.
 - Local storage for unfinished design, quote step and locale.
 - Existing accessible UI primitives for dialogs, tabs, selects, tables and checkboxes.
 
@@ -137,6 +137,18 @@ Pointer movement retains the initial grab offset; arrow keys move by 1% (Shift: 
 
 Use approved per-variant print templates, original-file storage, file validation/scanning and controlled downloads before taking production artwork. Do not derive millimetre-accurate placement from the current percentage-based illustration.
 
+### Compact five-family 3D designer
+
+`components/studio-3d.tsx` lazy-loads `lib/studio-scene.ts` when the 3D view mounts. The scene constructs separate front/back panels, gussets, seams and family-specific handles: oval D-Cut holes, ribbon Handle/Box loops, integrated T-Shirt handles or String drawcords. These are illustrative family models; catalogue size selection updates the specification, not approved physical geometry. The scene has no additional dependency beyond the existing Three.js install.
+
+`renderArtworkTexture` in `components/bag-preview.tsx` shares the artwork painter with the flat renderer. It supplies a transparent 1024px texture for each face, preserving independent text/logo placement, rotation, ink, alignment and image aspect ratios. Revision tokens discard stale asynchronous results. Only a family change reconstructs the scene; editing updates material colors and existing textures. The established draft/RFQ/proof contracts and PNG exports are unchanged. Flat **Place artwork** remains the placement tool.
+
+OrbitControls supports drag and keyboard rotation. Dedicated controls provide rotation, zoom, reset and opt-in spin. Front/back changes align the view. Auto-spin starts off and honors reduced motion. Pixel ratio is capped at 1.8; rendering settles after interaction and pauses offscreen or when the document is hidden. Cleanup disposes controls, geometry, materials, textures, observers, listeners and renderer. WebGL initialization/context failure exposes a usable flat fallback without discarding the draft.
+
+The compact rules live at the end of `app/brand-refresh.css`, scoped to `.kobags-v5 .studio-compact` so earlier brand rules cannot reintroduce large headings and padding. Desktop controls scroll internally with the quote action below; mobile stacks the canvas and controls with no sticky element over the form. Only the selected Logo/Text controls are shown; precision coordinates are expandable. This compactness convention should guide future extensions.
+
+`qa/studio_3d_checks.py` exercises distinct families, real camera movement, live artwork on both faces, mode switching, downloads, fullscreen, responsive layouts, reduced motion and the no-WebGL fallback. Use `CHROME_SOFTWARE_GL=1` for headless environments without a GPU. This does not measure performance on a physical phone.
+
 ### Homepage 3D showroom
 
 `components/bag-showcase.tsx` uses IntersectionObserver with a 250px margin to import `lib/bag-scene.ts` near the viewport. That separate chunk contains Three.js and OrbitControls. It creates no server-side WebGL context. The model is authored as geometry in code: curved front/back panels, side folds, base, ribbon handles, reinforcement patches and seams. A deterministic canvas bump texture provides fine fabric detail; another canvas texture applies the current brand text. A soft procedural contact shadow avoids expensive shadow-map passes.
@@ -148,6 +160,12 @@ The renderer caps pixel ratio at 1.75 and stops its animation loop when the sect
 The showroom is a local presentation state until the visitor chooses Continue. That action writes the selected Handle Small, color, text, ink, sans typeface and centered placement into the existing synchronous browser draft, then navigates normally to `/design`. It does not create an RFQ or perform a server write.
 
 The 3D model is illustrative and independent of the v4 generated images. It is not a product-specific CAD asset or manufacturing instruction. Approved geometry, physical material references and all variant models remain production inputs. Three.js [documentation](https://threejs.org/docs/) is the API reference; `package-lock.json` records the installed version.
+
+### Compact site and mobile navigation
+
+`app/compact.css` is imported last in the root layout. It sets the shared spacing rhythm, smaller public-page openings, catalog/image heights, form gaps, mobile text-input sizes and compact footer treatment. It also retains the studio-specific density and increases mobile 3D tool hit areas. The mobile menu includes a quote action, 44px navigation rows, viewport-constrained scrolling and Escape-to-close with focus returned to the opener.
+
+`qa/mobile_site_checks.py` traverses the 32-page outline on a touch-enabled 390px browser and key routes at 320px/768px. It checks horizontal overflow, menu touch targets and quote navigation, text-input font size, touch rotation and the designer in short landscape views. `KOBAGS_MOBILE_FIRST=1` runs the existing guest journey from a 390px touch-enabled context, including the entire demo order and reorder. These emulate mobile browsers; they are not physical iOS/Safari or Android-device certification.
 
 ### Content and integration boundaries
 

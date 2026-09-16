@@ -1,4 +1,5 @@
 "use client";
+import Studio3D from "./studio-3d";
 import { useRef, useState } from "react";
 import Link from "@/components/site-link";
 import {
@@ -24,6 +25,7 @@ import {
   CheckCircle2,
   AlertTriangle,
   Eraser,
+  Box,
   Undo2,
   Redo2,
   Copy,
@@ -218,6 +220,7 @@ export default function BagStudio() {
   const v = p.variants.find((v) => v.name === design.size) || p.variants[0];
   const [copied, setCopied] = useState(false);
   const [tab, setTab] = useState("bag");
+  const [viewMode, setViewMode] = useState("3d");
   const [error, setError] = useState("");
   const [full, setFull] = useState(false);
   const [downloaded, setDownloaded] = useState("");
@@ -573,21 +576,14 @@ export default function BagStudio() {
     }
   };
   return (
-    <section className="studio-section studio-v4">
+    <section className="studio-section studio-v4 studio-compact">
       <div className="studio-heading">
         <div>
-          <p className="eyebrow">
-            <span className="tiny-rule" />
-            {t("THE KOBAGS BAG STUDIO", "STUDIOJA E ÇANTAVE KOBAGS")}
-          </p>
-          <h1>
-            {t("Your brand.", "Marka juaj.")}{" "}
-            <span>{t("Your bag.", "Çanta juaj.")}</span>
-          </h1>
+          <h1>{t("Build your bag.", "Krijoni çantën tuaj.")}</h1>
           <p>
             {t(
-              "Choose your bag, add your artwork and make every detail yours.",
-              "Zgjidhni çantën, shtoni dizajnin dhe personalizoni çdo detaj.",
+              "Choose a shape. Add your brand. Turn it around.",
+              "Zgjidhni formën. Shtoni markën. Rrotullojeni.",
             )}
           </p>
         </div>
@@ -601,28 +597,6 @@ export default function BagStudio() {
             {t("Made in Lipjan, Kosovo", "Prodhuar në Lipjan, Kosovë")}
           </span>
         </div>
-      </div>
-      <div
-        className="studio-brief"
-        aria-label={t("Before you design", "Para se të dizajnoni")}
-      >
-        <span>
-          <Package size={17} />
-          {t("5 bag shapes · 15 sizes", "5 forma çantash · 15 madhësi")}
-        </span>
-        <span>
-          {t(
-            "Flexographic print · up to 4 colors",
-            "Shtyp fleksografik · deri në 4 ngjyra",
-          )}
-        </span>
-        <Link href="/samples">
-          {t(
-            "Feel the material: request samples",
-            "Prekni materialin: kërkoni mostra",
-          )}
-          <ArrowUpRight size={15} />
-        </Link>
       </div>
       <div className="studio">
         <div className="preview-column">
@@ -644,7 +618,21 @@ export default function BagStudio() {
             ))}
           </div>
           <div className="studio-history">
-            <span>{t("YOUR DESIGN CANVAS", "PAMJA E DIZAJNIT")}</span>
+            <Tabs value={viewMode} onValueChange={setViewMode}>
+              <TabsList
+                className="view-mode-tabs"
+                aria-label={t("Preview mode", "Pamja e parapamjes")}
+              >
+                <TabsTrigger value="3d">
+                  <Box size={15} />
+                  {t("3D view", "Pamja 3D")}
+                </TabsTrigger>
+                <TabsTrigger value="edit">
+                  <Move size={15} />
+                  {t("Place artwork", "Vendos dizajnin")}
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
             <div>
               <button
                 type="button"
@@ -684,30 +672,22 @@ export default function BagStudio() {
                 <Maximize2 size={18} />
               </button>
             </div>
-            <BagPreview
-              design={design}
-              onChange={update}
-              activeLayer={activeLayer}
-              onSelectLayer={(layer) => {
-                setActiveLayer(layer);
-                setTab("artwork");
-              }}
-              canvasRef={canvas}
-              guides={guides && tab === "artwork"}
-              onReady={setPreviewReady}
-            />
-            <div className="stage-artwork-side">
-              {t(
-                back ? "BACK ARTWORK" : "FRONT ARTWORK",
-                back ? "DIZAJNI PRAPA" : "DIZAJNI PËRPARA",
-              )}
-            </div>
-            <div className="stage-label">
-              <span>NON-WOVEN PP</span>
-              <span>
-                {v.gsm} GSM · {v.dimensions}
-              </span>
-            </div>
+            {viewMode === "3d" ? (
+              <Studio3D design={design} onReady={setPreviewReady} />
+            ) : (
+              <BagPreview
+                design={design}
+                onChange={update}
+                activeLayer={activeLayer}
+                onSelectLayer={(layer) => {
+                  setActiveLayer(layer);
+                  setTab("artwork");
+                }}
+                canvasRef={canvas}
+                guides={guides && tab === "artwork"}
+                onReady={setPreviewReady}
+              />
+            )}
             <div className="stage-bottom">
               <Tabs
                 value={design.side}
@@ -731,8 +711,12 @@ export default function BagStudio() {
               <span className="drag-tip">
                 <Move size={14} />
                 {t(
-                  "Drag your artwork to position",
-                  "Lëvizni dizajnin për ta pozicionuar",
+                  viewMode === "3d"
+                    ? "Drag to rotate"
+                    : "Drag artwork to position",
+                  viewMode === "3d"
+                    ? "Tërhiqni për ta rrotulluar"
+                    : "Lëvizni dizajnin për ta pozicionuar",
                 )}
               </span>
               <button
@@ -758,47 +742,11 @@ export default function BagStudio() {
               {downloaded}
             </p>
           )}
-          <div
-            className="studio-side-cards"
-            aria-label={t("Artwork on each side", "Dizajni në secilën anë")}
-          >
-            {(["front", "back"] as const).map((side) => {
-              const artwork = sideArtwork({ ...design, side });
-              const hasArtwork = sides.includes(side);
-              return (
-                <button
-                  key={side}
-                  type="button"
-                  aria-pressed={design.side === side}
-                  onClick={() => {
-                    update({ side });
-                    setTab("artwork");
-                  }}
-                >
-                  <span className="side-card-icon" aria-hidden="true">
-                    {hasArtwork ? <Check size={18} /> : <ImagePlus size={18} />}
-                  </span>
-                  <span>
-                    <strong>
-                      {t(
-                        side === "front" ? "Front" : "Back",
-                        side === "front" ? "Përpara" : "Prapa",
-                      )}
-                    </strong>
-                    <span>
-                      {hasArtwork
-                        ? artwork.logo && artwork.text && design.layeredArtwork
-                          ? t("Logo + text added", "Logo + tekst i shtuar")
-                          : artwork.logo
-                            ? t("Logo added", "Logo e shtuar")
-                            : t("Brand text added", "Teksti i markës u shtua")
-                        : t("Blank · add artwork", "Bosh · shtoni dizajnin")}
-                    </span>
-                  </span>
-                  <ArrowRight size={16} aria-hidden="true" />
-                </button>
-              );
-            })}
+          <div className="studio-spec-line">
+            <span>
+              {v.dimensions} · {v.gsm} GSM · Non-woven PP
+            </span>
+            <span>{design.color}</span>
           </div>
           <button
             type="button"
@@ -820,18 +768,12 @@ export default function BagStudio() {
           <div className="preview-disclaimer">
             <Info size={14} />
             {t(
-              "Visual concept only. Your final material, color and print placement are confirmed before production.",
+              "Illustrative 3D and artwork views. Final details are approved before production.",
               "Paraqitje ilustruese. Ngjyra, forma, shkalla dhe shtypi kërkojnë miratim.",
             )}
           </div>
         </div>
         <aside className="studio-controls">
-          <div className="controls-heading">
-            <span className="eyebrow">
-              {t("LET’S MAKE IT YOURS", "TA PERSONALIZOJMË")}
-            </span>
-            <h2>{t("Make it your own.", "Personalizojeni sipas jush.")}</h2>
-          </div>
           <Tabs value={tab} onValueChange={setTab}>
             <TabsList className="editor-tabs">
               <TabsTrigger value="bag">
@@ -916,31 +858,27 @@ export default function BagStudio() {
                   </span>
                 </div>
               </div>
-              <button
-                className="upload-zone"
-                disabled={uploading || backgroundBusy}
-                onClick={() => {
-                  setTab("artwork");
-                  fileRef.current?.click();
-                }}
-              >
-                <span className="upload-icon">
-                  <Upload size={21} />
-                </span>
-                <strong>
-                  {uploading
-                    ? t("Preparing your logo…", "Duke përgatitur logon…")
-                    : art.logo
-                      ? art.name || t("Your uploaded logo", "Logoja e ngarkuar")
-                      : t("Add your logo", "Shtoni logon tuaj")}
-                </strong>
-                <span>
-                  {t(
-                    "PNG, JPG or WebP · up to 5 MB",
-                    "PNG, JPG ose WebP · deri 5 MB",
+              <div className="studio-print-plan">
+                <Choice
+                  id="studio-print-colors"
+                  label={t(
+                    "Print colors to quote",
+                    "Ngjyrat e shtypit për ofertë",
                   )}
-                </span>
-              </button>
+                  value={String(design.printColors)}
+                  onChange={(value) => update({ printColors: Number(value) })}
+                  options={[1, 2, 3, 4].map((count) => ({
+                    value: String(count),
+                    label: `${count} ${t(count === 1 ? "color" : "colors", count === 1 ? "ngjyrë" : "ngjyra")}`,
+                  }))}
+                />
+                <p>
+                  {t(
+                    "Up to 4 print colors. The bag color doesn’t count.",
+                    "Zgjidhni ngjyrat e shtypit që prisni të përdorni, pa ngjyrën e çantës. Numri dhe zona e shtypit konfirmohen me dizajnin tuaj.",
+                  )}
+                </p>
+              </div>
               <details className="studio-custom-request">
                 <summary>
                   {t(
@@ -966,13 +904,10 @@ export default function BagStudio() {
                 </p>
               </details>
               <button
-                className="text-button design-next"
+                className="button design-next"
                 onClick={() => setTab("artwork")}
               >
-                {t(
-                  "Or start with your brand name",
-                  "Ose filloni me emrin e markës",
-                )}{" "}
+                {t("Next: add your design", "Vazhdoni: shtoni dizajnin")}{" "}
                 <ArrowRight size={15} />
               </button>
             </TabsContent>
@@ -989,7 +924,21 @@ export default function BagStudio() {
                 </span>
                 <button
                   type="button"
-                  onClick={() => setGuides(!guides)}
+                  className="text-button flip-edit-side"
+                  onClick={() => update({ side: back ? "front" : "back" })}
+                >
+                  {t(
+                    back ? "Edit front" : "Edit back",
+                    back ? "Ndrysho përpara" : "Ndrysho prapa",
+                  )}
+                  <ArrowRight size={13} />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setGuides(!guides);
+                    setViewMode("edit");
+                  }}
                   className="guide-toggle"
                   aria-label={t(
                     "Toggle artwork guides",
@@ -1000,106 +949,6 @@ export default function BagStudio() {
                   {guides ? <Eye size={17} /> : <EyeOff size={17} />}
                 </button>
               </div>
-              {art.logo ? (
-                <div className="artwork-file">
-                  <div className="artwork-file-thumb">
-                    <img
-                      src={art.logo}
-                      alt={t("Your uploaded artwork", "Dizajni i ngarkuar")}
-                    />
-                  </div>
-                  <div>
-                    <strong>
-                      {art.name || t("Uploaded logo", "Logo e ngarkuar")}
-                    </strong>
-                    <span>
-                      <CheckCircle2 size={13} />
-                      {t("Ready to place", "Gati për pozicionim")}
-                    </span>
-                    <button
-                      className="text-button"
-                      onClick={() => fileRef.current?.click()}
-                      disabled={uploading || backgroundBusy}
-                    >
-                      {t("Replace logo", "Zëvendëso logon")}
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <button
-                  className="upload-zone short artwork-upload"
-                  onClick={() => fileRef.current?.click()}
-                  disabled={uploading || backgroundBusy}
-                  onDragOver={(e) => e.preventDefault()}
-                  onDrop={(e) => {
-                    e.preventDefault();
-                    upload(e.dataTransfer.files[0]);
-                  }}
-                >
-                  <ImagePlus size={25} />
-                  <strong>
-                    {uploading
-                      ? t("Preparing your logo…", "Duke përgatitur logon…")
-                      : t(
-                          "Upload or drop your logo",
-                          "Ngarkoni ose hidhni logon",
-                        )}
-                  </strong>
-                  <span>PNG, JPG, WebP · 5 MB</span>
-                </button>
-              )}
-              {art.logo && (
-                <div className="studio-logo-cleanup">
-                  <button
-                    type="button"
-                    className="text-button"
-                    disabled={uploading || backgroundBusy}
-                    onClick={() => {
-                      if (canRestoreBackground && backgroundEdit) {
-                        update(
-                          back
-                            ? { backLogo: backgroundEdit.original }
-                            : { logo: backgroundEdit.original },
-                        );
-                        setBackgroundNotice(null);
-                      } else void removeWhiteBackground();
-                    }}
-                  >
-                    {canRestoreBackground ? (
-                      <RotateCcw size={16} />
-                    ) : (
-                      <Eraser size={16} />
-                    )}
-                    {backgroundBusy
-                      ? t("Removing background…", "Duke hequr sfondin…")
-                      : canRestoreBackground
-                        ? t(
-                            "Restore original background",
-                            "Rikthe sfondin origjinal",
-                          )
-                        : t("Remove white background", "Hiq sfondin e bardhë")}
-                  </button>
-                  <p>
-                    {t(
-                      "For logos on a white background. Check light details after removal; you can undo it here.",
-                      "Për logo me sfond të bardhë. Kontrolloni detajet e çelëta pas heqjes; këtu mund ta zhbëni.",
-                    )}
-                  </p>
-                  {backgroundNotice?.source === art.logo && (
-                    <p role="status">
-                      {backgroundNotice.message === "empty"
-                        ? t(
-                            "This would remove the whole logo. Your original has been kept.",
-                            "Kjo do ta hiqte të gjithë logon. Origjinali u ruajt.",
-                          )
-                        : t(
-                            "No white background was found at the edges. Your logo is unchanged.",
-                            "Nuk u gjet sfond i bardhë në skaje. Logoja nuk u ndryshua.",
-                          )}
-                    </p>
-                  )}
-                </div>
-              )}
               <div
                 className="layer-selector"
                 role="group"
@@ -1119,7 +968,7 @@ export default function BagStudio() {
                     <small>
                       {art.logo
                         ? t("Select & position", "Zgjidhni dhe poziciononi")
-                        : t("Upload above", "Ngarkoni më sipër")}
+                        : t("Add an image", "Shtoni një imazh")}
                     </small>
                   </span>
                 </button>
@@ -1137,42 +986,148 @@ export default function BagStudio() {
                   </span>
                 </button>
               </div>
-              <div className="artwork-divider">
-                <span>
-                  {t("LOGO + TEXT. TOGETHER.", "LOGO + TEKST. SË BASHKU.")}
-                </span>
-              </div>
-              <div className="field">
-                <label htmlFor="brand-text">
-                  {t("Brand name or message", "Emri i markës ose mesazhi")}
-                </label>
-                <textarea
-                  id="brand-text"
-                  rows={3}
-                  maxLength={60}
-                  value={art.text}
-                  placeholder={t("Your brand name", "Emri i markës suaj")}
-                  onChange={(e) => {
-                    setError("");
-                    setActiveLayer("text");
-                    update({
-                      ...(art.logo ? enableLayers(design) : {}),
-                      ...(back
-                        ? { backText: e.target.value }
-                        : { text: e.target.value }),
-                    });
-                  }}
-                />
-                <div className="text-field-help">
-                  <span>
-                    {t(
-                      "Short and clear works best.",
-                      "Teksti i shkurtër është më i qartë.",
-                    )}
-                  </span>
-                  <span>{art.text.length}/60</span>
-                </div>
-              </div>
+              {activeLayer === "logo" && (
+                <>
+                  {art.logo ? (
+                    <div className="artwork-file">
+                      <div className="artwork-file-thumb">
+                        <img
+                          src={art.logo}
+                          alt={t("Your uploaded artwork", "Dizajni i ngarkuar")}
+                        />
+                      </div>
+                      <div>
+                        <strong>
+                          {art.name || t("Uploaded logo", "Logo e ngarkuar")}
+                        </strong>
+                        <span>
+                          <CheckCircle2 size={13} />
+                          {t("Ready to place", "Gati për pozicionim")}
+                        </span>
+                        <button
+                          className="text-button"
+                          onClick={() => fileRef.current?.click()}
+                          disabled={uploading || backgroundBusy}
+                        >
+                          {t("Replace logo", "Zëvendëso logon")}
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <button
+                      className="upload-zone short artwork-upload"
+                      onClick={() => fileRef.current?.click()}
+                      disabled={uploading || backgroundBusy}
+                      onDragOver={(e) => e.preventDefault()}
+                      onDrop={(e) => {
+                        e.preventDefault();
+                        upload(e.dataTransfer.files[0]);
+                      }}
+                    >
+                      <ImagePlus size={25} />
+                      <strong>
+                        {uploading
+                          ? t("Preparing your logo…", "Duke përgatitur logon…")
+                          : t(
+                              "Upload or drop your logo",
+                              "Ngarkoni ose hidhni logon",
+                            )}
+                      </strong>
+                      <span>PNG, JPG, WebP · 5 MB</span>
+                    </button>
+                  )}
+                  {art.logo && (
+                    <div className="studio-logo-cleanup">
+                      <button
+                        type="button"
+                        className="text-button"
+                        disabled={uploading || backgroundBusy}
+                        onClick={() => {
+                          if (canRestoreBackground && backgroundEdit) {
+                            update(
+                              back
+                                ? { backLogo: backgroundEdit.original }
+                                : { logo: backgroundEdit.original },
+                            );
+                            setBackgroundNotice(null);
+                          } else void removeWhiteBackground();
+                        }}
+                      >
+                        {canRestoreBackground ? (
+                          <RotateCcw size={16} />
+                        ) : (
+                          <Eraser size={16} />
+                        )}
+                        {backgroundBusy
+                          ? t("Removing background…", "Duke hequr sfondin…")
+                          : canRestoreBackground
+                            ? t(
+                                "Restore original background",
+                                "Rikthe sfondin origjinal",
+                              )
+                            : t(
+                                "Remove white background",
+                                "Hiq sfondin e bardhë",
+                              )}
+                      </button>
+                      <p>
+                        {t(
+                          "For logos on a white background. Check light details after removal; you can undo it here.",
+                          "Për logo me sfond të bardhë. Kontrolloni detajet e çelëta pas heqjes; këtu mund ta zhbëni.",
+                        )}
+                      </p>
+                      {backgroundNotice?.source === art.logo && (
+                        <p role="status">
+                          {backgroundNotice.message === "empty"
+                            ? t(
+                                "This would remove the whole logo. Your original has been kept.",
+                                "Kjo do ta hiqte të gjithë logon. Origjinali u ruajt.",
+                              )
+                            : t(
+                                "No white background was found at the edges. Your logo is unchanged.",
+                                "Nuk u gjet sfond i bardhë në skaje. Logoja nuk u ndryshua.",
+                              )}
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </>
+              )}
+              {activeLayer === "text" && (
+                <>
+                  <div className="field">
+                    <label htmlFor="brand-text">
+                      {t("Brand name or message", "Emri i markës ose mesazhi")}
+                    </label>
+                    <textarea
+                      id="brand-text"
+                      rows={2}
+                      maxLength={60}
+                      value={art.text}
+                      placeholder={t("Your brand name", "Emri i markës suaj")}
+                      onChange={(e) => {
+                        setError("");
+                        setActiveLayer("text");
+                        update({
+                          ...(art.logo ? enableLayers(design) : {}),
+                          ...(back
+                            ? { backText: e.target.value }
+                            : { text: e.target.value }),
+                        });
+                      }}
+                    />
+                    <div className="text-field-help">
+                      <span>
+                        {t(
+                          "Short and clear works best.",
+                          "Teksti i shkurtër është më i qartë.",
+                        )}
+                      </span>
+                      <span>{art.text.length}/60</span>
+                    </div>
+                  </div>
+                </>
+              )}
               {activeLayer === "text" && (
                 <>
                   <Choice
@@ -1270,53 +1225,61 @@ export default function BagStudio() {
                     onValueChange={([scale]) => transform({ scale })}
                   />
                 </div>
-                <div className="precision-grid">
-                  <label>
-                    {t("Horizontal", "Horizontalisht")}
-                    <span>
-                      <PrecisionInput
-                        min={24}
-                        max={76}
-                        value={art.x}
-                        label={t("Horizontal position", "Pozicioni horizontal")}
-                        onChange={(n) => setArtworkPosition("x", n)}
-                      />
-                      <small>%</small>
-                    </span>
-                  </label>
-                  <label>
-                    {t("Vertical", "Vertikalisht")}
-                    <span>
-                      <PrecisionInput
-                        min={33}
-                        max={80}
-                        value={art.y}
-                        label={t("Vertical position", "Pozicioni vertikal")}
-                        onChange={(n) => setArtworkPosition("y", n)}
-                      />
-                      <small>%</small>
-                    </span>
-                  </label>
-                  <label>
-                    {t("Rotation", "Rrotullimi")}
-                    <span>
-                      <PrecisionInput
-                        min={-45}
-                        max={45}
-                        value={art.rotation}
-                        label={t("Artwork rotation", "Rrotullimi i dizajnit")}
-                        onChange={(rotation) => transform({ rotation })}
-                      />
-                      <small>°</small>
-                    </span>
-                  </label>
-                </div>
+                <details className="precision-details">
+                  <summary>
+                    {t("Position & rotation", "Pozicioni dhe rrotullimi")}
+                  </summary>
+                  <div className="precision-grid">
+                    <label>
+                      {t("Horizontal", "Horizontalisht")}
+                      <span>
+                        <PrecisionInput
+                          min={24}
+                          max={76}
+                          value={art.x}
+                          label={t(
+                            "Horizontal position",
+                            "Pozicioni horizontal",
+                          )}
+                          onChange={(n) => setArtworkPosition("x", n)}
+                        />
+                        <small>%</small>
+                      </span>
+                    </label>
+                    <label>
+                      {t("Vertical", "Vertikalisht")}
+                      <span>
+                        <PrecisionInput
+                          min={33}
+                          max={80}
+                          value={art.y}
+                          label={t("Vertical position", "Pozicioni vertikal")}
+                          onChange={(n) => setArtworkPosition("y", n)}
+                        />
+                        <small>%</small>
+                      </span>
+                    </label>
+                    <label>
+                      {t("Rotation", "Rrotullimi")}
+                      <span>
+                        <PrecisionInput
+                          min={-45}
+                          max={45}
+                          value={art.rotation}
+                          label={t("Artwork rotation", "Rrotullimi i dizajnit")}
+                          onChange={(rotation) => transform({ rotation })}
+                        />
+                        <small>°</small>
+                      </span>
+                    </label>
+                  </div>
+                </details>
               </div>
               <div className="artwork-actions">
                 <p>
                   {t(
-                    "Drag your artwork or use the arrow keys.",
-                    "Lëvizni dizajnin ose përdorni shigjetat.",
+                    "Use Place artwork to drag it on the bag.",
+                    "Përdorni Vendos dizajnin për ta lëvizur mbi çantë.",
                   )}
                 </p>
                 <button
@@ -1385,24 +1348,6 @@ export default function BagStudio() {
               {error}
             </p>
           )}
-          <div className="studio-print-plan">
-            <Choice
-              id="studio-print-colors"
-              label={t("Print colors to quote", "Ngjyrat e shtypit për ofertë")}
-              value={String(design.printColors)}
-              onChange={(value) => update({ printColors: Number(value) })}
-              options={[1, 2, 3, 4].map((count) => ({
-                value: String(count),
-                label: `${count} ${t(count === 1 ? "color" : "colors", count === 1 ? "ngjyrë" : "ngjyra")}`,
-              }))}
-            />
-            <p>
-              {t(
-                "Select the inks you expect to use, excluding the bag color. We’ll confirm the count and print area with your artwork.",
-                "Zgjidhni ngjyrat e shtypit që prisni të përdorni, pa ngjyrën e çantës. Numri dhe zona e shtypit konfirmohen me dizajnin tuaj.",
-              )}
-            </p>
-          </div>
           <div className="studio-quote">
             <div>
               <span>{t("Wholesale orders", "Porosi me shumicë")}</span>
@@ -1425,27 +1370,17 @@ export default function BagStudio() {
           </div>
         </aside>
       </div>
-      <div className="studio-benefits">
+      <div className="studio-footnote">
         <span>
-          <Package size={18} />
-          {t(
-            "Five shapes. One distinctive brand.",
-            "Pesë forma. Një markë e veçantë.",
-          )}
-        </span>
-        <span>
-          <ShieldCheck size={18} />
+          <ShieldCheck size={15} />
           {t(
             "Artwork approval before production",
             "Miratim i dizajnit para prodhimit",
           )}
         </span>
         <Link href="/samples">
-          {t(
-            "Want to feel the material? Request samples",
-            "Dëshironi ta prekni materialin? Kërkoni mostra",
-          )}{" "}
-          <ArrowUpRight size={15} />
+          {t("Request material samples", "Kërkoni mostra materiali")}
+          <ArrowUpRight size={14} />
         </Link>
       </div>
       <Dialog open={full} onOpenChange={setFull}>
@@ -1465,7 +1400,13 @@ export default function BagStudio() {
               "Parapamja e dizajnit tuaj. Vetëm orientuese.",
             )}
           </DialogDescription>
-          <BagPreview design={design} />
+          <div className="fullscreen-studio-view">
+            {viewMode === "3d" ? (
+              <Studio3D design={design} />
+            ) : (
+              <BagPreview design={design} />
+            )}
+          </div>
           <button
             className="button"
             onClick={download}

@@ -20,11 +20,11 @@
     "both faces in downloadable sheet and quote review",
     "draft persistence through reload and navigation",
     "server RFQ and proof retain layered artwork; invalid coordinates rejected",
+    "sales proof-caption revision keeps the image layer and placement",
     "mobile layered design approval, order and reorder preserve both faces",
     "certificate search, empty state, zoom, keyboard focus and original-byte downloads",
     "conditional certificate dates visible",
-    "responsive studio, certificates and mobile zoom",
-    "sales proof-caption revision keeps the image layer and placement"
+    "responsive studio, certificates and mobile zoom"
   ],
   "browserErrors": []
 }

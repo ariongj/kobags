@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import "./brand-refresh.css";
+import "./compact.css";
 import { KobagsProvider } from "@/components/kobags-context";
 import { Header, Footer } from "@/components/site-shell";
 export const metadata: Metadata = {

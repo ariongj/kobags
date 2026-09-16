@@ -1,7 +1,7 @@
 {
   "status": "passed",
-  "request": "KBG-09AB0286",
-  "order": "DEMO-ORDER-7FD756",
+  "request": "KBG-23EE7DAD",
+  "order": "DEMO-ORDER-B87AF0",
   "checks": [
     "anonymous design to quote to artwork approval to simulated order",
     "guest cookie continuity across refresh and sales/customer views",

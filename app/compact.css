@@ -1,0 +1,930 @@
+/* Compact site rhythm: reduce repeated space, preserve reading and touch targets. */
+.kobags-v5 {
+  --section-space: 56px;
+  --card-space: 22px;
+}
+.kobags-v5 .header {
+  height: 72px;
+}
+.kobags-v5 .header .brand img {
+  width: 140px;
+  height: auto;
+}
+.kobags-v5 .utility {
+  height: 26px;
+}
+.kobags-v5 .button {
+  min-height: 44px;
+  padding: 12px 19px;
+}
+.kobags-v5 .home-section {
+  padding-top: var(--section-space);
+  padding-bottom: var(--section-space);
+}
+.kobags-v5 .section-heading {
+  margin-bottom: 24px;
+  gap: 20px;
+}
+.kobags-v5 .section-heading .eyebrow {
+  margin-bottom: 10px;
+}
+.kobags-v5 .section-heading h2 {
+  font-size: clamp(28px, 3vw, 42px);
+}
+.kobags-v5 .brand-home-v5 .industrial-hero {
+  min-height: 570px;
+  padding: 52px 5% 82px;
+}
+.kobags-v5 .brand-home-v5 .industrial-hero h1 {
+  font-size: clamp(46px, 5.4vw, 78px);
+  margin: 20px 0;
+}
+.kobags-v5 .brand-home-v5 .industrial-lead {
+  max-width: 630px;
+  font-size: 17px;
+  line-height: 1.65;
+}
+.kobags-v5 .industrial-proof-strip {
+  padding-top: 21px;
+  padding-bottom: 21px;
+}
+.kobags-v5 .home-production {
+  gap: 40px;
+}
+.kobags-v5 .home-production-copy > h2 {
+  font-size: clamp(32px, 3.2vw, 46px);
+  margin: 15px 0;
+}
+.kobags-v5 .home-production-copy > p:not(.eyebrow) {
+  line-height: 1.65;
+}
+.kobags-v5 .home-production-copy .actions {
+  margin-top: 22px;
+}
+.kobags-v5 .home-buyer-grid {
+  gap: 32px;
+}
+.kobags-v5 .home-buyer-grid h2 {
+  font-size: 34px;
+}
+.kobags-v5 .home-process article,
+.kobags-v5 .home-process article + article {
+  padding-top: 22px;
+  padding-bottom: 22px;
+}
+.kobags-v5 .home-process article > span {
+  font-size: 30px;
+  margin-bottom: 14px;
+}
+.kobags-v5 .home-process p {
+  line-height: 1.65;
+}
+.kobags-v5 .home-product > div {
+  height: 245px;
+}
+.kobags-v5 .home-product img {
+  height: 205px;
+}
+.kobags-v5 .home-product h3 {
+  margin-top: 14px;
+}
+.kobags-v5 .faq-section {
+  gap: 45px;
+  padding-top: 28px;
+  padding-bottom: 42px;
+}
+.kobags-v5 .faq-section h2 {
+  font-size: 38px;
+}
+.kobags-v5 .faq-section summary {
+  padding: 17px 0;
+  font-size: 16px;
+}
+.kobags-v5 .bag-showcase {
+  padding-top: 30px;
+  padding-bottom: 25px;
+  scroll-margin-top: 72px;
+}
+.kobags-v5 .showcase-copy {
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+.kobags-v5 .showcase-copy h2 {
+  font-size: clamp(40px, 4.3vw, 62px);
+  margin: 18px 0;
+}
+.kobags-v5 .showcase-stage {
+  height: 540px;
+}
+.kobags-v5 .showcase-personalize {
+  margin: 22px 0;
+}
+.kobags-v5 .certificate-showcase {
+  padding: 36px;
+  margin-top: 38px;
+  margin-bottom: 38px;
+  gap: 35px;
+}
+.kobags-v5 .certificate-intro h2 {
+  font-size: 38px;
+  margin: 16px 0;
+}
+.kobags-v5 .page-heading {
+  padding-top: 40px;
+  padding-bottom: 34px;
+  margin-bottom: 28px;
+}
+.kobags-v5 .page-heading h1 {
+  font-size: clamp(36px, 4vw, 54px);
+  margin-top: 12px;
+}
+.kobags-v5 .page-heading .intro {
+  margin-top: 14px;
+  font-size: 16px;
+  line-height: 1.65;
+}
+.kobags-v5 .catalog-heading-v5 {
+  min-height: 290px;
+}
+.kobags-v5 .catalog-heading-bags {
+  top: 24px;
+  height: 235px;
+}
+.kobags-v5 .catalog-toolbar {
+  padding: 14px 18px;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+.kobags-v5 .catalog-grid {
+  gap: 20px;
+}
+.kobags-v5 .product-photo {
+  height: 260px;
+}
+.kobags-v5 .product-photo img {
+  height: 230px;
+  width: 210px;
+}
+.kobags-v5 .product-copy {
+  padding: 20px;
+}
+.kobags-v5 .product-copy h2 {
+  font-size: 26px;
+  margin: 10px 0;
+}
+.kobags-v5 .product-copy > p:not(.eyebrow) {
+  min-height: 0;
+  margin-bottom: 14px;
+  line-height: 1.6;
+}
+.kobags-v5 .product-foot {
+  padding-top: 14px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.kobags-v5 .catalog-end {
+  margin-top: 28px;
+  padding: 24px;
+}
+.kobags-v5 .catalog-end h2 {
+  font-size: 30px;
+}
+.kobags-v5 .detail-photo {
+  min-height: 440px;
+}
+.kobags-v5 .product-detail-copy h1 {
+  font-size: 48px;
+}
+.kobags-v5 .product-detail-copy dl > div {
+  padding: 11px 0;
+}
+.kobags-v5 .product-detail-copy .intro {
+  line-height: 1.65;
+  font-size: 16px;
+}
+.kobags-v5 .section-card,
+.kobags-v5 .manufacturing-grid .section-card,
+.kobags-v5 .partner-grid .section-card,
+.kobags-v5 .inquiry-form,
+.kobags-v5 .inquiry-aside,
+.kobags-v5 .journal-card {
+  padding: var(--card-space);
+}
+.kobags-v5 .section-card p {
+  line-height: 1.65;
+}
+.kobags-v5 .section-card h2,
+.kobags-v5 .partner-grid h2,
+.kobags-v5 .journal-card h2 {
+  font-size: 25px;
+}
+.kobags-v5 .manufacturing-hero {
+  height: 390px;
+}
+.kobags-v5 .manufacturing-hero h2 {
+  font-size: 46px;
+}
+.kobags-v5 .manufacturing-grid,
+.kobags-v5 .partner-grid,
+.kobags-v5 .journal-grid {
+  gap: 20px;
+}
+.kobags-v5 .video-section {
+  margin: 48px 0;
+  gap: 35px;
+}
+.kobags-v5 .video-section h2 {
+  font-size: 34px;
+}
+.kobags-v5 .material-feature {
+  padding: 30px;
+}
+.kobags-v5 .partner-number,
+.kobags-v5 .journal-number {
+  font-size: 36px;
+}
+.kobags-v5 .resource-download {
+  padding: 24px;
+}
+.kobags-v5 .inquiry-layout {
+  gap: 28px;
+}
+.kobags-v5 .form-grid {
+  gap: 15px 18px;
+}
+.kobags-v5 .form-grid .field {
+  gap: 6px;
+}
+.kobags-v5 .quote-grid {
+  gap: 24px;
+}
+.kobags-v5 .quote-form,
+.kobags-v5 .quote-summary {
+  padding: 22px;
+}
+.kobags-v5 .quote-form h2 {
+  font-size: 26px;
+  margin-bottom: 20px;
+}
+.kobags-v5 .quote-progress {
+  margin-bottom: 20px;
+}
+.kobags-v5 .quote-progress button {
+  padding: 12px 10px;
+  min-height: 48px;
+}
+.kobags-v5 .wizard-actions {
+  margin-top: 24px;
+  padding-top: 18px;
+}
+.kobags-v5 .workspace {
+  padding-top: 18px;
+  padding-bottom: 32px;
+}
+.kobags-v5 .workspace-heading {
+  padding: 24px 0 18px;
+}
+.kobags-v5 .workspace-heading h1 {
+  font-size: 36px;
+  margin-top: 8px;
+}
+.kobags-v5 .workspace-tabs button {
+  min-height: 40px;
+  padding: 9px 12px;
+}
+.kobags-v5 .request-card {
+  padding: 15px;
+}
+.kobags-v5 .footer-v5 {
+  margin-top: 32px;
+}
+.kobags-v5 .footer-invitation {
+  padding: 30px 0;
+}
+.kobags-v5 .footer-invitation h2 {
+  font-size: 40px;
+  margin-top: 12px;
+}
+.kobags-v5 .footer-design-link {
+  width: 70px;
+  height: 70px;
+}
+.kobags-v5 .footer-top {
+  padding: 30px 0;
+  gap: 24px;
+}
+.kobags-v5 .footer-top img {
+  width: 135px;
+  height: auto;
+}
+.kobags-v5 .footer-top p {
+  margin-top: 14px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.kobags-v5 .footer-top > div {
+  gap: 9px;
+  font-size: 13px;
+}
+.kobags-v5 .footer h3 {
+  margin-bottom: 5px;
+}
+.kobags-v5 .footer-bottom {
+  padding: 18px 0;
+  gap: 16px;
+}
+.kobags-v5 .nav-quote {
+  display: none;
+}
+body.kobags-v5:has(.studio-compact) .footer-v5 {
+  margin-top: 12px;
+  padding-top: 0;
+}
+body.kobags-v5:has(.studio-compact) .footer-top {
+  padding: 16px 0;
+}
+body.kobags-v5:has(.studio-compact) .footer-top > div:first-child {
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+}
+body.kobags-v5:has(.studio-compact) .footer-top img {
+  width: 100px;
+  height: auto;
+}
+body.kobags-v5:has(.studio-compact) .footer-top p {
+  margin: 0;
+}
+@media (max-width: 800px) {
+  .kobags-v5 {
+    --section-space: 34px;
+    --card-space: 18px;
+  }
+  .kobags-v5 .header {
+    height: 64px;
+    padding: 0 16px;
+  }
+  .kobags-v5 .header .brand img {
+    width: 124px;
+  }
+  .kobags-v5 .utility {
+    height: 24px;
+    padding: 0 16px;
+    font-size: 10px;
+    letter-spacing: 0;
+  }
+  .kobags-v5 .header-actions {
+    gap: 7px;
+  }
+  .kobags-v5 .mobile-toggle,
+  .kobags-v5 .language {
+    min-width: 44px;
+    min-height: 44px;
+    justify-content: center;
+  }
+  .kobags-v5 .header .nav {
+    top: 64px;
+    padding: 8px 16px 16px;
+    gap: 0;
+    max-height: calc(100dvh - 64px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .kobags-v5 .header .nav a {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    padding: 10px 8px;
+    border-bottom: 1px solid #e5ece5;
+  }
+  .kobags-v5 .header .nav a:after {
+    display: none;
+  }
+  .kobags-v5 .header .nav a.active {
+    background: #eef5eb;
+    border-radius: 4px;
+  }
+  .kobags-v5 .header .nav .nav-quote {
+    display: flex;
+    color: var(--green);
+    gap: 10px;
+    font-weight: 600;
+  }
+  .kobags-v5 .content-width {
+    width: calc(100% - 32px);
+  }
+  .kobags-v5 .brand-home-v5 .industrial-hero {
+    min-height: 0;
+    padding: 35px 20px 74px;
+  }
+  .kobags-v5 .brand-home-v5 .industrial-hero h1 {
+    font-size: clamp(30px, 8.2vw, 48px);
+    margin: 16px 0;
+    letter-spacing: -0.045em;
+  }
+  .kobags-v5 .brand-home-v5 .industrial-lead {
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .kobags-v5 .brand-home-v5 .industrial-hero .eyebrow {
+    font-size: 10px;
+    max-width: none;
+  }
+  .kobags-v5 .brand-home-v5 .industrial-hero .actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 21px;
+  }
+  .kobags-v5 .brand-home-v5 .industrial-hero .button {
+    min-height: 44px;
+    padding: 11px 13px;
+    font-size: 13px;
+  }
+  .kobags-v5 .brand-home-v5 .industrial-location {
+    left: 20px;
+    right: 20px;
+    bottom: 16px;
+    padding-top: 12px;
+  }
+  .kobags-v5 .hero-showroom-link {
+    margin-top: 17px;
+    min-height: 36px;
+  }
+  .kobags-v5 .industrial-quote-link {
+    margin-top: 12px;
+    font-size: 12px;
+  }
+  .kobags-v5 .industrial-proof-strip {
+    gap: 11px;
+    padding: 17px 20px;
+  }
+  .kobags-v5 .industrial-proof-strip > span {
+    font-size: 12px;
+    gap: 10px;
+  }
+  .kobags-v5 .home-section {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .kobags-v5 .home-production {
+    gap: 22px;
+  }
+  .kobags-v5 .home-production-copy > h2 {
+    font-size: 30px;
+    margin: 12px 0;
+  }
+  .kobags-v5 .home-production-film video {
+    aspect-ratio: 16/10;
+  }
+  .kobags-v5 .section-heading {
+    margin-bottom: 18px;
+    gap: 15px;
+  }
+  .kobags-v5 .section-heading h2,
+  .kobags-v5 .home-buyer-grid h2,
+  .kobags-v5 .faq-section h2 {
+    font-size: 28px;
+  }
+  .kobags-v5 .home-product-row {
+    gap: 20px 12px;
+  }
+  .kobags-v5 .home-product > div {
+    height: 175px;
+  }
+  .kobags-v5 .home-product img {
+    height: 150px;
+  }
+  .kobags-v5 .home-product h3 {
+    font-size: 18px;
+    margin-top: 11px;
+  }
+  .kobags-v5 .home-product > p {
+    font-size: 12px;
+    margin-top: 5px;
+  }
+  .kobags-v5 .home-process article,
+  .kobags-v5 .home-process article + article {
+    padding-top: 17px;
+    padding-bottom: 17px;
+  }
+  .kobags-v5 .home-process article > span {
+    font-size: 26px;
+    margin-bottom: 10px;
+  }
+  .kobags-v5 .home-process h3 {
+    font-size: 17px;
+  }
+  .kobags-v5 .home-buyer-grid {
+    gap: 22px;
+  }
+  .kobags-v5 .home-buyer-grid > article + article {
+    padding-top: 22px;
+  }
+  .kobags-v5 .faq-section {
+    gap: 20px;
+  }
+  .kobags-v5 .bag-showcase {
+    padding: 22px 20px;
+  }
+  .kobags-v5 .showcase-overline {
+    padding-bottom: 14px;
+  }
+  .kobags-v5 .showcase-copy {
+    padding: 22px 0 0;
+  }
+  .kobags-v5 .showcase-copy h2 {
+    font-size: 36px;
+    margin: 12px 0;
+  }
+  .kobags-v5 .showcase-copy > p:not(.eyebrow):not(.showcase-note) {
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .kobags-v5 .showcase-personalize {
+    margin: 18px 0;
+  }
+  .kobags-v5 .showcase-swatches {
+    gap: 10px;
+  }
+  .kobags-v5 .showcase-swatches button {
+    width: 34px;
+    height: 34px;
+  }
+  .kobags-v5 .showcase-stage {
+    height: 420px;
+    margin-top: 12px;
+  }
+  .kobags-v5 .showcase-canvas {
+    inset: 0 -10px 95px;
+  }
+  .kobags-v5 .showcase-watermark {
+    font-size: 90px;
+    top: 95px;
+  }
+  .kobags-v5 .showcase-bottom {
+    padding-top: 14px;
+    gap: 8px;
+  }
+  .kobags-v5 .certificate-showcase {
+    padding: 22px 18px;
+    margin: 20px 16px;
+    gap: 24px;
+  }
+  .kobags-v5 .certificate-intro h2 {
+    font-size: 30px;
+    margin: 12px 0;
+  }
+  .kobags-v5 .certificate-intro > p:not(.eyebrow) {
+    font-size: 15px;
+    line-height: 1.65;
+  }
+  .kobags-v5 .certificate-duo {
+    gap: 12px;
+  }
+  .kobags-v5 .certificate-mini {
+    padding: 10px;
+  }
+  .kobags-v5 .certificate-mini-paper {
+    padding: 6px;
+  }
+  .kobags-v5 .certificate-mini-top {
+    font-size: 9px;
+  }
+  .kobags-v5 .page-heading {
+    padding: 26px 16px 24px;
+    margin-bottom: 22px;
+  }
+  .kobags-v5 .page-heading h1 {
+    font-size: 32px;
+    line-height: 1.1;
+    margin-top: 10px;
+  }
+  .kobags-v5 .page-heading .intro {
+    margin-top: 12px;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .kobags-v5 .page-heading .eyebrow {
+    font-size: 10px;
+  }
+  .kobags-v5 .catalog-heading-v5 {
+    min-height: 0;
+  }
+  .kobags-v5 .catalog-heading-bags {
+    display: none;
+  }
+  .kobags-v5 .catalog-toolbar {
+    padding: 12px;
+    gap: 10px;
+  }
+  .kobags-v5 .catalog-toolbar > span {
+    font-size: 13px;
+  }
+  .kobags-v5 .catalog-toolbar .field {
+    min-width: 105px;
+  }
+  .kobags-v5 .catalog-toolbar .field label {
+    font-size: 12px;
+  }
+  .kobags-v5 .catalog-toolbar .text-button {
+    min-height: 40px;
+  }
+  .kobags-v5 .catalog-grid {
+    gap: 16px;
+  }
+  .kobags-v5 .product-photo {
+    height: 210px;
+  }
+  .kobags-v5 .product-photo img {
+    height: 185px;
+    width: 170px;
+  }
+  .kobags-v5 .product-copy {
+    padding: 17px;
+  }
+  .kobags-v5 .product-copy h2 {
+    font-size: 25px;
+  }
+  .kobags-v5 .product-copy > p:not(.eyebrow) {
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+  .kobags-v5 .product-foot {
+    padding-top: 8px;
+    gap: 8px;
+  }
+  .kobags-v5 .product-foot label {
+    min-height: 40px;
+  }
+  .kobags-v5 .catalog-end {
+    padding: 20px;
+    gap: 18px;
+  }
+  .kobags-v5 .catalog-end h2 {
+    font-size: 27px;
+  }
+  .kobags-v5 .product-detail {
+    gap: 22px;
+    margin-top: 22px;
+  }
+  .kobags-v5 .detail-photo {
+    min-height: 0;
+    height: 300px;
+  }
+  .kobags-v5 .detail-photo img {
+    max-height: 260px;
+    width: auto;
+  }
+  .kobags-v5 .product-detail-copy h1 {
+    font-size: 34px;
+  }
+  .kobags-v5 .product-detail-copy .intro {
+    font-size: 15px;
+  }
+  .kobags-v5 .manufacturing-hero {
+    height: 300px;
+  }
+  .kobags-v5 .manufacturing-hero > div {
+    left: 20px;
+    bottom: 22px;
+  }
+  .kobags-v5 .manufacturing-hero h2 {
+    font-size: 34px;
+  }
+  .kobags-v5 .manufacturing-grid,
+  .kobags-v5 .partner-grid,
+  .kobags-v5 .journal-grid {
+    gap: 16px;
+  }
+  .kobags-v5 .section-card h2,
+  .kobags-v5 .partner-grid h2,
+  .kobags-v5 .journal-card h2 {
+    font-size: 24px;
+  }
+  .kobags-v5 .video-section {
+    margin: 30px 0;
+    gap: 20px;
+  }
+  .kobags-v5 .video-section h2 {
+    font-size: 28px;
+  }
+  .kobags-v5 .material-feature,
+  .kobags-v5 .resource-download {
+    padding: 22px;
+  }
+  .kobags-v5 .material-feature h2 {
+    font-size: 27px;
+  }
+  .kobags-v5 .inquiry-layout {
+    gap: 18px;
+  }
+  .kobags-v5 .inquiry-form .notice {
+    margin: 15px 0;
+  }
+  .kobags-v5 .inquiry-aside h2 {
+    font-size: 25px;
+  }
+  .kobags-v5 .form-grid {
+    gap: 14px;
+  }
+  .kobags-v5
+    input:not([type="checkbox"]):not([type="range"]):not([type="color"]):not(
+      [type="file"]
+    ),
+  .kobags-v5 textarea {
+    font-size: 16px;
+  }
+  .kobags-v5 .form-grid input {
+    min-height: 44px;
+    padding: 10px 12px;
+  }
+  .kobags-v5 .choice {
+    min-height: 44px !important;
+  }
+  .kobags-v5 .quote-form,
+  .kobags-v5 .quote-summary {
+    padding: 18px;
+  }
+  .kobags-v5 .quote-form h2 {
+    font-size: 25px;
+    margin-bottom: 16px;
+  }
+  .kobags-v5 .quote-progress {
+    margin-bottom: 16px;
+  }
+  .kobags-v5 .quote-progress button {
+    font-size: 12px;
+    padding: 10px 5px;
+    gap: 5px;
+  }
+  .kobags-v5 .quote-grid {
+    gap: 18px;
+  }
+  .kobags-v5 .quote-summary canvas {
+    width: 170px;
+  }
+  .kobags-v5 .workspace {
+    padding: 16px 16px 24px;
+  }
+  .kobags-v5 .workspace-heading {
+    padding: 20px 0 16px;
+    gap: 14px;
+  }
+  .kobags-v5 .workspace-heading h1 {
+    font-size: 30px;
+  }
+  .kobags-v5 .workspace-heading p:not(.eyebrow) {
+    margin-top: 8px;
+  }
+  .kobags-v5 .workspace-tabs button {
+    min-height: 44px;
+    padding: 8px 12px;
+  }
+  .kobags-v5 .detail-heading h2 {
+    font-size: 25px;
+  }
+  .kobags-v5 .footer-v5 {
+    margin-top: 24px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .kobags-v5 .footer-invitation {
+    padding: 24px 0;
+    gap: 15px;
+  }
+  .kobags-v5 .footer-invitation h2 {
+    font-size: 28px;
+    margin-top: 10px;
+  }
+  .kobags-v5 .footer-design-link {
+    width: 50px;
+    height: 50px;
+  }
+  .kobags-v5 .footer-top {
+    gap: 23px 18px;
+    padding: 24px 0;
+  }
+  .kobags-v5 .footer-top img {
+    width: 120px;
+  }
+  .kobags-v5 .footer-top > div {
+    gap: 5px;
+    font-size: 13px;
+  }
+  .kobags-v5 .footer-top a {
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+  }
+  .kobags-v5 .footer-bottom {
+    padding: 16px 0;
+    gap: 10px;
+  }
+  .kobags-v5 .footer-bottom > div {
+    gap: 4px 16px;
+  }
+  .kobags-v5 .footer-bottom a {
+    min-height: 32px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .kobags-v5 .studio-3d-tools {
+    gap: 3px;
+    padding: 3px;
+    bottom: 52px;
+  }
+  .kobags-v5 .studio-3d-tools button {
+    width: 38px;
+    height: 38px;
+  }
+  .kobags-v5 .studio-3d-tools > span {
+    margin: 0 2px;
+  }
+  .kobags-v5 .studio-compact .stage-bottom .side-switch {
+    height: 36px !important;
+  }
+  .kobags-v5 .studio-compact .stage-bottom .side-switch button {
+    min-height: 32px;
+  }
+  .kobags-v5 .studio-compact .studio-download {
+    min-height: 36px;
+  }
+  .kobags-v5 .studio-compact .text-align-buttons button {
+    width: 38px;
+    height: 36px;
+  }
+  .kobags-v5 .studio-compact .guide-toggle {
+    width: 36px;
+    height: 36px;
+  }
+  .kobags-v5 .studio-compact .precision-details > summary {
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+  }
+  .kobags-v5 .studio-compact .swatch {
+    width: 34px;
+    height: 34px;
+  }
+  .kobags-v5 .studio-compact .swatches {
+    gap: 9px;
+  }
+  .kobags-v5 .studio-compact .precision-grid input {
+    font-size: 16px;
+    height: 38px;
+  }
+  .kobags-v5 .fullscreen-studio-view .studio-3d-tools {
+    bottom: 12px;
+  }
+}
+@media (max-width: 360px) {
+  .kobags-v5 .brand-home-v5 .industrial-hero .actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .kobags-v5 .home-product > div {
+    height: 150px;
+  }
+  .kobags-v5 .home-product img {
+    height: 128px;
+  }
+  .kobags-v5 .certificate-duo {
+    gap: 8px;
+  }
+  .kobags-v5 .certificate-mini {
+    padding: 8px;
+  }
+}
+@media (hover: none) {
+  .kobags-v5 .button:hover,
+  .kobags-v5 .product-card:hover,
+  .kobags-v5 .partner-grid .section-card:hover,
+  .kobags-v5 .journal-card:hover {
+    transform: none;
+  }
+}
+/* Reset the earlier split-photo mobile hero and inherited nested gutters. */
+@media (max-width: 800px) {
+  .kobags-v5 .brand-home-v5 .industrial-hero-copy {
+    background: transparent;
+  }
+  .kobags-v5 .brand-home-v5 .industrial-hero-photo {
+    z-index: -2;
+  }
+  .kobags-v5 .brand-home-v5 .industrial-hero:after {
+    inset: 0;
+    height: auto;
+    z-index: -1;
+  }
+  .kobags-v5 .home-section {
+    width: 100%;
+  }
+}
+.kobags-v5 .content-width {
+  padding: 0 0 30px;
+}
+@media (max-width: 800px) {
+  .kobags-v5 .content-width {
+    padding: 0 0 20px;
+  }
+}

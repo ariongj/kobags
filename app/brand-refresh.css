@@ -2361,7 +2361,6 @@
   margin-inline: auto;
 }
 
-
 /* Focused studio improvements — 16 September 2026. */
 .kobags-v5 .studio-v4 .studio-heading {
   margin-bottom: 20px;
@@ -2548,4 +2547,860 @@
   .kobags-v5 .quote-artwork-pair {
     grid-template-columns: minmax(0, 1fr);
   }
+}
+
+/* Compact working surface: keep the bag, current edit and next action together. */
+.kobags-v5 .studio-compact.studio-section {
+  max-width: 1440px;
+  padding: 22px 32px 26px;
+  margin: auto;
+}
+.kobags-v5 .studio-compact .studio-heading {
+  margin-bottom: 18px;
+  align-items: center;
+  gap: 20px;
+}
+.kobags-v5 .studio-compact .studio-heading h1 {
+  font-size: 30px;
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+  margin: 0 0 5px;
+}
+.kobags-v5 .studio-compact .studio-heading p:not(.eyebrow) {
+  font-size: 14px;
+  margin: 0;
+  line-height: 1.5;
+}
+.kobags-v5 .studio-compact .studio-heading-note {
+  gap: 4px;
+}
+.kobags-v5 .studio-compact .studio-heading-note > span:last-child {
+  display: none;
+}
+.kobags-v5 .studio-compact .studio {
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 16px;
+  align-items: start;
+}
+.kobags-v5 .studio-compact .preview-column {
+  position: sticky;
+  top: 90px;
+  border-radius: 10px;
+  box-shadow: none;
+}
+.kobags-v5 .studio-compact .bag-picker {
+  padding: 8px 12px;
+  gap: 6px;
+  border-radius: 10px 10px 0 0;
+  justify-content: stretch;
+}
+.kobags-v5 .studio-compact .bag-pick {
+  flex: 1;
+  min-width: 0;
+  height: 74px;
+  padding: 3px 5px;
+  border-radius: 6px;
+  gap: 1px;
+  font-size: 12px;
+}
+.kobags-v5 .studio-compact .bag-pick .bag-canvas {
+  width: 46px !important;
+  height: 46px !important;
+  margin: 0;
+}
+.kobags-v5 .studio-compact .bag-pick > svg {
+  top: 6px;
+  right: 6px;
+  width: 12px;
+  height: 12px;
+}
+.kobags-v5 .studio-compact .studio-history {
+  padding: 7px 12px;
+  min-height: 46px;
+  gap: 10px;
+}
+.kobags-v5 .studio-compact .studio-history > div {
+  gap: 10px;
+}
+.kobags-v5 .studio-compact .studio-history > div[data-slot="tabs"] {
+  gap: 0;
+}
+.view-mode-tabs {
+  height: 32px !important;
+  background: #eef3f2;
+  border-radius: 5px;
+  width: auto !important;
+  padding: 3px !important;
+  gap: 3px !important;
+}
+.view-mode-tabs button {
+  min-width: 0 !important;
+  font-size: 13px !important;
+  padding: 4px 10px !important;
+  gap: 6px !important;
+  white-space: nowrap;
+  color: #42616b;
+}
+.view-mode-tabs button[data-state="active"] {
+  color: #087a36 !important;
+  background: white !important;
+  box-shadow: 0 1px 4px #193b6710;
+}
+.kobags-v5 .studio-compact .preview-stage {
+  height: clamp(370px, calc(100dvh - 370px), 550px);
+  min-height: 0;
+  padding: 0;
+  position: relative;
+  background: radial-gradient(ellipse at 50% 32%, #ffffff, #edf3ef);
+  overflow: hidden;
+}
+.kobags-v5 .studio-compact .preview-stage > .bag-canvas {
+  height: calc(100% - 75px);
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  margin: 20px auto 55px;
+}
+.kobags-v5 .studio-compact .stage-top {
+  top: 12px;
+  left: 16px;
+  right: 14px;
+  font-size: 14px;
+  z-index: 3;
+  pointer-events: none;
+}
+.kobags-v5 .studio-compact .stage-top > button {
+  pointer-events: auto;
+  background: #ffffffc9;
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  border-radius: 5px;
+}
+.kobags-v5 .studio-compact .stage-bottom {
+  bottom: 10px;
+  left: 14px;
+  right: 14px;
+  z-index: 3;
+  gap: 10px;
+}
+.kobags-v5 .studio-compact .side-switch {
+  height: 32px !important;
+}
+.kobags-v5 .studio-compact .side-switch button {
+  min-width: 58px;
+  padding: 5px 9px;
+  font-size: 13px;
+}
+.kobags-v5 .studio-compact .drag-tip {
+  font-size: 12px;
+  gap: 5px;
+}
+.kobags-v5 .studio-compact .studio-download {
+  font-size: 12px;
+  padding: 7px 9px;
+  gap: 5px;
+}
+.kobags-v5 .studio-compact .studio-spec-line {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 10px 15px;
+  border-top: 1px solid #dfe8e1;
+  color: #5b7179;
+  font-size: 12px;
+  line-height: 1.4;
+  background: #fff;
+}
+.kobags-v5 .studio-compact .studio-sheet-download {
+  margin: 0;
+  padding: 9px 15px;
+  width: 100%;
+  border: 0;
+  border-radius: 0;
+  border-top: 1px solid #e8eeea;
+  font-size: 12px;
+  gap: 8px;
+}
+.kobags-v5 .studio-compact .studio-sheet-download > span {
+  flex: 0 1 auto;
+}
+.kobags-v5 .studio-compact .preview-disclaimer {
+  padding: 8px 15px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 0 0 10px 10px;
+  background: #f3f6f4;
+}
+.kobags-v5 .studio-compact .studio-controls {
+  padding: 14px;
+  border-radius: 10px;
+  box-shadow: none;
+  gap: 12px;
+  min-width: 0;
+}
+.kobags-v5 .studio-compact .editor-tabs {
+  height: 38px !important;
+  margin-bottom: 9px;
+  border-radius: 6px;
+}
+.kobags-v5 .studio-compact .editor-tabs button {
+  font-size: 12px;
+}
+.kobags-v5 .studio-compact .editor-tabs button span {
+  font-size: 14px;
+}
+.kobags-v5 .studio-compact .editor-body,
+.kobags-v5 .studio-compact .artwork-editor {
+  gap: 12px;
+  padding: 0;
+  margin: 0;
+}
+.kobags-v5 .studio-compact .field {
+  gap: 5px;
+  margin: 0;
+}
+.kobags-v5 .studio-compact .field label,
+.kobags-v5 .studio-compact .field-title label {
+  font-size: 14px;
+}
+.kobags-v5 .studio-compact .choice {
+  min-height: 38px !important;
+  height: 38px !important;
+  font-size: 14px !important;
+  border-radius: 5px;
+}
+.kobags-v5 .studio-compact .swatches {
+  gap: 9px;
+  margin: 5px 0;
+}
+.kobags-v5 .studio-compact .swatch {
+  width: 30px;
+  height: 30px;
+}
+.kobags-v5 .studio-compact .field small {
+  font-size: 12px;
+  line-height: 1.5;
+}
+.kobags-v5 .studio-compact .spec-mini {
+  padding: 9px 10px;
+  gap: 10px;
+  border-radius: 5px;
+}
+.kobags-v5 .studio-compact .spec-mini strong {
+  font-size: 12px;
+}
+.kobags-v5 .studio-compact .studio-print-plan {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+.kobags-v5 .studio-compact .studio-print-plan p {
+  font-size: 12px;
+  line-height: 1.5;
+  margin-top: 6px;
+}
+.kobags-v5 .studio-compact .studio-custom-request {
+  padding: 9px 10px;
+  border-radius: 5px;
+  font-size: 13px;
+}
+.kobags-v5 .studio-compact .design-next {
+  margin: 0;
+  justify-content: center;
+  font-size: 14px;
+  padding: 10px 12px;
+  min-height: 40px;
+  border-radius: 5px;
+}
+.kobags-v5 .studio-compact .editing-side {
+  padding: 7px 9px;
+  gap: 8px;
+  border-radius: 5px;
+  font-size: 12px;
+  min-height: 36px;
+}
+.kobags-v5 .studio-compact .editing-side > span {
+  gap: 5px;
+}
+.kobags-v5 .studio-compact .editing-side > span > svg {
+  display: none;
+}
+.kobags-v5 .studio-compact .flip-edit-side {
+  margin-left: auto;
+  font-size: 12px;
+  gap: 4px;
+  white-space: nowrap;
+}
+.kobags-v5 .studio-compact .guide-toggle {
+  width: 27px;
+  height: 27px;
+  min-width: 27px;
+}
+.kobags-v5 .studio-compact .layer-selector {
+  gap: 8px;
+}
+.kobags-v5 .studio-compact .layer-selector button {
+  padding: 9px 11px;
+  gap: 8px;
+  border-radius: 5px;
+}
+.kobags-v5 .studio-compact .layer-selector span {
+  font-size: 14px;
+}
+.kobags-v5 .studio-compact .layer-selector small {
+  display: none;
+}
+.kobags-v5 .studio-compact .artwork-upload {
+  min-height: 100px;
+  padding: 14px 10px;
+  gap: 6px;
+}
+.kobags-v5 .studio-compact .artwork-upload svg {
+  width: 21px;
+  height: 21px;
+}
+.kobags-v5 .studio-compact .artwork-upload strong {
+  font-size: 14px;
+}
+.kobags-v5 .studio-compact .artwork-upload > span {
+  font-size: 12px;
+}
+.kobags-v5 .studio-compact .artwork-file {
+  padding: 10px;
+  gap: 10px;
+}
+.kobags-v5 .studio-compact .artwork-file-thumb {
+  width: 45px;
+  height: 45px;
+  min-width: 45px;
+}
+.kobags-v5 .studio-compact .artwork-file strong {
+  font-size: 13px;
+  max-width: 220px;
+}
+.kobags-v5 .studio-compact .artwork-file > div > span {
+  display: none;
+}
+.kobags-v5 .studio-compact .artwork-file button {
+  font-size: 12px;
+  margin-top: 3px;
+}
+.kobags-v5 .studio-compact .studio-logo-cleanup {
+  padding: 9px 10px;
+}
+.kobags-v5 .studio-compact .studio-logo-cleanup p {
+  font-size: 12px;
+  line-height: 1.5;
+  margin-top: 5px;
+}
+.kobags-v5 .studio-compact .studio-logo-cleanup .text-button {
+  font-size: 12px;
+}
+.kobags-v5 .studio-compact .artwork-editor textarea {
+  min-height: 66px;
+  height: 66px;
+  padding: 9px 11px;
+  font-size: 16px;
+  line-height: 1.4;
+  border-radius: 5px;
+}
+.kobags-v5 .studio-compact .text-field-help {
+  font-size: 12px;
+}
+.kobags-v5 .studio-compact .text-field-help > span:first-child {
+  display: none;
+}
+.kobags-v5 .studio-compact .text-field-help {
+  justify-content: flex-end;
+  margin-top: 3px;
+}
+.kobags-v5 .studio-compact .text-format-row {
+  margin: 0;
+}
+.kobags-v5 .studio-compact .text-align-buttons button {
+  width: 32px;
+  height: 30px;
+}
+.kobags-v5 .studio-compact .ink-control > span {
+  font-size: 12px;
+}
+.kobags-v5 .studio-compact .artwork-transform {
+  padding-top: 10px;
+  gap: 10px;
+}
+.kobags-v5 .studio-compact .transform-heading {
+  margin-bottom: 10px;
+}
+.kobags-v5 .studio-compact .transform-heading h3 {
+  font-size: 13px;
+}
+.kobags-v5 .studio-compact .transform-heading .text-button {
+  font-size: 12px;
+}
+.kobags-v5 .studio-compact .range-field {
+  gap: 8px;
+}
+.kobags-v5 .studio-compact .range-field label {
+  font-size: 13px;
+}
+.precision-details {
+  margin-top: 12px;
+}
+.precision-details > summary {
+  cursor: pointer;
+  color: #516c77;
+  font-size: 13px;
+}
+.kobags-v5 .studio-compact .precision-grid {
+  gap: 8px;
+  margin-top: 10px;
+}
+.kobags-v5 .studio-compact .precision-grid label {
+  font-size: 12px;
+}
+.kobags-v5 .studio-compact .precision-grid input {
+  height: 30px;
+  font-size: 14px;
+}
+.kobags-v5 .studio-compact .artwork-actions {
+  gap: 8px;
+  align-items: center;
+}
+.kobags-v5 .studio-compact .artwork-actions p {
+  display: none;
+}
+.kobags-v5 .studio-compact .remove-artwork {
+  font-size: 12px;
+}
+.kobags-v5 .studio-compact .copy-artwork {
+  padding: 8px;
+  font-size: 12px;
+}
+.kobags-v5 .studio-compact .artwork-editor > .micro {
+  font-size: 12px;
+  line-height: 1.4;
+  margin: -5px 0 0;
+}
+.kobags-v5 .studio-compact .studio-contrast-hint {
+  padding: 9px;
+  gap: 8px;
+}
+.kobags-v5 .studio-compact .studio-contrast-hint p {
+  font-size: 12px;
+  line-height: 1.4;
+}
+.kobags-v5 .studio-compact .studio-quote {
+  padding-top: 12px;
+  margin-top: 0;
+  gap: 9px;
+  border-top: 1px solid #dfe6e9;
+}
+.kobags-v5 .studio-compact .studio-quote > div {
+  font-size: 12px;
+}
+.kobags-v5 .studio-compact .studio-quote strong {
+  font-size: 12px;
+}
+.kobags-v5 .studio-compact .studio-quote .button {
+  padding: 11px 12px;
+  min-height: 42px;
+  font-size: 14px;
+  border-radius: 5px;
+}
+.kobags-v5 .studio-compact .studio-quote p {
+  font-size: 12px;
+  line-height: 1.4;
+  margin: 0;
+}
+.kobags-v5 .studio-compact .saved-feedback {
+  font-size: 12px;
+  padding: 7px 14px;
+  margin: 0;
+}
+.studio-footnote {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 14px;
+  font-size: 12px;
+  color: #61757e;
+}
+.studio-footnote > span,
+.studio-footnote > a {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.studio-3d {
+  position: absolute;
+  inset: 0;
+}
+.studio-3d-host {
+  position: absolute;
+  inset: 15px 0 30px;
+}
+.studio-3d-host canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  outline-offset: -4px;
+  touch-action: none;
+}
+.studio-3d[data-status="fallback"] .studio-3d-host {
+  display: none;
+}
+.studio-3d > .bag-canvas {
+  width: auto !important;
+  height: calc(100% - 90px);
+  max-width: 100%;
+  margin: 25px auto 65px !important;
+  object-fit: contain;
+}
+.studio-3d-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 14px;
+  color: #42645b;
+  background: #eff4efc9;
+}
+.studio-3d-loading svg {
+  animation: studio-load-spin 1s linear infinite;
+}
+@keyframes studio-load-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.studio-3d-tools {
+  position: absolute;
+  right: 14px;
+  bottom: 53px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: #ffffffec;
+  border: 1px solid #dae5de;
+  padding: 3px;
+  border-radius: 7px;
+  box-shadow: 0 3px 12px #193b6708;
+}
+.studio-3d-tools button {
+  width: 29px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 4px;
+  color: #345b52;
+}
+.studio-3d-tools button:hover {
+  background: #e9f2ec;
+}
+.studio-3d-tools button[aria-pressed="true"] {
+  background: #0b7d3d;
+  color: white;
+}
+.studio-3d-tools button:disabled {
+  opacity: 0.35;
+}
+.studio-3d-tools > span {
+  width: 1px;
+  height: 17px;
+  background: #e1e8e4;
+  margin: 0 4px;
+}
+.studio-3d-fallback {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 54px;
+  background: #ffffffed;
+  border: 1px solid #e0e7e4;
+  padding: 8px;
+  font-size: 12px;
+  line-height: 1.4;
+  text-align: center;
+}
+.fullscreen-studio-view {
+  position: relative;
+  height: min(65dvh, 700px);
+  min-height: 300px;
+  background: #f0f5f1;
+  border-radius: 8px;
+}
+.fullscreen-studio-view > .bag-canvas {
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  margin: auto;
+  object-fit: contain;
+}
+.fullscreen-studio-view .studio-3d-host {
+  inset: 0;
+}
+.fullscreen-studio-view .studio-3d-tools {
+  bottom: 12px;
+}
+body.kobags-v5:has(.studio-compact) .footer-invitation {
+  display: none;
+}
+body.kobags-v5:has(.studio-compact) .footer {
+  padding-top: 24px;
+}
+body.kobags-v5:has(.studio-compact) .footer-top {
+  padding-bottom: 24px;
+}
+body.kobags-v5:has(.studio-compact) .footer-top > div:not(:first-child) {
+  display: none;
+}
+body.kobags-v5:has(.studio-compact) .footer-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+body.kobags-v5:has(.studio-compact) .footer-top > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+body.kobags-v5:has(.studio-compact) .footer-top p {
+  margin: 0;
+  font-size: 12px;
+}
+body.kobags-v5:has(.studio-compact) .footer-top img {
+  width: 110px;
+}
+@media (min-width: 901px) and (min-height: 700px) {
+  .kobags-v5 .studio-compact .studio-controls {
+    max-height: calc(100dvh - 210px);
+    min-height: 545px;
+    display: flex;
+    flex-direction: column;
+  }
+  .kobags-v5 .studio-compact .studio-controls > [data-slot="tabs"] {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    gap: 0;
+  }
+  .kobags-v5 .studio-compact .editor-body {
+    overflow-y: auto;
+    padding: 1px 5px 5px 1px;
+    scrollbar-width: thin;
+    flex: 1;
+    min-height: 0;
+    overscroll-behavior: contain;
+  }
+  .kobags-v5 .studio-compact .studio-quote {
+    flex-shrink: 0;
+  }
+}
+@media (max-width: 1100px) {
+  .kobags-v5 .studio-compact.studio-section {
+    padding: 18px 20px 24px;
+  }
+  .kobags-v5 .studio-compact .studio {
+    grid-template-columns: minmax(0, 1fr) 330px;
+    gap: 12px;
+  }
+  .kobags-v5 .studio-compact .studio-history button {
+    font-size: 12px;
+  }
+  .kobags-v5 .studio-compact .studio-history > div:last-child {
+    gap: 8px;
+  }
+  .kobags-v5 .studio-compact .studio-history > div:last-child button {
+    font-size: 0;
+    gap: 0;
+  }
+  .kobags-v5 .studio-compact .stage-bottom .drag-tip {
+    display: none;
+  }
+  .kobags-v5 .studio-compact .bag-pick {
+    height: 68px;
+  }
+  .kobags-v5 .studio-compact .bag-pick .bag-canvas {
+    width: 40px !important;
+    height: 40px !important;
+  }
+}
+@media (max-width: 900px) {
+  .kobags-v5 .studio-compact .studio {
+    grid-template-columns: minmax(0, 1fr) 305px;
+    gap: 10px;
+  }
+  .kobags-v5 .studio-compact .studio-controls {
+    padding: 12px;
+  }
+  .kobags-v5 .studio-compact .studio-heading h1 {
+    font-size: 27px;
+  }
+  .kobags-v5 .studio-compact .studio-heading-note {
+    display: none;
+  }
+  .kobags-v5 .studio-compact .preview-column {
+    top: 90px;
+  }
+  .kobags-v5 .studio-compact .studio-history {
+    padding: 7px;
+  }
+  .view-mode-tabs button {
+    padding: 4px 7px !important;
+    font-size: 12px !important;
+  }
+  .kobags-v5 .studio-compact .preview-stage {
+    height: 400px;
+  }
+  .kobags-v5 .studio-compact .bag-picker {
+    padding: 7px;
+    gap: 3px;
+  }
+  .kobags-v5 .studio-compact .bag-pick {
+    height: 65px;
+    font-size: 12px;
+  }
+  .kobags-v5 .studio-compact .bag-pick .bag-canvas {
+    width: 36px !important;
+    height: 36px !important;
+  }
+  .kobags-v5 .studio-compact .swatches {
+    gap: 7px;
+  }
+  .kobags-v5 .studio-compact .swatch {
+    width: 28px;
+    height: 28px;
+  }
+}
+@media (max-width: 700px) {
+  .kobags-v5 .studio-compact.studio-section {
+    padding: 15px 12px 22px;
+  }
+  .kobags-v5 .studio-compact .studio-heading {
+    margin-bottom: 12px;
+  }
+  .kobags-v5 .studio-compact .studio-heading h1 {
+    font-size: 26px;
+  }
+  .kobags-v5 .studio-compact .studio-heading p:not(.eyebrow) {
+    font-size: 13px;
+  }
+  .kobags-v5 .studio-compact .studio {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .kobags-v5 .studio-compact .preview-column {
+    position: static;
+    border-radius: 8px;
+  }
+  .kobags-v5 .studio-compact .bag-picker {
+    padding: 5px 7px;
+  }
+  .kobags-v5 .studio-compact .bag-pick {
+    height: 55px;
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0;
+  }
+  .kobags-v5 .studio-compact .bag-pick .bag-canvas {
+    width: 30px !important;
+    height: 30px !important;
+  }
+  .kobags-v5 .studio-compact .studio-history {
+    min-height: 40px;
+    padding: 5px 9px;
+  }
+  .kobags-v5 .studio-compact .preview-stage {
+    height: 310px;
+  }
+  .kobags-v5 .studio-compact .stage-top {
+    top: 9px;
+    left: 12px;
+    font-size: 13px;
+  }
+  .kobags-v5 .studio-compact .stage-top .subtle {
+    font-size: 12px;
+  }
+  .kobags-v5 .studio-compact .stage-bottom {
+    left: 10px;
+    right: 10px;
+    bottom: 8px;
+  }
+  .kobags-v5 .studio-compact .studio-spec-line {
+    padding: 8px 11px;
+    font-size: 12px;
+  }
+  .kobags-v5 .studio-compact .studio-spec-line > span:last-child {
+    display: none;
+  }
+  .kobags-v5 .studio-compact .preview-disclaimer {
+    font-size: 12px;
+    padding: 7px 11px;
+  }
+  .kobags-v5 .studio-compact .studio-sheet-download {
+    padding: 9px 11px;
+    justify-content: flex-start;
+  }
+  .kobags-v5 .studio-compact .studio-controls {
+    padding: 12px;
+    border-radius: 8px;
+    gap: 11px;
+  }
+  .kobags-v5 .studio-compact .editor-tabs {
+    margin-bottom: 8px;
+  }
+  .kobags-v5 .studio-compact .editor-body {
+    gap: 11px;
+  }
+  .kobags-v5 .studio-compact .artwork-transform {
+    padding-top: 8px;
+  }
+  .kobags-v5 .studio-compact .studio-quote {
+    position: static;
+    background: #fff;
+    padding: 10px 0 0;
+    margin: 0;
+  }
+  .studio-footnote {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .studio-3d-tools {
+    right: 10px;
+    bottom: 47px;
+  }
+  .studio-3d-tools button {
+    width: 27px;
+    height: 28px;
+  }
+  .studio-3d-host {
+    inset: 15px 0 25px;
+  }
+  body.kobags-v5:has(.studio-compact) .footer-top > div:first-child {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+  body.kobags-v5:has(.studio-compact) .footer-top {
+    padding-bottom: 15px;
+  }
+  .fullscreen-studio-view {
+    height: 62dvh;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .studio-3d-loading svg {
+    animation: none;
+  }
+}
+.kobags-v5 .studio-compact .preview-stage {
+  flex: none;
 }

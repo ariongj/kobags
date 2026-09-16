@@ -18,12 +18,13 @@ async def main():
   async def screenshot(name):
    await page.evaluate('document.activeElement?.blur();window.scrollTo({top:0,behavior:"instant"})');await page.wait_for_timeout(150)
    await page.screenshot(path=str(ROOT/'evidence'/name),type='jpeg',quality=83,full_page=True)
-  await page.goto(BASE+'/design',wait_until='networkidle');await ready()
+  await page.goto(BASE+'/design',wait_until='networkidle');await page.get_by_role('tab',name='Place artwork',exact=True).click();await ready()
   await page.get_by_role('tab',name='02 Your design').click()
   await page.get_by_label('Brand name or message').fill('NOVA\nEVERYDAY GOODS')
   await page.locator('#artwork-font').click();await page.get_by_role('option',name='Editorial serif').click()
   await page.get_by_role('button',name='Undo change',exact=True).click();assert 'textFont' not in await draft()
   raw=await page.evaluate("""()=>{const c=document.createElement('canvas');c.width=600;c.height=300;const x=c.getContext('2d');x.fillStyle='#ffffff';x.fillRect(0,0,600,300);x.fillStyle='#193b67';x.beginPath();x.arc(300,150,110,0,Math.PI*2);x.fill();x.fillStyle='#d9cba6';x.font='bold 130px Georgia';x.textAlign='center';x.fillText('N',300,193);return c.toDataURL('image/png').split(',')[1]}""")
+  await page.get_by_role('group',name='Select artwork layer').get_by_role('button',name='Logo',exact=True).click()
   await page.locator('input[type=file]').set_input_files({'name':'nova-mark.png','mimeType':'image/png','buffer':base64.b64decode(raw)})
   await page.get_by_text('nova-mark.png',exact=True).wait_for();await ready()
   d=await draft();assert d['text']=='NOVA\nEVERYDAY GOODS' and d['logo'] and d['layeredArtwork'] and d['textPlacement']['y']==56 and d['y']==44
@@ -31,7 +32,7 @@ async def main():
   await page.get_by_role('button',name='Undo change',exact=True).click();await ready();undo=await draft();assert not undo['logo'] and 'textPlacement' not in undo and 'layeredArtwork' not in undo
   await page.get_by_role('button',name='Redo change',exact=True).click();await ready();assert (await draft())['logo']==d['logo']
   await page.get_by_role('button',name='Remove white background',exact=True).click();await page.get_by_role('button',name='Restore original background',exact=True).wait_for();await ready()
-  await layer('Text');await page.get_by_label('Vertical position',exact=True).fill('68');await page.get_by_label('Artwork rotation',exact=True).fill('-8');await page.get_by_label('Artwork rotation',exact=True).press('Enter');await ready()
+  await layer('Text');await page.get_by_text('Position & rotation',exact=True).click();await page.get_by_label('Vertical position',exact=True).fill('68');await page.get_by_label('Artwork rotation',exact=True).fill('-8');await page.get_by_label('Artwork rotation',exact=True).press('Enter');await ready()
   d=await draft();assert d['textPlacement']['y']==68 and d['textPlacement']['rotation']==-8 and d['rotation']==0 and d['y']==44
   # Pointer hit testing selects the logo; keyboard movements affect only that layer.
   c=page.locator('.preview-stage canvas');await c.scroll_into_view_if_needed();box=await c.bounding_box();x=box['x']+box['width']*.5;y=box['y']+box['height']*.44
@@ -54,7 +55,7 @@ async def main():
   for width in [1024,768,390,320]:
    await page.set_viewport_size({'width':width,'height':900});await page.wait_for_timeout(100);assert not await page.evaluate('document.documentElement.scrollWidth>innerWidth'),width
   await page.set_viewport_size({'width':390,'height':844});await screenshot('studio-layered-mobile.jpg')
-  await page.reload(wait_until='networkidle');await ready();saved=await draft();assert saved['backText']=='MADE FOR\nEVERY DAY' and saved['customDimensions']=='40 × 35 × 12 cm'
+  await page.reload(wait_until='networkidle');await page.get_by_role('tab',name='Place artwork',exact=True).click();await ready();saved=await draft();assert saved['backText']=='MADE FOR\nEVERY DAY' and saved['customDimensions']=='40 × 35 × 12 cm'
   await page.get_by_role('link',name='Get a quote for this bag',exact=True).click();await page.wait_for_url('**/quote')
   await page.get_by_role('button',name='Use demo details',exact=True).click();await page.get_by_role('button',name='Continue',exact=True).click()
   assert await page.locator('.quote-artwork-pair canvas').count()==2

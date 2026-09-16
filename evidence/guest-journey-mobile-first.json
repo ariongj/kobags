@@ -1,0 +1,20 @@
+{
+  "status": "passed",
+  "mobileFirst": true,
+  "request": "KBG-0F49D8B1",
+  "order": "DEMO-ORDER-0C02DD",
+  "checks": [
+    "anonymous design to quote to artwork approval to simulated order",
+    "guest cookie continuity across refresh and sales/customer views",
+    "guest and account records isolated; foreign IDs rejected",
+    "cookie required for anonymous writes",
+    "idempotent prepare and order actions",
+    "approval gates preserved",
+    "failed submit preserves details",
+    "specific city validation, example details and download feedback",
+    "contact, sample and partner inquiries save anonymously",
+    "mobile complete reorder with fresh approvals",
+    "Albanian mobile menu label"
+  ],
+  "browserErrors": []
+}

@@ -1,5 +1,5 @@
 """Public demo acceptance: no identity header, separate visitor cookies, real UI order flow."""
-import asyncio, json, re, uuid
+import asyncio, json, re, uuid, os
 from pathlib import Path
 from playwright.async_api import async_playwright
 from browser_support import BASE, launch
@@ -7,7 +7,8 @@ ROOT=Path(__file__).resolve().parents[1]
 async def main():
  async with async_playwright() as p:
   browser=await launch(p)
-  context=await browser.new_context(viewport={'width':1440,'height':1000})
+  mobile=os.getenv('KOBAGS_MOBILE_FIRST')=='1'
+  context=await browser.new_context(viewport={'width':390,'height':844} if mobile else {'width':1440,'height':1000},is_mobile=mobile,has_touch=mobile)
   page=await context.new_page();page.set_default_timeout(45000);errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
   async def go(path):
    res=await page.goto(BASE+path,wait_until='networkidle');assert res.status==200
@@ -20,6 +21,7 @@ async def main():
   assert 'kobags-demo' not in await page.evaluate('document.cookie')
   await go('/design');await page.get_by_role('button',name='Box',exact=True).click();await page.get_by_role('button',name='Natural',exact=True).click()
   await page.get_by_role('tab',name='02 Your design').click();await page.get_by_label('Brand name or message').fill('NOVA STUDIO')
+  await page.get_by_role('group',name='Select artwork layer').get_by_role('button',name='Logo',exact=True).click()
   assert await page.locator('input[type=file]').get_attribute('accept')=='image/png,image/jpeg,image/webp'
   async with page.expect_download():await page.get_by_role('button',name='Download design preview',exact=True).click()
   await page.get_by_role('status').filter(has_text='kobags-box-bag-front-concept.png').wait_for()
@@ -49,7 +51,7 @@ async def main():
   again=await post({'type':'release','id':rid});assert again['state']['requests'][0]['order']['id']==order['id']
   await page.reload(wait_until='networkidle');await page.get_by_role('heading',name='Your demo order is placed.').wait_for()
   await page.evaluate('document.activeElement?.blur(); window.scrollTo({top:0,behavior:"instant"})');await page.wait_for_timeout(150)
-  await page.screenshot(path=str(ROOT/'evidence/demo-order-desktop.jpg'),type='jpeg',quality=86,full_page=True)
+  await page.screenshot(path=str(ROOT/('evidence/demo-order-mobile-first.jpg' if mobile else 'evidence/demo-order-desktop.jpg')),type='jpeg',quality=86,full_page=True)
   await page.get_by_role('link',name='Switch to sales demo').click();await page.wait_for_url('**/demo/admin?id='+rid);await page.get_by_role('tab',name='Timeline',exact=True).click()
   async with page.expect_response(lambda res: res.url.endswith('/api/demo') and res.request.method=='POST') as advanced:
    await page.get_by_role('button',name='Advance demo production status',exact=True).click()
@@ -79,6 +81,6 @@ async def main():
   assert not await page.evaluate('document.documentElement.scrollWidth > innerWidth')
   await page.get_by_role('button',name='Switch to Albanian').click();await page.get_by_role('button',name='Hap ose mbyll menynë',exact=True).click();assert await page.locator('.nav.open').is_visible()
   assert not errors,errors
-  (ROOT/'evidence/guest-journey.json').write_text(json.dumps({'status':'passed','request':rid,'order':order['id'],'checks':['anonymous design to quote to artwork approval to simulated order','guest cookie continuity across refresh and sales/customer views','guest and account records isolated; foreign IDs rejected','cookie required for anonymous writes','idempotent prepare and order actions','approval gates preserved','failed submit preserves details','specific city validation, example details and download feedback','contact, sample and partner inquiries save anonymously','mobile complete reorder with fresh approvals','Albanian mobile menu label'],'browserErrors':errors},indent=2))
+  (ROOT/('evidence/guest-journey-mobile-first.json' if mobile else 'evidence/guest-journey.json')).write_text(json.dumps({'status':'passed','mobileFirst':mobile,'request':rid,'order':order['id'],'checks':['anonymous design to quote to artwork approval to simulated order','guest cookie continuity across refresh and sales/customer views','guest and account records isolated; foreign IDs rejected','cookie required for anonymous writes','idempotent prepare and order actions','approval gates preserved','failed submit preserves details','specific city validation, example details and download feedback','contact, sample and partner inquiries save anonymously','mobile complete reorder with fresh approvals','Albanian mobile menu label'],'browserErrors':errors},indent=2))
   print('PASS anonymous demo order journey',order['id']);await browser.close()
 asyncio.run(main())

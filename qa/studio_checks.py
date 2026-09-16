@@ -13,7 +13,7 @@ async def main():
   async def ready():
    await page.wait_for_function("document.querySelector('.preview-stage canvas')?.dataset.ready === 'true'")
   async def draft():return await page.evaluate("JSON.parse(localStorage.getItem('kobags-design-v1'))")
-  await page.goto(BASE+'/design',wait_until='networkidle');await ready()
+  await page.goto(BASE+'/design',wait_until='networkidle');await page.get_by_role('tab',name='Place artwork',exact=True).click();await ready()
   assert await page.locator('.bag-picker canvas[data-ready=true]').count()==5
   shapes={}
   for name in ['D-Cut','Handle','Box','T-Shirt','String']:
@@ -25,6 +25,7 @@ async def main():
   await page.get_by_label('Brand name or message').fill('ATELIER\nNOVA')
   await page.locator('#artwork-font').click();await page.get_by_role('option',name='Editorial serif').click()
   await page.get_by_role('button',name='Align text left').click()
+  await page.get_by_text('Position & rotation',exact=True).click()
   await page.get_by_label('Horizontal position',exact=True).fill('62')
   await page.get_by_label('Vertical position',exact=True).fill('60')
   await page.get_by_label('Artwork rotation',exact=True).fill('-12')
@@ -45,6 +46,7 @@ async def main():
   await page.locator('#ink').fill('#d8c99f')
   # A large, simple raster logo stays sharp rather than being reduced to 320px.
   raw=await page.evaluate("""()=>{let c=document.createElement('canvas');c.width=1400;c.height=700;let x=c.getContext('2d');x.fillStyle='#193b67';x.fillRect(60,60,1280,580);x.fillStyle='white';x.font='bold 160px Arial';x.fillText('NOVA',450,420);return c.toDataURL('image/png').split(',')[1]}""")
+  await page.get_by_role('group',name='Select artwork layer').get_by_role('button',name='Logo',exact=True).click()
   await page.locator('input[type=file]').set_input_files({'name':'nova-back.png','mimeType':'image/png','buffer':base64.b64decode(raw)})
   await page.get_by_text('nova-back.png',exact=True).wait_for();await ready()
   d=await draft();assert d['backLogoName']=='nova-back.png' and d['text']=='ATELIER\nNOVA' and d['textFont']=='serif'

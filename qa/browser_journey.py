@@ -23,11 +23,13 @@ async def main():
   await page.get_by_role('button',name='D-Cut',exact=True).click()
   await page.locator('#bag-size').click();await page.get_by_role('option',name=re.compile('Large')).click()
   await page.get_by_role('button',name='Navy blue',exact=True).click()
+  await page.get_by_role('tab',name='Place artwork',exact=True).click()
   await page.get_by_role('tab',name='02 Your design').click()
   await page.get_by_label('Brand name or message').fill('MIRA\nMARKET')
   canvas=page.locator('.preview-stage canvas');await canvas.focus();await page.keyboard.press('ArrowRight')
   d=await page.evaluate("JSON.parse(localStorage.getItem('kobags-design-v1'))")
   assert d['product']=='d-cut-bag' and d['size']=='Large' and d['x']==51
+  await page.get_by_role('group',name='Select artwork layer').get_by_role('button',name='Logo',exact=True).click()
   await page.locator('input[type=file]').set_input_files({'name':'bad.svg','mimeType':'image/svg+xml','buffer':b'<svg xmlns="http://www.w3.org/2000/svg"/>'})
   assert await page.get_by_role('alert').count()==1
   await page.locator('input[type=file]').set_input_files(str(Path(__file__).resolve().parents[1]/'public/assets/logo.png'))

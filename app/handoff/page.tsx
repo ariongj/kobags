@@ -76,7 +76,8 @@ export default function Handoff() {
           <p>
             <strong>A connected demonstration.</strong> Design → request → quote
             → artwork revision → approval → production handoff → repeat request.
-            Each visitor can complete the journey in their own demo workspace, without signing in.
+            Each visitor can complete the journey in their own demo workspace,
+            without signing in.
           </p>
         </div>
         <section id="outline" className="handoff-section">
@@ -130,7 +131,7 @@ export default function Handoff() {
               ],
               [
                 "Make a design",
-                "Choose D-Cut → Large, add a logo, move it, inspect both sides and download your preview.",
+                "Choose a shape and size, rotate it in 3D, add your logo and text, then use Place artwork for precise positioning. Inspect both sides and download the design sheet.",
               ],
               [
                 "Request a quote",

@@ -2,7 +2,22 @@
 
 Updated 16 September 2026. This record supersedes the earlier incomplete v1 check. Tests ran against the compiled local Worker at `http://localhost:8787` with synthetic data. No live Kobags forms, customer records or production systems were used.
 
-## Latest revision — layered studio and certificate library
+## Latest revision — compact website and five-family 3D designer
+
+The designer now defaults to a real orbitable 3D model for each of the five bag families. The flat **Place artwork** view, independent front/back layers, existing exports and saved request/proof contracts remain available. The site-wide compact layer reduces oversized openings, duplicate gutters, section/card spacing and footer height. Mobile retains readable form text, larger interaction targets and an accessible quote link in the menu.
+
+- TypeScript and the complete Sites build passed.
+- `qa/studio_3d_checks.py` passed: all five volumetric families; drag, keyboard and button rotation; zoom, reset, front/back alignment and optional spin; live logo/text textures on both faces; shared state across 3D/flat views; fullscreen, two-sided export and quote carry-through. Desktop quote action is visible without page scrolling at 1440 × 900. Layout checks covered 1440, 1024, 768, 390 and 320px widths. Reduced motion and a forced no-WebGL fallback passed. No captured browser JavaScript errors.
+- The layered artwork/certificate regression passed, including independent positioning, undo/redo, white-background cleanup, two-sided sheet, saved proof and mobile approval/order/reorder.
+- The anonymous guest journey passed in desktop and mobile-first 390px touch-enabled contexts: design, preview export, quotation request, fictional quote acceptance, separate artwork approval, simulated order and reorder. Guest isolation, retry preservation, validation and inquiry saves passed. No captured browser JavaScript errors.
+
+- `qa/mobile_site_checks.py` passed **54 route/width combinations**: all 32 mapped pages at 390px plus core buying/manufacturing/certificate/workspace routes at 320px and 768px. The mobile menu and quote link work with touch, text-entry fields remain at least 16px, real touch drag rotates the 3D bag, and short landscape layouts keep the quote action reachable. No horizontal overflow or captured browser JavaScript errors.
+- `qa/site_checks.py` passed again: **32 pages, 43 internal destinations/downloads and 11 legacy redirects**, plus catalog filters/comparison, all 15 variants, secondary inquiries, ownership isolation, concurrent edits and quotation/artwork release gates.
+- Visual review covered desktop 3D/flat workspaces, mobile designer, homepage, catalog and quotation. Earlier nested gutters and mobile hero layering were corrected. Explicit front/back/reset actions now clear residual drag inertia.
+
+New evidence: `mobile-site-checks.json`, `site-checks.json`, `studio-3d-checks.json`, `studio-3d-*.jpg`, `guest-journey-mobile-first.json`, and `compact-mobile-*.jpg`. Tests use an isolated compiled local Worker. Software WebGL demonstrates interaction behavior, not physical-device performance. Physical iOS/Safari and Android hardware have not been verified. The 3D geometry is illustrative by family; it does not change to approved per-size dimensions. Downloads remain clean flat concepts with specifications.
+
+## Previous revision — layered studio and certificate library
 
 The source-backed certificate presentation and layered artwork editor were reviewed on desktop and mobile. No live business submissions or issuer-verification requests were sent.
 
@@ -165,4 +180,4 @@ Desktop screenshots use 1440px-wide views; mobile screenshots use 390 × 844 vie
 
 These checks establish the demonstrated local workflows, not universal correctness or production readiness. They do not constitute a full accessibility, cross-browser, load, penetration or legal audit. Safari/Firefox, screen-reader use, 200% text enlargement, hosted sign-in enforcement, external messaging, payment processing, private original-file storage, backup restoration and live ERP/CRM integration were not tested. Local owner-isolation checks use synthetic trusted-header values; production identity must come from verified hosting authentication.
 
-WebMCP is feature-detected but no supporting browser was available for protocol-level verification. The detailed designer remains a 2D illustration with approximate colors/shape, not an approved print template. The new 3D showroom is one representative Handle tote concept; it is not production CAD or a verified model of every size/family. Original certificate validity and production/product claims still require client approval. EN/SQ covers the homepage and core buying flow; secondary editorial and most administration remain English.
+WebMCP is feature-detected but no supporting browser was available for protocol-level verification. The detailed designer now offers five illustrative 3D family models and a flat artwork view with approximate colors/shape. Neither is an approved print template or per-variant production CAD. The homepage showroom remains one representative Handle tote concept. Original certificate validity and production/product claims still require client approval. EN/SQ covers the homepage and core buying flow; secondary editorial and most administration remain English.

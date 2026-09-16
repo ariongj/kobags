@@ -37,7 +37,7 @@ Use the existing CSS variables and UI primitives when extending the site. Utilit
 
 A cinematic original factory photograph fills the opening with larger navy/white/light-green typography. The photograph stays behind the copy on mobile with a stronger readability overlay. The actions lead to manufacturing and the bag designer; a 360° link jumps to the showroom. Keep the photo/manual-play production film genuine.
 
-The page order is factory hero → manufacturing proof → production process/video → interactive 3D showroom → five-family collection → ordering steps → industry/material content → evidence → FAQs → shared footer. Product cards use original branded photos; the catalog introduction uses the existing blank illustrative mockups. A dark shared footer provides the final design invitation across every route.
+The page order is factory hero → manufacturing proof → production process/video → interactive 3D showroom → five-family collection → ordering steps → industry/material content → evidence → FAQs → shared footer. Product cards use original branded photos; the catalog introduction uses the existing blank illustrative mockups. A compact dark footer provides a design invitation on public information pages; the working designer uses a shorter footer.
 
 ### Interactive 3D showroom — `/#bag-showcase`
 
@@ -49,11 +49,13 @@ The intended balance is manufacturer first, products and customization next. Do 
 
 ### Design landing page — `/design`
 
-Lead with “Your brand. Your bag.” Use two restrained white cards on desktop: a sticky preview workspace and a controls panel. The five larger shape tiles use the same blank models as the main canvas. A cool pale stage, subtle shadow and visible front/back and download controls keep attention on the bag. At 800px and below, the cards stack.
+Lead with “Build your bag.” Keep the working surface compact: a 30px desktop title, 26px mobile title, 360px controls column (330/305px on smaller desktops/tablets), 38px fields and short shape tiles. Use the scoped `.studio-compact` rules at the end of `app/brand-refresh.css`; the older `.studio-v4` rules are the compatibility baseline. Cards stack below 700px, and the mobile preview is 310px tall. Desktop keeps the quote action visible while long editing controls scroll inside their panel. Mobile controls and the quote action stay in normal document flow so nothing covers the form. The designer has a short footer instead of the site's large promotional invitation.
 
-The bag tab contains size, color, material, logo entry and an optional custom-dimension request. The artwork tab supports a logo and text together, selected as independent layers. It includes an upload thumbnail/name, optional white-background cleanup, a three-line text field, three typefaces, alignment, text color, and independent layer size, position and rotation. Undo/redo and copy-to-other-side support iteration. Front and back preserve separate settings and upload names. Dashed artwork guides help placement and can be hidden; they never appear in exports. Dragging retains the point grabbed, keyboard arrows move by 1% (Shift: 5%), and Center artwork resets position/rotation. Keep the quote action beside the current specification.
+**3D view** opens by default. All five families have distinct volumetric shapes, live bag color, independent front/back logo and text, drag rotation, keyboard arrows, rotation buttons, zoom, reset and optional automatic rotation. Front/back actions select the matching view. Automatic motion starts off and remains disabled for reduced-motion users. Fullscreen keeps the same controls; devices without WebGL receive the existing flat preview.
 
-Scoped `.studio-v4` styling uses 16px card corners, 14px control labels, 46px fields, a 410px desktop controls column (365px at narrower desktop), larger shape tiles, and a 48px desktop title. Match those rules when extending this workspace.
+The bag tab contains size, color, material, print-color count and an optional custom-dimension request. “Next: add your design” opens the artwork tab. Logo and Text select independent layers and show only the selected layer's controls. Logo includes upload, thumbnail/name and optional white-background cleanup; Text includes a short text field, three typefaces, alignment and ink color. Artwork size is immediately available; coordinates and rotation sit inside the expandable **Position & rotation** section. Undo/redo, Center artwork, remove and copy-to-other-side remain available.
+
+**Place artwork** opens the flat canvas for precise dragging and keyboard placement. Both views use the same saved design. Dragging preserves the initial grab offset; keyboard arrows move by 1% (Shift: 5%). Guides can be hidden and never appear in exports. The clean downloads remain a single-face concept and a two-sided specification sheet. Keep controls readable; achieve compactness by removing duplicate information and revealing advanced tools on demand.
 
 ### Catalog and detail
 
@@ -75,7 +77,9 @@ These are functional visitor-specific demo personas with the refreshed heading, 
 
 Desktop uses side-by-side working panels and multi-column editorial sections. Tablet reduces cards and spacing; small screens stack content and use the header menu. Tables may scroll inside their own wrapper. The page itself should never scroll horizontally. Maintain a usable logo-upload area, visible errors and reachable quote actions on a 390px viewport.
 
-Existing breakpoints are in `app/globals.css`. Extend the relevant component's rules instead of introducing another global breakpoint system. Respect the existing reduced-motion styling.
+The final site-wide spacing layer is `app/compact.css`, loaded after the base and brand styles. Desktop section spacing is 56px and mobile spacing is 34px; cards use 22px/18px padding. The sticky header is 72px desktop and 64px mobile. Mobile page titles are 32px and body copy remains 15–16px. Compactness comes from less repeated space, not tiny text.
+
+Mobile is a primary review surface. Keep 44px main actions/menu rows, readable 16px text-entry fields, no horizontal page scrolling, and a scrollable menu in landscape. Decorative catalog-heading bags are hidden on mobile so filters and products appear sooner. Product imagery is shorter, footer spacing is reduced, and working controls remain readable. Check 320px, 390px and 768px widths plus short landscape screens after any layout change. Preserve the original manufacturing-led story and reduced-motion behavior.
 
 ## 5. Assets and provenance
 
@@ -91,7 +95,7 @@ Existing breakpoints are in `app/globals.css`. Extend the relevant component's r
 | `docs/asset-sources.json` | Asset source manifest |
 | `docs/source-catalog.json` | Original catalog snapshot with 15 variants |
 
-The designer is a 2D concept preview. Both sides reuse the same indicative shape; the bag does not change physical proportions for each size. It is not a dieline, a 3D model, a color sample or a guarantee of printable area. Production work should substitute approved per-variant templates or approved 3D assets. Preview downloads carry a concept label.
+The designer offers illustrative 3D family models and flat artwork previews. Family geometry does not change physical proportions for each catalogue size. Neither view is an approved dieline, production CAD, color sample or guarantee of printable area. Production work should substitute approved per-variant templates or approved 3D assets. Preview downloads carry a concept label.
 
 Kobags assets remain subject to their owner's rights. The archive is a handoff for this project; it does not grant trademark, photo or video rights for unrelated brands. Replace brand assets when using the architecture for another business.
 
@@ -108,6 +112,7 @@ Visitors need no sign-in to try the complete demo. The quote form can fill ficti
 | 3D showroom UI | `components/bag-showcase.tsx` |
 | Procedural 3D tote, controls and animation lifecycle | `lib/bag-scene.ts` |
 | Site-wide edition 05 visual system | `app/brand-refresh.css` |
+| Five-family 3D designer and lifecycle | `components/studio-3d.tsx`, `lib/studio-scene.ts` |
 | Studio controls and concept export | `components/bag-studio.tsx` |
 | Canvas composition and pointer/keyboard behavior | `components/bag-preview.tsx` |
 | Mockup mapping, silhouette bounds, artwork fonts | `lib/studio-artwork.ts` |
