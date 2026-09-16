@@ -2360,3 +2360,192 @@
   max-width: 1000px;
   margin-inline: auto;
 }
+
+
+/* Focused studio improvements — 16 September 2026. */
+.kobags-v5 .studio-v4 .studio-heading {
+  margin-bottom: 20px;
+}
+.kobags-v5 .studio-brief {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 28px;
+  padding: 16px 0 22px;
+  margin-bottom: 6px;
+  border-top: 1px solid var(--border);
+  color: #52676a;
+  font-size: 14px;
+}
+.kobags-v5 .studio-brief > span,
+.kobags-v5 .studio-brief > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.kobags-v5 .studio-brief > a {
+  margin-left: auto;
+  color: var(--green);
+  font-weight: 600;
+}
+.kobags-v5 .studio-side-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  padding: 16px 20px;
+  background: #fff;
+  border-top: 1px solid var(--border);
+}
+.kobags-v5 .studio-side-cards > button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 12px;
+  min-width: 0;
+  text-align: left;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fafcf9;
+  color: var(--navy);
+}
+.kobags-v5 .studio-side-cards > button[aria-pressed="true"] {
+  border-color: #438c55;
+  background: #edf5e9;
+}
+.kobags-v5 .studio-side-cards > button > span:nth-child(2) {
+  display: grid;
+  gap: 3px;
+  flex: 1;
+  min-width: 0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.kobags-v5 .studio-side-cards strong {
+  font-weight: 600;
+}
+.kobags-v5 .studio-side-cards span > span {
+  color: #536862;
+  font-size: 13px;
+}
+.kobags-v5 .side-card-icon {
+  display: flex;
+  color: var(--green);
+}
+.kobags-v5 .studio-contrast-hint {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid #e3c997;
+  border-radius: 8px;
+  background: #fff8eb;
+  color: #76501d;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.kobags-v5 .studio-contrast-hint > svg {
+  margin-top: 2px;
+}
+.kobags-v5 .studio-contrast-hint strong {
+  font-weight: 600;
+}
+.kobags-v5 .studio-contrast-hint p {
+  margin: 3px 0 8px;
+}
+.kobags-v5 .studio-contrast-hint .text-button {
+  color: #684611;
+  text-align: left;
+  font-size: 14px;
+  text-decoration: underline;
+}
+.kobags-v5 .studio-logo-cleanup {
+  display: grid;
+  gap: 8px;
+  margin-top: -6px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #f6f9f4;
+}
+.kobags-v5 .studio-logo-cleanup .text-button {
+  text-align: left;
+  font-size: 14px;
+  min-height: 30px;
+}
+.kobags-v5 .studio-logo-cleanup p,
+.kobags-v5 .studio-print-plan > p {
+  color: #536862;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.kobags-v5 .studio-logo-cleanup p[role="status"] {
+  color: var(--navy);
+}
+.kobags-v5 .studio-print-plan {
+  display: grid;
+  gap: 10px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.kobags-v5 .studio-print-plan .field {
+  margin: 0;
+}
+.kobags-v5 .quote-artwork-review {
+  display: grid;
+  gap: 16px;
+}
+.kobags-v5 .quote-artwork-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.kobags-v5 .quote-artwork-face {
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #f5f8f2;
+}
+.kobags-v5 .quote-artwork-face .bag-canvas {
+  display: block;
+  width: min(100%, 180px);
+  height: auto;
+  margin: 0 auto 10px;
+}
+.kobags-v5 .quote-artwork-face h3 {
+  margin-bottom: 6px;
+  font-size: 16px;
+}
+.kobags-v5 .quote-artwork-face p {
+  font-size: 14px;
+  color: #536862;
+  overflow-wrap: anywhere;
+  white-space: pre-line;
+}
+@media (max-width: 800px) {
+  .kobags-v5 .studio-brief {
+    gap: 10px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .kobags-v5 .studio-brief > a {
+    margin-left: 0;
+  }
+  .kobags-v5 .studio-side-cards {
+    padding: 12px;
+    gap: 8px;
+  }
+  .kobags-v5 .studio-side-cards > button {
+    padding: 12px 10px;
+    gap: 8px;
+  }
+  .kobags-v5 .studio-side-cards > button > svg,
+  .kobags-v5 .studio-side-cards .side-card-icon {
+    display: none;
+  }
+}
+@media (max-width: 380px) {
+  .kobags-v5 .quote-artwork-pair {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

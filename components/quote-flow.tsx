@@ -15,6 +15,8 @@ import { Choice, BagPreview } from "./bag-studio";
 import { useKobags } from "./kobags-context";
 import { useDemo, errors } from "./demo-store";
 import { products, getProduct, Design } from "@/lib/catalog";
+import { sideArtwork } from "@/lib/studio-artwork";
+import { artworkSides } from "@/lib/studio-checks";
 export default function QuoteFlow() {
   const { t, lang, design, update, ready } = useKobags();
   const { state, error, busy, act } = useDemo();
@@ -26,6 +28,10 @@ export default function QuoteFlow() {
   const variant =
     p.variants.find((v) => v.name === design.size) || p.variants[0];
   const minimum = state?.settings.moq || 5000;
+  const sides = artworkSides(design);
+  const artworkSummary = sides.length
+    ? sides.map((side) => t(side === "front" ? "Front" : "Back", side === "front" ? "Përpara" : "Prapa")).join(" + ")
+    : t("No artwork added", "Pa dizajn");
   useEffect(() => {
     try {
       setStep(
@@ -317,24 +323,23 @@ export default function QuoteFlow() {
             )}
             {step === 1 && (
               <div className="form-grid">
-                <div className="full design-check">
-                  <BagPreview design={design} compact />
-                  <div>
-                    <h3>{p.name}</h3>
-                    <p>
-                      {design.color} ·{" "}
-                      {design.logoName ||
-                        design.text ||
-                        t("No artwork added", "Pa dizajn")}
-                    </p>
-                    <Link href="/design" className="text-button">
-                      <Pencil size={15} />
-                      {t(
-                        "Edit design in the studio",
-                        "Ndrysho dizajnin në studio",
-                      )}
-                    </Link>
+                <div className="full quote-artwork-review">
+                  <div className="quote-artwork-pair">
+                    {(["front", "back"] as const).map((side) => {
+                      const artwork = sideArtwork({ ...design, side });
+                      return <div key={side} className="quote-artwork-face">
+                        <BagPreview design={{ ...design, side }} compact />
+                        <h3>{t(side === "front" ? "Front" : "Back", side === "front" ? "Përpara" : "Prapa")}</h3>
+                        <p>{artwork.logo
+                          ? artwork.name || t("Uploaded logo", "Logo e ngarkuar")
+                          : artwork.text.trim() || t("No artwork · blank side", "Pa dizajn · anë bosh")}</p>
+                      </div>;
+                    })}
                   </div>
+                  <Link href="/design" className="text-button">
+                    <Pencil size={15} />
+                    {t("Edit design in the studio", "Ndrysho dizajnin në studio")}
+                  </Link>
                 </div>
                 <Choice
                   id="q-print"
@@ -555,6 +560,7 @@ export default function QuoteFlow() {
                     " " +
                     t("color(s) · flexographic", "ngjyra · fleksografik"),
                 ],
+                [t("Artwork sides", "Anët me dizajn"), artworkSummary],
                 [t("Quantity", "Sasia"), design.quantity.toLocaleString()],
                 [
                   t("Destination", "Destinacioni"),

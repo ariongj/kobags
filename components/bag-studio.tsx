@@ -22,6 +22,8 @@ import {
   EyeOff,
   Trash2,
   CheckCircle2,
+  AlertTriangle,
+  Eraser,
 } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Slider } from "@/components/ui/slider";
@@ -41,6 +43,7 @@ import {
 import { BagPreview, renderBagDesign } from "./bag-preview";
 export { BagPreview } from "./bag-preview";
 import { sideArtwork, artworkFonts } from "@/lib/studio-artwork";
+import { artworkSides, inkContrast, readableInk, clearWhiteBackground } from "@/lib/studio-checks";
 import { useDemo } from "./demo-store";
 import {
   products,
@@ -155,6 +158,16 @@ export default function BagStudio() {
   const [previewReady, setPreviewReady] = useState(false);
   const [guides, setGuides] = useState(true);
   const art = sideArtwork(design);
+  const sides = artworkSides(design);
+  const fabric = colors.find((c) => c.name === design.color) || colors[0];
+  const lowContrast = !art.logo && !!art.text.trim() && inkContrast(art.ink, fabric.hex) < 3;
+  const [backgroundBusy, setBackgroundBusy] = useState(false);
+  const [backgroundEdits, setBackgroundEdits] = useState<Partial<Record<Design["side"], { original: string; cleaned: string }>>>({});
+  const [backgroundNotice, setBackgroundNotice] = useState<{ source: string; message: "unchanged" | "empty" } | null>(null);
+  const latestDesign = useRef(design);
+  latestDesign.current = design;
+  const backgroundEdit = backgroundEdits[design.side];
+  const canRestoreBackground = backgroundEdit?.cleaned === art.logo && !!art.logo;
   const { state } = useDemo();
   const minimum = state?.settings.moq || 5000;
   const setArtworkPosition = (axis: "x" | "y", value: number) => {
@@ -178,7 +191,7 @@ export default function BagStudio() {
   const fileRef = useRef<HTMLInputElement>(null);
   const back = design.side === "back";
   const upload = async (file?: File) => {
-    if (!file) return;
+    if (!file || uploading || backgroundBusy) return;
     setError("");
     if (
       !["image/png", "image/jpeg", "image/webp"].includes(file.type) ||
@@ -233,6 +246,71 @@ export default function BagStudio() {
       setUploading(false);
     }
   };
+  const removeWhiteBackground = async () => {
+    if (backgroundBusy || uploading || !art.logo) return;
+    const source = art.logo;
+    const side = design.side;
+    setBackgroundBusy(true);
+    setBackgroundNotice(null);
+    setError("");
+    try {
+      const image = new Image();
+      await new Promise<void>((resolve, reject) => {
+        image.onload = () => resolve();
+        image.onerror = reject;
+        image.src = source;
+      });
+      if (!image.naturalWidth || image.naturalWidth > 1024 || image.naturalHeight > 1024)
+        throw Error("IMAGE_TOO_LARGE");
+      const output = document.createElement("canvas");
+      output.width = image.naturalWidth;
+      output.height = image.naturalHeight;
+      const ctx = output.getContext("2d", { willReadFrequently: true })!;
+      ctx.drawImage(image, 0, 0);
+      const pixels = ctx.getImageData(0, 0, output.width, output.height);
+      const removed = clearWhiteBackground(pixels.data, output.width, output.height);
+      let visible = false;
+      for (let i = 3; i < pixels.data.length; i += 4)
+        if (pixels.data[i] > 0) { visible = true; break; }
+      // Do not replace artwork changed while the image was being decoded.
+      if ((side === "back" ? latestDesign.current.backLogo : latestDesign.current.logo) !== source) return;
+      if (!removed || !visible) {
+        setBackgroundNotice({ source, message: visible ? "unchanged" : "empty" });
+        return;
+      }
+      ctx.putImageData(pixels, 0, 0);
+      let cleaned = output.toDataURL("image/png");
+      if (cleaned.length > 100000) cleaned = output.toDataURL("image/webp", 0.94);
+      if (cleaned.length > 100000) throw Error("IMAGE_TOO_LARGE");
+      setBackgroundEdits((previous) => ({ ...previous, [side]: { original: source, cleaned } }));
+      update(side === "back" ? { backLogo: cleaned } : { logo: cleaned });
+    } catch {
+      setError(t(
+        "The background could not be removed. Your original logo is unchanged.",
+        "Sfondi nuk mund të hiqej. Logoja origjinale nuk u ndryshua.",
+      ));
+    } finally {
+      setBackgroundBusy(false);
+    }
+  };
+  const contrastHint = lowContrast ? (
+    <div className="studio-contrast-hint" role="status">
+      <AlertTriangle size={18} />
+      <div>
+        <strong>{t("Your text may be hard to see", "Teksti mund të jetë i vështirë për t’u parë")}</strong>
+        <p>{t(
+          back ? "The back text is close to the bag color." : "The front text is close to the bag color.",
+          back ? "Teksti prapa është i ngjashëm me ngjyrën e çantës." : "Teksti përpara është i ngjashëm me ngjyrën e çantës.",
+        )}</p>
+        <button type="button" className="text-button" onClick={() => {
+          const ink = readableInk(fabric.hex);
+          update(back ? { backInk: ink } : { ink });
+        }}>
+          {t("Use a clearer text color", "Përdorni një ngjyrë më të qartë")}
+        </button>
+      </div>
+    </div>
+  ) : null;
   const download = async () => {
     if (exporting || !previewReady) return;
     setExporting(true);
@@ -309,12 +387,17 @@ export default function BagStudio() {
         </div>
         <div className="studio-heading-note">
           <span className="pill">
-            {t("YOUR PERSONAL DESIGN STUDIO", "STUDIOJA JUAJ E DIZAJNIT")}
+            {t("WHOLESALE FROM ", "ME SHUMICË NGA ") + minimum.toLocaleString() + t(" BAGS", " ÇANTA")}
           </span>
           <span>
             {t("Made in Lipjan, Kosovo", "Prodhuar në Lipjan, Kosovë")}
           </span>
         </div>
+      </div>
+      <div className="studio-brief" aria-label={t("Before you design", "Para se të dizajnoni")}>
+        <span><Package size={17} />{t("5 bag shapes · 15 sizes", "5 forma çantash · 15 madhësi")}</span>
+        <span>{t("Flexographic print · up to 4 colors", "Shtyp fleksografik · deri në 4 ngjyra")}</span>
+        <Link href="/samples">{t("Feel the material: request samples", "Prekni materialin: kërkoni mostra")}<ArrowUpRight size={15} /></Link>
       </div>
       <div className="studio">
         <div className="preview-column">
@@ -376,8 +459,12 @@ export default function BagStudio() {
                 <TabsList className="side-switch">
                   <TabsTrigger value="front">
                     {t("Front", "Përpara")}
+                    {sides.includes("front") && <Check size={13} aria-label={t("Artwork added", "Dizajni u shtua")} />}
                   </TabsTrigger>
-                  <TabsTrigger value="back">{t("Back", "Prapa")}</TabsTrigger>
+                  <TabsTrigger value="back">
+                    {t("Back", "Prapa")}
+                    {sides.includes("back") && <Check size={13} aria-label={t("Artwork added", "Dizajni u shtua")} />}
+                  </TabsTrigger>
                 </TabsList>
               </Tabs>
               <span className="drag-tip">
@@ -410,6 +497,25 @@ export default function BagStudio() {
               {downloaded}
             </p>
           )}
+          <div className="studio-side-cards" aria-label={t("Artwork on each side", "Dizajni në secilën anë")}>
+            {(["front", "back"] as const).map((side) => {
+              const artwork = sideArtwork({ ...design, side });
+              const hasArtwork = sides.includes(side);
+              return (
+                <button key={side} type="button" aria-pressed={design.side === side}
+                  onClick={() => { update({ side }); setTab("artwork"); }}>
+                  <span className="side-card-icon" aria-hidden="true">{hasArtwork ? <Check size={18} /> : <ImagePlus size={18} />}</span>
+                  <span>
+                    <strong>{t(side === "front" ? "Front" : "Back", side === "front" ? "Përpara" : "Prapa")}</strong>
+                    <span>{hasArtwork
+                      ? artwork.logo ? t("Logo added", "Logo e shtuar") : t("Brand text added", "Teksti i markës u shtua")
+                      : t("Blank · add artwork", "Bosh · shtoni dizajnin")}</span>
+                  </span>
+                  <ArrowRight size={16} aria-hidden="true" />
+                </button>
+              );
+            })}
+          </div>
           <div className="preview-disclaimer">
             <Info size={14} />
             {t(
@@ -467,9 +573,9 @@ export default function BagStudio() {
                         design.color === c.name ? "swatch selected" : "swatch"
                       }
                       style={{ background: c.hex }}
-                      aria-label={c.name}
+                      aria-label={t(c.name, c.sq)}
                       aria-pressed={design.color === c.name}
-                      title={c.name}
+                      title={t(c.name, c.sq)}
                       onClick={() => update({ color: c.name })}
                     >
                       {design.color === c.name && (
@@ -492,6 +598,7 @@ export default function BagStudio() {
                   )}
                 </small>
               </div>
+              {contrastHint}
               <div className="spec-mini">
                 <div>
                   <Package size={17} />
@@ -510,6 +617,7 @@ export default function BagStudio() {
               </div>
               <button
                 className="upload-zone"
+                disabled={uploading || backgroundBusy}
                 onClick={() => {
                   setTab("artwork");
                   fileRef.current?.click();
@@ -586,7 +694,7 @@ export default function BagStudio() {
                     <button
                       className="text-button"
                       onClick={() => fileRef.current?.click()}
-                      disabled={uploading}
+                      disabled={uploading || backgroundBusy}
                     >
                       {t("Replace logo", "Zëvendëso logon")}
                     </button>
@@ -596,7 +704,7 @@ export default function BagStudio() {
                 <button
                   className="upload-zone short artwork-upload"
                   onClick={() => fileRef.current?.click()}
-                  disabled={uploading}
+                  disabled={uploading || backgroundBusy}
                   onDragOver={(e) => e.preventDefault()}
                   onDrop={(e) => {
                     e.preventDefault();
@@ -614,6 +722,29 @@ export default function BagStudio() {
                   </strong>
                   <span>PNG, JPG, WebP · 5 MB</span>
                 </button>
+              )}
+              {art.logo && (
+                <div className="studio-logo-cleanup">
+                  <button type="button" className="text-button" disabled={uploading || backgroundBusy}
+                    onClick={() => {
+                      if (canRestoreBackground && backgroundEdit) {
+                        update(back ? { backLogo: backgroundEdit.original } : { logo: backgroundEdit.original });
+                        setBackgroundNotice(null);
+                      } else void removeWhiteBackground();
+                    }}>
+                    {canRestoreBackground ? <RotateCcw size={16} /> : <Eraser size={16} />}
+                    {backgroundBusy ? t("Removing background…", "Duke hequr sfondin…")
+                      : canRestoreBackground ? t("Restore original background", "Rikthe sfondin origjinal")
+                      : t("Remove white background", "Hiq sfondin e bardhë")}
+                  </button>
+                  <p>{t(
+                    "For logos on a white background. Check light details after removal; you can undo it here.",
+                    "Për logo me sfond të bardhë. Kontrolloni detajet e çelëta pas heqjes; këtu mund ta zhbëni.",
+                  )}</p>
+                  {backgroundNotice?.source === art.logo && <p role="status">{backgroundNotice.message === "empty"
+                    ? t("This would remove the whole logo. Your original has been kept.", "Kjo do ta hiqte të gjithë logon. Origjinali u ruajt.")
+                    : t("No white background was found at the edges. Your logo is unchanged.", "Nuk u gjet sfond i bardhë në skaje. Logoja nuk u ndryshua.")}</p>}
+                </div>
               )}
               <div className="artwork-divider">
                 <span>{t("OR ADD TEXT", "OSE SHTONI TEKST")}</span>
@@ -716,6 +847,7 @@ export default function BagStudio() {
                   </div>
                 </>
               )}
+              {contrastHint}
               <div className="artwork-transform">
                 <div className="transform-heading">
                   <h3>{t("Size & placement", "Madhësia dhe pozicioni")}</h3>
@@ -759,7 +891,7 @@ export default function BagStudio() {
                         min={24}
                         max={76}
                         value={art.x}
-                        label="Horizontal position"
+                        label={t("Horizontal position", "Pozicioni horizontal")}
                         onChange={(n) => setArtworkPosition("x", n)}
                       />
                       <small>%</small>
@@ -772,7 +904,7 @@ export default function BagStudio() {
                         min={33}
                         max={80}
                         value={art.y}
-                        label="Vertical position"
+                        label={t("Vertical position", "Pozicioni vertikal")}
                         onChange={(n) => setArtworkPosition("y", n)}
                       />
                       <small>%</small>
@@ -785,7 +917,7 @@ export default function BagStudio() {
                         min={-45}
                         max={45}
                         value={art.rotation}
-                        label="Artwork rotation"
+                        label={t("Artwork rotation", "Rrotullimi i dizajnit")}
                         onChange={(rotation) =>
                           update(
                             back ? { backRotation: rotation } : { rotation },
@@ -825,7 +957,8 @@ export default function BagStudio() {
             type="file"
             className="sr-only"
             accept="image/png,image/jpeg,image/webp"
-            aria-label="Upload logo"
+            aria-label={t("Upload logo", "Ngarko logon")}
+            disabled={uploading || backgroundBusy}
             onChange={(e) => {
               upload(e.target.files?.[0]);
               e.target.value = "";
@@ -836,6 +969,22 @@ export default function BagStudio() {
               {error}
             </p>
           )}
+          <div className="studio-print-plan">
+            <Choice
+              id="studio-print-colors"
+              label={t("Print colors to quote", "Ngjyrat e shtypit për ofertë")}
+              value={String(design.printColors)}
+              onChange={(value) => update({ printColors: Number(value) })}
+              options={[1, 2, 3, 4].map((count) => ({
+                value: String(count),
+                label: `${count} ${t(count === 1 ? "color" : "colors", count === 1 ? "ngjyrë" : "ngjyra")}`,
+              }))}
+            />
+            <p>{t(
+              "Select the inks you expect to use, excluding the bag color. We’ll confirm the count and print area with your artwork.",
+              "Zgjidhni ngjyrat e shtypit që prisni të përdorni, pa ngjyrën e çantës. Numri dhe zona e shtypit konfirmohen me dizajnin tuaj.",
+            )}</p>
+          </div>
           <div className="studio-quote">
             <div>
               <span>{t("Wholesale orders", "Porosi me shumicë")}</span>
