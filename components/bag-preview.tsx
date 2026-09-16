@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { products, colors, Design, getProduct } from "@/lib/catalog";
 import {
   artworkFonts,
+  placementPatch,
+  type ArtworkLayer,
   sideArtwork,
   studioMockups,
   studioBounds,
@@ -129,6 +131,7 @@ export type ArtworkBounds = {
   width: number;
   height: number;
   rotation: number;
+  layer?: ArtworkLayer;
 };
 export async function renderBagDesign(
   target: HTMLCanvasElement,
@@ -136,12 +139,13 @@ export async function renderBagDesign(
   {
     guides = false,
     resolution = 1600,
-  }: { guides?: boolean; resolution?: number } = {},
+    activeLayer,
+  }: { guides?: boolean; resolution?: number; activeLayer?: ArtworkLayer } = {},
 ) {
-  const art = sideArtwork(design);
+  const primary = sideArtwork(design);
   const [base, logo] = await Promise.all([
     tintedBag(design),
-    art.logo ? loadImage(art.logo) : Promise.resolve(null),
+    primary.logo ? loadImage(primary.logo) : Promise.resolve(null),
   ]);
   const work = document.createElement("canvas");
   work.width = resolution;
@@ -151,51 +155,80 @@ export async function renderBagDesign(
   ctx.imageSmoothingEnabled = true;
   ctx.imageSmoothingQuality = "high";
   ctx.drawImage(base, 0, 0, LOGICAL, LOGICAL);
-  let width = 0,
-    height = 0;
-  const maxWidth = art.scale * 8;
-  ctx.save();
-  ctx.globalCompositeOperation = "source-atop";
-  ctx.translate(art.x * 8, art.y * 8);
-  ctx.rotate((art.rotation * Math.PI) / 180);
-  if (logo) {
-    const fit = Math.min(
-      maxWidth / logo.naturalWidth,
-      Math.min(320, art.scale * 10) / logo.naturalHeight,
-    );
-    width = logo.naturalWidth * fit;
-    height = logo.naturalHeight * fit;
-    ctx.drawImage(logo, -width / 2, -height / 2, width, height);
-  } else if (art.text) {
-    const family =
-      artworkFonts.find((f) => f.value === art.font) || artworkFonts[0];
-    const lines = art.text.split("\n");
-    let fontSize = art.scale * 1.9;
-    ctx.font = `${family.weight} ${fontSize}px ${family.family}`;
-    const measured = Math.max(
-      ...lines.map((line) => ctx.measureText(line).width),
-      1,
-    );
-    fontSize *= Math.min(
-      1,
-      maxWidth / measured,
-      Math.min(320, art.scale * 10) / (fontSize * 1.22 * lines.length),
-    );
-    const lineHeight = fontSize * 1.22;
-    ctx.font = `${family.weight} ${fontSize}px ${family.family}`;
-    width = Math.max(...lines.map((line) => ctx.measureText(line).width), 1);
-    height = lineHeight * lines.length;
-    ctx.fillStyle = art.ink;
-    ctx.textBaseline = "middle";
-    ctx.textAlign = art.align as CanvasTextAlign;
-    const alignX =
-      art.align === "left" ? -width / 2 : art.align === "right" ? width / 2 : 0;
-    lines.forEach((line, i) =>
-      ctx.fillText(line, alignX, (i - (lines.length - 1) / 2) * lineHeight),
-    );
+  const boxes: ArtworkBounds[] = [];
+  const layers: ArtworkLayer[] = logo
+    ? design.layeredArtwork && primary.text
+      ? ["logo", "text"]
+      : ["logo"]
+    : primary.text
+      ? ["text"]
+      : [];
+  for (const layer of layers) {
+    const art = sideArtwork(design, layer);
+    let width = 0,
+      height = 0;
+    const maxWidth = art.scale * 8;
+    ctx.save();
+    ctx.globalCompositeOperation = "source-atop";
+    ctx.translate(art.x * 8, art.y * 8);
+    ctx.rotate((art.rotation * Math.PI) / 180);
+    if (layer === "logo" && logo) {
+      const fit = Math.min(
+        maxWidth / logo.naturalWidth,
+        Math.min(320, art.scale * 10) / logo.naturalHeight,
+      );
+      width = logo.naturalWidth * fit;
+      height = logo.naturalHeight * fit;
+      ctx.drawImage(logo, -width / 2, -height / 2, width, height);
+    } else if (art.text) {
+      const family =
+        artworkFonts.find((f) => f.value === art.font) || artworkFonts[0];
+      const lines = art.text.split("\n");
+      let fontSize = art.scale * 1.9;
+      ctx.font = `${family.weight} ${fontSize}px ${family.family}`;
+      const measured = Math.max(
+        ...lines.map((line) => ctx.measureText(line).width),
+        1,
+      );
+      fontSize *= Math.min(
+        1,
+        maxWidth / measured,
+        Math.min(320, art.scale * 10) / (fontSize * 1.22 * lines.length),
+      );
+      const lineHeight = fontSize * 1.22;
+      ctx.font = `${family.weight} ${fontSize}px ${family.family}`;
+      width = Math.max(...lines.map((line) => ctx.measureText(line).width), 1);
+      height = lineHeight * lines.length;
+      ctx.fillStyle = art.ink;
+      ctx.textBaseline = "middle";
+      ctx.textAlign = art.align as CanvasTextAlign;
+      const alignX =
+        art.align === "left"
+          ? -width / 2
+          : art.align === "right"
+            ? width / 2
+            : 0;
+      lines.forEach((line, i) =>
+        ctx.fillText(line, alignX, (i - (lines.length - 1) / 2) * lineHeight),
+      );
+    }
+    ctx.restore();
+    boxes.push({
+      x: art.x * 8,
+      y: art.y * 8,
+      width,
+      height,
+      rotation: art.rotation,
+      layer,
+    });
   }
-  ctx.restore();
-  if (guides && (logo || art.text)) {
+  const guideBox = boxes.find(
+    (box) => box.layer === (activeLayer || layers[0]),
+  );
+  if (guides && guideBox) {
+    const art = sideArtwork(design, guideBox.layer),
+      { width, height } = guideBox;
+
     ctx.save();
     ctx.translate(art.x * 8, art.y * 8);
     ctx.rotate((art.rotation * Math.PI) / 180);
@@ -226,13 +259,11 @@ export async function renderBagDesign(
   target.width = resolution;
   target.height = resolution;
   target.getContext("2d")!.drawImage(work, 0, 0);
+  const selected = boxes.find((b) => b.layer === activeLayer) || boxes[0];
   return {
-    x: art.x * 8,
-    y: art.y * 8,
-    width,
-    height,
-    rotation: art.rotation,
-  } as ArtworkBounds;
+    ...(selected || { x: 400, y: 448, width: 0, height: 0, rotation: 0 }),
+    layers: boxes,
+  };
 }
 export function BagPreview({
   design,
@@ -241,6 +272,8 @@ export function BagPreview({
   compact = false,
   guides = false,
   onReady,
+  activeLayer,
+  onSelectLayer,
 }: {
   design: Design;
   onChange?: (p: Partial<Design>) => void;
@@ -248,13 +281,19 @@ export function BagPreview({
   compact?: boolean;
   guides?: boolean;
   onReady?: (ready: boolean) => void;
+  activeLayer?: ArtworkLayer;
+  onSelectLayer?: (layer: ArtworkLayer) => void;
 }) {
   const ownRef = useRef<HTMLCanvasElement>(null);
   const ref = canvasRef || ownRef;
   const [failed, setFailed] = useState(false);
-  const bounds = useRef<ArtworkBounds | null>(null);
-  const drag = useRef<{ dx: number; dy: number } | null>(null);
-  const art = sideArtwork(design);
+  const bounds = useRef<(ArtworkBounds & { layers: ArtworkBounds[] }) | null>(
+    null,
+  );
+  const drag = useRef<{ dx: number; dy: number; layer: ArtworkLayer } | null>(
+    null,
+  );
+  const art = sideArtwork(design, activeLayer);
   const p = getProduct(design.product);
   const interactive = Boolean(onChange);
   useEffect(() => {
@@ -264,6 +303,7 @@ export function BagPreview({
     const buffer = document.createElement("canvas");
     renderBagDesign(buffer, design, {
       guides: guides && interactive,
+      activeLayer,
       resolution: compact ? 320 : 1600,
     })
       .then((box) => {
@@ -285,7 +325,7 @@ export function BagPreview({
     return () => {
       current = false;
     };
-  }, [design, guides, compact, ref, interactive, onReady]);
+  }, [design, guides, compact, ref, interactive, onReady, activeLayer]);
   const position = (event: React.PointerEvent<HTMLCanvasElement>) => {
     const rect = event.currentTarget.getBoundingClientRect();
     return {
@@ -293,17 +333,16 @@ export function BagPreview({
       y: ((event.clientY - rect.top) / rect.height) * 800,
     };
   };
-  const change = (x: number, y: number) =>
+  const change = (
+    x: number,
+    y: number,
+    layer = activeLayer || (art.logo ? "logo" : "text"),
+  ) =>
     onChange?.(
-      art.back
-        ? {
-            backX: Math.max(24, Math.min(76, x)),
-            backY: Math.max(33, Math.min(80, y)),
-          }
-        : {
-            x: Math.max(24, Math.min(76, x)),
-            y: Math.max(33, Math.min(80, y)),
-          },
+      placementPatch(design, layer, {
+        x: Math.max(24, Math.min(76, x)),
+        y: Math.max(33, Math.min(80, y)),
+      }),
     );
   return (
     <>
@@ -326,26 +365,32 @@ export function BagPreview({
         }}
         onPointerDown={(e) => {
           if (!onChange || !bounds.current || (!art.logo && !art.text)) return;
-          const pos = position(e),
-            b = bounds.current,
-            angle = (-b.rotation * Math.PI) / 180,
-            dx = pos.x - b.x,
-            dy = pos.y - b.y;
-          const localX = dx * Math.cos(angle) - dy * Math.sin(angle),
-            localY = dx * Math.sin(angle) + dy * Math.cos(angle);
-          if (
-            Math.abs(localX) > b.width / 2 + 20 ||
-            Math.abs(localY) > b.height / 2 + 20
-          )
-            return;
-          drag.current = { dx, dy };
+          const pos = position(e);
+          const b = [...bounds.current.layers].reverse().find((box) => {
+            const angle = (-box.rotation * Math.PI) / 180,
+              dx = pos.x - box.x,
+              dy = pos.y - box.y;
+            return (
+              Math.abs(dx * Math.cos(angle) - dy * Math.sin(angle)) <=
+                box.width / 2 + 20 &&
+              Math.abs(dx * Math.sin(angle) + dy * Math.cos(angle)) <=
+                box.height / 2 + 20
+            );
+          });
+          if (!b?.layer) return;
+          onSelectLayer?.(b.layer);
+          drag.current = { dx: pos.x - b.x, dy: pos.y - b.y, layer: b.layer };
           e.currentTarget.setPointerCapture(e.pointerId);
           e.currentTarget.style.cursor = "grabbing";
         }}
         onPointerMove={(e) => {
           if (!drag.current) return;
           const pos = position(e);
-          change((pos.x - drag.current.dx) / 8, (pos.y - drag.current.dy) / 8);
+          change(
+            (pos.x - drag.current.dx) / 8,
+            (pos.y - drag.current.dy) / 8,
+            drag.current.layer,
+          );
         }}
         onPointerUp={(e) => {
           drag.current = null;

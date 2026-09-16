@@ -89,7 +89,16 @@ export const colors = [
   { name: "Red", sq: "E kuqe", hex: "#b3413d" },
   { name: "Royal blue", sq: "Blu mbretërore", hex: "#3864a7" },
 ];
+export type ArtworkPlacement = {
+  x: number;
+  y: number;
+  scale: number;
+  rotation: number;
+};
 export type Design = {
+  layeredArtwork?: boolean;
+  textPlacement?: ArtworkPlacement;
+  backTextPlacement?: ArtworkPlacement;
   previewVersion?: "v4";
   product: string;
   size: string;

@@ -1,8 +1,23 @@
 # Kobags website — verification record
 
-Completed 15 September 2026. This record supersedes the earlier incomplete v1 check. Tests ran against the compiled local Worker at `http://localhost:8787` with synthetic data. No live Kobags forms, customer records or production systems were used.
+Updated 16 September 2026. This record supersedes the earlier incomplete v1 check. Tests ran against the compiled local Worker at `http://localhost:8787` with synthetic data. No live Kobags forms, customer records or production systems were used.
 
-## Latest revision — public guest journey through demo ordering
+## Latest revision — layered studio and certificate library
+
+The source-backed certificate presentation and layered artwork editor were reviewed on desktop and mobile. No live business submissions or issuer-verification requests were sent.
+
+- `qa/studio_layers_certificates.py` passed against the compiled local Worker: simultaneous logo/text, independent coordinates/rotation, pointer layer selection, keyboard movement, optional-property undo/redo, individual removal, side copying, background cleanup and a 2000 × 1400 two-sided export.
+- Custom dimensions and requested print colors survive refresh, quote review, saved RFQ and artwork proof. The server rejects out-of-range layer coordinates. Sales caption revisions retain the logo and layer placement.
+- The layered design completed quote acceptance, artwork approval, a simulated order and reorder on mobile, preserving both faces.
+- Certificate search, empty state, original-image downloads, inspect/zoom, Escape/focus return and both printed validity dates passed. Download bytes match the retained originals.
+- Responsive checks passed at 1440, 1024, 768, 390 and 320px for the studio, and 1440, 768, 390 and 320px for certificates. Zoom scroll remains inside its viewer. No captured browser JavaScript errors.
+- The existing polished-studio suite passed with the updated simultaneous-layer expectations; the full anonymous guest/order/reorder suite also passed.
+- Site-wide checks passed: 32 pages, 43 internal destinations/downloads and 11 legacy redirects, including secondary inquiries and release gates.
+- All nine background-cleanup/contrast/side-summary unit tests passed. TypeScript and the application build passed. Targeted lint on the new certificate components, artwork helpers and preview passed with three advisory `img` warnings; optimized WebP previews and unchanged original downloads are intentional. Full-repository lint was not rerun.
+
+Evidence: `studio-layers-certificates.json`, `studio-v4-checks.json`, `guest-journey.json`, `site-checks.json`, `studio-layered-*.jpg`, `certificates-*.jpg` and `layered-design-sheet.png`. The source ZIP excludes large QA PNGs and includes the tests that regenerate them. A fresh dependency installation and issuer verification were not performed. The prior 3D checks remain applicable to the unchanged 3D implementation.
+
+## Previous revision — public guest journey through demo ordering
 
 The public demo now gives each anonymous browser a separate session and saved workspace. Visitors can use example contact details, submit their design, prepare a fictional quote/artwork pair, approve each and explicitly place a simulated order. The sales view remains available for revisions and production-stage demonstrations. No payment, outgoing message or real production order is created.
 

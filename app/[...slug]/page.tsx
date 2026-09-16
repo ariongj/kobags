@@ -1,3 +1,4 @@
+import Certificates from "@/components/certificates";
 import Link from "@/components/site-link";
 import { notFound } from "next/navigation";
 import {
@@ -223,72 +224,7 @@ export default async function Page({
             </section>
           </>
         )}
-        {path === "certifications" && (
-          <>
-            <p className="notice">
-              Existing certificate scans are retained as public-site evidence.
-              Approved files, issuer verification, certified entity, scope and
-              validity dates still need client confirmation.
-            </p>
-            <div className="certificate-grid">
-              {[
-                ["9001", "Quality management", "ISO 9001:2015"],
-                ["14001", "Environmental management", "ISO 14001:2015"],
-              ].map(([n, desc, title]) => (
-                <article className="section-card" key={n}>
-                  <a
-                    href={"/assets/certificate-iso" + n + ".webp"}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <img
-                      src={"/assets/certificate-iso" + n + ".webp"}
-                      alt={
-                        "Existing " +
-                        title +
-                        " certificate scan from the Kobags public website; details require verification"
-                      }
-                      width="400"
-                      height="560"
-                    />
-                  </a>
-                  <p className="eyebrow">{desc}</p>
-                  <h2>{title}</h2>
-                  <p>
-                    Management-system reference. Current scope and verification
-                    pending client confirmation.
-                  </p>
-                  <a
-                    className="text-button"
-                    href={"/assets/certificate-iso" + n + ".webp"}
-                    download
-                  >
-                    Download existing scan <Download size={15} />
-                  </a>
-                </article>
-              ))}
-            </div>
-            <p className="source-note">
-              Source:{" "}
-              <a
-                href="https://kobags-group.com/certifications"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Kobags certifications
-              </a>
-              . Guidance:{" "}
-              <a
-                href="https://www.iso.org/certification.html"
-                target="_blank"
-                rel="noreferrer"
-              >
-                ISO certification information
-              </a>
-              .
-            </p>
-          </>
-        )}
+        {path === "certifications" && <Certificates />}
         {path === "partners" && (
           <>
             <div className="partner-grid">

@@ -24,6 +24,10 @@ import {
   CheckCircle2,
   AlertTriangle,
   Eraser,
+  Undo2,
+  Redo2,
+  Copy,
+  Type,
 } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Slider } from "@/components/ui/slider";
@@ -42,8 +46,20 @@ import {
 } from "@/components/ui/dialog";
 import { BagPreview, renderBagDesign } from "./bag-preview";
 export { BagPreview } from "./bag-preview";
-import { sideArtwork, artworkFonts } from "@/lib/studio-artwork";
-import { artworkSides, inkContrast, readableInk, clearWhiteBackground } from "@/lib/studio-checks";
+import {
+  sideArtwork,
+  artworkFonts,
+  placementPatch,
+  enableLayers,
+  copyArtworkToOtherSide,
+  type ArtworkLayer,
+} from "@/lib/studio-artwork";
+import {
+  artworkSides,
+  inkContrast,
+  readableInk,
+  clearWhiteBackground,
+} from "@/lib/studio-checks";
 import { useDemo } from "./demo-store";
 import {
   products,
@@ -146,9 +162,61 @@ function PrecisionInput({
   );
 }
 export default function BagStudio() {
-  const { design, update, t } = useKobags();
+  const { design, update: saveDesign, t } = useKobags();
+  const history = useRef<{
+    past: Design[];
+    future: Design[];
+    key: string;
+    time: number;
+  }>({ past: [], future: [], key: "", time: 0 });
+  const [, refreshHistory] = useState(0);
+  const currentDesign = useRef(design);
+  currentDesign.current = design;
+  const [activeLayer, setActiveLayer] = useState<ArtworkLayer>("text");
+  const update = (patch: Partial<Design>) => {
+    const current = currentDesign.current;
+    if (
+      Object.entries(patch).every(
+        ([key, value]) =>
+          JSON.stringify(current[key as keyof Design]) ===
+          JSON.stringify(value),
+      )
+    )
+      return;
+    if (!(Object.keys(patch).length === 1 && patch.side)) {
+      const h = history.current,
+        key = current.side + activeLayer + Object.keys(patch).sort().join(","),
+        now = Date.now();
+      if (h.key !== key || now - h.time > 650)
+        h.past = [...h.past.slice(-19), current];
+      h.future = [];
+      h.key = key;
+      h.time = now;
+    }
+    currentDesign.current = { ...current, ...patch };
+    saveDesign(patch);
+    refreshHistory((n) => n + 1);
+  };
+  const travel = (direction: "past" | "future") => {
+    const h = history.current,
+      next = h[direction].pop();
+    if (!next) return;
+    h[direction === "past" ? "future" : "past"].push(currentDesign.current);
+    h.key = "";
+    h.time = 0;
+    const restored = {
+      ...Object.fromEntries(
+        Object.keys(currentDesign.current).map((key) => [key, undefined]),
+      ),
+      ...next,
+    } as Design;
+    currentDesign.current = restored;
+    saveDesign(restored);
+    refreshHistory((n) => n + 1);
+  };
   const p = getProduct(design.product);
   const v = p.variants.find((v) => v.name === design.size) || p.variants[0];
+  const [copied, setCopied] = useState(false);
   const [tab, setTab] = useState("bag");
   const [error, setError] = useState("");
   const [full, setFull] = useState(false);
@@ -157,17 +225,28 @@ export default function BagStudio() {
   const [uploading, setUploading] = useState(false);
   const [previewReady, setPreviewReady] = useState(false);
   const [guides, setGuides] = useState(true);
-  const art = sideArtwork(design);
+  const art = sideArtwork(design, activeLayer);
+  const transform = (patch: Parameters<typeof placementPatch>[2]) =>
+    update(placementPatch(design, activeLayer, patch));
   const sides = artworkSides(design);
   const fabric = colors.find((c) => c.name === design.color) || colors[0];
-  const lowContrast = !art.logo && !!art.text.trim() && inkContrast(art.ink, fabric.hex) < 3;
+  const lowContrast =
+    (!art.logo || design.layeredArtwork) &&
+    !!art.text.trim() &&
+    inkContrast(art.ink, fabric.hex) < 3;
   const [backgroundBusy, setBackgroundBusy] = useState(false);
-  const [backgroundEdits, setBackgroundEdits] = useState<Partial<Record<Design["side"], { original: string; cleaned: string }>>>({});
-  const [backgroundNotice, setBackgroundNotice] = useState<{ source: string; message: "unchanged" | "empty" } | null>(null);
+  const [backgroundEdits, setBackgroundEdits] = useState<
+    Partial<Record<Design["side"], { original: string; cleaned: string }>>
+  >({});
+  const [backgroundNotice, setBackgroundNotice] = useState<{
+    source: string;
+    message: "unchanged" | "empty";
+  } | null>(null);
   const latestDesign = useRef(design);
   latestDesign.current = design;
   const backgroundEdit = backgroundEdits[design.side];
-  const canRestoreBackground = backgroundEdit?.cleaned === art.logo && !!art.logo;
+  const canRestoreBackground =
+    backgroundEdit?.cleaned === art.logo && !!art.logo;
   const { state } = useDemo();
   const minimum = state?.settings.moq || 5000;
   const setArtworkPosition = (axis: "x" | "y", value: number) => {
@@ -176,15 +255,7 @@ export default function BagStudio() {
       axis === "x" ? 24 : 33,
       Math.min(axis === "x" ? 76 : 80, value),
     );
-    update(
-      art.back
-        ? axis === "x"
-          ? { backX: clamped }
-          : { backY: clamped }
-        : axis === "x"
-          ? { x: clamped }
-          : { y: clamped },
-    );
+    transform({ [axis]: clamped });
   };
   const canvas = useRef<HTMLCanvasElement>(null);
   const enlargeButton = useRef<HTMLButtonElement>(null);
@@ -224,15 +295,32 @@ export default function BagStudio() {
         if (image.length <= 100000) break;
       }
       if (image.length > 100000) throw Error();
-      update(
-        uploadToBack
+      const target = {
+        ...currentDesign.current,
+        side: uploadToBack ? ("back" as const) : ("front" as const),
+      };
+      const existing = sideArtwork(target);
+      const keepText = existing.text.trim() && existing.text !== "YOUR\nBRAND";
+      const layers = keepText ? enableLayers(target) : { layeredArtwork: true };
+      update({
+        ...layers,
+        ...(uploadToBack
           ? {
               backLogo: image,
-              backText: "",
+              backText: keepText ? existing.text : "",
               backLogoName: file.name.slice(0, 150),
+              ...(!existing.logo && keepText
+                ? { backY: 44, backScale: 26 }
+                : {}),
             }
-          : { logo: image, text: "", logoName: file.name.slice(0, 150) },
-      );
+          : {
+              logo: image,
+              text: keepText ? existing.text : "",
+              logoName: file.name.slice(0, 150),
+              ...(!existing.logo && keepText ? { y: 44, scale: 26 } : {}),
+            }),
+      });
+      setActiveLayer("logo");
       setTab("artwork");
     } catch {
       setError(
@@ -260,7 +348,11 @@ export default function BagStudio() {
         image.onerror = reject;
         image.src = source;
       });
-      if (!image.naturalWidth || image.naturalWidth > 1024 || image.naturalHeight > 1024)
+      if (
+        !image.naturalWidth ||
+        image.naturalWidth > 1024 ||
+        image.naturalHeight > 1024
+      )
         throw Error("IMAGE_TOO_LARGE");
       const output = document.createElement("canvas");
       output.width = image.naturalWidth;
@@ -268,27 +360,48 @@ export default function BagStudio() {
       const ctx = output.getContext("2d", { willReadFrequently: true })!;
       ctx.drawImage(image, 0, 0);
       const pixels = ctx.getImageData(0, 0, output.width, output.height);
-      const removed = clearWhiteBackground(pixels.data, output.width, output.height);
+      const removed = clearWhiteBackground(
+        pixels.data,
+        output.width,
+        output.height,
+      );
       let visible = false;
       for (let i = 3; i < pixels.data.length; i += 4)
-        if (pixels.data[i] > 0) { visible = true; break; }
+        if (pixels.data[i] > 0) {
+          visible = true;
+          break;
+        }
       // Do not replace artwork changed while the image was being decoded.
-      if ((side === "back" ? latestDesign.current.backLogo : latestDesign.current.logo) !== source) return;
+      if (
+        (side === "back"
+          ? latestDesign.current.backLogo
+          : latestDesign.current.logo) !== source
+      )
+        return;
       if (!removed || !visible) {
-        setBackgroundNotice({ source, message: visible ? "unchanged" : "empty" });
+        setBackgroundNotice({
+          source,
+          message: visible ? "unchanged" : "empty",
+        });
         return;
       }
       ctx.putImageData(pixels, 0, 0);
       let cleaned = output.toDataURL("image/png");
-      if (cleaned.length > 100000) cleaned = output.toDataURL("image/webp", 0.94);
+      if (cleaned.length > 100000)
+        cleaned = output.toDataURL("image/webp", 0.94);
       if (cleaned.length > 100000) throw Error("IMAGE_TOO_LARGE");
-      setBackgroundEdits((previous) => ({ ...previous, [side]: { original: source, cleaned } }));
+      setBackgroundEdits((previous) => ({
+        ...previous,
+        [side]: { original: source, cleaned },
+      }));
       update(side === "back" ? { backLogo: cleaned } : { logo: cleaned });
     } catch {
-      setError(t(
-        "The background could not be removed. Your original logo is unchanged.",
-        "Sfondi nuk mund të hiqej. Logoja origjinale nuk u ndryshua.",
-      ));
+      setError(
+        t(
+          "The background could not be removed. Your original logo is unchanged.",
+          "Sfondi nuk mund të hiqej. Logoja origjinale nuk u ndryshua.",
+        ),
+      );
     } finally {
       setBackgroundBusy(false);
     }
@@ -297,15 +410,30 @@ export default function BagStudio() {
     <div className="studio-contrast-hint" role="status">
       <AlertTriangle size={18} />
       <div>
-        <strong>{t("Your text may be hard to see", "Teksti mund të jetë i vështirë për t’u parë")}</strong>
-        <p>{t(
-          back ? "The back text is close to the bag color." : "The front text is close to the bag color.",
-          back ? "Teksti prapa është i ngjashëm me ngjyrën e çantës." : "Teksti përpara është i ngjashëm me ngjyrën e çantës.",
-        )}</p>
-        <button type="button" className="text-button" onClick={() => {
-          const ink = readableInk(fabric.hex);
-          update(back ? { backInk: ink } : { ink });
-        }}>
+        <strong>
+          {t(
+            "Your text may be hard to see",
+            "Teksti mund të jetë i vështirë për t’u parë",
+          )}
+        </strong>
+        <p>
+          {t(
+            back
+              ? "The back text is close to the bag color."
+              : "The front text is close to the bag color.",
+            back
+              ? "Teksti prapa është i ngjashëm me ngjyrën e çantës."
+              : "Teksti përpara është i ngjashëm me ngjyrën e çantës.",
+          )}
+        </p>
+        <button
+          type="button"
+          className="text-button"
+          onClick={() => {
+            const ink = readableInk(fabric.hex);
+            update(back ? { backInk: ink } : { ink });
+          }}
+        >
           {t("Use a clearer text color", "Përdorni një ngjyrë më të qartë")}
         </button>
       </div>
@@ -366,6 +494,84 @@ export default function BagStudio() {
       setExporting(false);
     }
   };
+  const downloadSheet = async () => {
+    if (exporting || !previewReady) return;
+    setExporting(true);
+    setError("");
+    try {
+      const faces = await Promise.all(
+        (["front", "back"] as const).map(async (side) => {
+          const c = document.createElement("canvas");
+          await renderBagDesign(c, { ...design, side }, { resolution: 1600 });
+          return c;
+        }),
+      );
+      const output = document.createElement("canvas");
+      output.width = 2000;
+      output.height = 1400;
+      const ctx = output.getContext("2d")!;
+      ctx.fillStyle = "#f1f4f2";
+      ctx.fillRect(0, 0, 2000, 1400);
+      ctx.fillStyle = "#193b67";
+      ctx.font = "600 40px Arial";
+      ctx.fillText("KOBAGS / DESIGN SHEET", 70, 90);
+      ctx.font = "22px Arial";
+      ctx.fillStyle = "#62717b";
+      ctx.fillText("Two sides. One design concept.", 70, 132);
+      faces.forEach((face, index) => {
+        ctx.drawImage(face, 80 + index * 1000, 175, 840, 840);
+        ctx.fillStyle = "#193b67";
+        ctx.font = "600 22px Arial";
+        ctx.textAlign = "center";
+        ctx.fillText(index ? "BACK" : "FRONT", 500 + index * 1000, 1030);
+      });
+      ctx.textAlign = "left";
+      ctx.fillStyle = "#fff";
+      ctx.fillRect(0, 1090, 2000, 310);
+      ctx.fillStyle = "#193b67";
+      ctx.font = "600 28px Arial";
+      ctx.fillText(`${p.name} · ${design.size} · ${design.color}`, 70, 1145);
+      ctx.font = "24px Arial";
+      ctx.fillText(
+        `${v.dimensions} · ${v.gsm} GSM · Non-woven PP · ${design.printColors} requested print color${design.printColors === 1 ? "" : "s"}`,
+        70,
+        1190,
+      );
+      ctx.fillStyle = "#62717b";
+      ctx.font = "22px Arial";
+      if (design.customDimensions)
+        ctx.fillText(
+          `Custom size request: ${design.customDimensions} — subject to feasibility review.`,
+          70,
+          1235,
+          1860,
+        );
+      ctx.fillText(
+        "Illustrative concept. The mockup uses the selected catalogue size.",
+        70,
+        1300,
+      );
+      ctx.fillText(
+        "Final material, color and print placement require approval before production. No order is placed by this download.",
+        70,
+        1340,
+      );
+      const link = document.createElement("a");
+      link.href = output.toDataURL("image/png");
+      link.download = `kobags-${p.slug}-both-sides-concept.png`;
+      link.click();
+      setDownloaded(link.download);
+    } catch {
+      setError(
+        t(
+          "The design sheet could not be exported. Please try again.",
+          "Fleta e dizajnit nuk u eksportua. Provoni përsëri.",
+        ),
+      );
+    } finally {
+      setExporting(false);
+    }
+  };
   return (
     <section className="studio-section studio-v4">
       <div className="studio-heading">
@@ -387,17 +593,36 @@ export default function BagStudio() {
         </div>
         <div className="studio-heading-note">
           <span className="pill">
-            {t("WHOLESALE FROM ", "ME SHUMICË NGA ") + minimum.toLocaleString() + t(" BAGS", " ÇANTA")}
+            {t("WHOLESALE FROM ", "ME SHUMICË NGA ") +
+              minimum.toLocaleString() +
+              t(" BAGS", " ÇANTA")}
           </span>
           <span>
             {t("Made in Lipjan, Kosovo", "Prodhuar në Lipjan, Kosovë")}
           </span>
         </div>
       </div>
-      <div className="studio-brief" aria-label={t("Before you design", "Para se të dizajnoni")}>
-        <span><Package size={17} />{t("5 bag shapes · 15 sizes", "5 forma çantash · 15 madhësi")}</span>
-        <span>{t("Flexographic print · up to 4 colors", "Shtyp fleksografik · deri në 4 ngjyra")}</span>
-        <Link href="/samples">{t("Feel the material: request samples", "Prekni materialin: kërkoni mostra")}<ArrowUpRight size={15} /></Link>
+      <div
+        className="studio-brief"
+        aria-label={t("Before you design", "Para se të dizajnoni")}
+      >
+        <span>
+          <Package size={17} />
+          {t("5 bag shapes · 15 sizes", "5 forma çantash · 15 madhësi")}
+        </span>
+        <span>
+          {t(
+            "Flexographic print · up to 4 colors",
+            "Shtyp fleksografik · deri në 4 ngjyra",
+          )}
+        </span>
+        <Link href="/samples">
+          {t(
+            "Feel the material: request samples",
+            "Prekni materialin: kërkoni mostra",
+          )}
+          <ArrowUpRight size={15} />
+        </Link>
       </div>
       <div className="studio">
         <div className="preview-column">
@@ -418,6 +643,33 @@ export default function BagStudio() {
               </button>
             ))}
           </div>
+          <div className="studio-history">
+            <span>{t("YOUR DESIGN CANVAS", "PAMJA E DIZAJNIT")}</span>
+            <div>
+              <button
+                type="button"
+                disabled={
+                  !history.current.past.length || uploading || backgroundBusy
+                }
+                onClick={() => travel("past")}
+                aria-label={t("Undo change", "Zhbëj ndryshimin")}
+              >
+                <Undo2 size={16} />
+                {t("Undo", "Zhbëj")}
+              </button>
+              <button
+                type="button"
+                disabled={
+                  !history.current.future.length || uploading || backgroundBusy
+                }
+                onClick={() => travel("future")}
+                aria-label={t("Redo change", "Ribëj ndryshimin")}
+              >
+                <Redo2 size={16} />
+                {t("Redo", "Ribëj")}
+              </button>
+            </div>
+          </div>
           <div className="preview-stage">
             <div className="stage-top">
               <span>
@@ -435,6 +687,11 @@ export default function BagStudio() {
             <BagPreview
               design={design}
               onChange={update}
+              activeLayer={activeLayer}
+              onSelectLayer={(layer) => {
+                setActiveLayer(layer);
+                setTab("artwork");
+              }}
               canvasRef={canvas}
               guides={guides && tab === "artwork"}
               onReady={setPreviewReady}
@@ -459,11 +716,15 @@ export default function BagStudio() {
                 <TabsList className="side-switch">
                   <TabsTrigger value="front">
                     {t("Front", "Përpara")}
-                    {sides.includes("front") && <Check size={13} aria-label={t("Artwork added", "Dizajni u shtua")} />}
+                    {sides.includes("front") && (
+                      <Check size={13} aria-hidden="true" />
+                    )}
                   </TabsTrigger>
                   <TabsTrigger value="back">
                     {t("Back", "Prapa")}
-                    {sides.includes("back") && <Check size={13} aria-label={t("Artwork added", "Dizajni u shtua")} />}
+                    {sides.includes("back") && (
+                      <Check size={13} aria-hidden="true" />
+                    )}
                   </TabsTrigger>
                 </TabsList>
               </Tabs>
@@ -497,25 +758,65 @@ export default function BagStudio() {
               {downloaded}
             </p>
           )}
-          <div className="studio-side-cards" aria-label={t("Artwork on each side", "Dizajni në secilën anë")}>
+          <div
+            className="studio-side-cards"
+            aria-label={t("Artwork on each side", "Dizajni në secilën anë")}
+          >
             {(["front", "back"] as const).map((side) => {
               const artwork = sideArtwork({ ...design, side });
               const hasArtwork = sides.includes(side);
               return (
-                <button key={side} type="button" aria-pressed={design.side === side}
-                  onClick={() => { update({ side }); setTab("artwork"); }}>
-                  <span className="side-card-icon" aria-hidden="true">{hasArtwork ? <Check size={18} /> : <ImagePlus size={18} />}</span>
+                <button
+                  key={side}
+                  type="button"
+                  aria-pressed={design.side === side}
+                  onClick={() => {
+                    update({ side });
+                    setTab("artwork");
+                  }}
+                >
+                  <span className="side-card-icon" aria-hidden="true">
+                    {hasArtwork ? <Check size={18} /> : <ImagePlus size={18} />}
+                  </span>
                   <span>
-                    <strong>{t(side === "front" ? "Front" : "Back", side === "front" ? "Përpara" : "Prapa")}</strong>
-                    <span>{hasArtwork
-                      ? artwork.logo ? t("Logo added", "Logo e shtuar") : t("Brand text added", "Teksti i markës u shtua")
-                      : t("Blank · add artwork", "Bosh · shtoni dizajnin")}</span>
+                    <strong>
+                      {t(
+                        side === "front" ? "Front" : "Back",
+                        side === "front" ? "Përpara" : "Prapa",
+                      )}
+                    </strong>
+                    <span>
+                      {hasArtwork
+                        ? artwork.logo && artwork.text && design.layeredArtwork
+                          ? t("Logo + text added", "Logo + tekst i shtuar")
+                          : artwork.logo
+                            ? t("Logo added", "Logo e shtuar")
+                            : t("Brand text added", "Teksti i markës u shtua")
+                        : t("Blank · add artwork", "Bosh · shtoni dizajnin")}
+                    </span>
                   </span>
                   <ArrowRight size={16} aria-hidden="true" />
                 </button>
               );
             })}
           </div>
+          <button
+            type="button"
+            className="studio-sheet-download"
+            onClick={downloadSheet}
+            disabled={!previewReady || exporting}
+          >
+            <Download size={16} />
+            <span>
+              {exporting
+                ? t("Preparing…", "Duke përgatitur…")
+                : t(
+                    "Download both sides + specifications",
+                    "Shkarko të dyja anët + specifikimet",
+                  )}
+            </span>
+            <ArrowUpRight size={15} />
+          </button>
           <div className="preview-disclaimer">
             <Info size={14} />
             {t(
@@ -640,6 +941,30 @@ export default function BagStudio() {
                   )}
                 </span>
               </button>
+              <details className="studio-custom-request">
+                <summary>
+                  {t(
+                    "Need a custom size?",
+                    "Ju duhet madhësi e personalizuar?",
+                  )}
+                </summary>
+                <label htmlFor="studio-custom-size">
+                  {t("Requested dimensions", "Përmasat e kërkuara")}
+                </label>
+                <input
+                  id="studio-custom-size"
+                  maxLength={100}
+                  value={design.customDimensions}
+                  placeholder="e.g. 40 × 35 × 12 cm"
+                  onChange={(e) => update({ customDimensions: e.target.value })}
+                />
+                <p>
+                  {t(
+                    "We’ll review feasibility with your quote. The preview uses the selected catalogue size.",
+                    "Realizueshmëria shqyrtohet me ofertën. Parapamja përdor madhësinë e katalogut.",
+                  )}
+                </p>
+              </details>
               <button
                 className="text-button design-next"
                 onClick={() => setTab("artwork")}
@@ -725,33 +1050,101 @@ export default function BagStudio() {
               )}
               {art.logo && (
                 <div className="studio-logo-cleanup">
-                  <button type="button" className="text-button" disabled={uploading || backgroundBusy}
+                  <button
+                    type="button"
+                    className="text-button"
+                    disabled={uploading || backgroundBusy}
                     onClick={() => {
                       if (canRestoreBackground && backgroundEdit) {
-                        update(back ? { backLogo: backgroundEdit.original } : { logo: backgroundEdit.original });
+                        update(
+                          back
+                            ? { backLogo: backgroundEdit.original }
+                            : { logo: backgroundEdit.original },
+                        );
                         setBackgroundNotice(null);
                       } else void removeWhiteBackground();
-                    }}>
-                    {canRestoreBackground ? <RotateCcw size={16} /> : <Eraser size={16} />}
-                    {backgroundBusy ? t("Removing background…", "Duke hequr sfondin…")
-                      : canRestoreBackground ? t("Restore original background", "Rikthe sfondin origjinal")
-                      : t("Remove white background", "Hiq sfondin e bardhë")}
+                    }}
+                  >
+                    {canRestoreBackground ? (
+                      <RotateCcw size={16} />
+                    ) : (
+                      <Eraser size={16} />
+                    )}
+                    {backgroundBusy
+                      ? t("Removing background…", "Duke hequr sfondin…")
+                      : canRestoreBackground
+                        ? t(
+                            "Restore original background",
+                            "Rikthe sfondin origjinal",
+                          )
+                        : t("Remove white background", "Hiq sfondin e bardhë")}
                   </button>
-                  <p>{t(
-                    "For logos on a white background. Check light details after removal; you can undo it here.",
-                    "Për logo me sfond të bardhë. Kontrolloni detajet e çelëta pas heqjes; këtu mund ta zhbëni.",
-                  )}</p>
-                  {backgroundNotice?.source === art.logo && <p role="status">{backgroundNotice.message === "empty"
-                    ? t("This would remove the whole logo. Your original has been kept.", "Kjo do ta hiqte të gjithë logon. Origjinali u ruajt.")
-                    : t("No white background was found at the edges. Your logo is unchanged.", "Nuk u gjet sfond i bardhë në skaje. Logoja nuk u ndryshua.")}</p>}
+                  <p>
+                    {t(
+                      "For logos on a white background. Check light details after removal; you can undo it here.",
+                      "Për logo me sfond të bardhë. Kontrolloni detajet e çelëta pas heqjes; këtu mund ta zhbëni.",
+                    )}
+                  </p>
+                  {backgroundNotice?.source === art.logo && (
+                    <p role="status">
+                      {backgroundNotice.message === "empty"
+                        ? t(
+                            "This would remove the whole logo. Your original has been kept.",
+                            "Kjo do ta hiqte të gjithë logon. Origjinali u ruajt.",
+                          )
+                        : t(
+                            "No white background was found at the edges. Your logo is unchanged.",
+                            "Nuk u gjet sfond i bardhë në skaje. Logoja nuk u ndryshua.",
+                          )}
+                    </p>
+                  )}
                 </div>
               )}
+              <div
+                className="layer-selector"
+                role="group"
+                aria-label={t(
+                  "Select artwork layer",
+                  "Zgjidhni shtresën e dizajnit",
+                )}
+              >
+                <button
+                  type="button"
+                  aria-pressed={activeLayer === "logo"}
+                  onClick={() => setActiveLayer("logo")}
+                >
+                  <ImagePlus size={17} />
+                  <span>
+                    {t("Logo", "Logo")}
+                    <small>
+                      {art.logo
+                        ? t("Select & position", "Zgjidhni dhe poziciononi")
+                        : t("Upload above", "Ngarkoni më sipër")}
+                    </small>
+                  </span>
+                </button>
+                <button
+                  type="button"
+                  aria-pressed={activeLayer === "text"}
+                  onClick={() => setActiveLayer("text")}
+                >
+                  <Type size={17} />
+                  <span>
+                    {t("Text", "Tekst")}
+                    <small>
+                      {t("Your name or message", "Emri ose mesazhi juaj")}
+                    </small>
+                  </span>
+                </button>
+              </div>
               <div className="artwork-divider">
-                <span>{t("OR ADD TEXT", "OSE SHTONI TEKST")}</span>
+                <span>
+                  {t("LOGO + TEXT. TOGETHER.", "LOGO + TEKST. SË BASHKU.")}
+                </span>
               </div>
               <div className="field">
                 <label htmlFor="brand-text">
-                  {t("Or type your brand name", "Ose shkruani emrin e markës")}
+                  {t("Brand name or message", "Emri i markës ose mesazhi")}
                 </label>
                 <textarea
                   id="brand-text"
@@ -761,15 +1154,13 @@ export default function BagStudio() {
                   placeholder={t("Your brand name", "Emri i markës suaj")}
                   onChange={(e) => {
                     setError("");
-                    update(
-                      back
-                        ? {
-                            backText: e.target.value,
-                            backLogo: "",
-                            backLogoName: "",
-                          }
-                        : { text: e.target.value, logo: "", logoName: "" },
-                    );
+                    setActiveLayer("text");
+                    update({
+                      ...(art.logo ? enableLayers(design) : {}),
+                      ...(back
+                        ? { backText: e.target.value }
+                        : { text: e.target.value }),
+                    });
                   }}
                 />
                 <div className="text-field-help">
@@ -782,7 +1173,7 @@ export default function BagStudio() {
                   <span>{art.text.length}/60</span>
                 </div>
               </div>
-              {!art.logo && (
+              {activeLayer === "text" && (
                 <>
                   <Choice
                     id="artwork-font"
@@ -850,16 +1241,14 @@ export default function BagStudio() {
               {contrastHint}
               <div className="artwork-transform">
                 <div className="transform-heading">
-                  <h3>{t("Size & placement", "Madhësia dhe pozicioni")}</h3>
+                  <h3>
+                    {activeLayer === "logo"
+                      ? t("Logo placement", "Pozicioni i logos")
+                      : t("Text placement", "Pozicioni i tekstit")}
+                  </h3>
                   <button
                     className="text-button"
-                    onClick={() =>
-                      update(
-                        back
-                          ? { backX: 50, backY: 56, backRotation: 0 }
-                          : { x: 50, y: 56, rotation: 0 },
-                      )
-                    }
+                    onClick={() => transform({ x: 50, y: 56, rotation: 0 })}
                   >
                     <RotateCcw size={14} />
                     {t("Center artwork", "Qendro dizajnin")}
@@ -878,9 +1267,7 @@ export default function BagStudio() {
                     max={55}
                     step={1}
                     value={[art.scale]}
-                    onValueChange={([scale]) =>
-                      update(back ? { backScale: scale } : { scale })
-                    }
+                    onValueChange={([scale]) => transform({ scale })}
                   />
                 </div>
                 <div className="precision-grid">
@@ -918,11 +1305,7 @@ export default function BagStudio() {
                         max={45}
                         value={art.rotation}
                         label={t("Artwork rotation", "Rrotullimi i dizajnit")}
-                        onChange={(rotation) =>
-                          update(
-                            back ? { backRotation: rotation } : { rotation },
-                          )
-                        }
+                        onChange={(rotation) => transform({ rotation })}
                       />
                       <small>°</small>
                     </span>
@@ -940,16 +1323,49 @@ export default function BagStudio() {
                   className="text-button remove-artwork"
                   onClick={() =>
                     update(
-                      back
-                        ? { backLogo: "", backText: "", backLogoName: "" }
-                        : { logo: "", text: "", logoName: "" },
+                      activeLayer === "logo"
+                        ? back
+                          ? { backLogo: "", backLogoName: "" }
+                          : { logo: "", logoName: "" }
+                        : back
+                          ? { backText: "" }
+                          : { text: "" },
                     )
                   }
                 >
                   <Trash2 size={15} />
-                  {t("Remove", "Hiq")}
+                  {t("Remove selected", "Hiq të zgjedhurën")}
                 </button>
               </div>
+              <button
+                type="button"
+                className="copy-artwork"
+                disabled={!art.logo && !art.text.trim()}
+                onClick={() => {
+                  update(copyArtworkToOtherSide(design));
+                  setCopied(true);
+                }}
+              >
+                <Copy size={16} />
+                {t(
+                  back ? "Copy design to front" : "Copy design to back",
+                  back ? "Kopjo dizajnin përpara" : "Kopjo dizajnin prapa",
+                )}
+              </button>
+              <p className="micro">
+                {t(
+                  "Replaces the other side’s artwork. Undo is available.",
+                  "Zëvendëson dizajnin në anën tjetër. Mund ta zhbëni.",
+                )}
+              </p>
+              {copied && (
+                <p role="status" className="micro">
+                  {t(
+                    "Artwork copied to the other side.",
+                    "Dizajni u kopjua në anën tjetër.",
+                  )}
+                </p>
+              )}
             </TabsContent>
           </Tabs>
           <input
@@ -980,10 +1396,12 @@ export default function BagStudio() {
                 label: `${count} ${t(count === 1 ? "color" : "colors", count === 1 ? "ngjyrë" : "ngjyra")}`,
               }))}
             />
-            <p>{t(
-              "Select the inks you expect to use, excluding the bag color. We’ll confirm the count and print area with your artwork.",
-              "Zgjidhni ngjyrat e shtypit që prisni të përdorni, pa ngjyrën e çantës. Numri dhe zona e shtypit konfirmohen me dizajnin tuaj.",
-            )}</p>
+            <p>
+              {t(
+                "Select the inks you expect to use, excluding the bag color. We’ll confirm the count and print area with your artwork.",
+                "Zgjidhni ngjyrat e shtypit që prisni të përdorni, pa ngjyrën e çantës. Numri dhe zona e shtypit konfirmohen me dizajnin tuaj.",
+              )}
+            </p>
           </div>
           <div className="studio-quote">
             <div>

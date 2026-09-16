@@ -19,7 +19,7 @@ async def main():
   cookies=await context.cookies();session=next(c for c in cookies if c['name']=='kobags-demo');assert session['httpOnly'] and session['sameSite']=='Lax'
   assert 'kobags-demo' not in await page.evaluate('document.cookie')
   await go('/design');await page.get_by_role('button',name='Box',exact=True).click();await page.get_by_role('button',name='Natural',exact=True).click()
-  await page.get_by_role('tab',name='02 Your design').click();await page.get_by_label('Or type your brand name').fill('NOVA STUDIO')
+  await page.get_by_role('tab',name='02 Your design').click();await page.get_by_label('Brand name or message').fill('NOVA STUDIO')
   assert await page.locator('input[type=file]').get_attribute('accept')=='image/png,image/jpeg,image/webp'
   async with page.expect_download():await page.get_by_role('button',name='Download design preview',exact=True).click()
   await page.get_by_role('status').filter(has_text='kobags-box-bag-front-concept.png').wait_for()

@@ -1,4 +1,5 @@
 "use client";
+import { CertificateShowcase } from "./certificates";
 import Link from "@/components/site-link";
 import {
   ArrowUpRight,
@@ -351,42 +352,7 @@ export default function HomePage() {
           </Link>
         </article>
       </section>
-      <section className="home-evidence">
-        <div>
-          <ShieldCheck size={30} />
-          <h2>{t("Trust starts with evidence.", "Besimi fillon me prova.")}</h2>
-          <p>
-            {t(
-              "Explore the certificate scans published by Kobags and the details to confirm before procurement.",
-              "Shqyrtoni certifikatat e publikuara nga Kobags dhe detajet që duhen konfirmuar.",
-            )}
-          </p>
-        </div>
-        <div className="standards">
-          <span>
-            ISO 9001:2015
-            <small>
-              {t(
-                "Quality management reference",
-                "Referencë e menaxhimit të cilësisë",
-              )}
-            </small>
-          </span>
-          <span>
-            ISO 14001:2015
-            <small>
-              {t(
-                "Environmental management reference",
-                "Referencë e menaxhimit mjedisor",
-              )}
-            </small>
-          </span>
-          <Link href="/certifications" className="text-button">
-            {t("View certificate evidence", "Shikoni provat e certifikatave")}{" "}
-            <ArrowUpRight size={16} />
-          </Link>
-        </div>
-      </section>
+      <CertificateShowcase />
       <section className="faq-section">
         <div>
           <p className="eyebrow">

@@ -30,7 +30,14 @@ export default function QuoteFlow() {
   const minimum = state?.settings.moq || 5000;
   const sides = artworkSides(design);
   const artworkSummary = sides.length
-    ? sides.map((side) => t(side === "front" ? "Front" : "Back", side === "front" ? "Përpara" : "Prapa")).join(" + ")
+    ? sides
+        .map((side) =>
+          t(
+            side === "front" ? "Front" : "Back",
+            side === "front" ? "Përpara" : "Prapa",
+          ),
+        )
+        .join(" + ")
     : t("No artwork added", "Pa dizajn");
   useEffect(() => {
     try {
@@ -327,18 +334,39 @@ export default function QuoteFlow() {
                   <div className="quote-artwork-pair">
                     {(["front", "back"] as const).map((side) => {
                       const artwork = sideArtwork({ ...design, side });
-                      return <div key={side} className="quote-artwork-face">
-                        <BagPreview design={{ ...design, side }} compact />
-                        <h3>{t(side === "front" ? "Front" : "Back", side === "front" ? "Përpara" : "Prapa")}</h3>
-                        <p>{artwork.logo
-                          ? artwork.name || t("Uploaded logo", "Logo e ngarkuar")
-                          : artwork.text.trim() || t("No artwork · blank side", "Pa dizajn · anë bosh")}</p>
-                      </div>;
+                      return (
+                        <div key={side} className="quote-artwork-face">
+                          <BagPreview design={{ ...design, side }} compact />
+                          <h3>
+                            {t(
+                              side === "front" ? "Front" : "Back",
+                              side === "front" ? "Përpara" : "Prapa",
+                            )}
+                          </h3>
+                          <p>
+                            {artwork.logo &&
+                            artwork.text &&
+                            design.layeredArtwork
+                              ? `${artwork.name || t("Uploaded logo", "Logo e ngarkuar")} + ${artwork.text}`
+                              : artwork.logo
+                                ? artwork.name ||
+                                  t("Uploaded logo", "Logo e ngarkuar")
+                                : artwork.text.trim() ||
+                                  t(
+                                    "No artwork · blank side",
+                                    "Pa dizajn · anë bosh",
+                                  )}
+                          </p>
+                        </div>
+                      );
                     })}
                   </div>
                   <Link href="/design" className="text-button">
                     <Pencil size={15} />
-                    {t("Edit design in the studio", "Ndrysho dizajnin në studio")}
+                    {t(
+                      "Edit design in the studio",
+                      "Ndrysho dizajnin në studio",
+                    )}
                   </Link>
                 </div>
                 <Choice

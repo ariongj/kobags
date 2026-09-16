@@ -22,7 +22,7 @@ async def main():
   assert len(set(shapes.values()))==5
   await page.get_by_role('button',name='Box',exact=True).click()
   await page.get_by_role('tab',name='02 Your design').click()
-  await page.get_by_label('Or type your brand name').fill('ATELIER\nNOVA')
+  await page.get_by_label('Brand name or message').fill('ATELIER\nNOVA')
   await page.locator('#artwork-font').click();await page.get_by_role('option',name='Editorial serif').click()
   await page.get_by_role('button',name='Align text left').click()
   await page.get_by_label('Horizontal position',exact=True).fill('62')
@@ -40,7 +40,7 @@ async def main():
   d=await draft();assert abs(d['x']-55)<.25 and abs(d['y']-59)<.25, (d['x'],d['y'])
   await page.get_by_role('button',name='Center artwork',exact=True).click()
   await page.get_by_role('tab',name='Back',exact=True).click()
-  await page.get_by_label('Or type your brand name').fill('MADE TO CARRY')
+  await page.get_by_label('Brand name or message').fill('MADE TO CARRY')
   await page.locator('#artwork-font').click();await page.get_by_role('option',name='Monospace',exact=True).click()
   await page.locator('#ink').fill('#d8c99f')
   # A large, simple raster logo stays sharp rather than being reduced to 320px.
@@ -50,8 +50,9 @@ async def main():
   d=await draft();assert d['backLogoName']=='nova-back.png' and d['text']=='ATELIER\nNOVA' and d['textFont']=='serif'
   upload_width=await page.evaluate("""async()=>{const i=new Image();i.src=JSON.parse(localStorage.getItem('kobags-design-v1')).backLogo;await i.decode();return i.width}""")
   assert upload_width==1024
-  await page.get_by_label('Or type your brand name').fill('MADE TO CARRY')
-  d=await draft();assert not d['backLogo'] and not d['backLogoName'] and d['backTextFont']=='mono' and d['backInk']=='#d8c99f'
+  await page.get_by_role('group',name='Select artwork layer').get_by_role('button',name='Text').click()
+  await page.get_by_label('Brand name or message').fill('MADE TO CARRY')
+  d=await draft();assert d['backLogo'] and d['backLogoName']=='nova-back.png' and d['layeredArtwork'] and d['backTextFont']=='mono' and d['backInk']=='#d8c99f'
   await page.get_by_role('tab',name='Front',exact=True).click();await ready()
   assert await page.locator('#artwork-font').inner_text()=='Editorial serif'
   await page.get_by_role('button',name='Enlarge preview',exact=True).click()
@@ -67,7 +68,7 @@ async def main():
   assert int.from_bytes(first.read_bytes()[16:20],'big')==1600 and int.from_bytes(first.read_bytes()[20:24],'big')==1820
   await page.get_by_role('button',name='Toggle artwork guides',exact=True).click();await ready()
   # Rapid drafts only present the latest completed render.
-  for text in ['N','NO','NOV','NOVA']:await page.get_by_label('Or type your brand name').fill(text)
+  for text in ['N','NO','NOV','NOVA']:await page.get_by_label('Brand name or message').fill(text)
   await page.get_by_role('tab',name='01 The bag').click()
   for color in ['Navy blue','Natural','Forest green']:await page.get_by_role('button',name=color,exact=True).click()
   await ready();assert (await draft())['text']=='NOVA'

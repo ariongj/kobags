@@ -1,6 +1,6 @@
 # Kobags Group — code and setup handoff
 
-Revision: 15 September 2026. This is a public demonstration with a persistent, visitor-isolated data flow. It is not connected to Kobags production systems.
+Revision: 16 September 2026. This is a public demonstration with a persistent, visitor-isolated data flow. It is not connected to Kobags production systems.
 
 ## Quick start
 
@@ -19,7 +19,7 @@ To change the schema, edit `db/schema.ts`, run `npm run db:generate`, inspect th
 
 ### Reuse for another project
 
-The downloadable ZIP deliberately contains `.openai/hosting.json` with logical `DB` only and **no existing project ID**. Start in a new folder and repository. Replace brand content/assets and register a new Site only when you intend to publish the new project. The original working checkout remains linked to the existing Kobags private Site; it should continue updating that Site, not create duplicates.
+The downloadable ZIP deliberately contains `.openai/hosting.json` with logical `DB` only and **no existing project ID**. Start in a new folder and repository. Replace brand content/assets and register a new Site only when you intend to publish the new project. The original working checkout remains linked to the existing Kobags public demo Site; it should continue updating that Site, not create duplicates.
 
 Existing demo records, credentials, provider configuration, Git history, installed dependencies and compiled output are excluded from the ZIP. Lossless PNG test captures and generated concept-download PNGs are omitted to keep the source download compact; the included checks regenerate them. Latest JPEG review images and all result manifests are included. The source bundle contains a small `SOURCE-MANIFEST.json` describing these omissions. Proprietary brand assets are not licensed for unrelated projects.
 
@@ -180,6 +180,10 @@ For browser checks, run `npm run start -- --port 8787` after the build and local
 3. **Production backend:** replace the aggregate with explicit organization, user, RFQ, quote, artwork, approval and order entities. Keep snapshots and version checks. Add authenticated roles before real data.
 4. **Real artwork:** add private object storage and original file handling, enforce allowed formats/limits, scan files, generate approved-template previews and use authorized signed downloads.
 5. **Messages and integrations:** replace outbox previews with queued/idempotent provider delivery and a delivery log. Connect only after client authorization and sandbox testing.
-6. **Production publication:** approve content/policies, verify evidence, configure real customer access and operational services, implement translations and accessibility fixes, create canonicals and an XML sitemap, then deliberately remove private-demo noindex/robots restrictions.
+6. **Production publication:** approve content/policies, verify evidence, configure real customer access and operational services, implement translations and accessibility fixes, create canonicals and an XML sitemap, then deliberately remove demo noindex/robots restrictions.
 
 No production SEO, legal approval, certificate verification, load testing, backup/restore testing or real delivery integration is represented as completed.
+
+## Layered studio and certificate library
+
+See `docs/STUDIO-AND-CERTIFICATES-16.09.26.md` for the optional layered-artwork data contract, source transcriptions and adopted brief requirements. `qa/studio_layers_certificates.py` checks independent image/text editing, undo/redo, copying, both-face export, persistent request/proof snapshots, invalid coordinates, and certificate search/zoom/original downloads at desktop and mobile widths. Run it with the same local browser environment as the other QA scripts. The clean source ZIP now includes the `tests` directory.

@@ -1,6 +1,6 @@
 # Kobags Group — design handoff
 
-Revision: 15 September 2026. Website demonstration, prepared from the supplied audit and the original Kobags website. Edition 05 reworks the full website around industrial precision and a brand studio: cinematic original factory imagery, a real interactive 3D showroom, stronger typography, a consistent product collection, editorial openings and a shared dark footer.
+Revision: 16 September 2026. Website demonstration, prepared from the supplied audit and the original Kobags website. Edition 05 reworks the full website around industrial precision and a brand studio: cinematic original factory imagery, a real interactive 3D showroom, stronger typography, a consistent product collection, editorial openings and a shared dark footer.
 
 ## 1. Creative direction
 
@@ -51,7 +51,7 @@ The intended balance is manufacturer first, products and customization next. Do 
 
 Lead with “Your brand. Your bag.” Use two restrained white cards on desktop: a sticky preview workspace and a controls panel. The five larger shape tiles use the same blank models as the main canvas. A cool pale stage, subtle shadow and visible front/back and download controls keep attention on the bag. At 800px and below, the cards stack.
 
-The bag tab contains size, color, material and logo entry. The artwork tab contains an upload thumbnail/name, a three-line text field, three typefaces, alignment, independent text color, size, position and rotation. Front and back preserve separate settings and upload names. Dashed artwork guides help placement and can be hidden; they never appear in exports. Dragging retains the point grabbed, keyboard arrows move by 1% (Shift: 5%), and Center artwork resets position/rotation. Keep the quote action beside the current specification.
+The bag tab contains size, color, material, logo entry and an optional custom-dimension request. The artwork tab supports a logo and text together, selected as independent layers. It includes an upload thumbnail/name, optional white-background cleanup, a three-line text field, three typefaces, alignment, text color, and independent layer size, position and rotation. Undo/redo and copy-to-other-side support iteration. Front and back preserve separate settings and upload names. Dashed artwork guides help placement and can be hidden; they never appear in exports. Dragging retains the point grabbed, keyboard arrows move by 1% (Shift: 5%), and Center artwork resets position/rotation. Keep the quote action beside the current specification.
 
 Scoped `.studio-v4` styling uses 16px card corners, 14px control labels, 46px fields, a 410px desktop controls column (365px at narrower desktop), larger shape tiles, and a 48px desktop title. Match those rules when extending this workspace.
 
@@ -85,7 +85,7 @@ Existing breakpoints are in `app/globals.css`. Extend the relevant component's r
 | Five `*-bag.webp` photos | Original Kobags product photographs; existing printed brand text is part of the photo |
 | `factory.webp`, `factory-printing.webp` | Original public manufacturing evidence |
 | `printing-process.mp4` | Original printing video; controls, no autoplay, preload none |
-| `certificate-iso*.webp` | Original certificate scans; scope/issuer/validity need verification |
+| `certificate-iso*.webp`, `public/documents/iso-*-original.png` | Display derivatives and original scans; readable transcription with current issuer verification still required |
 | `studio-v4/*.webp` | Five individual transparent AI-generated blank-bag mockups, tinted at runtime; current designer |
 | `studio-bag-atlas.png` | Earlier mockup geometry retained for historic artwork snapshots |
 | `docs/asset-sources.json` | Asset source manifest |
@@ -134,3 +134,7 @@ Visitors need no sign-in to try the complete demo. The quote form can fill ficti
 ## 8. Next design deliverables
 
 Before production: approved product dimension drawings and print zones for all 15 variants; material/ink color references; production artwork/file requirements; copy and evidence sign-off; full language coverage; accessibility review including screen-reader and 200% text use; original-asset rights confirmation. These are concrete inputs for the next designer, not represented as completed by this demo.
+
+## Studio and certificate follow-up
+
+The studio also exports a two-sided design sheet with specifications. The certificate section now uses framed original documents on the homepage and an accessible document library with search, zoom, readable metadata and original-file downloads. Maintain both the expiry field and additional conditional date shown on the scans. See `STUDIO-AND-CERTIFICATES-16.09.26.md` for the exact record and implemented handout ideas.

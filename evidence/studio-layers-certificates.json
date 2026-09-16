@@ -1,0 +1,30 @@
+{
+  "status": "passed",
+  "widths": [
+    1440,
+    1024,
+    768,
+    390,
+    320
+  ],
+  "sheetDimensions": [
+    2000,
+    1400
+  ],
+  "checks": [
+    "logo and text together; preserved text on upload",
+    "independent drag, keyboard, rotation and coordinates",
+    "undo/redo removes optional fields and restores identical canvas",
+    "individual layer removal and copy to opposite face",
+    "custom dimension request and print inks",
+    "both faces in downloadable sheet and quote review",
+    "draft persistence through reload and navigation",
+    "server RFQ and proof retain layered artwork; invalid coordinates rejected",
+    "mobile layered design approval, order and reorder preserve both faces",
+    "certificate search, empty state, zoom, keyboard focus and original-byte downloads",
+    "conditional certificate dates visible",
+    "responsive studio, certificates and mobile zoom",
+    "sales proof-caption revision keeps the image layer and placement"
+  ],
+  "browserErrors": []
+}

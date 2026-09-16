@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { enableLayers } from "./studio-artwork";
 import {
   products,
   initialDesign,
@@ -175,7 +176,16 @@ const image = z
     (v) => !v || /^data:image\/(png|webp);base64,[A-Za-z0-9+/=]+$/.test(v),
     "INVALID_IMAGE",
   );
+const placementSchema = z.object({
+  x: z.number().min(24).max(76),
+  y: z.number().min(33).max(80),
+  scale: z.number().min(10).max(55),
+  rotation: z.number().min(-45).max(45),
+});
 export const designSchema = z.object({
+  layeredArtwork: z.boolean().optional(),
+  textPlacement: placementSchema.optional(),
+  backTextPlacement: placementSchema.optional(),
   previewVersion: z.literal("v4").optional(),
   product: z.enum([
     "d-cut-bag",
@@ -515,8 +525,9 @@ export function applyAction(
       const proof = immutable(art?.design || r.snapshot);
       const caption = z.string().max(60).parse(a.caption);
       if (caption.trim()) {
+        if (proof.layeredArtwork && proof.logo) Object.assign(proof, enableLayers({ ...proof, side: "front" }));
         proof.text = caption;
-        proof.logo = "";
+        if (!proof.layeredArtwork) proof.logo = "";
       }
       r.artworks.push({
         version: r.artworks.length + 1,

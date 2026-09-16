@@ -1,4 +1,4 @@
-import type { Design } from "./catalog";
+import type { Design, ArtworkPlacement } from "./catalog";
 export const artworkFonts = [
   {
     value: "sans",
@@ -21,21 +21,102 @@ export const artworkFonts = [
 ] as const;
 export type ArtworkFont = (typeof artworkFonts)[number]["value"];
 export type ArtworkAlignment = "left" | "center" | "right";
-export function sideArtwork(d: Design) {
+export type ArtworkLayer = "logo" | "text";
+export function sideArtwork(d: Design, layer?: ArtworkLayer) {
   const back = d.side === "back";
+  const placement =
+    layer === "text" && d.layeredArtwork
+      ? back
+        ? d.backTextPlacement
+        : d.textPlacement
+      : undefined;
   return {
     back,
     logo: back ? d.backLogo : d.logo,
     name: back ? d.backLogoName || "" : d.logoName,
     text: back ? d.backText : d.text,
-    x: back ? d.backX : d.x,
-    y: back ? d.backY : d.y,
-    scale: back ? d.backScale : d.scale,
-    rotation: back ? d.backRotation : d.rotation,
+    x: placement?.x ?? (back ? d.backX : d.x),
+    y: placement?.y ?? (back ? d.backY : d.y),
+    scale: placement?.scale ?? (back ? d.backScale : d.scale),
+    rotation: placement?.rotation ?? (back ? d.backRotation : d.rotation),
     font: back ? d.backTextFont || "sans" : d.textFont || "sans",
     align: back ? d.backTextAlign || "center" : d.textAlign || "center",
     ink: back ? d.backInk || d.ink : d.ink,
   };
+}
+export function placementPatch(
+  d: Design,
+  layer: ArtworkLayer,
+  patch: Partial<ArtworkPlacement>,
+): Partial<Design> {
+  const back = d.side === "back";
+  const separate =
+    d.layeredArtwork &&
+    layer === "text" &&
+    Boolean(back ? d.backTextPlacement : d.textPlacement);
+  if (separate) {
+    const a = sideArtwork(d, "text");
+    return {
+      [back ? "backTextPlacement" : "textPlacement"]: {
+        x: a.x,
+        y: a.y,
+        scale: a.scale,
+        rotation: a.rotation,
+        ...patch,
+      },
+    };
+  }
+  return Object.fromEntries(
+    Object.entries(patch).map(([key, value]) => [
+      back ? "back" + key[0].toUpperCase() + key.slice(1) : key,
+      value,
+    ]),
+  );
+}
+// Allocate the text's own placement only when a second layer is first introduced.
+export function enableLayers(d: Design): Partial<Design> {
+  const a = sideArtwork(d);
+  const old = a.back ? d.backTextPlacement : d.textPlacement;
+  return {
+    layeredArtwork: true,
+    [a.back ? "backTextPlacement" : "textPlacement"]: old || {
+      x: a.x,
+      y: a.logo ? 72 : a.y,
+      scale: a.logo ? 22 : a.scale,
+      rotation: a.logo ? 0 : a.rotation,
+    },
+  };
+}
+export function copyArtworkToOtherSide(d: Design): Partial<Design> {
+  const a = sideArtwork(d);
+  const placement = a.back ? d.backTextPlacement : d.textPlacement;
+  return a.back
+    ? {
+        logo: a.logo,
+        logoName: a.name,
+        text: a.text,
+        ink: a.ink,
+        x: d.backX,
+        y: d.backY,
+        scale: d.backScale,
+        rotation: d.backRotation,
+        textFont: a.font,
+        textAlign: a.align,
+        textPlacement: placement,
+      }
+    : {
+        backLogo: a.logo,
+        backLogoName: a.name,
+        backText: a.text,
+        backInk: a.ink,
+        backX: d.x,
+        backY: d.y,
+        backScale: d.scale,
+        backRotation: d.rotation,
+        backTextFont: a.font,
+        backTextAlign: a.align,
+        backTextPlacement: placement,
+      };
 }
 // Individually generated neutral mockups. Legacy artwork keeps the original atlas.
 export const studioMockups: Record<string, string> = {

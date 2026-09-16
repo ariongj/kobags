@@ -52,12 +52,20 @@
   {
     "file": "/tmp/kobags-assets/certificate-iso9001.png",
     "url": "https://kobags-group.com/images/licenses/Certifikimi%201.png",
-    "bytes": 1291452
+    "bytes": 1291452,
+    "publicOriginal": "public/documents/iso-9001-original.png",
+    "sha256": "3c16326366411338c0de17145ddb1f4c18ad022996f5c2a70f2cc31b293b6a8c",
+    "transcription": "docs/STUDIO-AND-CERTIFICATES-16.09.26.md",
+    "verification": "Public source scan; current issuer verification not performed"
   },
   {
     "file": "/tmp/kobags-assets/certificate-iso14001.png",
     "url": "https://kobags-group.com/images/licenses/Certifikimi%202.png",
-    "bytes": 1201801
+    "bytes": 1201801,
+    "publicOriginal": "public/documents/iso-14001-original.png",
+    "sha256": "024b9817c619e171a0efcf28be47cd6f386a40394300cfd09bffced3966f465e",
+    "transcription": "docs/STUDIO-AND-CERTIFICATES-16.09.26.md",
+    "verification": "Public source scan; current issuer verification not performed"
   },
   {
     "file": "/tmp/kobags-assets/printing-process.mp4",

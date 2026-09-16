@@ -1,4 +1,5 @@
 "use client";
+import { enableLayers } from "@/lib/studio-artwork";
 import {
   createContext,
   useContext,
@@ -133,7 +134,8 @@ export function KobagsProvider({ children }: { children: ReactNode }) {
           if (v.color) patch.color = String(v.color);
           if (v.text !== undefined) {
             patch.text = String(v.text);
-            patch.logo = "";
+            if (design.logo)
+              Object.assign(patch, enableLayers({ ...design, side: "front" }));
           }
           updateDraft(patch);
           return { updated: patch, submitted: false };
