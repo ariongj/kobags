@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { useKobags } from "./kobags-context";
 import { useDemo } from "./demo-store";
-import { products } from "@/lib/catalog";
+import { products, productMedia } from "@/lib/catalog";
 import BagShowcase from "./bag-showcase";
 
 export default function HomePage() {
@@ -35,7 +35,7 @@ export default function HomePage() {
         <div className="industrial-hero-copy">
           <p className="eyebrow">
             {t(
-              "NON-WOVEN BAG MANUFACTURING / KOSOVO",
+              "NON-WOVEN BAG MANUFACTURING / KOSOVA",
               "PRODHIMI I ÇANTAVE JO TË ENDURA / KOSOVË",
             )}
           </p>
@@ -46,8 +46,8 @@ export default function HomePage() {
           </h1>
           <p className="industrial-lead">
             {t(
-              "From material and printing to the finished bag. Kobags brings production in Lipjan together with custom packaging for your business.",
-              "Nga materiali dhe shtypi deri te çanta e përfunduar. Kobags bashkon prodhimin në Lipjan me paketimin e personalizuar për biznesin tuaj.",
+              "From material and printing to the finished bag. Kobags brings production in Kosova together with custom packaging for your business.",
+              "Nga materiali dhe shtypi deri te çanta e përfunduar. Kobags bashkon prodhimin në Kosovë me paketimin e personalizuar për biznesin tuaj.",
             )}
           </p>
           <div className="actions">
@@ -79,21 +79,21 @@ export default function HomePage() {
           <Factory size={23} />
           <span>
             {t("FROM THE FACTORY FLOOR", "NGA LINJA E PRODHIMIT")}
-            <strong>{t("Made in Lipjan.", "Prodhuar në Lipjan.")}</strong>
+            <strong>{t("Made in Kosova.", "Prodhuar në Kosovë.")}</strong>
           </span>
         </div>
         <div className="industrial-location">
           <span>01 / KOBAGS GROUP</span>
           <p>
             {t("Inside our production facility", "Brenda fabrikës sonë")}
-            <strong> Lipjan, Kosovo</strong>
+            <strong> Kosova</strong>
           </p>
         </div>
       </section>
       <div className="home-proof-strip industrial-proof-strip">
         <span>
           <Factory size={20} />
-          {t("Manufactured in Lipjan, Kosovo", "Prodhuar në Lipjan, Kosovë")}
+          {t("Made in Kosova", "Prodhuar në Kosovë")}
         </span>
         <span>
           <Paintbrush size={20} />
@@ -170,13 +170,13 @@ export default function HomePage() {
         <figure className="home-production-film">
           <div className="production-film-heading">
             <span>{t("ON THE PRODUCTION LINE", "NË LINJËN E PRODHIMIT")}</span>
-            <span>LIPJAN / KOSOVO</span>
+            <span>MADE IN KOSOVA</span>
           </div>
           <video
             controls
             playsInline
             preload="none"
-            poster="/assets/client-2026-09/printing-rollers.jpg"
+            poster="/assets/client-2026-09/home-film-poster.jpg"
             width={1000}
             height={750}
             aria-label={t(
@@ -236,7 +236,7 @@ export default function HomePage() {
                   0{i + 1} / {p.handle.toUpperCase()}
                 </span>
                 <img
-                  src={p.image}
+                  src={productMedia[p.slug]?.home ?? p.image}
                   alt={p.name}
                   width={220}
                   height={275}

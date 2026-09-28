@@ -42,7 +42,7 @@ export default async function Article({
             </section>
           ))}
           <p className="source-note">
-            Proposed editorial rewrite for this private demo. Product references
+            Proposed editorial rewrite for this website demonstration. Product references
             come from the{" "}
             <a
               href="https://kobags-group.com/products"

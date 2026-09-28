@@ -180,7 +180,7 @@ export default function InquiryForm({
           />
           <span>
             {t(
-              "I understand this is a private demonstration and my inquiry will be stored for review.",
+              "I understand this is a website demonstration and my inquiry will be stored for review.",
               "E kuptoj se ky është demonstrim privat dhe kërkesa ruhet për shqyrtim.",
             )}{" "}
             <Link href="/privacy">{t("Privacy notice", "Privatësia")}</Link>

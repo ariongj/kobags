@@ -80,6 +80,28 @@ export const products: Product[] = [
     ],
   },
 ];
+export const productMedia: Record<string, { home: string; detail: string }> = {
+  "d-cut-bag": {
+    home: "/assets/client-2026-09/home-d-cut.jpg",
+    detail: "/assets/client-2026-09/detail-d-cut.jpg",
+  },
+  "handle-bag": {
+    home: "/assets/client-2026-09/home-handle.jpg",
+    detail: "/assets/client-2026-09/detail-handle.jpg",
+  },
+  "box-bag": {
+    home: "/assets/client-2026-09/home-box.jpg",
+    detail: "/assets/client-2026-09/detail-box.jpg",
+  },
+  "t-shirt-bag": {
+    home: "/assets/client-2026-09/home-t-shirt.jpg",
+    detail: "/assets/client-2026-09/detail-t-shirt.jpg",
+  },
+  "string-bag": {
+    home: "/assets/client-2026-09/home-string.jpg",
+    detail: "/assets/client-2026-09/detail-string.jpg",
+  },
+};
 export const colors = [
   { name: "Forest green", sq: "E gjelbër", hex: "#276344" },
   { name: "Navy blue", sq: "Blu e errët", hex: "#193b67" },

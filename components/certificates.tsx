@@ -86,7 +86,7 @@ export default function Certificates() {
   const [zoom, setZoom] = useState(false);
   const opener = useRef<HTMLButtonElement | null>(null);
   const filtered = certificates.filter((c) =>
-    `${c.standard} ${c.title} ${c.titleSq} ${c.number} Eco Bag Solution Certi W Kosovo Lipjan`
+    `${c.standard} ${c.title} ${c.titleSq} ${c.number} Eco Bag Solution Certi W Kosova`
       .toLowerCase()
       .includes(query.trim().toLowerCase()),
   );
@@ -180,10 +180,6 @@ export default function Certificates() {
               <div className="wide">
                 <dt>{t("Certificate number", "Numri i certifikatës")}</dt>
                 <dd>{c.number}</dd>
-              </div>
-              <div className="wide">
-                <dt>{t("Location on document", "Adresa në dokument")}</dt>
-                <dd>Magjistralja Prishtinë–Ferizaj, Lipjan, Kosovo</dd>
               </div>
               <div className="wide">
                 <dt>{t("Published scope", "Fusha e publikuar")}</dt>

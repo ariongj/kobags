@@ -1,6 +1,6 @@
 # Kobags Group — design handoff
 
-Revision: 16 September 2026. Website demonstration, prepared from the supplied audit and the original Kobags website. Edition 05 reworks the full website around industrial precision and a brand studio: cinematic original factory imagery, a real interactive 3D showroom, stronger typography, a consistent product collection, editorial openings and a shared dark footer.
+Revision: 28 September 2026. Website demonstration, prepared from the supplied audit and the original Kobags website. Edition 05 reworks the full website around industrial precision and a brand studio: cinematic original factory imagery, a real interactive 3D showroom, stronger typography, a consistent product collection, editorial openings and a shared dark footer.
 
 ## 1. Creative direction
 
@@ -88,9 +88,9 @@ Mobile is a primary review surface. Keep 44px main actions/menu rows, readable 1
 | Asset | Source / treatment |
 | --- | --- |
 | `public/assets/logo.png`, `favicon.png` | Original Kobags identity; preserve proportions |
-| `public/assets/client-2026-09/*-bag.jpg` | Client-supplied product photographs for the five catalog families; printed brand text is part of each photo |
-| `public/assets/client-2026-09/factory-*.jpg`, `material-rolls.jpg`, `printing-rollers.jpg`, `finished-bags.jpg` | Client-supplied factory evidence used in home and manufacturing; selection and source hashes in `docs/client-media-2026-09-28.json` |
-| `printing-process.mp4` | Original printing video; controls, no autoplay, preload none |
+| `public/assets/client-2026-09/*-bag.jpg`, `home-*.jpg`, `detail-*.jpg` | Distinct client-supplied product photos for catalog, home, and detail; printed brand text is part of the original image |
+| `public/assets/client-2026-09/factory-*.jpg`, material and process photographs | Client-supplied factory evidence across home, manufacturing, partners, resources, and journal; selection and source hashes in `docs/client-media-2026-09-28.json` |
+| `printing-process.mp4` and `client-2026-09/*-reel.mp4` | One original horizontal film on home and two different client-supplied portrait reels on manufacturing; controls, no autoplay, preload none |
 | `certificate-iso*.webp`, `public/documents/iso-*-original.png` | Display derivatives and original scans; readable transcription with current issuer verification still required |
 | `studio-v4/*.webp` | Five individual transparent AI-generated blank-bag mockups, tinted at runtime; current designer |
 | `studio-bag-atlas.png` | Earlier mockup geometry retained for historic artwork snapshots |
@@ -99,7 +99,7 @@ Mobile is a primary review surface. Keep 44px main actions/menu rows, readable 1
 
 The designer offers illustrative 3D family models and flat artwork previews. Family geometry does not change physical proportions for each catalogue size. Neither view is an approved dieline, production CAD, color sample or guarantee of printable area. Production work should substitute approved per-variant templates or approved 3D assets. Preview downloads carry a concept label.
 
-The 28 September 2026 client archive supplied 72 photos and 105 short portrait videos. Ten photographs were selected for the compact site; the existing horizontal process video remains in use. Kobags assets remain subject to their owner's rights. The archive is a handoff for this project; it does not grant trademark, photo or video rights for unrelated brands. Replace brand assets when using the architecture for another business.
+The 28 September 2026 client archive supplied 72 photos and 105 short portrait videos. Thirty-three original photographs, two video-frame posters and two short clips were curated for distinct placements across the site; the existing horizontal process film remains on the homepage. Kobags assets remain subject to their owner's rights. The archive is a handoff for this project; it does not grant trademark, photo or video rights for unrelated brands. Replace brand assets when using the architecture for another business.
 
 ### Guided visitor journey
 

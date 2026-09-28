@@ -1,6 +1,6 @@
 {
   "sourceArchive": "CoBag-20260928T203801Z-1-001.zip",
-  "selectionNote": "Client-provided media selected from 72 JPEG photographs and 105 short portrait MP4 clips. Original JPEG bytes retained. The existing horizontal, user-controlled factory process video remains better suited to the compact site layout.",
+  "selectionNote": "Curated from 72 client-supplied JPEG photographs and 105 portrait MP4 clips. Thirty-three original photos, two exact video-frame posters and two clips each have a distinct editorial placement across the site. Original client files are copied without modification. The horizontal public-site printing film remains on the homepage; two different client clips show bag forming and bag blanks stacking on manufacturing.",
   "selected": [
     {
       "publicPath": "/assets/client-2026-09/factory-line.jpg",
@@ -10,32 +10,18 @@
       "bytes": 246220
     },
     {
-      "publicPath": "/assets/client-2026-09/factory-machinery.jpg",
-      "archiveMember": "CoBag/a9b8f19f-4c9d-4f49-833a-1579c2b09b66.JPG",
-      "usage": "Manufacturing hero",
-      "sha256": "911a711e4392d9c44a2dad55f96638eb24264d9f7759de6259c5f93857169fa1",
-      "bytes": 251650
-    },
-    {
       "publicPath": "/assets/client-2026-09/material-rolls.jpg",
       "archiveMember": "CoBag/8a3d3a37-b13b-4e00-b05b-240f93dc2e65.JPG",
-      "usage": "Manufacturing materials",
+      "usage": "Manufacturing material photo rail",
       "sha256": "d6e78f9eeeec8ba8020ab46d434db107e7045d1dccfa692a4c786b54d6a51a47",
       "bytes": 232351
     },
     {
       "publicPath": "/assets/client-2026-09/printing-rollers.jpg",
       "archiveMember": "CoBag/9ae5fdee-4968-4327-ab2e-98848fd70f12.JPG",
-      "usage": "Process video poster and manufacturing gallery",
+      "usage": "Manufacturing printing photo rail",
       "sha256": "88f13846de7022d1c534b00580b9aa65cdcb45373faf1fce064fd4c2b6dd92ec",
       "bytes": 168644
-    },
-    {
-      "publicPath": "/assets/client-2026-09/finished-bags.jpg",
-      "archiveMember": "CoBag/ef378048-2ba9-438e-85b3-03c644d117d0.JPG",
-      "usage": "Manufacturing finished output",
-      "sha256": "436138ccebfa2eee7cb089787613847e1116ceea35b2f25d02ad1be17bcb71ef",
-      "bytes": 417821
     },
     {
       "publicPath": "/assets/client-2026-09/d-cut-bag.jpg",
@@ -71,6 +57,211 @@
       "usage": "String catalog photograph",
       "sha256": "093eb451cc6da6d7187bbc2eae3d06b6f58e60b2eabc9d4ffdfcba1dd5f0fde8",
       "bytes": 229456
+    },
+    {
+      "publicPath": "/assets/client-2026-09/factory-sign.jpg",
+      "archiveMember": "CoBag/7eff3265-3990-4672-ac39-b52cd8ac80b1.JPG",
+      "usage": "Manufacturing hero",
+      "sha256": "eed061aa4f79efb2c709a31f42264047e3c264932701d719fea7ccea65085bf9",
+      "bytes": 134897
+    },
+    {
+      "publicPath": "/assets/client-2026-09/factory-partners.jpg",
+      "archiveMember": "CoBag/3b7a5832-ebfe-4965-bfbb-2f7934f1163f.JPG",
+      "usage": "Partners page factory image",
+      "sha256": "c1a7a6fd206959d30f36851a7ae22c3bc0f2c33aa70c10d9d1752bfd6e80ac9a",
+      "bytes": 209913
+    },
+    {
+      "publicPath": "/assets/client-2026-09/home-film-poster.jpg",
+      "archiveMember": "CoBag/555e973d-fc83-46b5-a009-42964b49b35e.JPG",
+      "usage": "Home process film poster",
+      "sha256": "0c9785f2625a9644535f6dd9ee70be45eca4803e347ebdd45abd15834a659eb2",
+      "bytes": 259508
+    },
+    {
+      "publicPath": "/assets/client-2026-09/finished-stack-rail.jpg",
+      "archiveMember": "CoBag/c8e89f5a-9bac-44cf-9981-edcf836eda72.JPG",
+      "usage": "Manufacturing photo rail",
+      "sha256": "f88ad4a5a3602d987c4bb51389a2af530cacbf5e72e1f56cdee530cf7fc481ac",
+      "bytes": 263329
+    },
+    {
+      "publicPath": "/assets/client-2026-09/material-equipment.jpg",
+      "archiveMember": "CoBag/bdb2bd6a-4f8a-4829-a958-220706bbf1fd.JPG",
+      "usage": "Responsibility page material equipment",
+      "sha256": "c1beb10e79b1cd6487acd35456cca31c9e05e7c2555bd33ec046b32efd86737b",
+      "bytes": 188356
+    },
+    {
+      "publicPath": "/assets/client-2026-09/resource-bag-stacks.jpg",
+      "archiveMember": "CoBag/8d89fe74-29d4-4abd-aa10-24e5679de0c6.JPG",
+      "usage": "Resources page photo",
+      "sha256": "f5bc6a0a69f0d4662f191f65ffd2eceb30d3a3b2801edf03f0cc42fafbf779ea",
+      "bytes": 315163
+    },
+    {
+      "publicPath": "/assets/client-2026-09/sample-bag.jpg",
+      "archiveMember": "CoBag/de574bc3-6860-469a-a62f-6f93a5b24fa6.JPG",
+      "usage": "Sample inquiry photo",
+      "sha256": "d488a5c5eee1a27bdfeda4d335487d49e5deb17488128c3fda267147fae88ec1",
+      "bytes": 249175
+    },
+    {
+      "publicPath": "/assets/client-2026-09/industry-bag.jpg",
+      "archiveMember": "CoBag/40871e29-b86c-4383-ad38-39dba20654a0.JPG",
+      "usage": "Industry overview photo",
+      "sha256": "eb16aa535bf0b93a92d551102b98d9755d61e8f49f5646bd2c5465c1a102c928",
+      "bytes": 144289
+    },
+    {
+      "publicPath": "/assets/client-2026-09/retail-bag.jpg",
+      "archiveMember": "CoBag/4563246d-4e0c-4e7f-9709-122969c683b7.JPG",
+      "usage": "Retail industry photo",
+      "sha256": "bb81aaa3cd26baea7b8f830fef83f9a63a07399946a5c0401b9b7396e3d0af58",
+      "bytes": 127724
+    },
+    {
+      "publicPath": "/assets/client-2026-09/home-d-cut.jpg",
+      "archiveMember": "CoBag/f6943470-33c4-4e3f-9c1e-62e83bf572e9.JPG",
+      "usage": "Home D-Cut product",
+      "sha256": "f1666917fce8e34daee6963b14a38d1a5e40614a14b8a0a17ffa15a1dedd5ec9",
+      "bytes": 163402
+    },
+    {
+      "publicPath": "/assets/client-2026-09/home-handle.jpg",
+      "archiveMember": "CoBag/3a77d30c-9e19-4a2a-b70e-0daa3e5c746e.JPG",
+      "usage": "Home Handle product",
+      "sha256": "de9e4c103bcb71ec8678184cd0a14ac521927a2da4865c146d0ecabdc46f30f0",
+      "bytes": 114398
+    },
+    {
+      "publicPath": "/assets/client-2026-09/home-box.jpg",
+      "archiveMember": "CoBag/cd203d22-3dbd-4460-868d-09a8f5c2097b.JPG",
+      "usage": "Home Box product",
+      "sha256": "5105d8ca9a962ef42b59e0035a1ce0df1f5852444b020cf2e0b810b6a26be72c",
+      "bytes": 147521
+    },
+    {
+      "publicPath": "/assets/client-2026-09/home-t-shirt.jpg",
+      "archiveMember": "CoBag/e1caa6c0-66f3-4ce7-ae23-1c9e2b04d640.JPG",
+      "usage": "Home T-Shirt product",
+      "sha256": "23306c45f3656b3961f5c88bc7f31ea3aaca7a165a346f259638b56459cfa3f5",
+      "bytes": 133326
+    },
+    {
+      "publicPath": "/assets/client-2026-09/home-string.jpg",
+      "archiveMember": "CoBag/da802da8-79a8-45ff-b933-5ddde87aea06.JPG",
+      "usage": "Home String product",
+      "sha256": "68d1decf5808811c8d4b562c6ef5c153f8ba1285201a36d977f9b5871724ee28",
+      "bytes": 149512
+    },
+    {
+      "publicPath": "/assets/client-2026-09/detail-d-cut.jpg",
+      "archiveMember": "CoBag/16500f9a-a12e-452a-927a-38630212f2f3.JPG",
+      "usage": "D-Cut detail alternate",
+      "sha256": "aa46a2c0f91ee655c5c7a5948339ce5bb92e9fc62323152e22181a07686e5475",
+      "bytes": 179566
+    },
+    {
+      "publicPath": "/assets/client-2026-09/detail-handle.jpg",
+      "archiveMember": "CoBag/17695f1e-880a-4364-8852-ec7d1cf9ae26.JPG",
+      "usage": "Handle detail alternate",
+      "sha256": "3eaad25bb2f211d065e9cf2614e4a07410ae158f99eed33747ad131e29159d5c",
+      "bytes": 262142
+    },
+    {
+      "publicPath": "/assets/client-2026-09/detail-box.jpg",
+      "archiveMember": "CoBag/2632bad7-cacc-4550-8fc2-3597b3520bdb.JPG",
+      "usage": "Box detail alternate",
+      "sha256": "71fff1d5d91eb2e95e5ddbfe5a7b5169e93a56859fa33420ebb28ead00c7f5fc",
+      "bytes": 128886
+    },
+    {
+      "publicPath": "/assets/client-2026-09/detail-t-shirt.jpg",
+      "archiveMember": "CoBag/c1476d77-e010-48cf-b7e8-3f7905dd50f8.JPG",
+      "usage": "T-Shirt detail alternate",
+      "sha256": "c4b9b09988739e1c1b2693f1fd17c25965424caf91e7baaaa23dad7e3c0fe87d",
+      "bytes": 171407
+    },
+    {
+      "publicPath": "/assets/client-2026-09/detail-string.jpg",
+      "archiveMember": "CoBag/e221b2ad-9f28-479d-8a1b-aff9e0f1bd1b.JPG",
+      "usage": "String detail alternate",
+      "sha256": "9c9c4cdd32a4ff24226dabb8b4827a10c394e33dbe7094d9b3950de3db66ee03",
+      "bytes": 80393
+    },
+    {
+      "publicPath": "/assets/client-2026-09/journal-factory.jpg",
+      "archiveMember": "CoBag/11fc4e3d-3fee-4ee1-8e56-2d043dbb7649.JPG",
+      "usage": "Journal factory guide",
+      "sha256": "d43d0ad22f916451a166ef0e2c8f797282fed2b2d12d9b604f62c18544bd5e42",
+      "bytes": 151226
+    },
+    {
+      "publicPath": "/assets/client-2026-09/journal-reuse.jpg",
+      "archiveMember": "CoBag/4ff58890-99a4-4084-b3f3-c667a363dcb8.JPG",
+      "usage": "Journal reusable-bag guide",
+      "sha256": "310fb5c657c253d30ef787434f2a9428fc74468d1b5b4ad5ce711b6bde32cdcb",
+      "bytes": 410972
+    },
+    {
+      "publicPath": "/assets/client-2026-09/journal-brand.jpg",
+      "archiveMember": "CoBag/e6bea36c-e106-45c0-832f-204949347df2.JPG",
+      "usage": "Journal branding guide",
+      "sha256": "2ca5e79ac1bd56e7ba6c35aa11bcb3ffbc1019b64050351d34560cc18d64b375",
+      "bytes": 187891
+    },
+    {
+      "publicPath": "/assets/client-2026-09/journal-material.jpg",
+      "archiveMember": "CoBag/0f96876b-911a-466f-b265-de34dfd65f36.JPG",
+      "usage": "Journal material guide",
+      "sha256": "e0cfeb2f43a50a9434eb2ff47b4ec9d7d3f1c74697c2600e522aecd716793344",
+      "bytes": 162415
+    },
+    {
+      "publicPath": "/assets/client-2026-09/journal-checklist.jpg",
+      "archiveMember": "CoBag/ef378048-2ba9-438e-85b3-03c644d117d0.JPG",
+      "usage": "Journal order checklist",
+      "sha256": "436138ccebfa2eee7cb089787613847e1116ceea35b2f25d02ad1be17bcb71ef",
+      "bytes": 417821
+    },
+    {
+      "publicPath": "/assets/client-2026-09/journal-order.jpg",
+      "archiveMember": "CoBag/520a5cca-6886-480d-8b99-1025dd46f0b8.JPG",
+      "usage": "Journal ordering guide",
+      "sha256": "0d94b0f358f884692af67d10ff154dae4a2e86f3226a091df35f8193da51c66b",
+      "bytes": 165612
+    },
+    {
+      "publicPath": "/assets/client-2026-09/bag-stacking-reel.mp4",
+      "archiveMember": "CoBag/a4f69959-f44e-44c5-8067-e1a48c95b7db.MP4",
+      "usage": "Manufacturing finished-bag reel",
+      "sha256": "2950fef18b6c3f329d2a5bc8486cc7708147d670234441416791fac40496ff1d",
+      "bytes": 1823580
+    },
+    {
+      "publicPath": "/assets/client-2026-09/bag-forming-reel.mp4",
+      "archiveMember": "CoBag/eb3aea4f-f612-403c-b1a9-ab75182d0eca.MP4",
+      "usage": "Manufacturing bag-forming reel",
+      "sha256": "b5194baa5b804ca24937f7a3b296dc0909cfac87639d49f54057c184c1ebaa23",
+      "bytes": 2497424
+    },
+    {
+      "publicPath": "/assets/client-2026-09/bag-forming-poster.jpg",
+      "archiveMember": "CoBag/eb3aea4f-f612-403c-b1a9-ab75182d0eca.MP4",
+      "derivedFrom": "client video frame at 1.2 seconds",
+      "usage": "Exact frame from bag-forming reel at 1.2 seconds",
+      "sha256": "e1f05bbfb555014526548acd6cb35c1cb2fa9340d28cae258d1cf4ff4a36c7a4",
+      "bytes": 66998
+    },
+    {
+      "publicPath": "/assets/client-2026-09/bag-stacking-poster.jpg",
+      "archiveMember": "CoBag/a4f69959-f44e-44c5-8067-e1a48c95b7db.MP4",
+      "derivedFrom": "client video frame at 1.2 seconds",
+      "usage": "Exact frame from bag-stacking reel at 1.2 seconds",
+      "sha256": "def7a9d78188efc68abd0563a42103b04ef34015b6b68baa04dc84eb685a0456",
+      "bytes": 87469
     }
   ]
 }

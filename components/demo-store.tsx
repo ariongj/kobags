@@ -15,7 +15,7 @@ export const errors: Record<string, [string, string]> = {
     "Lejoni cookies për demonstrimin dhe provoni përsëri. Dizajni është ruajtur.",
   ],
   AUTH_REQUIRED: [
-    "Sign in to open your private demo.",
+    "Sign in to open your demo workspace.",
     "Identifikohuni për të hapur demonstrimin privat.",
   ],
   STORAGE_UNAVAILABLE: [

@@ -618,7 +618,7 @@ export default function BagStudio() {
               t(" BAGS", " ÇANTA")}
           </span>
           <span>
-            {t("Made in Lipjan, Kosovo", "Prodhuar në Lipjan, Kosovë")}
+            {t("Made in Kosova", "Prodhuar në Kosovë")}
           </span>
         </div>
       </div>

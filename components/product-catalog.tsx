@@ -12,7 +12,7 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import { useKobags } from "./kobags-context";
-import { products, Product, getProduct } from "@/lib/catalog";
+import { products, productMedia, Product, getProduct } from "@/lib/catalog";
 import { useDemo } from "./demo-store";
 import { Choice } from "./bag-studio";
 export function ProductCatalog() {
@@ -246,7 +246,7 @@ export function ProductDetail({ product: original }: { product: Product }) {
       <div className="product-detail-grid">
         <div className="detail-photo">
           <img
-            src={p.image}
+            src={productMedia[p.slug]?.detail ?? p.image}
             alt={"Original Kobags " + p.name}
             width="600"
             height="750"

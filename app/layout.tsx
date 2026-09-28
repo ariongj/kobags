@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     template: "%s | Kobags Group",
   },
   description:
-    "Non-woven bag manufacturing in Kosovo. Explore the factory, customize a bag in the interactive 3D studio and plan your next wholesale order.",
+    "Non-woven bag manufacturing in Kosova. Explore the factory, customize a bag in the interactive 3D studio and plan your next wholesale order.",
   robots: { index: false, follow: false },
   icons: { icon: "/assets/favicon.png" },
 };

@@ -477,7 +477,7 @@ export default function QuoteFlow() {
               <div className="form-grid">
                 <p className="notice full">
                   {t(
-                    "Private demonstration. Please use fictional company and contact details. Nothing is sent to Kobags.",
+                    "Website demonstration. Please use fictional company and contact details. Nothing is sent to Kobags.",
                     "Demonstrim privat. Përdorni të dhëna fiktive për kompaninë dhe kontaktin. Asgjë nuk dërgohet te Kobags.",
                   )}
                 </p>

@@ -28,7 +28,7 @@ Five supported product slugs: `d-cut-bag`, `handle-bag`, `box-bag`, `t-shirt-bag
 
 | Original slug | Proposed new title |
 | --- | --- |
-| `kobagsjourney` | From Lipjan to your next brand moment. |
+| `kobagsjourney` | Made in Kosova. Carried into your next brand moment. |
 | `whyswitchtokobags` | Is a reusable bag the right fit for your business? |
 | `kobagsmission` | Make your packaging feel like your brand. |
 | `sciencebehindkobags` | Non-woven PP, explained clearly. |

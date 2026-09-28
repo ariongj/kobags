@@ -3,13 +3,9 @@ import Link from "@/components/site-link";
 import { notFound } from "next/navigation";
 import {
   ArrowUpRight,
-  ArrowRight,
-  FileText,
   Layers,
   Paintbrush,
   PackageCheck,
-  Factory,
-  Leaf,
   Download,
 } from "lucide-react";
 import { PageHeading } from "@/components/site-shell";
@@ -17,7 +13,7 @@ import InquiryForm from "@/components/inquiry-form";
 import ResourceContent from "@/components/resource-content";
 import CookieControls from "@/components/cookie-controls";
 const titles: Record<string, string> = {
-  manufacturing: "Made in Kosovo. Carried everywhere.",
+  manufacturing: "Made in Kosova. Carried everywhere.",
   sustainability: "Better questions. Clearer choices.",
   certifications: "Evidence you can look closer at.",
   partners: "Let’s build the next connection.",
@@ -82,13 +78,13 @@ export default async function Page({
           <>
             <div className="manufacturing-hero">
               <img
-                src="/assets/client-2026-09/factory-machinery.jpg"
-                alt="Bag production machinery inside the Kobags factory"
+                src="/assets/client-2026-09/factory-sign.jpg"
+                alt="Kobags production machinery inside the factory"
                 width="1200"
                 height="600"
               />
               <div>
-                <p className="eyebrow">LIPJAN, KOSOVO</p>
+                <p className="eyebrow">MADE IN KOSOVA</p>
                 <h2>
                   Where your bag
                   <br />
@@ -124,34 +120,27 @@ export default async function Page({
                 );
               })}
             </div>
-            <section className="grid-two video-section">
-              <div>
-                <p className="eyebrow">A LOOK INSIDE</p>
-                <h2>
-                  The print process,
-                  <br />
-                  in motion.
-                </h2>
-                <p>
-                  Original video from Kobags’ public website. Playback starts
-                  when you choose.
-                </p>
-                <p className="source-note">
-                  The general catalog also mentions screen printing and heat
-                  transfer. Their availability by product needs production
-                  confirmation.
-                </p>
+            <section className="factory-reels" aria-labelledby="factory-reels-title">
+              <div className="factory-reels-intro">
+                <p className="eyebrow">FACTORY MOTION / KOSOVA</p>
+                <h2 id="factory-reels-title">A closer look at the line.</h2>
+                <p>Two short clips supplied by Kobags show bag forming and bag blanks moving into a stack. Play either reel when you are ready.</p>
+                <p className="source-note">The general catalog also mentions screen printing and heat transfer. Confirm availability for your selected product.</p>
               </div>
-              <video
-                controls
-                preload="none"
-                poster="/assets/client-2026-09/printing-rollers.jpg"
-                width="900"
-                height="600"
-              >
-                <source src="/assets/printing-process.mp4" type="video/mp4" />
-                Your browser does not support video playback.
-              </video>
+              <figure className="factory-reel">
+                <video controls playsInline preload="none" poster="/assets/client-2026-09/bag-forming-poster.jpg" width="464" height="832" aria-label="Watch bags being formed on the Kobags production line">
+                  <source src="/assets/client-2026-09/bag-forming-reel.mp4" type="video/mp4" />
+                  Your browser does not support video playback.
+                </video>
+                <figcaption><span>01 / FORMING</span><strong>On the production line</strong></figcaption>
+              </figure>
+              <figure className="factory-reel">
+                <video controls playsInline preload="none" poster="/assets/client-2026-09/bag-stacking-poster.jpg" width="480" height="848" aria-label="Watch bag blanks moving into a stack">
+                  <source src="/assets/client-2026-09/bag-stacking-reel.mp4" type="video/mp4" />
+                  Your browser does not support video playback.
+                </video>
+                <figcaption><span>02 / FINISHING</span><strong>Into the finishing stack</strong></figcaption>
+              </figure>
             </section>
             <div className="manufacturing-photo-rail" aria-label="Inside Kobags production">
               <figure>
@@ -163,20 +152,17 @@ export default async function Page({
                 <figcaption>02 / Print</figcaption>
               </figure>
               <figure>
-                <img src="/assets/client-2026-09/finished-bags.jpg" alt="Finished bags stacked at the Kobags factory" loading="lazy" width="800" height="533" />
+                <img src="/assets/client-2026-09/finished-stack-rail.jpg" alt="Stacks of finished bags at the Kobags factory" loading="lazy" width="800" height="533" />
                 <figcaption>03 / Finished bags</figcaption>
               </figure>
             </div>
-            <p className="source-note">
-              Factory photographs supplied by Kobags Group. Process video retained from its{" "}
-              <a href="https://kobags-group.com/" target="_blank" rel="noreferrer">public website</a>.
-            </p>
+<p className="source-note">Factory photographs and both short process clips supplied by Kobags Group.</p>
           </>
         )}
         {path === "sustainability" && (
           <>
             <div className="material-feature">
-              <span>PP</span>
+              <img src="/assets/client-2026-09/material-equipment.jpg" alt="Material handling equipment at the Kobags factory" width="640" height="425" loading="lazy" />
               <div>
                 <p className="eyebrow">KNOW YOUR MATERIAL</p>
                 <h2>
@@ -234,6 +220,10 @@ export default async function Page({
         {path === "certifications" && <Certificates />}
         {path === "partners" && (
           <>
+            <div className="partner-factory">
+              <img src="/assets/client-2026-09/factory-partners.jpg" alt="Production floor at Kobags in Kosova" width="1200" height="800" loading="lazy" />
+              <div><p className="eyebrow">MADE IN KOSOVA</p><h2>Partnership starts with a real production team.</h2></div>
+            </div>
             <div className="partner-grid">
               {[
                 [
@@ -292,6 +282,7 @@ export default async function Page({
           <div className="inquiry-layout">
             <InquiryForm kind="sample" />
             <aside className="inquiry-aside">
+              <img className="inquiry-photo" src="/assets/client-2026-09/sample-bag.jpg" alt="Printed sample bag from the Kobags collection" width="360" height="450" loading="lazy" />
               <h2>
                 Get a feel
                 <br />
@@ -322,9 +313,9 @@ export default async function Page({
               <h2>
                 Find Kobags
                 <br />
-                in Lipjan.
+                in Kosova.
               </h2>
-              <p>Lipjan, Kosovo</p>
+              <p>Made in Kosova</p>
               <p>
                 Published contact details:
                 <br />
@@ -361,7 +352,7 @@ export default async function Page({
                 </Link>
               </div>
               <img
-                src="/assets/handle-bag.webp"
+                src="/assets/client-2026-09/industry-bag.jpg"
                 alt="Kobags Handle Bag for retail"
                 width="400"
                 height="500"
@@ -411,8 +402,8 @@ export default async function Page({
                 </Link>
               </div>
               <img
-                src="/assets/d-cut-bag.webp"
-                alt="Kobags D-Cut bag"
+                src="/assets/client-2026-09/retail-bag.jpg"
+                alt="Kobags branded retail Handle Bag"
                 width="400"
                 height="500"
               />
@@ -449,7 +440,7 @@ export default async function Page({
         {path === "resources" && (
           <>
             <div className="resource-download">
-              <FileText size={34} />
+              <img className="resource-photo" src="/assets/client-2026-09/resource-bag-stacks.jpg" alt="Finished branded bags ready for order planning" width="240" height="160" loading="lazy" />
               <div>
                 <h2>Your bag specification checklist.</h2>
                 <p>

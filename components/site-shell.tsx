@@ -25,7 +25,7 @@ export function Header() {
       <div className="utility">
         <span>
           {t(
-            "Made in Kosovo. Made for your brand.",
+            "Made in Kosova. Made for your brand.",
             "Prodhuar në Kosovë. Për markën tuaj.",
           )}
         </span>
@@ -148,7 +148,7 @@ export function Footer() {
           <p>
             {t("Your brand, carried further.", "Marka juaj, më larg.")}
             <br />
-            Lipjan, Kosovo
+            Kosova
           </p>
         </div>
         <div>

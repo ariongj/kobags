@@ -1165,7 +1165,7 @@ export default function DemoWorkspace({
                     </div>
                     <p className="source-note">
                       Variant specifications remain source-backed. Product
-                      descriptions publish to this private demonstration only.
+                      descriptions publish to this website demonstration only.
                     </p>
                   </section>
                   <section className="section-card">
@@ -1638,7 +1638,7 @@ export default function DemoWorkspace({
         <DialogContent>
           <DialogTitle>Reset the synthetic demonstration?</DialogTitle>
           <DialogDescription>
-            This removes this private demo’s requests, quotations, approvals,
+            This removes this demo workspace’s requests, quotations, approvals,
             inquiries and content edits. It does not contact or modify Kobags’
             live systems. Download an export first if needed.
           </DialogDescription>
