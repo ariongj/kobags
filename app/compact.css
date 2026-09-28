@@ -945,3 +945,46 @@ body.kobags-v5:has(.studio-compact) .footer-top p {
   -webkit-mask: url("/assets/logo.png") center / 100% 100% no-repeat;
   clip-path: polygon(0 0, 32% 0, 32% 70%, 100% 70%, 100% 100%, 0 100%);
 }
+
+/* A concise view of the client's actual production line. */
+.kobags-v5 .manufacturing-photo-rail {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: -10px 0 18px;
+}
+.kobags-v5 .manufacturing-photo-rail figure {
+  min-width: 0;
+  margin: 0;
+}
+.kobags-v5 .manufacturing-photo-rail img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1.9;
+  object-fit: cover;
+  border-radius: 7px;
+}
+.kobags-v5 .manufacturing-photo-rail figcaption {
+  padding-top: 8px;
+  color: #405852;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+@media (max-width: 600px) {
+  .kobags-v5 .manufacturing-photo-rail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin: 0 0 14px;
+  }
+  .kobags-v5 .manufacturing-photo-rail figure:first-child {
+    grid-column: 1 / -1;
+  }
+  .kobags-v5 .manufacturing-photo-rail img {
+    aspect-ratio: 1.45;
+  }
+  .kobags-v5 .manufacturing-photo-rail figure:first-child img {
+    aspect-ratio: 2.2;
+  }
+}

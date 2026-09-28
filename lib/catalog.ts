@@ -16,7 +16,7 @@ export const products: Product[] = [
     handle: "Die-cut",
     description:
       "A clean, lightweight shape with an integrated grip. A practical canvas for your next promotion.",
-    image: "/assets/d-cut-bag.webp",
+    image: "/assets/client-2026-09/d-cut-bag.jpg",
     variants: [
       { name: "Small", dimensions: "30 × 31 × 5 cm", gsm: 60 },
       { name: "Medium", dimensions: "40 × 38.5 × 10 cm", gsm: 60 },
@@ -30,7 +30,7 @@ export const products: Product[] = [
     handle: "Short handles",
     description:
       "An everyday carry bag with comfortable handles and room for your brand to stand out.",
-    image: "/assets/handle-bag.webp",
+    image: "/assets/client-2026-09/handle-bag.jpg",
     variants: [
       { name: "Small", dimensions: "30 × 30 × 5 cm", gsm: 60 },
       { name: "Medium", dimensions: "40 × 37 × 10 cm", gsm: 60 },
@@ -44,7 +44,7 @@ export const products: Product[] = [
     handle: "Short handles",
     description:
       "A structured profile with a generous base for packaging that needs a little more room.",
-    image: "/assets/box-bag.webp",
+    image: "/assets/client-2026-09/box-bag.jpg",
     variants: [
       { name: "Small", dimensions: "33 × 25 × 12 cm", gsm: 80 },
       { name: "Medium", dimensions: "40 × 32.5 × 15 cm", gsm: 80 },
@@ -58,7 +58,7 @@ export const products: Product[] = [
     handle: "T-shirt handles",
     description:
       "A familiar shopping shape with integrated handles for convenient everyday carrying.",
-    image: "/assets/t-shirt-bag.webp",
+    image: "/assets/client-2026-09/t-shirt-bag.jpg",
     variants: [
       { name: "Small", dimensions: "29 × 38 × 10 cm", gsm: 50 },
       { name: "Medium", dimensions: "37 × 45 × 12 cm", gsm: 50 },
@@ -72,7 +72,7 @@ export const products: Product[] = [
     handle: "String",
     description:
       "A drawstring closure and simple profile for events, promotions and brand giveaways.",
-    image: "/assets/string-bag.webp",
+    image: "/assets/client-2026-09/string-bag.jpg",
     variants: [
       { name: "Small", dimensions: "30 × 40 cm", gsm: 50 },
       { name: "Medium", dimensions: "40 × 45 cm", gsm: 50 },

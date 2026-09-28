@@ -54,3 +54,6 @@ __pycache__/
 
 # Local restore points may contain project history and application data.
 /backups/
+
+# Local client email attachments are not part of the public website.
+/deliverables/

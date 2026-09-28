@@ -23,7 +23,7 @@ export default function HomePage() {
       <section className="industrial-hero">
         <img
           className="industrial-hero-photo"
-          src="/assets/factory.webp"
+          src="/assets/client-2026-09/factory-line.jpg"
           alt={t(
             "Inside the Kobags production facility: machinery and rolls of non-woven material",
             "Brenda fabrikës Kobags: makineri dhe rula materiali jo të endur",
@@ -176,7 +176,7 @@ export default function HomePage() {
             controls
             playsInline
             preload="none"
-            poster="/assets/factory-printing.webp"
+            poster="/assets/client-2026-09/printing-rollers.jpg"
             width={1000}
             height={750}
             aria-label={t(

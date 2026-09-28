@@ -88,18 +88,18 @@ Mobile is a primary review surface. Keep 44px main actions/menu rows, readable 1
 | Asset | Source / treatment |
 | --- | --- |
 | `public/assets/logo.png`, `favicon.png` | Original Kobags identity; preserve proportions |
-| Five `*-bag.webp` photos | Original Kobags product photographs; existing printed brand text is part of the photo |
-| `factory.webp`, `factory-printing.webp` | Original public manufacturing evidence |
+| `public/assets/client-2026-09/*-bag.jpg` | Client-supplied product photographs for the five catalog families; printed brand text is part of each photo |
+| `public/assets/client-2026-09/factory-*.jpg`, `material-rolls.jpg`, `printing-rollers.jpg`, `finished-bags.jpg` | Client-supplied factory evidence used in home and manufacturing; selection and source hashes in `docs/client-media-2026-09-28.json` |
 | `printing-process.mp4` | Original printing video; controls, no autoplay, preload none |
 | `certificate-iso*.webp`, `public/documents/iso-*-original.png` | Display derivatives and original scans; readable transcription with current issuer verification still required |
 | `studio-v4/*.webp` | Five individual transparent AI-generated blank-bag mockups, tinted at runtime; current designer |
 | `studio-bag-atlas.png` | Earlier mockup geometry retained for historic artwork snapshots |
-| `docs/asset-sources.json` | Asset source manifest |
+| `docs/asset-sources.json`, `docs/client-media-2026-09-28.json` | Original asset sources and newly supplied archive selection |
 | `docs/source-catalog.json` | Original catalog snapshot with 15 variants |
 
 The designer offers illustrative 3D family models and flat artwork previews. Family geometry does not change physical proportions for each catalogue size. Neither view is an approved dieline, production CAD, color sample or guarantee of printable area. Production work should substitute approved per-variant templates or approved 3D assets. Preview downloads carry a concept label.
 
-Kobags assets remain subject to their owner's rights. The archive is a handoff for this project; it does not grant trademark, photo or video rights for unrelated brands. Replace brand assets when using the architecture for another business.
+The 28 September 2026 client archive supplied 72 photos and 105 short portrait videos. Ten photographs were selected for the compact site; the existing horizontal process video remains in use. Kobags assets remain subject to their owner's rights. The archive is a handoff for this project; it does not grant trademark, photo or video rights for unrelated brands. Replace brand assets when using the architecture for another business.
 
 ### Guided visitor journey
 

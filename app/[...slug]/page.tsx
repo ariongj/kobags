@@ -82,8 +82,8 @@ export default async function Page({
           <>
             <div className="manufacturing-hero">
               <img
-                src="/assets/factory.webp"
-                alt="Original Kobags factory machinery and material rolls"
+                src="/assets/client-2026-09/factory-machinery.jpg"
+                alt="Bag production machinery inside the Kobags factory"
                 width="1200"
                 height="600"
               />
@@ -145,7 +145,7 @@ export default async function Page({
               <video
                 controls
                 preload="none"
-                poster="/assets/factory-printing.webp"
+                poster="/assets/client-2026-09/printing-rollers.jpg"
                 width="900"
                 height="600"
               >
@@ -153,16 +153,23 @@ export default async function Page({
                 Your browser does not support video playback.
               </video>
             </section>
+            <div className="manufacturing-photo-rail" aria-label="Inside Kobags production">
+              <figure>
+                <img src="/assets/client-2026-09/material-rolls.jpg" alt="Rolls of bag material at the Kobags factory" loading="lazy" width="800" height="533" />
+                <figcaption>01 / Material</figcaption>
+              </figure>
+              <figure>
+                <img src="/assets/client-2026-09/printing-rollers.jpg" alt="Printing rollers in the Kobags production line" loading="lazy" width="800" height="533" />
+                <figcaption>02 / Print</figcaption>
+              </figure>
+              <figure>
+                <img src="/assets/client-2026-09/finished-bags.jpg" alt="Finished bags stacked at the Kobags factory" loading="lazy" width="800" height="533" />
+                <figcaption>03 / Finished bags</figcaption>
+              </figure>
+            </div>
             <p className="source-note">
-              Original photographs and video:{" "}
-              <a
-                href="https://kobags-group.com/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Kobags Group
-              </a>
-              .
+              Factory photographs supplied by Kobags Group. Process video retained from its{" "}
+              <a href="https://kobags-group.com/" target="_blank" rel="noreferrer">public website</a>.
             </p>
           </>
         )}

@@ -38,9 +38,10 @@ async function read(owner: string, create = false) {
   if (!row) throw Error("STORAGE_UNAVAILABLE");
   const d = JSON.parse(row.data) as DemoState;
   d.revision = row.revision;
-  // Variants are source-owned; CMS descriptions and historic RFQ snapshots stay intact.
+  // Product imagery and variants are source-owned; CMS descriptions and historic RFQ snapshots stay intact.
   d.catalog = d.catalog.map((product) => ({
     ...product,
+    image: products.find((p) => p.slug === product.slug)?.image ?? product.image,
     variants:
       products.find((p) => p.slug === product.slug)?.variants ??
       product.variants,
