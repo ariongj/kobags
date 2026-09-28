@@ -988,3 +988,22 @@ body.kobags-v5:has(.studio-compact) .footer-top p {
     aspect-ratio: 2.2;
   }
 }
+
+/* The client photos include generous white margins; show the actual bags at a useful size. */
+.kobags-v5 .product-photo {
+  overflow: hidden;
+}
+.kobags-v5 .product-photo img {
+  width: min(100%, 320px);
+  height: 320px;
+  flex-shrink: 0;
+}
+.kobags-v5 .home-product img {
+  height: calc(100% + 30px);
+}
+@media (max-width: 800px) {
+  .kobags-v5 .product-photo img {
+    width: 260px;
+    height: 290px;
+  }
+}
