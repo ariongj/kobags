@@ -99,6 +99,9 @@ export function createStudioScene(
   const fill = new THREE.DirectionalLight(0xd6e7ef, 1.65);
   fill.position.set(5, 3, -4);
   scene.add(fill);
+  const rearKey = new THREE.DirectionalLight(0xfff8ec, 2.15);
+  rearKey.position.set(-3, 5, -7);
+  scene.add(rearKey);
   const faceFill = new THREE.DirectionalLight(0xffffff, 0.45);
   faceFill.position.set(3, 1, 7);
   scene.add(faceFill);
@@ -249,6 +252,9 @@ export function createStudioScene(
   const photoCanvas = document.createElement("canvas");
   photoCanvas.width = photoCanvas.height = 1440;
   const photoTexture = new THREE.CanvasTexture(photoCanvas);
+  const rearCanvas = document.createElement("canvas");
+  rearCanvas.width = rearCanvas.height = 1440;
+  const rearTexture = new THREE.CanvasTexture(rearCanvas);
   const clothCanvas = document.createElement("canvas");
   clothCanvas.width = clothCanvas.height = 256;
   const clothTexture = new THREE.CanvasTexture(clothCanvas);
@@ -265,6 +271,9 @@ export function createStudioScene(
     photoTexture.anisotropy = Math.min(4, renderer.capabilities.getMaxAnisotropy());
     textures.add(photoTexture);
   }
+  rearTexture.colorSpace = THREE.SRGBColorSpace;
+  rearTexture.anisotropy = Math.min(4, renderer.capabilities.getMaxAnisotropy());
+  textures.add(rearTexture);
   const photographedFabric = new THREE.MeshStandardMaterial({
     map: photoTexture,
     bumpMap: bump,
@@ -274,15 +283,39 @@ export function createStudioScene(
     side: THREE.FrontSide,
   });
   materials.add(photographedFabric);
+  const rearFabric = photographedFabric.clone();
+  rearFabric.map = rearTexture;
+  materials.add(rearFabric);
   if (spec.handles && !photoShell) {
-    // The narrow dark opening and rolled upper lip make the bag read as an
-    // open, sewn object instead of two flat printed planes.
-    const mouth = add(
-      new THREE.PlaneGeometry(width - 0.045, depth - 0.035),
+    // A recessed floor and four inner walls leave a visible opening when the
+    // customer tilts the bag, rather than a solid lid across the top.
+    // Gussets fold inward near the mouth, so the cavity walls sit inside
+    // that fold instead of showing as dark squares on the outside.
+    const openingWidth = width - 0.42;
+    const openingDepth = depth - 0.14;
+    const cavity = add(
+      new THREE.BoxGeometry(openingWidth, 0.012, openingDepth),
       innerMat,
     );
-    mouth.rotation.x = -Math.PI / 2;
-    mouth.position.y = top - 0.025;
+    cavity.position.y = top - 0.27;
+    for (const face of [-1, 1]) {
+      const wall = add(
+        new THREE.BoxGeometry(openingWidth, 0.27, 0.014),
+        innerMat,
+      );
+      wall.position.set(0, top - 0.135, face * openingDepth / 2);
+      const lip = add(new THREE.BoxGeometry(width, 0.025, 0.052));
+      lip.position.set(0, top - 0.006, face * (depth / 2 - 0.026));
+    }
+    for (const side of [-1, 1]) {
+      const wall = add(
+        new THREE.BoxGeometry(0.014, 0.27, openingDepth),
+        innerMat,
+      );
+      wall.position.set(side * openingWidth / 2, top - 0.135, 0);
+      const lip = add(new THREE.BoxGeometry(0.052, 0.025, depth));
+      lip.position.set(side * (half - 0.026), top - 0.006, 0);
+    }
     for (const face of [-1, 1])
       seam(
         [
@@ -293,9 +326,48 @@ export function createStudioScene(
         0.013,
       );
   }
+  function subdivideShape(geometry: THREE.BufferGeometry, divisions = 10) {
+    const source = geometry.index ? geometry.toNonIndexed() : geometry;
+    const original = source.getAttribute("position");
+    const vertices: number[] = [];
+    const indices: number[] = [];
+    const keys = new Map<string, number>();
+    function vertex(x: number, y: number) {
+      const key = `${x.toFixed(5)}:${y.toFixed(5)}`;
+      const found = keys.get(key);
+      if (found !== undefined) return found;
+      const index = vertices.length / 3;
+      vertices.push(x, y, 0);
+      keys.set(key, index);
+      return index;
+    }
+    for (let triangle = 0; triangle < original.count; triangle += 3) {
+      const ax = original.getX(triangle), ay = original.getY(triangle);
+      const bx = original.getX(triangle + 1), by = original.getY(triangle + 1);
+      const cx = original.getX(triangle + 2), cy = original.getY(triangle + 2);
+      const point = (i: number, j: number) =>
+        vertex(
+          ax + ((bx - ax) * i + (cx - ax) * j) / divisions,
+          ay + ((by - ay) * i + (cy - ay) * j) / divisions,
+        );
+      for (let i = 0; i < divisions; i++)
+        for (let j = 0; j < divisions - i; j++) {
+          const a = point(i, j), b = point(i + 1, j), c = point(i, j + 1);
+          indices.push(a, b, c);
+          if (j < divisions - i - 1)
+            indices.push(b, point(i + 1, j + 1), c);
+        }
+    }
+    if (source !== geometry) source.dispose();
+    geometry.dispose();
+    const result = new THREE.BufferGeometry();
+    result.setAttribute("position", new THREE.Float32BufferAttribute(vertices, 3));
+    result.setIndex(indices);
+    return result;
+  }
   function faceGeometry(forPhoto = false) {
     const geometry = shaped
-      ? new THREE.ShapeGeometry(outline(), 40)
+      ? subdivideShape(new THREE.ShapeGeometry(outline(), 40))
       : new THREE.PlaneGeometry(width, top - bottom, 56, 56);
     const pos = geometry.attributes.position;
     const uv = new Float32Array(pos.count * 2);
@@ -325,14 +397,14 @@ export function createStudioScene(
       ? add(
           photoFaceGeometry!,
           new THREE.MeshBasicMaterial({
-            map: photoTexture,
+            map: face > 0 ? photoTexture : rearTexture,
             transparent: true,
             alphaTest: 0.08,
             toneMapped: false,
             side: THREE.FrontSide,
           }),
         )
-      : add(faceGeometry(true), photographedFabric);
+      : add(faceGeometry(true), face > 0 ? photographedFabric : rearFabric);
     if (photoShell) panel.position.set(0, photoPlaneCenterY, face * photoFaceZ);
     if (face < 0) panel.rotation.y = Math.PI;
     faceSides.set(panel, face > 0 ? "front" : "back");
@@ -439,6 +511,21 @@ export function createStudioScene(
     }
   }
   let lastPhoto: HTMLCanvasElement | null = null;
+  const outerContour = shaped ? outline().extractPoints(40).shape : [];
+  function outerRightAt(y: number) {
+    if (!shaped) return Math.abs(xAt(half, y));
+    let right = 0;
+    for (let i = 0; i < outerContour.length; i++) {
+      const a = outerContour[i], b = outerContour[(i + 1) % outerContour.length];
+      if (Math.abs(a.y - b.y) < 0.00001) {
+        if (Math.abs(y - a.y) < 0.00001) right = Math.max(right, a.x, b.x);
+      } else if (y >= Math.min(a.y, b.y) && y <= Math.max(a.y, b.y)) {
+        const t = (y - a.y) / (b.y - a.y);
+        right = Math.max(right, a.x + (b.x - a.x) * t);
+      }
+    }
+    return Math.abs(xAt(right || half, y));
+  }
   // Side gussets have their own mesh; they carry the fabric crop around the bag.
   const sideTop = product === "t-shirt-bag" ? 0.72 : top;
   if (!photoShell) for (const side of [-1, 1]) {
@@ -449,26 +536,57 @@ export function createStudioScene(
         y = pos.getY(i) + (sideTop + bottom) / 2;
       const fold = Math.sin((z / depth + 0.5) * Math.PI) *
         (product === "box-bag" ? 0.14 : product === "t-shirt-bag" ? 0.16 : 0.075);
+      const outerX = outerRightAt(y);
+      const edgeZ = zAt(outerX, y);
+      const seamOverlap =
+        product === "string-bag" ? 0.045 : product === "t-shirt-bag" ? 0.032 : 0;
       pos.setXYZ(
         i,
-        side * (
-          (product === "string-bag"
-            ? half * (1 - 0.6 * Math.min(1, Math.max(0, (y - 0.18) / (top - 0.18))))
-            : Math.abs(xAt(half, y))) -
-          fold -
-          (photoShell ? 0.22 : 0)
-        ),
+        side * (outerX - fold),
         y,
-        z,
+        (z / (depth / 2)) * (edgeZ + seamOverlap),
       );
+    }
+    // PlaneGeometry faces -X after mapping its horizontal coordinate to Z.
+    // Flip the right gusset so both exterior surfaces use outward normals.
+    if (side === 1) {
+      const index = g.getIndex()!;
+      for (let i = 0; i < index.count; i += 3) {
+        const b = index.getX(i + 1);
+        index.setX(i + 1, index.getX(i + 2));
+        index.setX(i + 2, b);
+      }
     }
     g.computeVertexNormals();
     add(g);
   }
   if (!photoShell) {
-    const base = add(new THREE.BoxGeometry(width - 0.01, 0.025, depth));
+    const baseWidth = shaped ? 2 * outerRightAt(bottom + 0.025) : width - 0.01;
+    const base = add(new THREE.BoxGeometry(baseWidth, 0.025, depth));
     base.position.y = bottom + 0.012;
   }
+  if (product === "d-cut-bag" && !photoShell)
+    for (const face of [-1, 1]) {
+      const grip: THREE.Vector3[] = [];
+      for (let i = 0; i <= 48; i++) {
+        const a = (i / 48) * Math.PI * 2;
+        const x = 0.43 * Math.cos(a);
+        const y = top - 0.4 + 0.14 * Math.sin(a);
+        grip.push(new THREE.Vector3(xAt(x, y), y, face * (zAt(x, y) + 0.01)));
+      }
+      seam(grip, 0.009);
+    }
+  if ((product === "t-shirt-bag" || product === "string-bag") && !photoShell)
+    for (const face of [-1, 1])
+      for (const side of [-1, 1]) {
+        const edge: THREE.Vector3[] = [];
+        for (let i = 0; i <= 36; i++) {
+          const y = bottom + 0.035 + ((sideTop - bottom - 0.065) * i) / 36;
+          const x = side * outerRightAt(y);
+          edge.push(new THREE.Vector3(x, y, face * (zAt(x, y) + 0.012)));
+        }
+        seam(edge, 0.008);
+      }
   if (product === "box-bag" && !photoShell) {
     for (const face of [-1, 1])
       for (const side of [-1, 1])
@@ -885,7 +1003,8 @@ export function createStudioScene(
       innerMat.color.set(hex).multiplyScalar(0.48);
       if (photo && photo !== lastPhoto) {
           // Crop the actual photographed front panel into the UV space of the
-          // volumetric face. The same source supplies the side fabric weave.
+          // volumetric face. The side and rear use unprinted fabric from the
+          // same client sample; no clean rear product photo was supplied.
           const crop: Record<string, [number, number, number, number]> = {
             "box-bag": [0.33, 0.31, 0.81, 0.93],
             "handle-bag": [0.30, 0.43, 0.72, 0.93],
@@ -933,6 +1052,38 @@ export function createStudioScene(
               photoCanvas.height,
             );
           }
+          const rearCrop: Record<string, [number, number, number, number]> = {
+            "box-bag": [0.43, 0.51, 0.68, 0.80],
+            "handle-bag": [0.39, 0.57, 0.64, 0.83],
+            "t-shirt-bag": [0.44, 0.45, 0.64, 0.78],
+            "d-cut-bag": [0.31, 0.38, 0.69, 0.81],
+            "string-bag": [0.32, 0.34, 0.68, 0.77],
+          };
+          const [rl, rt, rr, rb] = rearCrop[product] || rearCrop["box-bag"];
+          const rear = rearCanvas.getContext("2d")!;
+          rear.clearRect(0, 0, rearCanvas.width, rearCanvas.height);
+          rear.fillStyle = ground;
+          rear.fillRect(0, 0, rearCanvas.width, rearCanvas.height);
+          rear.drawImage(
+            photo,
+            rl * photo.width,
+            rt * photo.height,
+            (rr - rl) * photo.width,
+            (rb - rt) * photo.height,
+            0,
+            0,
+            rearCanvas.width,
+            rearCanvas.height,
+          );
+          // A little edge falloff suggests the rear panel's turn into the
+          // gussets without baking front-facing folds into the opposite side.
+          const falloff = rear.createLinearGradient(0, 0, rearCanvas.width, 0);
+          falloff.addColorStop(0, "#0000001c");
+          falloff.addColorStop(0.12, "#00000000");
+          falloff.addColorStop(0.88, "#00000000");
+          falloff.addColorStop(1, "#00000020");
+          rear.fillStyle = falloff;
+          rear.fillRect(0, 0, rearCanvas.width, rearCanvas.height);
           const cloth = clothCanvas.getContext("2d")!;
           cloth.clearRect(0, 0, 256, 256);
           cloth.fillStyle = ground;
@@ -965,6 +1116,7 @@ export function createStudioScene(
           fabric.map = clothTexture;
           fabric.needsUpdate = true;
         photoTexture.needsUpdate = true;
+        rearTexture.needsUpdate = true;
         lastPhoto = photo;
       }
       [front, back].forEach((artwork, i) => {
