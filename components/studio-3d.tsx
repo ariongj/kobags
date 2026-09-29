@@ -119,9 +119,7 @@ export default function Studio3D({
             ? selection.layer
             : undefined,
         ),
-        d.product === "t-shirt-bag"
-          ? renderBlankBagTexture(d)
-          : Promise.resolve(undefined),
+        renderBlankBagTexture(d),
       ] as const)
         .then(([front, back, photo]) => {
           if (

@@ -34,7 +34,15 @@ function loadImage(src: string) {
 async function tintedBag(design: Design) {
   const slug = getProduct(design.product).slug;
   const modern = design.previewVersion === "v4" && Boolean(studioMockups[slug]);
-  const source = modern ? studioMockups[slug] : "/assets/studio-bag-atlas.png";
+  const photographedNatural =
+    modern &&
+    design.color === "Natural" &&
+    ["t-shirt-bag", "handle-bag", "box-bag"].includes(slug);
+  const source = photographedNatural && slug === "t-shirt-bag"
+    ? "/assets/studio-real-t-shirt-natural.png"
+    : modern
+      ? studioMockups[slug]
+      : "/assets/studio-bag-atlas.png";
   const key = source + ":" + slug + ":" + design.color;
   const old = layerCache.get(key);
   if (old) return old;
@@ -88,6 +96,9 @@ async function tintedBag(design: Design) {
         h,
       );
     }
+    // Natural-bag source photos already have the requested fabric color.
+    // Drawing them unchanged preserves their folds, texture and highlights.
+    if (photographedNatural) return layer;
     const image = ctx.getImageData(0, 0, LAYER, LAYER);
     const data = image.data;
     const hex = (colors.find((c) => c.name === design.color) || colors[0]).hex;

@@ -15,8 +15,10 @@ async def main():
   async def shot(name):
    await page.evaluate('document.activeElement?.blur();window.scrollTo({top:0,behavior:"instant"})');await page.wait_for_timeout(100)
    await page.screenshot(path=str(ROOT/'evidence'/name),type='jpeg',quality=83,full_page=True)
-  await page.goto(BASE+'/design',wait_until='networkidle');await ready()
-  assert await page.get_by_role('tab',name='3D view',exact=True).get_attribute('data-state')=='active'
+  await page.goto(BASE+'/design',wait_until='networkidle')
+  assert await page.get_by_role('tab',name='Photo + artwork',exact=True).get_attribute('data-state')=='active'
+  await page.locator('.preview-stage>.bag-canvas[data-ready=true]').wait_for()
+  await page.get_by_role('tab',name='3D view',exact=True).click();await ready()
   button=await page.locator('.studio-quote .button').bounding_box();assert button['y']+button['height']<=900,button
   assert not await page.evaluate('document.documentElement.scrollWidth>innerWidth')
   models={}
@@ -62,9 +64,9 @@ async def main():
   await page.get_by_role('button',name='Rotate bag left',exact=True).click();await ready()
   await page.get_by_role('link',name='Get a quote for this bag',exact=True).click();await page.wait_for_url('**/quote');assert (await draft())['backText']==saved['backText']
   # Motion preference and WebGL failure have usable, explicit alternatives.
-  reduced=await b.new_context(reduced_motion='reduce');rp=await reduced.new_page();await rp.goto(BASE+'/design',wait_until='networkidle');await rp.locator('.studio-3d[data-status=ready]').wait_for();assert await rp.get_by_role('button',name='Auto rotate bag',exact=True).is_disabled();await reduced.close()
+  reduced=await b.new_context(reduced_motion='reduce');rp=await reduced.new_page();await rp.goto(BASE+'/design',wait_until='networkidle');await rp.get_by_role('tab',name='3D view',exact=True).click();await rp.locator('.studio-3d[data-status=ready]').wait_for();assert await rp.get_by_role('button',name='Auto rotate bag',exact=True).is_disabled();await reduced.close()
   fallback=await b.new_context();await fallback.add_init_script("const original=HTMLCanvasElement.prototype.getContext;HTMLCanvasElement.prototype.getContext=function(type,...args){if(String(type).includes('webgl'))return null;return original.call(this,type,...args)}")
-  fp=await fallback.new_page();await fp.goto(BASE+'/design',wait_until='networkidle');await fp.locator('.studio-3d[data-status=fallback]').wait_for();await fp.locator('.studio-3d canvas[data-ready=true]').wait_for();await fp.get_by_role('tab',name='Photo + artwork',exact=True).click();await fp.locator('.preview-stage>.bag-canvas[data-ready=true]').wait_for();await fallback.close()
+  fp=await fallback.new_page();await fp.goto(BASE+'/design',wait_until='networkidle');await fp.get_by_role('tab',name='3D view',exact=True).click();await fp.locator('.studio-3d[data-status=fallback]').wait_for();await fp.locator('.studio-3d canvas[data-ready=true]').wait_for();await fp.get_by_role('tab',name='Photo + artwork',exact=True).click();await fp.locator('.preview-stage>.bag-canvas[data-ready=true]').wait_for();await fallback.close()
   assert not errors,errors
   (ROOT/'evidence/studio-3d-checks.json').write_text(json.dumps({'status':'passed','models':list(models),'widths':[1440,1024,768,390,320],'desktopQuoteVisibleWithoutScroll':True,'checks':['five distinct volumetric families','drag, arrow buttons and keyboard rotation','zoom, reset, front/back and opt-in spin','independent front/back logo and text with live textures','shared artwork state between 3D and precision placement','two-sided export, fullscreen and quote carry-through','compact desktop CTA and mobile canvas','reduced motion and unavailable-WebGL fallback'],'browserErrors':errors},indent=2))
   await b.close();print('PASS compact 3D bag studio')

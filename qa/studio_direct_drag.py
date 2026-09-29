@@ -34,7 +34,7 @@ async def main():
    png=base64.b64encode(await canvas.screenshot()).decode()
    bright=await page.evaluate("""async ({png,x,y})=>{const im=new Image();im.src='data:image/png;base64,'+png;await im.decode();const c=document.createElement('canvas');c.width=im.width;c.height=im.height;const ctx=c.getContext('2d');ctx.drawImage(im,0,0);const pixels=ctx.getImageData(Math.round(x*c.width)-20,Math.round(y*c.height)-10,40,20).data;let n=0;for(let i=0;i<pixels.length;i+=4)if(pixels[i]>130&&pixels[i+1]>130&&pixels[i+2]>85)n++;return n;}""",{'png':png,'x':point['x'],'y':point['y']})
    assert bright>12, {'layer':layer,'side':side,'visiblePixels':bright}
-  await page.goto(BASE+'/design',wait_until='networkidle');await ready()
+  await page.goto(BASE+'/design',wait_until='networkidle');await page.get_by_role('tab',name='3D view',exact=True).click();await ready()
   await visible_artwork('logo');await visible_artwork('text')
   a=await angle();initial=await draft();await drag('logo',35,15,pause=True);moved=await draft()
   assert moved['x']>initial['x']+2 and moved['y']>initial['y']+1,(initial['x'],moved['x'],initial['y'],moved['y'])
