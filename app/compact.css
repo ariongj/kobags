@@ -1284,3 +1284,33 @@ body.kobags-v5:has(.studio-compact) .footer-top p {
   .kobags-v5 .factory-reel { width: min(100%, 370px); justify-self: center; }
   .kobags-v5 .factory-reel video { max-height: 460px; }
 }
+
+/* Keep the bag itself prominent on a phone and every 3D action within reach. */
+@media (max-width: 700px) {
+  .kobags-v5 .studio-compact .preview-stage {
+    height: 350px;
+  }
+}
+
+@media (max-width: 360px) {
+  .kobags-v5 .studio-compact .studio-3d-tools .studio-3d-badge {
+    display: none;
+  }
+  .kobags-v5 .studio-compact .studio-3d-tools button {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* At tablet width, both films are large enough to inspect without a long stack. */
+@media (min-width: 600px) and (max-width: 800px) {
+  .kobags-v5 .factory-reels {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .kobags-v5 .factory-reels-intro {
+    grid-column: 1 / -1;
+  }
+  .kobags-v5 .factory-reel {
+    width: 100%;
+  }
+}

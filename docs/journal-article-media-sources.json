@@ -1,0 +1,102 @@
+{
+  "sourceArchive": "CoBag-20260928T203801Z-1-001.zip",
+  "note": "Six distinct client photographs, one for each journal article. Resized only when wider than 1600 pixels and encoded as WebP without retouching, compositing or invented detail. Card images and article images are separate photos.",
+  "photos": [
+    {
+      "articleSlug": "kobagsjourney",
+      "publicPath": "/assets/client-2026-09/journal-article-kobagsjourney.webp",
+      "archiveMember": "CoBag/bf7c20a5-0af6-49ab-bf5b-99c451763c21.JPG",
+      "sourceSha256": "0d8cd54bd8687756356aece02a5a10daca181dba7520ce574d9b699371337b5c",
+      "optimizedSha256": "4c2d7332c9f2ed25d2dfc5b42ba3a9645a5e70adfc56dcb196adb7e3eba356aa",
+      "sourceSize": [
+        1600,
+        1066
+      ],
+      "publishedSize": [
+        1600,
+        1066
+      ],
+      "bytes": 108514
+    },
+    {
+      "articleSlug": "whyswitchtokobags",
+      "publicPath": "/assets/client-2026-09/journal-article-whyswitchtokobags.webp",
+      "archiveMember": "CoBag/294d2a4b-2ae1-48ee-9c71-56bc41ca83fb.JPG",
+      "sourceSha256": "6c215741d9659890d6ca3c4f7bdd9533467ef284ba50038c015c246cccb892b3",
+      "optimizedSha256": "ce1863b5bfd5fe2d6c797a29b4a4a07597f37d69be100941d7b3cda0db709ac6",
+      "sourceSize": [
+        1280,
+        1600
+      ],
+      "publishedSize": [
+        1280,
+        1600
+      ],
+      "bytes": 81432
+    },
+    {
+      "articleSlug": "kobagsmission",
+      "publicPath": "/assets/client-2026-09/journal-article-kobagsmission.webp",
+      "archiveMember": "CoBag/5d29be96-11ea-4e67-86f7-66cc27f77935.JPG",
+      "sourceSha256": "995c8cb6cf436b53c29b46adc2daa5445d4192cacdaeacd9c668c7231cbbd865",
+      "optimizedSha256": "cc6ad383ab1485fef9a270b4703b9ba628359157ead9eba51e849628fc62eaf3",
+      "sourceSize": [
+        1280,
+        1600
+      ],
+      "publishedSize": [
+        1280,
+        1600
+      ],
+      "bytes": 150752
+    },
+    {
+      "articleSlug": "sciencebehindkobags",
+      "publicPath": "/assets/client-2026-09/journal-article-sciencebehindkobags.webp",
+      "archiveMember": "CoBag/8275b476-8d77-41ce-81af-916d2a4d3107.JPG",
+      "sourceSha256": "f27dfeee70fe260dd4861904aa2cbcaeb0038ba14dfdcc86e65593741e8c6397",
+      "optimizedSha256": "0279288daf69a4d29e682915ecd5bac949c4e93b459dea6f20e907ee701f3a9a",
+      "sourceSize": [
+        1200,
+        1600
+      ],
+      "publishedSize": [
+        1200,
+        1600
+      ],
+      "bytes": 96292
+    },
+    {
+      "articleSlug": "benefitsofkobags",
+      "publicPath": "/assets/client-2026-09/journal-article-benefitsofkobags.webp",
+      "archiveMember": "CoBag/13e1b52a-67c3-45cb-b3b0-e3a6a8fef9f0.JPG",
+      "sourceSha256": "5b6c67b369ef963dc5468ed3447cddd0aa4191111a9715084f46fe3e7e7fced2",
+      "optimizedSha256": "0f79070ba4e610474b2184f399837a1245bdb640aeb2a3d1c569e699b1fd48e5",
+      "sourceSize": [
+        1280,
+        1600
+      ],
+      "publishedSize": [
+        1280,
+        1600
+      ],
+      "bytes": 169348
+    },
+    {
+      "articleSlug": "helpingbusinesseskobags",
+      "publicPath": "/assets/client-2026-09/journal-article-helpingbusinesseskobags.webp",
+      "archiveMember": "CoBag/87b2a299-24b4-4815-a66f-ab082f00189b.JPG",
+      "sourceSha256": "b85a9db35399e91b035ebe8d5127d7cb5fe6dfea43bada7f6b5b04139f8abe32",
+      "optimizedSha256": "ead5c72d8b3df9003b726f58193f2a266200370b9123f972480a8b7e77245b51",
+      "sourceSize": [
+        1200,
+        1600
+      ],
+      "publishedSize": [
+        1200,
+        1600
+      ],
+      "bytes": 180734
+    }
+  ]
+}

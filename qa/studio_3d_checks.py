@@ -17,8 +17,7 @@ async def main():
    await page.screenshot(path=str(ROOT/'evidence'/name),type='jpeg',quality=83,full_page=True)
   await page.goto(BASE+'/design',wait_until='networkidle');await ready()
   assert await page.get_by_role('tab',name='3D view',exact=True).get_attribute('data-state')=='active'
-  start=await number('angle');await page.wait_for_timeout(500)
-  assert abs(await number('angle')-start)>.01
+  start=await number('angle');await page.wait_for_function("start => Math.abs(Number(document.querySelector('.preview-stage .studio-3d-host').dataset.angle) - start) > .01",arg=start)
   await page.get_by_role('button',name='Pause rotation',exact=True).click()
   button=await page.locator('.studio-quote .button').bounding_box();assert button['y']+button['height']<=900,button
   assert not await page.evaluate('document.documentElement.scrollWidth>innerWidth')
@@ -61,7 +60,7 @@ async def main():
   for width in [1024,768,390,320]:
    await page.set_viewport_size({'width':width,'height':844});await page.wait_for_timeout(200);assert not await page.evaluate('document.documentElement.scrollWidth>innerWidth'),width
   await page.set_viewport_size({'width':390,'height':844});await shot('studio-3d-mobile.jpg')
-  assert await page.locator('.preview-stage').evaluate('(e)=>e.getBoundingClientRect().height')<=320
+  assert await page.locator('.preview-stage').evaluate('(e)=>e.getBoundingClientRect().height')<=360
   await page.get_by_role('button',name='Rotate bag left',exact=True).click();await ready()
   await page.get_by_role('link',name='Get a quote for this bag',exact=True).click();await page.wait_for_url('**/quote');assert (await draft())['backText']==saved['backText']
   # Motion preference and WebGL failure have usable, explicit alternatives.

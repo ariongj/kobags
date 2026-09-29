@@ -179,10 +179,15 @@ export function createStudioScene(
     const flat = product === "box-bag" ? 0.029 : 0.105;
     const edge = Math.pow(Math.abs(x / half), 4);
     const lowerFold = 0.035 * Math.sin(Math.PI * Math.min(1, t * 2.4));
+    const gatheredFold = product === "string-bag"
+      ? 0.043 * Math.pow(THREE.MathUtils.clamp((y - 0.12) / (top - 0.12), 0, 1), 1.25)
+        * Math.sin(11 * x + 1.5 * y) * (1 - edge * 0.55)
+      : 0;
     return (
       depthAt(y) / 2 +
       flat * Math.cos(((x / half) * Math.PI) / 2) * Math.sin(t * Math.PI) +
       lowerFold * (1 - edge) +
+      gatheredFold +
       0.018 * Math.sin(x * 15 + y * 3) * edge
     );
   }
@@ -235,7 +240,7 @@ export function createStudioScene(
       s.lineTo(half, 0.18);
       s.quadraticCurveTo(half, 0.65, 0.75, 1.0);
       s.quadraticCurveTo(0.51, top - 0.06, 0.4, top);
-      s.lineTo(-0.4, top);
+      s.quadraticCurveTo(0, top - 0.1, -0.4, top);
       s.quadraticCurveTo(-0.51, top - 0.06, -0.75, 1.0);
       s.quadraticCurveTo(-half, 0.65, -half, 0.18);
       s.lineTo(-half, bottom + 0.13);
@@ -266,6 +271,18 @@ export function createStudioScene(
   const rearCanvas = document.createElement("canvas");
   rearCanvas.width = rearCanvas.height = 1440;
   const rearTexture = new THREE.CanvasTexture(rearCanvas);
+  // The client photo includes a long white cord across the face. That cord
+  // cannot rotate with the bag, so the upper fabric is repaired from a clean
+  // area of the same photograph before we add the cord as actual geometry.
+  const cleanStringCanvas = product === "string-bag"
+    ? document.createElement("canvas")
+    : null;
+  if (cleanStringCanvas) {
+    // The restored material is displayed at a few hundred CSS pixels. Keep
+    // this scratch texture smaller than the final face for quick color edits.
+    cleanStringCanvas.width = 720;
+    cleanStringCanvas.height = Math.ceil(720 * 0.61);
+  }
   const clothCanvas = document.createElement("canvas");
   clothCanvas.width = clothCanvas.height = 256;
   const clothTexture = new THREE.CanvasTexture(clothCanvas);
@@ -545,8 +562,51 @@ export function createStudioScene(
   }
   let lastPhoto: HTMLCanvasElement | null = null;
   const outerContour = shaped ? outline().extractPoints(40).shape : [];
+  if (product === "t-shirt-bag" && !photoShell) {
+    // A T-shirt bag is one folded sheet. Bridge the two faces along the carry
+    // opening and handle tips; otherwise they look like detached paper edges
+    // when viewed from above or at three quarters.
+    const vertices: number[] = [];
+    const uvs: number[] = [];
+    const indices: number[] = [];
+    const minY = 0.64;
+    for (let i = 0; i < outerContour.length; i++) {
+      const first = outerContour[i];
+      const last = outerContour[(i + 1) % outerContour.length];
+      if (first.y < minY && last.y < minY) continue;
+      const start = first.y < minY
+        ? first.clone().lerp(last, (minY - first.y) / (last.y - first.y))
+        : first;
+      const end = last.y < minY
+        ? first.clone().lerp(last, (minY - first.y) / (last.y - first.y))
+        : last;
+      if (start.distanceToSquared(end) < 0.000001) continue;
+      const offset = vertices.length / 3;
+      for (const point of [start, end]) {
+        const x = xAt(point.x, point.y);
+        const z = zAt(point.x, point.y);
+        vertices.push(x, point.y, z, x, point.y, -z);
+        uvs.push(0, point.y / 3, 1, point.y / 3);
+      }
+      indices.push(
+        offset, offset + 1, offset + 2,
+        offset + 2, offset + 1, offset + 3,
+      );
+    }
+    const bridge = new THREE.BufferGeometry();
+    bridge.setAttribute("position", new THREE.Float32BufferAttribute(vertices, 3));
+    bridge.setAttribute("uv", new THREE.Float32BufferAttribute(uvs, 2));
+    bridge.setIndex(indices);
+    bridge.computeVertexNormals();
+    add(bridge);
+  }
   function outerRightAt(y: number) {
     if (!shaped) return Math.abs(xAt(half, y));
+    // The drawstring mouth ends in two points. The center between them is
+    // lower, so a horizontal section at the exact top has no outer crossing.
+    // Use the actual shoulder there instead of the full body width.
+    if (product === "string-bag" && y >= top - 0.001)
+      return Math.abs(xAt(0.4, top));
     let right = 0;
     for (let i = 0; i < outerContour.length; i++) {
       const a = outerContour[i], b = outerContour[(i + 1) % outerContour.length];
@@ -570,14 +630,19 @@ export function createStudioScene(
       const fold = Math.sin((z / depth + 0.5) * Math.PI) *
         (product === "box-bag" ? 0.14 : product === "t-shirt-bag" ? 0.16 : 0.075);
       const outerX = outerRightAt(y);
-      const edgeZ = zAt(outerX, y);
-      const seamOverlap =
-        product === "string-bag" ? 0.045 : product === "t-shirt-bag" ? 0.032 : 0;
+      // outerRightAt returns the warped silhouette coordinate. zAt expects
+      // the unwarped coordinate used by the front/back mesh; using the warped
+      // value left a light crack at the joined edges when the bag rotated.
+      const t = (y - bottom) / (top - bottom);
+      const warp = product === "string-bag"
+        ? 1 - 0.2 * Math.pow(t, 6)
+        : 1 + 0.012 * (t - 0.5);
+      const edgeZ = zAt(outerX / warp, y);
       pos.setXYZ(
         i,
         side * (outerX - fold),
         y,
-        (z / (depth / 2)) * (edgeZ + seamOverlap),
+        (z / (depth / 2)) * edgeZ,
       );
     }
     // PlaneGeometry faces -X after mapping its horizontal coordinate to Z.
@@ -595,10 +660,36 @@ export function createStudioScene(
   }
   if (!photoShell) {
     const baseWidth = shaped ? 2 * outerRightAt(bottom + 0.025) : width - 0.01;
-    const base = add(new THREE.BoxGeometry(baseWidth, 0.025, depth));
+    const base = add(
+      new THREE.BoxGeometry(baseWidth, 0.025, depth),
+      product === "string-bag" ? seamMat : fabric,
+    );
     base.position.y = bottom + 0.012;
   }
-  if (product === "d-cut-bag" && !photoShell)
+  if (product === "d-cut-bag" && !photoShell) {
+    // Show the material thickness inside the punched grip, not two floating
+    // ellipses from the front and back sheets.
+    const vertices: number[] = [];
+    const uvs: number[] = [];
+    const indices: number[] = [];
+    for (let i = 0; i <= 48; i++) {
+      const a = (i / 48) * Math.PI * 2;
+      const x = 0.43 * Math.cos(a);
+      const y = top - 0.4 + 0.14 * Math.sin(a);
+      const z = zAt(x, y);
+      vertices.push(xAt(x, y), y, z, xAt(x, y), y, -z);
+      uvs.push(i / 48, 0, i / 48, 1);
+      if (i < 48) {
+        const n = i * 2;
+        indices.push(n, n + 1, n + 2, n + 2, n + 1, n + 3);
+      }
+    }
+    const gripWall = new THREE.BufferGeometry();
+    gripWall.setAttribute("position", new THREE.Float32BufferAttribute(vertices, 3));
+    gripWall.setAttribute("uv", new THREE.Float32BufferAttribute(uvs, 2));
+    gripWall.setIndex(indices);
+    gripWall.computeVertexNormals();
+    add(gripWall, innerMat);
     for (const face of [-1, 1]) {
       const grip: THREE.Vector3[] = [];
       for (let i = 0; i <= 48; i++) {
@@ -609,6 +700,7 @@ export function createStudioScene(
       }
       seam(grip, 0.009);
     }
+  }
   if ((product === "t-shirt-bag" || product === "string-bag") && !photoShell)
     for (const face of [-1, 1])
       for (const side of [-1, 1]) {
@@ -616,7 +708,11 @@ export function createStudioScene(
         for (let i = 0; i <= 36; i++) {
           const y = bottom + 0.035 + ((sideTop - bottom - 0.065) * i) / 36;
           const x = side * outerRightAt(y);
-          edge.push(new THREE.Vector3(x, y, face * (zAt(x, y) + 0.012)));
+          const t = (y - bottom) / (top - bottom);
+          const warp = product === "string-bag"
+            ? 1 - 0.2 * Math.pow(t, 6)
+            : 1 + 0.012 * (t - 0.5);
+          edge.push(new THREE.Vector3(x, y, face * (zAt(x / warp, y) + 0.008)));
         }
         seam(edge, 0.008);
       }
@@ -1102,6 +1198,50 @@ export function createStudioScene(
             photoCanvas.width,
             photoCanvas.height,
           );
+          if (cleanStringCanvas) {
+            const clean = cleanStringCanvas.getContext("2d")!;
+            const w = cleanStringCanvas.width;
+            const h = cleanStringCanvas.height;
+            clean.clearRect(0, 0, w, h);
+            clean.drawImage(
+              photoCanvas,
+              0,
+              Math.round(photoCanvas.height * 0.57),
+              photoCanvas.width,
+              Math.round(photoCanvas.height * 0.31),
+              0,
+              0,
+              w,
+              h,
+            );
+            const repaired = clean.getImageData(0, 0, w, h);
+            for (let y = 0; y < h; y++) {
+              const progress = (y / h) * 0.61;
+              const fade = THREE.MathUtils.clamp((0.61 - progress) / 0.15, 0, 1);
+              const opacity = fade * fade * (3 - 2 * fade);
+              const gather = Math.pow(1 - y / h, 1.6);
+              for (let x = 0; x < w; x++) {
+                const pixel = (y * w + x) * 4;
+                // Broad, low-contrast gathers preserve the photographed
+                // textile without drawing a second, flat drawstring onto it.
+                const shade = 1 - gather * (
+                  0.028 * Math.sin(x / 70 + y / 160) +
+                  0.014 * Math.sin(x / 31 - y / 220)
+                );
+                for (let channel = 0; channel < 3; channel++)
+                  repaired.data[pixel + channel] *= shade;
+                repaired.data[pixel + 3] = Math.round(opacity * 255);
+              }
+            }
+            clean.putImageData(repaired, 0, 0);
+            face.drawImage(
+              cleanStringCanvas,
+              0,
+              0,
+              photoCanvas.width,
+              photoCanvas.height * 0.61,
+            );
+          }
           if (product === "d-cut-bag") {
             // Use the unprinted fabric in the supplied image across the face.
             // The grip opening belongs to the mesh, so the photographed hole
@@ -1166,6 +1306,18 @@ export function createStudioScene(
               256,
               256,
             );
+          else if (product === "string-bag")
+            cloth.drawImage(
+              photo,
+              photo.width * 0.51 - 48,
+              photo.height * 0.77 - 48,
+              96,
+              96,
+              0,
+              0,
+              256,
+              256,
+            );
           else
             cloth.drawImage(
               photo,
@@ -1178,6 +1330,25 @@ export function createStudioScene(
               256,
               256,
             );
+          if (product === "string-bag") {
+            // The source swatch carries a broad photograph shadow. Soften it
+            // before tiling the gusset; otherwise it turns into dark stripes
+            // running down the narrow side panel.
+            const swatch = cloth.getImageData(0, 0, 256, 256);
+            const average = [0, 0, 0];
+            for (let i = 0; i < swatch.data.length; i += 4)
+              for (let channel = 0; channel < 3; channel++)
+                average[channel] += swatch.data[i + channel];
+            for (let channel = 0; channel < 3; channel++)
+              average[channel] /= 256 * 256;
+            for (let i = 0; i < swatch.data.length; i += 4)
+              for (let channel = 0; channel < 3; channel++)
+                swatch.data[i + channel] =
+                  average[channel] * 0.78 + swatch.data[i + channel] * 0.22;
+            cloth.putImageData(swatch, 0, 0);
+            clothTexture.wrapS = clothTexture.wrapT = THREE.RepeatWrapping;
+            clothTexture.repeat.set(2, 3);
+          }
           clothTexture.needsUpdate = true;
           fabric.map = clothTexture;
           fabric.needsUpdate = true;

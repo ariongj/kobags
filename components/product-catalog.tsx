@@ -1,8 +1,8 @@
 "use client";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "@/components/site-link";
-import { ArrowUpRight, ArrowLeft } from "lucide-react";
+import { ArrowUpRight, ArrowLeft, Maximize2, ChevronLeft, ChevronRight, ZoomIn, ZoomOut } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Table,
@@ -17,6 +17,7 @@ import { products, productMedia, Product, getProduct } from "@/lib/catalog";
 import { localizeProduct } from "@/lib/product-copy";
 import { useDemo } from "./demo-store";
 import { Choice } from "./bag-studio";
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from "./ui/dialog";
 export function ProductCatalog() {
   const { state } = useDemo();
   const { t, lang } = useKobags();
@@ -266,6 +267,9 @@ export function ProductDetail({ product: original }: { product: Product }) {
   );
   const [size, setSize] = useState(p.variants[0].name);
   const [photo, setPhoto] = useState(0);
+  const [viewingPhoto, setViewingPhoto] = useState(false);
+  const [zoomPhoto, setZoomPhoto] = useState(false);
+  const photoOpener = useRef<HTMLButtonElement | null>(null);
   const v = p.variants.find((v) => v.name === size)!;
   const photos = [
     { src: p.image, label: t("Bag", "Çanta") },
@@ -290,6 +294,15 @@ export function ProductDetail({ product: original }: { product: Product }) {
               width="600"
               height="750"
             />
+            <button
+              type="button"
+              className="detail-photo-open"
+              ref={photoOpener}
+              onClick={() => setViewingPhoto(true)}
+            >
+              <Maximize2 size={16} />
+              {t("Inspect photo", "Shihni foton")}
+            </button>
           </div>
           {photos.length > 1 && (
             <div className="detail-thumbnails" aria-label={t("Product images", "Fotografitë e çantës")}>
@@ -391,6 +404,56 @@ export function ProductDetail({ product: original }: { product: Product }) {
           </Link>
         </div>
       </div>
+      <Dialog
+        open={viewingPhoto}
+        onOpenChange={(open) => {
+          setViewingPhoto(open);
+          if (!open) setZoomPhoto(false);
+        }}
+      >
+        <DialogContent
+          className="product-photo-dialog"
+          onCloseAutoFocus={(event) => {
+            event.preventDefault();
+            photoOpener.current?.focus();
+          }}
+          onKeyDown={(event) => {
+            if (event.key === "ArrowLeft") {
+              event.preventDefault();
+              setPhoto((index) => (index + photos.length - 1) % photos.length);
+            }
+            if (event.key === "ArrowRight") {
+              event.preventDefault();
+              setPhoto((index) => (index + 1) % photos.length);
+            }
+          }}
+        >
+          <div className="product-photo-dialog-heading">
+            <div>
+              <DialogTitle>{p.name}</DialogTitle>
+              <DialogDescription>{activePhoto.label} · {t("Made in Kosova", "Prodhuar në Kosovë")}</DialogDescription>
+            </div>
+            <button
+              type="button"
+              className="text-button"
+              onClick={() => setZoomPhoto((value) => !value)}
+            >
+              {zoomPhoto ? <ZoomOut size={17} /> : <ZoomIn size={17} />}
+              {zoomPhoto ? t("Fit photo", "Përshtat foton") : t("Zoom in", "Zmadho")}
+            </button>
+          </div>
+          <div className={`product-photo-viewer ${zoomPhoto ? "zoomed" : ""}`} tabIndex={0}>
+            <img src={activePhoto.src} alt={`${p.name} · ${activePhoto.label.toLowerCase()}`} />
+          </div>
+          <div className="product-photo-dialog-footer">
+            <span aria-live="polite">{photo + 1} / {photos.length}</span>
+            <div>
+              <button type="button" onClick={() => setPhoto((index) => (index + photos.length - 1) % photos.length)} aria-label={t("Previous photo", "Fotoja e mëparshme")}><ChevronLeft size={19} /></button>
+              <button type="button" onClick={() => setPhoto((index) => (index + 1) % photos.length)} aria-label={t("Next photo", "Fotoja tjetër")}><ChevronRight size={19} /></button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </main>
   );
 }

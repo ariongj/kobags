@@ -3467,3 +3467,116 @@ body.kobags-v5:has(.studio-compact) .footer-top img {
 .kobags-v5 .studio-compact .preview-stage {
   flex: none;
 }
+
+/* Buyers can inspect the actual product photography at a useful size. */
+.kobags-v5 .detail-photo { position: relative; }
+.kobags-v5 .detail-photo-open {
+  position: absolute;
+  right: 17px;
+  bottom: 17px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 9px 12px;
+  border: 1px solid #d6e2d8;
+  border-radius: 7px;
+  background: #fffef5eb;
+  color: #123442;
+  box-shadow: 0 5px 22px #1633271b;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.kobags-v5 .detail-photo-open:hover { background: #fff; }
+.kobags-v5 .detail-photo-open:focus-visible {
+  outline: 3px solid #087a36;
+  outline-offset: 3px;
+}
+.kobags-v5 .product-photo-dialog {
+  display: flex;
+  flex-direction: column;
+  width: min(96vw, 1040px);
+  max-width: min(96vw, 1040px);
+  max-height: 92dvh;
+  gap: 13px;
+  padding: 18px;
+  overflow: hidden;
+  background: #fff;
+  color: #123442;
+}
+.kobags-v5 .product-photo-dialog-heading,
+.kobags-v5 .product-photo-dialog-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-right: 35px;
+}
+.kobags-v5 .product-photo-dialog-heading h2 {
+  margin: 0 0 3px;
+  color: #123442;
+  font-size: clamp(20px, 2.3vw, 28px);
+}
+.kobags-v5 .product-photo-dialog-heading p,
+.kobags-v5 .product-photo-dialog-footer span {
+  color: #667e72;
+  font-size: 12px;
+}
+.kobags-v5 .product-photo-dialog-heading .text-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex-shrink: 0;
+}
+.kobags-v5 .product-photo-viewer {
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  height: min(68dvh, 720px);
+  overflow: auto;
+  border-radius: 8px;
+  background: radial-gradient(circle at center, #f4f7f1, #e5ece5);
+}
+.kobags-v5 .product-photo-viewer img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-height: min(68dvh, 720px);
+  object-fit: contain;
+}
+.kobags-v5 .product-photo-viewer.zoomed {
+  display: block;
+  padding: 15px;
+}
+.kobags-v5 .product-photo-viewer.zoomed img {
+  width: max(100%, 1050px);
+  height: auto;
+  max-height: none;
+}
+.kobags-v5 .product-photo-dialog-footer { padding-right: 0; }
+.kobags-v5 .product-photo-dialog-footer > div { display: flex; gap: 7px; }
+.kobags-v5 .product-photo-dialog-footer button {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid #d6e2d8;
+  border-radius: 7px;
+  background: #f7f9f5;
+  color: #123442;
+  cursor: pointer;
+}
+.kobags-v5 .product-photo-dialog-footer button:hover { background: #eaf3e8; }
+.kobags-v5 .product-photo-dialog-footer button:focus-visible {
+  outline: 3px solid #087a36;
+  outline-offset: 2px;
+}
+@media (max-width: 600px) {
+  .kobags-v5 .detail-photo-open { right: 12px; bottom: 12px; min-height: 44px; }
+  .kobags-v5 .product-photo-dialog { width: calc(100vw - 16px); max-width: calc(100vw - 16px); max-height: 94dvh; padding: 12px; }
+  .kobags-v5 .product-photo-dialog-heading { align-items: flex-start; flex-direction: column; gap: 7px; padding-right: 34px; }
+  .kobags-v5 .product-photo-dialog-heading .text-button { min-height: 36px; }
+  .kobags-v5 .product-photo-viewer { height: 68dvh; }
+}
