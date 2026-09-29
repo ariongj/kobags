@@ -1,0 +1,11 @@
+{
+  "note": "Blank concept mockups derived from client-supplied photographs by removing printed artwork with image generation. Their silhouettes, material and construction are illustrative references, not approved dielines or color proofs.",
+  "sourceArchive": "CoBag-20260928T203801Z-1-001.zip",
+  "assets": [
+    { "family": "d-cut-bag", "sourcePhoto": "d9167d76-6a52-4245-a657-818d4defd7a6.JPG", "blankMockup": "public/assets/studio-real-d-cut.webp" },
+    { "family": "handle-bag", "sourcePhoto": "03b9e381-02bb-442b-a625-456cbf8c53e4.JPG", "blankMockup": "public/assets/studio-real-handle.webp" },
+    { "family": "box-bag", "sourcePhoto": "7bf024d6-0de7-4095-a386-69f3e7afb193.JPG", "blankMockup": "public/assets/studio-real-box.webp" },
+    { "family": "t-shirt-bag", "sourcePhoto": "9ba4dbe5-21ec-420f-bc04-7dcb5cd0fcec.JPG", "blankMockup": "public/assets/studio-real-t-shirt.webp" },
+    { "family": "string-bag", "sourcePhoto": "0df11577-b32c-4ed9-bafd-ee58bacee740.JPG", "blankMockup": "public/assets/studio-real-string.webp" }
+  ]
+}

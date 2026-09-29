@@ -131,19 +131,21 @@ export function copyArtworkToOtherSide(d: Design): Partial<Design> {
         backTextPlacement: placement,
       };
 }
-// Individually generated neutral mockups. Legacy artwork keeps the original atlas.
+// Blank product mockups were edited from Kobags' supplied product photography.
+// The editable artwork is composited separately; the actual client photos remain
+// available beside the studio for comparison.
 export const studioMockups: Record<string, string> = {
-  "d-cut-bag": "/assets/studio-v4/d-cut.webp",
-  "handle-bag": "/assets/studio-v4/handle.webp",
-  "box-bag": "/assets/studio-v4/box.webp",
-  "t-shirt-bag": "/assets/studio-v4/t-shirt.webp",
-  "string-bag": "/assets/studio-v4/string.webp",
+  "d-cut-bag": "/assets/studio-real-d-cut.webp",
+  "handle-bag": "/assets/studio-real-handle.webp",
+  "box-bag": "/assets/studio-real-box.webp",
+  "t-shirt-bag": "/assets/studio-real-t-shirt.webp",
+  "string-bag": "/assets/studio-real-string.webp",
 };
 // Bounds of the visible silhouette at alpha > 128; ignore transparent padding.
 export const studioBounds: Record<string, [number, number, number, number]> = {
-  "d-cut-bag": [221, 147, 1035, 1145],
-  "handle-bag": [207, 71, 1056, 1183],
-  "box-bag": [148, 54, 1117, 1193],
-  "t-shirt-bag": [236, 60, 1033, 1190],
-  "string-bag": [55, 157, 1199, 1125],
+  "d-cut-bag": [169, 84, 1090, 1170],
+  "handle-bag": [326, 28, 980, 1225],
+  "box-bag": [119, 76, 1039, 1361],
+  "t-shirt-bag": [294, 75, 968, 1183],
+  "string-bag": [114, 25, 1138, 1205],
 };

@@ -18,7 +18,7 @@ async def main():
   async def screenshot(name):
    await page.evaluate('document.activeElement?.blur();window.scrollTo({top:0,behavior:"instant"})');await page.wait_for_timeout(150)
    await page.screenshot(path=str(ROOT/'evidence'/name),type='jpeg',quality=83,full_page=True)
-  await page.goto(BASE+'/design',wait_until='networkidle');await page.get_by_role('tab',name='Place artwork',exact=True).click();await ready()
+  await page.goto(BASE+'/design',wait_until='networkidle');await page.get_by_role('tab',name='Photo + artwork',exact=True).click();await ready()
   await page.get_by_role('tab',name='02 Your design').click()
   await page.get_by_label('Brand name or message').fill('NOVA\nEVERYDAY GOODS')
   await page.locator('#artwork-font').click();await page.get_by_role('option',name='Editorial serif').click()
@@ -55,7 +55,7 @@ async def main():
   for width in [1024,768,390,320]:
    await page.set_viewport_size({'width':width,'height':900});await page.wait_for_timeout(100);assert not await page.evaluate('document.documentElement.scrollWidth>innerWidth'),width
   await page.set_viewport_size({'width':390,'height':844});await screenshot('studio-layered-mobile.jpg')
-  await page.reload(wait_until='networkidle');await page.get_by_role('tab',name='Place artwork',exact=True).click();await ready();saved=await draft();assert saved['backText']=='MADE FOR\nEVERY DAY' and saved['customDimensions']=='40 × 35 × 12 cm'
+  await page.reload(wait_until='networkidle');await page.get_by_role('tab',name='Photo + artwork',exact=True).click();await ready();saved=await draft();assert saved['backText']=='MADE FOR\nEVERY DAY' and saved['customDimensions']=='40 × 35 × 12 cm'
   await page.get_by_role('link',name='Get a quote for this bag',exact=True).click();await page.wait_for_url('**/quote')
   await page.get_by_role('button',name='Use demo details',exact=True).click();await page.get_by_role('button',name='Continue',exact=True).click()
   assert await page.locator('.quote-artwork-pair canvas').count()==2

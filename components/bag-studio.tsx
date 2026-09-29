@@ -69,6 +69,7 @@ import {
   Design,
   getProduct,
   initialDesign,
+  productMedia,
 } from "@/lib/catalog";
 import { useKobags } from "./kobags-context";
 export function Choice({
@@ -223,6 +224,7 @@ export default function BagStudio() {
   const [copied, setCopied] = useState(false);
   const [tab, setTab] = useState("bag");
   const [viewMode, setViewMode] = useState("3d");
+  const [samplePhoto, setSamplePhoto] = useState<string | null>(null);
   const [error, setError] = useState("");
   const [full, setFull] = useState(false);
   const [downloaded, setDownloaded] = useState("");
@@ -653,7 +655,7 @@ export default function BagStudio() {
                 </TabsTrigger>
                 <TabsTrigger value="edit">
                   <Move size={15} />
-                  {t("Place artwork", "Vendos dizajnin")}
+                  {t("Photo + artwork", "Foto + dizajn")}
                 </TabsTrigger>
               </TabsList>
             </Tabs>
@@ -773,6 +775,33 @@ export default function BagStudio() {
             </span>
             <span>{design.color}</span>
           </div>
+          <div className="studio-real-samples">
+            <div className="studio-real-samples-copy">
+              <strong>{t("Real bags from our production", "Çanta reale nga prodhimi ynë")}</strong>
+              <span>{t("See material, stitching and shape", "Shihni materialin, qepjet dhe formën")}</span>
+            </div>
+            <div className="studio-real-samples-images">
+              {[p.image, productMedia[p.slug].home, productMedia[p.slug].detail].map((src, index) => (
+                <button
+                  type="button"
+                  key={src}
+                  onClick={() => setSamplePhoto(src)}
+                  aria-label={t(`View real ${p.name} sample ${index + 1}`, `Shihni mostrën reale ${index + 1} të ${p.name}`)}
+                >
+                  <img src={src} alt="" loading="lazy" />
+                </button>
+              ))}
+            </div>
+          </div>
+          <Dialog open={Boolean(samplePhoto)} onOpenChange={(open) => !open && setSamplePhoto(null)}>
+            <DialogContent className="studio-sample-dialog">
+              <DialogTitle>{t("A real bag made by Kobags", "Çantë reale e prodhuar nga Kobags")}</DialogTitle>
+              <DialogDescription>
+                {t("An actual printed product. Your design above is an illustrative preview; final details are confirmed before production.", "Produkt real i shtypur. Dizajni juaj më sipër është një paraqitje ilustruese; detajet përfundimtare konfirmohen para prodhimit.")}
+              </DialogDescription>
+              {samplePhoto && <img src={samplePhoto} alt={t(`Real ${p.name} product sample`, `Mostër reale e ${p.name}`)} />}
+            </DialogContent>
+          </Dialog>
           <button
             type="button"
             className="studio-sheet-download"

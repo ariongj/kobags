@@ -49,7 +49,7 @@ async def main():
   # Precision controls are optional and do not crowd the first edit.
   assert not await page.get_by_label('Horizontal position',exact=True).is_visible()
   await page.get_by_text('Position & rotation',exact=True).click();await page.get_by_label('Horizontal position',exact=True).fill('56');await ready();assert (await draft())['textPlacement']['x']==56
-  await page.get_by_role('tab',name='Place artwork',exact=True).click();await page.wait_for_function("document.querySelector('.preview-stage>.bag-canvas')?.dataset.ready==='true'")
+  await page.get_by_role('tab',name='Photo + artwork',exact=True).click();await page.wait_for_function("document.querySelector('.preview-stage>.bag-canvas')?.dataset.ready==='true'")
   saved=await draft();assert saved['backText']=='MADE FOR\nEVERY DAY' and saved['logo'] and saved['backLogo']
   async with page.expect_download() as download:await page.get_by_role('button',name='Download both sides + specifications',exact=True).click()
   path=await (await download.value).path();png=Path(path).read_bytes();assert int.from_bytes(png[16:20],'big')==2000
@@ -64,7 +64,7 @@ async def main():
   # Motion preference and WebGL failure have usable, explicit alternatives.
   reduced=await b.new_context(reduced_motion='reduce');rp=await reduced.new_page();await rp.goto(BASE+'/design',wait_until='networkidle');await rp.locator('.studio-3d[data-status=ready]').wait_for();assert await rp.get_by_role('button',name='Auto rotate bag',exact=True).is_disabled();await reduced.close()
   fallback=await b.new_context();await fallback.add_init_script("const original=HTMLCanvasElement.prototype.getContext;HTMLCanvasElement.prototype.getContext=function(type,...args){if(String(type).includes('webgl'))return null;return original.call(this,type,...args)}")
-  fp=await fallback.new_page();await fp.goto(BASE+'/design',wait_until='networkidle');await fp.locator('.studio-3d[data-status=fallback]').wait_for();await fp.locator('.studio-3d canvas[data-ready=true]').wait_for();await fp.get_by_role('tab',name='Place artwork',exact=True).click();await fp.locator('.preview-stage>.bag-canvas[data-ready=true]').wait_for();await fallback.close()
+  fp=await fallback.new_page();await fp.goto(BASE+'/design',wait_until='networkidle');await fp.locator('.studio-3d[data-status=fallback]').wait_for();await fp.locator('.studio-3d canvas[data-ready=true]').wait_for();await fp.get_by_role('tab',name='Photo + artwork',exact=True).click();await fp.locator('.preview-stage>.bag-canvas[data-ready=true]').wait_for();await fallback.close()
   assert not errors,errors
   (ROOT/'evidence/studio-3d-checks.json').write_text(json.dumps({'status':'passed','models':list(models),'widths':[1440,1024,768,390,320],'desktopQuoteVisibleWithoutScroll':True,'checks':['five distinct volumetric families','drag, arrow buttons and keyboard rotation','zoom, reset, front/back and opt-in spin','independent front/back logo and text with live textures','shared artwork state between 3D and precision placement','two-sided export, fullscreen and quote carry-through','compact desktop CTA and mobile canvas','reduced motion and unavailable-WebGL fallback'],'browserErrors':errors},indent=2))
   await b.close();print('PASS compact 3D bag studio')

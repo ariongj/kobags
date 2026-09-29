@@ -92,8 +92,19 @@ async function tintedBag(design: Design) {
     const data = image.data;
     const hex = (colors.find((c) => c.name === design.color) || colors[0]).hex;
     const rgb = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
+    let totalLight = 0;
+    let opaquePixels = 0;
+    if (modern) {
+      for (let i = 0; i < data.length; i += 4) {
+        if (data[i + 3] < 160) continue;
+        totalLight +=
+          0.2126 * data[i] + 0.7152 * data[i + 1] + 0.0722 * data[i + 2];
+        opaquePixels++;
+      }
+    }
+    const referenceLight = opaquePixels ? totalLight / opaquePixels : 200;
     for (let i = 0; i < data.length; i += 4) {
-      if (data[i + 3] < 24) {
+      if (data[i + 3] < (modern ? 64 : 24)) {
         data[i + 3] = 0;
         continue;
       }
@@ -105,14 +116,14 @@ async function tintedBag(design: Design) {
       }
       // Preserve fabric shading and antialiased alpha. Highlights add neutral light.
       const shade = modern
-        ? Math.min(1.22, luminance / 220)
+        ? Math.max(0.56, Math.min(1.34, 1 + (luminance - referenceLight) / 115))
         : Math.min(1.12, 0.4 + luminance / 260);
       for (let channel = 0; channel < 3; channel++)
         data[i + channel] = Math.min(
           255,
           shade <= 1
             ? rgb[channel] * shade
-            : rgb[channel] + (255 - rgb[channel]) * (shade - 1) * 0.38,
+            : rgb[channel] + (255 - rgb[channel]) * (shade - 1) * (modern ? 0.72 : 0.38),
         );
     }
     ctx.putImageData(image, 0, 0);

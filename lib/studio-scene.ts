@@ -91,35 +91,46 @@ export function createStudioScene(
   controls.autoRotateSpeed = 0.8;
   const model = new THREE.Group();
   scene.add(model);
-  scene.add(new THREE.HemisphereLight(0xffffff, 0x59736a, 2.6));
-  const key = new THREE.DirectionalLight(0xfff9ed, 3.2);
-  key.position.set(-3, 6, 5);
+  scene.add(new THREE.HemisphereLight(0xffffff, 0x718177, 2.15));
+  const key = new THREE.DirectionalLight(0xfff7e8, 3.5);
+  key.position.set(-4, 7, 6);
   scene.add(key);
-  const fill = new THREE.DirectionalLight(0xcde4f1, 1.3);
-  fill.position.set(4, 2, -4);
+  const fill = new THREE.DirectionalLight(0xd6e7ef, 1.65);
+  fill.position.set(5, 3, -4);
   scene.add(fill);
+  const faceFill = new THREE.DirectionalLight(0xffffff, 0.45);
+  faceFill.position.set(3, 1, 7);
+  scene.add(faceFill);
   const geometries = new Set<THREE.BufferGeometry>();
   const materials = new Set<THREE.Material>();
   const textures = new Set<THREE.Texture>();
   const weave = document.createElement("canvas");
-  weave.width = weave.height = 128;
+  weave.width = weave.height = 256;
   const wc = weave.getContext("2d")!;
-  wc.fillStyle = "#929292";
-  wc.fillRect(0, 0, 128, 128);
-  for (let y = 0; y < 128; y += 4)
-    for (let x = 0; x < 128; x += 4) {
-      wc.fillStyle = (x + y) % 8 ? "#b4b4b4" : "#777777";
-      wc.fillRect(x, y, 2, 3);
+  wc.fillStyle = "#ededed";
+  wc.fillRect(0, 0, 256, 256);
+  // A fine, irregular cross-laid fiber is closer to the supplied non-woven
+  // product photos than a regular checkerboard fabric pattern.
+  for (let y = 0; y < 256; y += 3)
+    for (let x = 0; x < 256; x += 3) {
+      const noise = (x * 37 + y * 73 + x * y * 11) % 17;
+      wc.fillStyle = `rgb(${207 + noise * 2},${207 + noise * 2},${207 + noise * 2})`;
+      wc.fillRect(x, y, 2, 1);
+      wc.fillStyle = `rgb(${223 + noise * 2},${223 + noise * 2},${223 + noise * 2})`;
+      wc.fillRect(x + 1, y + 1, 1, 2);
     }
   const bump = new THREE.CanvasTexture(weave);
+  bump.colorSpace = THREE.SRGBColorSpace;
   bump.wrapS = bump.wrapT = THREE.RepeatWrapping;
-  bump.repeat.set(12, 12);
+  bump.repeat.set(8, 8);
+  bump.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
   textures.add(bump);
   const fabric = new THREE.MeshStandardMaterial({
     color: colors[0].hex,
-    roughness: 0.96,
+    roughness: 0.88,
+    map: bump,
     bumpMap: bump,
-    bumpScale: 0.012,
+    bumpScale: 0.024,
     side: THREE.DoubleSide,
   });
   const seamMat = new THREE.MeshStandardMaterial({
@@ -133,6 +144,12 @@ export function createStudioScene(
   materials.add(fabric);
   materials.add(seamMat);
   materials.add(cordMat);
+  const innerMat = new THREE.MeshStandardMaterial({
+    color: colors[0].hex,
+    roughness: 0.98,
+    side: THREE.DoubleSide,
+  });
+  materials.add(innerMat);
   const spec = families[product] || families["handle-bag"];
   const { width, bottom, top, depth } = spec;
   const half = width / 2;
@@ -144,11 +161,14 @@ export function createStudioScene(
   }
   function zAt(x: number, y: number) {
     const t = (y - bottom) / (top - bottom);
-    const flat = product === "box-bag" ? 0.016 : 0.055;
+    const flat = product === "box-bag" ? 0.029 : 0.105;
+    const edge = Math.pow(Math.abs(x / half), 4);
+    const lowerFold = 0.035 * Math.sin(Math.PI * Math.min(1, t * 2.4));
     return (
       depth / 2 +
       flat * Math.cos(((x / half) * Math.PI) / 2) * Math.sin(t * Math.PI) +
-      0.012 * Math.sin(x * 14 + y * 4) * Math.pow(Math.abs(x / half), 6)
+      lowerFold * (1 - edge) +
+      0.018 * Math.sin(x * 15 + y * 3) * edge
     );
   }
   function add(
@@ -206,6 +226,25 @@ export function createStudioScene(
     return s;
   }
   const shaped = product === "d-cut-bag" || product === "t-shirt-bag";
+  if (spec.handles) {
+    // The narrow dark opening and rolled upper lip make the bag read as an
+    // open, sewn object instead of two flat printed planes.
+    const mouth = add(
+      new THREE.PlaneGeometry(width - 0.045, depth - 0.035),
+      innerMat,
+    );
+    mouth.rotation.x = -Math.PI / 2;
+    mouth.position.y = top - 0.025;
+    for (const face of [-1, 1])
+      seam(
+        [
+          new THREE.Vector3(-half + 0.025, top - 0.012, face * depth / 2),
+          new THREE.Vector3(0, top - 0.024, face * (depth / 2 + 0.012)),
+          new THREE.Vector3(half - 0.025, top - 0.012, face * depth / 2),
+        ],
+        0.013,
+      );
+  }
   function faceGeometry() {
     const geometry = shaped
       ? new THREE.ShapeGeometry(outline(), 40)
@@ -292,16 +331,16 @@ export function createStudioScene(
         edges: THREE.Vector3[][] = [[], []];
       for (let i = 0; i <= 60; i++) {
         const t = (i / 60) * Math.PI,
-          x = -0.61 * Math.cos(t),
-          y = top - 0.12 + 1.2 * Math.sin(t),
-          z = face * (depth / 2 + 0.04 * Math.sin(t));
+          x = -0.61 * Math.cos(t) + 0.018 * Math.sin(t * 3),
+          y = top - 0.12 + 1.18 * Math.sin(t),
+          z = face * (depth / 2 + 0.09 * Math.sin(t));
         const dx = 0.61 * Math.sin(t),
           dy = 1.2 * Math.cos(t),
           length = Math.hypot(dx, dy);
         for (const edge of [-1, 1]) {
           const px = x - ((edge * dy) / length) * 0.082,
             py = y + ((edge * dx) / length) * 0.082;
-          positions.push(px, py, z);
+          positions.push(px, py, z + face * 0.013 * Math.sin(t * 5));
           edges[(edge + 1) / 2].push(
             new THREE.Vector3(px, py, z + face * 0.004),
           );
@@ -323,13 +362,19 @@ export function createStudioScene(
       for (const x of [-0.61, 0.61]) {
         const patch = add(new THREE.BoxGeometry(0.19, 0.22, 0.014));
         patch.position.set(x, top - 0.1, face * (depth / 2 + 0.012));
-        seam(
-          [
-            new THREE.Vector3(x - 0.06, top - 0.17, face * (depth / 2 + 0.023)),
-            new THREE.Vector3(x + 0.06, top - 0.03, face * (depth / 2 + 0.023)),
-          ],
-          0.003,
-        );
+        const stitchZ = face * (depth / 2 + 0.023);
+        for (const diagonal of [-1, 1])
+          seam(
+            [
+              new THREE.Vector3(x - 0.062, top - 0.17, stitchZ),
+              new THREE.Vector3(x + 0.062, top - 0.03, stitchZ),
+            ].map((v) =>
+              diagonal === 1
+                ? v
+                : new THREE.Vector3(2 * x - v.x, v.y, v.z),
+            ),
+            0.0025,
+          );
       }
     }
   }
@@ -341,7 +386,8 @@ export function createStudioScene(
     for (let i = 0; i < pos.count; i++) {
       const z = pos.getX(i),
         y = pos.getY(i) + (sideTop + bottom) / 2;
-      const fold = Math.sin((z / depth + 0.5) * Math.PI) * 0.065;
+      const fold = Math.sin((z / depth + 0.5) * Math.PI) *
+        (product === "box-bag" ? 0.14 : 0.075);
       pos.setXYZ(i, side * (Math.abs(xAt(half, y)) - fold), y, z);
     }
     g.computeVertexNormals();
@@ -349,6 +395,18 @@ export function createStudioScene(
   }
   const base = add(new THREE.BoxGeometry(width - 0.01, 0.025, depth));
   base.position.y = bottom + 0.012;
+  if (product === "box-bag") {
+    for (const face of [-1, 1])
+      for (const side of [-1, 1])
+        seam(
+          [
+            new THREE.Vector3(side * half, bottom + 0.04, face * depth / 2),
+            new THREE.Vector3(side * (half - 0.18), bottom + 0.26, face * (depth / 2 + 0.006)),
+            new THREE.Vector3(side * (half - 0.23), bottom + 0.43, face * (depth / 2 + 0.015)),
+          ],
+          0.004,
+        );
+  }
   if (product === "string-bag")
     for (const side of [-1, 1]) {
       seam(
@@ -745,6 +803,7 @@ export function createStudioScene(
         .hex;
       fabric.color.set(hex);
       seamMat.color.set(hex).multiplyScalar(0.84);
+      innerMat.color.set(hex).multiplyScalar(0.48);
       [front, back].forEach((artwork, i) => {
         faceBounds[i === 0 ? "front" : "back"] = artwork.bounds;
         printTextures[i].image = artwork.canvas;

@@ -13,7 +13,7 @@ async def main():
   async def ready():
    await page.wait_for_function("document.querySelector('.preview-stage canvas')?.dataset.ready === 'true'")
   async def draft():return await page.evaluate("JSON.parse(localStorage.getItem('kobags-design-v1'))")
-  await page.goto(BASE+'/design',wait_until='networkidle');await page.get_by_role('tab',name='Place artwork',exact=True).click();await ready()
+  await page.goto(BASE+'/design',wait_until='networkidle');await page.get_by_role('tab',name='Photo + artwork',exact=True).click();await ready()
   assert await page.locator('.bag-picker canvas[data-ready=true]').count()==5
   shapes={}
   for name in ['D-Cut','Handle','Box','T-Shirt','String']:
