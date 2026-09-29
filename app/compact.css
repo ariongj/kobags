@@ -1192,3 +1192,9 @@ body.kobags-v5:has(.studio-compact) .footer-top p {
 .kobags-v5 .partner-factory h2 {
   color: #fff;
 }
+
+@media (max-width: 600px) {
+  .kobags-v5 .studio-compact .preview-stage .studio-3d-host {
+    inset: 8px 0 92px;
+  }
+}
