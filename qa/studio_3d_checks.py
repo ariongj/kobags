@@ -15,10 +15,11 @@ async def main():
   async def shot(name):
    await page.evaluate('document.activeElement?.blur();window.scrollTo({top:0,behavior:"instant"})');await page.wait_for_timeout(100)
    await page.screenshot(path=str(ROOT/'evidence'/name),type='jpeg',quality=83,full_page=True)
-  await page.goto(BASE+'/design',wait_until='networkidle')
-  assert await page.get_by_role('tab',name='Photo + artwork',exact=True).get_attribute('data-state')=='active'
-  await page.locator('.preview-stage>.bag-canvas[data-ready=true]').wait_for()
-  await page.get_by_role('tab',name='3D view',exact=True).click();await ready()
+  await page.goto(BASE+'/design',wait_until='networkidle');await ready()
+  assert await page.get_by_role('tab',name='3D view',exact=True).get_attribute('data-state')=='active'
+  start=await number('angle');await page.wait_for_timeout(500)
+  assert abs(await number('angle')-start)>.01
+  await page.get_by_role('button',name='Pause rotation',exact=True).click()
   button=await page.locator('.studio-quote .button').bounding_box();assert button['y']+button['height']<=900,button
   assert not await page.evaluate('document.documentElement.scrollWidth>innerWidth')
   models={}
@@ -36,7 +37,7 @@ async def main():
   distance=await number('distance');await page.get_by_role('button',name='Zoom in',exact=True).click();await page.wait_for_function("Number(document.querySelector('.preview-stage .studio-3d-host').dataset.distance)<"+str(distance))
   await page.get_by_role('tab',name='Back',exact=True).click();await page.wait_for_function("Math.abs(Number(document.querySelector('.preview-stage .studio-3d-host').dataset.angle))>2.9")
   await page.get_by_role('tab',name='Front',exact=True).click();await page.wait_for_function("Math.abs(Number(document.querySelector('.preview-stage .studio-3d-host').dataset.angle))<.1")
-  await page.get_by_role('button',name='Auto rotate bag',exact=True).click();before=await number('angle');await page.wait_for_function("Math.abs(Number(document.querySelector('.preview-stage .studio-3d-host').dataset.angle)-"+str(before)+")>.01");await page.get_by_role('button',name='Pause rotation',exact=True).click()
+  await page.get_by_role('button',name='Auto rotate bag',exact=True).click();before=await number('angle');await page.wait_for_function("before => Math.abs(Number(document.querySelector('.preview-stage .studio-3d-host').dataset.angle) - before) > .01",arg=before);await page.get_by_role('button',name='Pause rotation',exact=True).click()
   # Text and uploaded artwork update the same design shown on both 3D faces.
   await page.get_by_role('tab',name='02 Your design',exact=True).click();await page.get_by_label('Brand name or message').fill('NOVA\nFRONT');await ready()
   first=await canvas.screenshot();await page.get_by_label('Brand name or message').fill('NOVA\nSTUDIO');await ready();assert first!=await canvas.screenshot()

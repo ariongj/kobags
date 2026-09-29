@@ -219,7 +219,7 @@ export default function BagStudio() {
   const v = p.variants.find((v) => v.name === design.size) || p.variants[0];
   const [copied, setCopied] = useState(false);
   const [tab, setTab] = useState("bag");
-  const [viewMode, setViewMode] = useState("edit");
+  const [viewMode, setViewMode] = useState("3d");
   const [samplePhoto, setSamplePhoto] = useState<string | null>(null);
   const [error, setError] = useState("");
   const [full, setFull] = useState(false);
@@ -607,13 +607,13 @@ export default function BagStudio() {
                 className="view-mode-tabs"
                 aria-label={t("Preview mode", "Pamja e parapamjes")}
               >
-                <TabsTrigger value="edit">
-                  <Move size={15} />
-                  {t("Photo + artwork", "Foto + dizajn")}
-                </TabsTrigger>
                 <TabsTrigger value="3d">
                   <Box size={15} />
                   {t("3D view", "Pamja 3D")}
+                </TabsTrigger>
+                <TabsTrigger value="edit">
+                  <Move size={15} />
+                  {t("Photo + artwork", "Foto + dizajn")}
                 </TabsTrigger>
               </TabsList>
             </Tabs>

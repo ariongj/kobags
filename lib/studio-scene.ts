@@ -89,7 +89,7 @@ export function createStudioScene(
   controls.rotateSpeed = 0.65;
   controls.minPolarAngle = 0.48;
   controls.maxPolarAngle = 2.1;
-  controls.autoRotateSpeed = 0.8;
+  controls.autoRotateSpeed = 2.2;
   const model = new THREE.Group();
   scene.add(model);
   scene.add(new THREE.HemisphereLight(0xffffff, 0x718177, 2.15));

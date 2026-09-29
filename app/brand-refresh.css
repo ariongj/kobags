@@ -3091,6 +3091,13 @@
   border-radius: 7px;
   box-shadow: 0 3px 12px #193b6708;
 }
+.studio-3d-badge {
+  padding: 0 6px;
+  color: #087a36;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
 .studio-3d-tools button {
   width: 29px;
   height: 30px;

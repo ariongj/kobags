@@ -67,12 +67,14 @@ export default function Studio3D({
     "loading",
   );
   const [spinning, setSpinning] = useState(false);
+  const autoplayed = useRef(false);
   const [reduced, setReduced] = useState(false);
   const sync = useRef<(d: Design) => void>(() => {});
   useEffect(() => {
     const element = host.current!;
     let disposed = false;
     let unavailable = false;
+    autoplayed.current = false;
     setStatus("loading");
     setSpinning(false);
     onReady?.(false);
@@ -131,6 +133,17 @@ export default function Studio3D({
           instance.update(d, front, back, selection, photo);
           setStatus("ready");
           onReady?.(true);
+          if (
+            !autoplayed.current &&
+            !motion.matches &&
+            !d.logo &&
+            d.text === "YOUR\nBRAND" &&
+            !settings.current.selected
+          ) {
+            autoplayed.current = true;
+            instance.spin(true);
+            setSpinning(true);
+          }
         })
         .catch(fail);
     };
@@ -185,6 +198,12 @@ export default function Studio3D({
     sync.current(design);
   }, [design, selected, activeLayer, guides]);
   useEffect(() => {
+    if (editing && spinning) {
+      scene.current?.spin(false);
+      setSpinning(false);
+    }
+  }, [editing, spinning]);
+  useEffect(() => {
     if (skipSideView.current === design.side) {
       skipSideView.current = null;
       return;
@@ -237,6 +256,9 @@ export default function Studio3D({
           role="group"
           aria-label={t("3D view controls", "Kontrollet e pamjes 3D")}
         >
+          <strong className="studio-3d-badge" aria-hidden="true">
+            360°
+          </strong>
           <button
             aria-label={t("Rotate bag left", "Rrotullo çantën majtas")}
             title={t("Rotate left", "Rrotullo majtas")}
