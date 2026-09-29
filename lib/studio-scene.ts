@@ -214,6 +214,19 @@ export function createStudioScene(
       s.lineTo(-1.04, 1.07);
       s.quadraticCurveTo(-half, 0.95, -half, 0.65);
       s.closePath();
+    } else if (product === "string-bag") {
+      s.moveTo(-half + 0.12, bottom);
+      s.lineTo(half - 0.12, bottom);
+      s.quadraticCurveTo(half, bottom, half, bottom + 0.13);
+      s.lineTo(half, 0.18);
+      s.quadraticCurveTo(half, 0.65, 0.75, 1.0);
+      s.quadraticCurveTo(0.51, top - 0.06, 0.4, top);
+      s.lineTo(-0.4, top);
+      s.quadraticCurveTo(-0.51, top - 0.06, -0.75, 1.0);
+      s.quadraticCurveTo(-half, 0.65, -half, 0.18);
+      s.lineTo(-half, bottom + 0.13);
+      s.quadraticCurveTo(-half, bottom, -half + 0.12, bottom);
+      s.closePath();
     } else {
       s.moveTo(-half, bottom);
       s.lineTo(half, bottom);
@@ -226,21 +239,41 @@ export function createStudioScene(
     }
     return s;
   }
-  const shaped = product === "d-cut-bag" || product === "t-shirt-bag";
-  // Display the same photographed bag in both preview modes. Geometry only
-  // supplies depth at the silhouette edge; the front is never repainted.
-  const photoShell = true;
+  const shaped = product === "d-cut-bag" || product === "t-shirt-bag" || product === "string-bag";
+  // The product photograph becomes the fabric on a real bag mesh. Side
+  // gussets, the base, mouth and handles are modelled separately.
+  const photoShell = false;
   const photoPlaneSize = 4;
   const photoPlaneCenterY = 0.18;
   const photoFaceZ = depth / 2 + 0.03;
   const photoCanvas = document.createElement("canvas");
   photoCanvas.width = photoCanvas.height = 1440;
-  const photoTexture = photoShell ? new THREE.CanvasTexture(photoCanvas) : null;
+  const photoTexture = new THREE.CanvasTexture(photoCanvas);
+  const clothCanvas = document.createElement("canvas");
+  clothCanvas.width = clothCanvas.height = 256;
+  const clothTexture = new THREE.CanvasTexture(clothCanvas);
+  clothTexture.colorSpace = THREE.SRGBColorSpace;
+  clothTexture.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
+  textures.add(clothTexture);
+  // Both photographed faces share a subdivided surface. The image supplies
+  // fabric detail; the mesh supplies the small bulge of a filled bag.
+  const photoFaceGeometry = photoShell
+    ? new THREE.PlaneGeometry(photoPlaneSize, photoPlaneSize, 72, 72)
+    : null;
   if (photoTexture) {
     photoTexture.colorSpace = THREE.SRGBColorSpace;
     photoTexture.anisotropy = Math.min(4, renderer.capabilities.getMaxAnisotropy());
     textures.add(photoTexture);
   }
+  const photographedFabric = new THREE.MeshStandardMaterial({
+    map: photoTexture,
+    bumpMap: bump,
+    bumpScale: 0.012,
+    roughness: 0.92,
+    metalness: 0,
+    side: THREE.FrontSide,
+  });
+  materials.add(photographedFabric);
   if (spec.handles && !photoShell) {
     // The narrow dark opening and rolled upper lip make the bag read as an
     // open, sewn object instead of two flat printed planes.
@@ -260,7 +293,7 @@ export function createStudioScene(
         0.013,
       );
   }
-  function faceGeometry() {
+  function faceGeometry(forPhoto = false) {
     const geometry = shaped
       ? new THREE.ShapeGeometry(outline(), 40)
       : new THREE.PlaneGeometry(width, top - bottom, 56, 56);
@@ -276,8 +309,10 @@ export function createStudioScene(
       const fullHeight = fullTop - bottom;
       const scale = Math.min(650 / width, 690 / fullHeight);
       const centerY = (fullTop + bottom) / 2;
-      uv[i * 2] = (400 + xx * scale) / 800;
-      uv[i * 2 + 1] = 1 - (400 - (y - centerY) * scale) / 800;
+      uv[i * 2] = forPhoto ? (xx + half) / width : (400 + xx * scale) / 800;
+      uv[i * 2 + 1] = forPhoto
+        ? (y - bottom) / (top - bottom)
+        : 1 - (400 - (y - centerY) * scale) / 800;
     }
     geometry.setAttribute("uv", new THREE.BufferAttribute(uv, 2));
     geometry.computeVertexNormals();
@@ -288,7 +323,7 @@ export function createStudioScene(
   for (const face of [1, -1]) {
     const panel = photoShell
       ? add(
-          new THREE.PlaneGeometry(photoPlaneSize, photoPlaneSize),
+          photoFaceGeometry!,
           new THREE.MeshBasicMaterial({
             map: photoTexture,
             transparent: true,
@@ -297,7 +332,7 @@ export function createStudioScene(
             side: THREE.FrontSide,
           }),
         )
-      : add(faceGeometry());
+      : add(faceGeometry(true), photographedFabric);
     if (photoShell) panel.position.set(0, photoPlaneCenterY, face * photoFaceZ);
     if (face < 0) panel.rotation.y = Math.PI;
     faceSides.set(panel, face > 0 ? "front" : "back");
@@ -322,7 +357,7 @@ export function createStudioScene(
     });
     const print = add(
       photoShell
-        ? new THREE.PlaneGeometry(photoPlaneSize, photoPlaneSize)
+        ? photoFaceGeometry!
         : faceGeometry(),
       ink,
     );
@@ -332,7 +367,7 @@ export function createStudioScene(
     if (face < 0) print.rotation.y = Math.PI;
     faceSides.set(print, face > 0 ? "front" : "back");
     if (photoShell) continue;
-    for (const x of [-half + 0.022, half - 0.022]) {
+    for (const x of product === "string-bag" ? [] : [-half + 0.022, half - 0.022]) {
       const pts: THREE.Vector3[] = [];
       const seamTop = product === "t-shirt-bag" ? 0.65 : top - 0.03;
       for (let i = 0; i <= 30; i++) {
@@ -350,16 +385,6 @@ export function createStudioScene(
         }
         seam(pts);
       }
-    if (product === "d-cut-bag") {
-      const pts: THREE.Vector3[] = [];
-      for (let i = 0; i <= 64; i++) {
-        const t = (i / 64) * Math.PI * 2,
-          x = 0.447 * Math.cos(t),
-          y = top - 0.4 + 0.158 * Math.sin(t);
-        pts.push(new THREE.Vector3(xAt(x, y), y, face * (zAt(x, y) + 0.008)));
-      }
-      seam(pts, 0.005);
-    }
     if (spec.handles) {
       const positions: number[] = [],
         indices: number[] = [],
@@ -413,55 +438,8 @@ export function createStudioScene(
       }
     }
   }
-  // Photograph edges determine the gusset outline, so no side can protrude
-  // beyond the photographed bag when it turns.
-  const edgeRows = 44;
-  const photoEdges: { side: number; geometry: THREE.BufferGeometry }[] = [];
-  if (photoShell)
-    for (const side of [-1, 1]) {
-      const geometry = new THREE.BufferGeometry();
-      geometry.setAttribute(
-        "position",
-        new THREE.BufferAttribute(new Float32Array((edgeRows + 1) * 2 * 3), 3),
-      );
-      const indices: number[] = [];
-      for (let i = 0; i < edgeRows; i++) {
-        const n = i * 2;
-        indices.push(n, n + 1, n + 2, n + 1, n + 3, n + 2);
-      }
-      geometry.setIndex(indices);
-      add(geometry, seamMat);
-      photoEdges.push({ side, geometry });
-    }
   let lastPhoto: HTMLCanvasElement | null = null;
-  function updatePhotoEdges(photo: HTMLCanvasElement) {
-    const { width: w, height: h } = photo;
-    const pixels = photo.getContext("2d", { willReadFrequently: true })!
-      .getImageData(0, 0, w, h).data;
-    const start = product === "d-cut-bag" ? 0.12 : 0.37;
-    for (const { side, geometry } of photoEdges) {
-      const position = geometry.attributes.position as THREE.BufferAttribute;
-      for (let row = 0; row <= edgeRows; row++) {
-        // Stop above the folded bottom edge; the photograph already contains
-        // that depth and a generated strip would stick out as a loose triangle.
-        const fraction = start + ((0.78 - start) * row) / edgeRows;
-        const py = Math.min(h - 1, Math.round(fraction * h));
-        let px = side < 0 ? 0 : w - 1;
-        const step = side < 0 ? 1 : -1;
-        while (px >= 0 && px < w && pixels[(py * w + px) * 4 + 3] < 220)
-          px += step;
-        if (px < 0 || px >= w) px = side < 0 ? w * 0.3 : w * 0.7;
-        const x = (px / w - 0.5) * photoPlaneSize - side * 0.12;
-        const y = photoPlaneCenterY + (0.5 - fraction) * photoPlaneSize;
-        position.setXYZ(row * 2, x, y, photoFaceZ - 0.022);
-        position.setXYZ(row * 2 + 1, x, y, -photoFaceZ + 0.022);
-      }
-      position.needsUpdate = true;
-      geometry.computeVertexNormals();
-    }
-  }
-  // The procedural gussets remain available if a future approved 3D model
-  // replaces the photo-backed surfaces.
+  // Side gussets have their own mesh; they carry the fabric crop around the bag.
   const sideTop = product === "t-shirt-bag" ? 0.72 : top;
   if (!photoShell) for (const side of [-1, 1]) {
     const g = new THREE.PlaneGeometry(depth, sideTop - bottom, 16, 40),
@@ -470,10 +448,16 @@ export function createStudioScene(
       const z = pos.getX(i),
         y = pos.getY(i) + (sideTop + bottom) / 2;
       const fold = Math.sin((z / depth + 0.5) * Math.PI) *
-        (product === "box-bag" ? 0.14 : 0.075);
+        (product === "box-bag" ? 0.14 : product === "t-shirt-bag" ? 0.16 : 0.075);
       pos.setXYZ(
         i,
-        side * (Math.abs(xAt(half, y)) - fold - (photoShell ? 0.22 : 0)),
+        side * (
+          (product === "string-bag"
+            ? half * (1 - 0.6 * Math.min(1, Math.max(0, (y - 0.18) / (top - 0.18))))
+            : Math.abs(xAt(half, y))) -
+          fold -
+          (photoShell ? 0.22 : 0)
+        ),
         y,
         z,
       );
@@ -498,26 +482,23 @@ export function createStudioScene(
         );
   }
   if (product === "string-bag" && !photoShell)
-    for (const side of [-1, 1]) {
+    for (const face of [-1, 1]) {
       seam(
         [
-          new THREE.Vector3(side * 0.78, top - 0.08, 0.24),
-          new THREE.Vector3(side * 1.28, top - 0.25, 0.17),
-          new THREE.Vector3(side * 1.52, -0.4, 0.05),
-          new THREE.Vector3(side * 1.15, bottom + 0.03, 0.1),
-          new THREE.Vector3(side * 1.3, -0.25, 0.23),
-          new THREE.Vector3(side * 0.7, top - 0.13, 0.3),
+          new THREE.Vector3(-0.38, top - 0.05, face * (depth / 2 + 0.015)),
+          new THREE.Vector3(0, top - 0.18, face * (depth / 2 + 0.04)),
+          new THREE.Vector3(0.38, top - 0.05, face * (depth / 2 + 0.015)),
         ],
-        0.018,
+        0.015,
         cordMat,
       );
       seam(
         [
-          new THREE.Vector3(-0.88, top - 0.12, 0.25),
-          new THREE.Vector3(0, top - 0.14, 0.27),
-          new THREE.Vector3(0.88, top - 0.12, 0.25),
+          new THREE.Vector3(0.12, top - 0.16, face * (depth / 2 + 0.05)),
+          new THREE.Vector3(0.25, top - 0.42, face * (depth / 2 + 0.08)),
+          new THREE.Vector3(0.22, top - 0.7, face * (depth / 2 + 0.07)),
         ],
-        0.014,
+        0.012,
         cordMat,
       );
     }
@@ -899,16 +880,92 @@ export function createStudioScene(
       selection = selected;
       const hex = (colors.find((c) => c.name === design.color) || colors[0])
         .hex;
-      fabric.color.set(hex);
+      fabric.color.set(0xffffff);
       seamMat.color.set(hex).multiplyScalar(0.84);
       innerMat.color.set(hex).multiplyScalar(0.48);
-      if (photoTexture && photo) {
-        photoTexture.image = photo;
+      if (photo && photo !== lastPhoto) {
+          // Crop the actual photographed front panel into the UV space of the
+          // volumetric face. The same source supplies the side fabric weave.
+          const crop: Record<string, [number, number, number, number]> = {
+            "box-bag": [0.33, 0.31, 0.81, 0.93],
+            "handle-bag": [0.30, 0.43, 0.72, 0.93],
+            "t-shirt-bag": [0.35, 0.08, 0.77, 0.93],
+            "d-cut-bag": [0.14, 0.02, 0.86, 0.93],
+            "string-bag": [0.13, 0.07, 0.87, 0.93],
+          };
+          const [l, t, r, b] = crop[product] || crop["box-bag"];
+          const source = photo.getContext("2d", { willReadFrequently: true })!;
+          const sample = source.getImageData(
+            Math.floor(photo.width * (l + r) / 2),
+            Math.floor(photo.height * (t * 0.2 + b * 0.8)),
+            1,
+            1,
+          ).data;
+          const ground = `rgb(${sample[0]},${sample[1]},${sample[2]})`;
+          const face = photoCanvas.getContext("2d")!;
+          face.clearRect(0, 0, photoCanvas.width, photoCanvas.height);
+          face.fillStyle = ground;
+          face.fillRect(0, 0, photoCanvas.width, photoCanvas.height);
+          face.drawImage(
+            photo,
+            l * photo.width,
+            t * photo.height,
+            (r - l) * photo.width,
+            (b - t) * photo.height,
+            0,
+            0,
+            photoCanvas.width,
+            photoCanvas.height,
+          );
+          if (product === "d-cut-bag") {
+            // Use the unprinted fabric in the supplied image across the face.
+            // The grip opening belongs to the mesh, so the photographed hole
+            // must not appear a second time at another position.
+            face.drawImage(
+              photo,
+              photo.width * 0.3,
+              photo.height * 0.3,
+              photo.width * 0.4,
+              photo.height * 0.52,
+              0,
+              0,
+              photoCanvas.width,
+              photoCanvas.height,
+            );
+          }
+          const cloth = clothCanvas.getContext("2d")!;
+          cloth.clearRect(0, 0, 256, 256);
+          cloth.fillStyle = ground;
+          cloth.fillRect(0, 0, 256, 256);
+          if (product === "t-shirt-bag")
+            cloth.drawImage(
+              photo,
+              photo.width * 0.25,
+              photo.height * 0.32,
+              photo.width * 0.19,
+              photo.height * 0.59,
+              0,
+              0,
+              256,
+              256,
+            );
+          else
+            cloth.drawImage(
+              photo,
+              photo.width * (l + r) / 2 - 110,
+              photo.height * (t * 0.22 + b * 0.78) - 110,
+              220,
+              220,
+              0,
+              0,
+              256,
+              256,
+            );
+          clothTexture.needsUpdate = true;
+          fabric.map = clothTexture;
+          fabric.needsUpdate = true;
         photoTexture.needsUpdate = true;
-        if (photo !== lastPhoto) {
-          updatePhotoEdges(photo);
-          lastPhoto = photo;
-        }
+        lastPhoto = photo;
       }
       [front, back].forEach((artwork, i) => {
         faceBounds[i === 0 ? "front" : "back"] = artwork.bounds;
