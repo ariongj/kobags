@@ -8,7 +8,7 @@ import {
   PackageCheck,
   Download,
 } from "lucide-react";
-import { PageHeading } from "@/components/site-shell";
+import { LocalizedCopy as L, LocalizedPageHeading } from "@/components/localized-copy";
 import InquiryForm from "@/components/inquiry-form";
 import ResourceContent from "@/components/resource-content";
 import CookieControls from "@/components/cookie-controls";
@@ -27,6 +27,58 @@ const titles: Record<string, string> = {
   terms: "Clear expectations, from the start.",
   cookies: "Your privacy preferences.",
 };
+const albanianTitles: Record<string, string> = {
+  manufacturing: "Prodhuar në Kosovë. Bartur kudo.",
+  sustainability: "Pyetje më të mira. Zgjedhje më të qarta.",
+  certifications: "Dëshmi që mund t'i shihni nga afër.",
+  partners: "Ta ndërtojmë bashkë lidhjen e radhës.",
+  "partners/apply": "Partneriteti fillon me një bisedë.",
+  resources: "Njohuritë e duhura ju çojnë më larg.",
+  industries: "Çanta e duhur për biznesin tuaj.",
+  "industries/retail": "Çdo blerje, një moment për markën tuaj.",
+  samples: "Shikojeni. Prekeni. Pastaj vendosni.",
+  contact: "Le të flasim për çantën tuaj të radhës.",
+};
+const introductions: Record<string, [string, string]> = {
+  manufacturing: [
+    "A closer look at the people, material and process behind your bags.",
+    "Njihuni më afër me njerëzit, materialet dhe procesin pas çantave tuaja.",
+  ],
+  sustainability: [
+    "Useful material information starts with precise claims and the evidence behind them.",
+    "Informacioni i dobishëm për materialet mbështetet në fakte të sakta dhe dëshmi.",
+  ],
+  partners: [
+    "Three ways to introduce Kobags to the right buyers.",
+    "Tri mënyra për ta prezantuar Kobags te blerësit e duhur.",
+  ],
+  resources: [
+    "Practical guidance for choosing, designing and ordering your bags.",
+    "Udhëzime praktike për zgjedhjen, dizajnimin dhe porositjen e çantave.",
+  ],
+  industries: [
+    "Start with what you carry, where it goes and how your brand should feel.",
+    "Filloni nga produkti që bartni, destinacioni i tij dhe përshtypja që doni të lërë marka juaj.",
+  ],
+  samples: [
+    "Explore a sample inquiry before committing to a wholesale order.",
+    "Kërkoni një mostër para se të vendosni për porosinë me shumicë.",
+  ],
+  contact: [
+    "General questions have their own place. For a bag quotation, start with your design.",
+    "Për pyetje të përgjithshme na kontaktoni këtu. Për ofertë, filloni me dizajnin tuaj.",
+  ],
+};
+const albanianEyebrows: Record<string, string> = {
+  manufacturing: "KOBAGS / PRODHIMI",
+  sustainability: "KOBAGS / PËRGJEGJËSIA",
+  certifications: "KOBAGS / CERTIFIKATAT",
+  partners: "KOBAGS / PARTNERËT",
+  resources: "KOBAGS / UDHËZUESIT",
+  industries: "KOBAGS / SEKTORËT",
+  samples: "KOBAGS / MOSTRAT",
+  contact: "KOBAGS / KONTAKTI",
+};
 export async function generateMetadata({
   params,
 }: {
@@ -36,7 +88,7 @@ export async function generateMetadata({
   return {
     title: titles[path] || "Page not found",
     description: titles[path]
-      ? titles[path] + " Kobags Group website demonstration."
+      ? titles[path] + " Explore Kobags Group products, production and ordering information."
       : undefined,
   };
 }
@@ -49,169 +101,157 @@ export default async function Page({
   if (!titles[path]) notFound();
   return (
     <main>
-      <PageHeading
+      <LocalizedPageHeading
         eyebrow={"KOBAGS / " + path.split("/")[0].toUpperCase()}
+        eyebrowSq={albanianEyebrows[path.split("/")[0]]}
         title={titles[path]}
-      >
-        {
-          (
-            {
-              manufacturing:
-                "A closer look at the people, material and process behind your bags.",
-              sustainability:
-                "Useful material information starts with precise claims and the evidence behind them.",
-              partners: "Three ways to introduce Kobags to the right buyers.",
-              resources:
-                "Practical guidance for choosing, designing and ordering your bags.",
-              industries:
-                "Start with what you carry, where it goes and how your brand should feel.",
-              samples:
-                "Explore a sample inquiry before committing to a wholesale order.",
-              contact:
-                "General questions have their own place. For a bag quotation, start with your design.",
-            } as Record<string, string>
-          )[path]
-        }
-      </PageHeading>
+        titleSq={albanianTitles[path]}
+        intro={introductions[path]?.[0]}
+        introSq={introductions[path]?.[1]}
+      />
       <div className="content-width">
         {path === "manufacturing" && (
           <>
             <div className="manufacturing-hero">
               <img
-                src="/assets/client-2026-09/factory-sign.jpg"
-                alt="Kobags production machinery inside the factory"
+                src="/assets/client-2026-09/manufacturing-bag-forming.webp"
+                alt="Printed bag material moving through the forming line at the Kobags factory"
                 width="1200"
                 height="600"
               />
               <div>
-                <p className="eyebrow">MADE IN KOSOVA</p>
+                <p className="eyebrow"><L en="MADE IN KOSOVA" sq="PRODHUAR NË KOSOVË" /></p>
                 <h2>
-                  Where your bag
+                  <L en="Where your bag" sq="Këtu merr formë" />
                   <br />
-                  takes shape.
+                  <L en="takes shape." sq="çanta juaj." />
                 </h2>
               </div>
             </div>
             <div className="manufacturing-grid">
               {[
-                [
-                  Layers,
-                  "01 / Material",
-                  "Define the non-woven PP material, GSM, bag shape and color for your application.",
-                ],
-                [
-                  Paintbrush,
-                  "02 / Printing",
-                  "Published product details describe flexographic printing in up to four colors. Confirm capabilities for your selected product.",
-                ],
-                [
-                  PackageCheck,
-                  "03 / Approval & dispatch",
-                  "Review the quotation and artwork proof before production. Confirm dispatch timing and destination-dependent transport.",
-                ],
-              ].map(([Icon, h, p]) => {
-                const I = Icon as typeof Layers;
+                {
+                  icon: Layers,
+                  title: "01 / Material",
+                  titleSq: "01 / Materiali",
+                  body: "Define the non-woven PP material, GSM, bag shape and color for your application.",
+                  bodySq: "Përcaktoni materialin PP jo të endur, peshën në GSM, formën dhe ngjyrën e çantës sipas nevojës suaj.",
+                },
+                {
+                  icon: Paintbrush,
+                  title: "02 / Printing",
+                  titleSq: "02 / Shtypi",
+                  body: "Choose up to four print colors and share your artwork. We’ll confirm the print method and usable area for your selected bag.",
+                  bodySq: "Zgjidhni deri në katër ngjyra shtypi dhe na dërgoni dizajnin tuaj. Metodën e shtypit dhe sipërfaqen e përdorshme i konfirmojmë për çantën e zgjedhur.",
+                },
+                {
+                  icon: PackageCheck,
+                  title: "03 / Approval & dispatch",
+                  titleSq: "03 / Miratimi dhe dërgimi",
+                  body: "Review the quotation and artwork proof before production. Confirm dispatch timing and destination-dependent transport.",
+                  bodySq: "Shqyrtoni ofertën dhe provën e dizajnit para prodhimit. Konfirmoni afatin e nisjes dhe transportin sipas destinacionit.",
+                },
+              ].map(({ icon: Icon, title, titleSq, body, bodySq }) => {
+                const I = Icon;
                 return (
-                  <article className="section-card" key={String(h)}>
+                  <article className="section-card" key={title}>
                     <I size={24} />
-                    <h3>{String(h)}</h3>
-                    <p>{String(p)}</p>
+                    <h3><L en={title} sq={titleSq} /></h3>
+                    <p><L en={body} sq={bodySq} /></p>
                   </article>
                 );
               })}
             </div>
             <section className="factory-reels" aria-labelledby="factory-reels-title">
               <div className="factory-reels-intro">
-                <p className="eyebrow">FACTORY MOTION / KOSOVA</p>
-                <h2 id="factory-reels-title">A closer look at the line.</h2>
-                <p>Two short clips supplied by Kobags show bag forming and bag blanks moving into a stack. Play either reel when you are ready.</p>
-                <p className="source-note">The general catalog also mentions screen printing and heat transfer. Confirm availability for your selected product.</p>
+                <p className="eyebrow"><L en="FACTORY MOTION / KOSOVA" sq="LINJA E PRODHIMIT / KOSOVË" /></p>
+                <h2 id="factory-reels-title"><L en="A closer look at the line." sq="Shihni linjën nga afër." /></h2>
+                <p><L en="Watch bag forming and stacking on our production floor. Each clip shows a different step in making your order." sq="Shihni formimin dhe vendosjen e çantave në linjën tonë. Secila video paraqet një hap të ndryshëm të prodhimit." /></p>
               </div>
               <figure className="factory-reel">
                 <video controls playsInline preload="none" poster="/assets/client-2026-09/bag-forming-poster.jpg" width="464" height="832" aria-label="Watch bags being formed on the Kobags production line">
                   <source src="/assets/client-2026-09/bag-forming-reel.mp4" type="video/mp4" />
-                  Your browser does not support video playback.
+                  <L en="Your browser does not support video playback." sq="Shfletuesi juaj nuk e mbështet videon." />
                 </video>
-                <figcaption><span>01 / FORMING</span><strong>On the production line</strong></figcaption>
+                <figcaption><span><L en="01 / FORMING" sq="01 / FORMIMI" /></span><strong><L en="On the production line" sq="Në linjën e prodhimit" /></strong></figcaption>
               </figure>
               <figure className="factory-reel">
                 <video controls playsInline preload="none" poster="/assets/client-2026-09/bag-stacking-poster.jpg" width="480" height="848" aria-label="Watch bag blanks moving into a stack">
                   <source src="/assets/client-2026-09/bag-stacking-reel.mp4" type="video/mp4" />
-                  Your browser does not support video playback.
+                  <L en="Your browser does not support video playback." sq="Shfletuesi juaj nuk e mbështet videon." />
                 </video>
-                <figcaption><span>02 / FINISHING</span><strong>Into the finishing stack</strong></figcaption>
+                <figcaption><span><L en="02 / FINISHING" sq="02 / PËRFUNDIMI" /></span><strong><L en="Into the finishing stack" sq="Vendosja në stivë" /></strong></figcaption>
               </figure>
             </section>
             <div className="manufacturing-photo-rail" aria-label="Inside Kobags production">
               <figure>
                 <img src="/assets/client-2026-09/material-rolls.jpg" alt="Rolls of bag material at the Kobags factory" loading="lazy" width="800" height="533" />
-                <figcaption>01 / Material</figcaption>
+                <figcaption><L en="01 / Material" sq="01 / Materiali" /></figcaption>
               </figure>
               <figure>
                 <img src="/assets/client-2026-09/printing-rollers.jpg" alt="Printing rollers in the Kobags production line" loading="lazy" width="800" height="533" />
-                <figcaption>02 / Print</figcaption>
+                <figcaption><L en="02 / Print" sq="02 / Shtypi" /></figcaption>
               </figure>
               <figure>
                 <img src="/assets/client-2026-09/finished-stack-rail.jpg" alt="Stacks of finished bags at the Kobags factory" loading="lazy" width="800" height="533" />
-                <figcaption>03 / Finished bags</figcaption>
+                <figcaption><L en="03 / Finished bags" sq="03 / Çantat e përfunduara" /></figcaption>
               </figure>
             </div>
-<p className="source-note">Factory photographs and both short process clips supplied by Kobags Group.</p>
           </>
         )}
         {path === "sustainability" && (
           <>
             <div className="material-feature">
-              <img src="/assets/client-2026-09/material-equipment.jpg" alt="Material handling equipment at the Kobags factory" width="640" height="425" loading="lazy" />
+              <img src="/assets/client-2026-09/material-printed-rolls.webp" alt="Printed non-woven material on rolls at the Kobags factory" width="640" height="425" loading="lazy" />
               <div>
-                <p className="eyebrow">KNOW YOUR MATERIAL</p>
+                <p className="eyebrow"><L en="KNOW YOUR MATERIAL" sq="NJIHNI MATERIALIN" /></p>
                 <h2>
-                  Reusable starts with
+                  <L en="Reusable starts with" sq="Ripërdorimi fillon nga" />
                   <br />
-                  how you use it.
+                  <L en="how you use it." sq="mënyra si e përdorni." />
                 </h2>
                 <p>
-                  Non-woven polypropylene is a plastic material. It can be
-                  designed for repeated use, but recycled content, recyclability
-                  and reuse are different questions.
+                  <L en="Non-woven polypropylene is a plastic material. It can be designed for repeated use, but recycled content, recyclability and reuse are different questions." sq="Polipropileni jo i endur është material plastik. Çanta mund të projektohet për përdorim të përsëritur, por përmbajtja e ricikluar, riciklueshmëria dhe ripërdorimi janë çështje të ndryshme." />
                 </p>
               </div>
             </div>
             <div className="manufacturing-grid">
               {[
-                [
-                  "What is it made of?",
-                  "The published specifications describe non-woven PP. Ask for a product-specific declaration of material composition; do not infer recycled content from the material name.",
-                ],
-                [
-                  "Can it be recycled?",
-                  "Collection and processing options depend on your destination. Check local acceptance for the actual finished bag, including print and other components.",
-                ],
-                [
-                  "How should I care for it?",
-                  "The current FAQ recommends wiping with a damp cloth or gentle hand washing, avoiding machine washing and high heat. Confirm care instructions for the finished product.",
-                ],
-              ].map(([h, p]) => (
-                <article className="section-card" key={h}>
-                  <h3>{h}</h3>
-                  <p>{p}</p>
+                {
+                  title: "What is it made of?",
+                  titleSq: "Nga çfarë përbëhet?",
+                  body: "Our non-woven bag range uses polypropylene (PP). For a specific bag, ask us to confirm its full composition and any recycled content.",
+                  bodySq: "Çantat tona jo të endura përdorin polipropilen (PP). Për një çantë të caktuar, kërkoni konfirmim për përbërjen e plotë dhe përmbajtjen eventuale të ricikluar.",
+                },
+                {
+                  title: "Can it be recycled?",
+                  titleSq: "A mund të riciklohet?",
+                  body: "Collection and processing options depend on your destination. Check local acceptance for the actual finished bag, including print and other components.",
+                  bodySq: "Mundësitë e grumbullimit dhe përpunimit varen nga vendi ku përdoret. Kontrolloni nëse pranohet lokalisht çanta e përfunduar, përfshirë shtypin dhe pjesët e tjera.",
+                },
+                {
+                  title: "How should I care for it?",
+                  titleSq: "Si duhet të kujdesem për të?",
+                  body: "Wipe it with a damp cloth or wash it gently by hand. Avoid machine washing and high heat. We can confirm care for your selected print and finish.",
+                  bodySq: "Pastrojeni me leckë të lagur ose lajeni lehtë me dorë. Shmangni lavatriçen dhe temperaturat e larta. Udhëzimet për shtypin dhe përfundimin e zgjedhur i konfirmojmë veçmas.",
+                },
+              ].map(({ title, titleSq, body, bodySq }) => (
+                <article className="section-card" key={title}>
+                  <h3><L en={title} sq={titleSq} /></h3>
+                  <p><L en={body} sq={bodySq} /></p>
                 </article>
               ))}
             </div>
             <section className="prose">
-              <h2>Evidence before broad claims.</h2>
+              <h2><L en="Evidence before broad claims." sq="Dëshmitë para pretendimeve të gjera." /></h2>
               <p>
-                Figures for environmental impact, product lifetime, recycled
-                percentage and food contact require product-specific evidence
-                and clear scope. Ask for the relevant evidence for your bag.
+                <L en="Figures for environmental impact, product lifetime, recycled percentage and food contact require product-specific evidence and clear scope. Ask for the relevant evidence for your bag." sq="Të dhënat për ndikimin mjedisor, jetëgjatësinë, përqindjen e materialit të ricikluar dhe kontaktin me ushqimin kërkojnë dëshmi për produktin konkret dhe fushë të qartë zbatimi. Kërkoni dëshmitë për çantën tuaj." />
               </p>
               <p>
-                Management-system certificates describe the certified
-                organization and scope. They do not by themselves establish a
-                bag’s environmental performance.
+                <L en="Management-system certificates describe the certified organization and scope. They do not by themselves establish a bag’s environmental performance." sq="Certifikatat e sistemeve të menaxhimit përshkruajnë organizatën dhe fushën e certifikuar. Ato nuk provojnë vetë performancën mjedisore të një çante." />
               </p>
               <Link href="/certifications">
-                Review the certificate references →
+                <L en="Review the certificate references" sq="Shikoni certifikatat" /> →
               </Link>
             </section>
           </>
@@ -221,32 +261,38 @@ export default async function Page({
           <>
             <div className="partner-factory">
               <img src="/assets/client-2026-09/factory-partners.jpg" alt="Production floor at Kobags in Kosova" width="1200" height="800" loading="lazy" />
-              <div><p className="eyebrow">MADE IN KOSOVA</p><h2>Partnership starts with a real production team.</h2></div>
+              <div><p className="eyebrow"><L en="MADE IN KOSOVA" sq="PRODHUAR NË KOSOVË" /></p><h2><L en="Partnership starts with a real production team." sq="Partneriteti fillon me një ekip të vërtetë prodhimi." /></h2></div>
             </div>
             <div className="partner-grid">
               {[
-                [
-                  "01",
-                  "Country representative",
-                  "Develop a market and introduce suitable wholesale customers. Territory, responsibilities and exclusivity require an agreed partner arrangement.",
-                ],
-                [
-                  "02",
-                  "Sales partner",
-                  "Bring relevant customer requirements into a structured quote process. Sales responsibilities and commercial terms are agreed directly.",
-                ],
-                [
-                  "03",
-                  "Affiliate",
-                  "Introduce potential buyers through an agreed referral model. Eligibility, attribution and commission terms need confirmation.",
-                ],
-              ].map(([n, h, p]) => (
-                <article className="section-card" key={n}>
-                  <span className="partner-number">{n}</span>
-                  <h2>{h}</h2>
-                  <p>{p}</p>
+                {
+                  number: "01",
+                  title: "Country representative",
+                  titleSq: "Përfaqësues për një vend",
+                  body: "Develop a market and introduce suitable wholesale customers. Territory, responsibilities and exclusivity require an agreed partner arrangement.",
+                  bodySq: "Zhvilloni një treg dhe prezantoni blerës të përshtatshëm me shumicë. Territori, përgjegjësitë dhe ekskluziviteti kërkojnë marrëveshje të veçantë partneriteti.",
+                },
+                {
+                  number: "02",
+                  title: "Sales partner",
+                  titleSq: "Partner shitjesh",
+                  body: "Bring relevant customer requirements into a structured quote process. Sales responsibilities and commercial terms are agreed directly.",
+                  bodySq: "Sillni kërkesat e klientëve në një proces të qartë ofertimi. Përgjegjësitë e shitjes dhe kushtet tregtare dakordohen drejtpërdrejt.",
+                },
+                {
+                  number: "03",
+                  title: "Affiliate",
+                  titleSq: "Partner referimi",
+                  body: "Introduce potential buyers through an agreed referral model. Eligibility, attribution and commission terms need confirmation.",
+                  bodySq: "Prezantoni blerës të mundshëm përmes një modeli referimi të dakorduar. Kushtet e pjesëmarrjes, atribuimit dhe komisionit duhet të konfirmohen.",
+                },
+              ].map(({ number, title, titleSq, body, bodySq }) => (
+                <article className="section-card" key={number}>
+                  <span className="partner-number">{number}</span>
+                  <h2><L en={title} sq={titleSq} /></h2>
+                  <p><L en={body} sq={bodySq} /></p>
                   <Link className="text-button" href="/partners/apply">
-                    Apply as a partner <ArrowUpRight size={16} />
+                    <L en="Apply as a partner" sq="Aplikoni si partner" /> <ArrowUpRight size={16} />
                   </Link>
                 </article>
               ))}
@@ -257,13 +303,12 @@ export default async function Page({
           <div className="inquiry-layout">
             <InquiryForm kind="partner" />
             <aside className="inquiry-aside">
-              <h2>A useful introduction.</h2>
+              <h2><L en="A useful introduction." sq="Një prezantim i vlefshëm." /></h2>
               <p>
-                Tell us which partner model fits, the country you work in and
-                the buyers you can support.
+                <L en="Tell us which partner model fits, the country you work in and the buyers you can support." sq="Na tregoni cili model partneriteti ju përshtatet, në cilin vend veproni dhe cilët blerës mund të mbështesni." />
               </p>
               <Link href="/partners" className="text-button">
-                Review partner models ↗
+                <L en="Review partner models" sq="Shikoni modelet e partneritetit" /> ↗
               </Link>
             </aside>
           </div>
@@ -274,24 +319,22 @@ export default async function Page({
             <aside className="inquiry-aside">
               <img className="inquiry-photo" src="/assets/client-2026-09/sample-bag.jpg" alt="Printed sample bag from the Kobags collection" width="360" height="450" loading="lazy" />
               <h2>
-                Get a feel
+                <L en="Get a feel" sq="Njihni nga afër" />
                 <br />
-                for the details.
+                <L en="for the details." sq="detajet." />
               </h2>
               <p>
-                Tell us the bag styles and material details you would like to
-                review.
+                <L en="Tell us the bag styles and material details you would like to review." sq="Na tregoni cilat forma çantash dhe cilat detaje të materialit doni të shqyrtoni." />
               </p>
               <ul>
-                <li>Sample availability requires confirmation.</li>
-                <li>Sample and shipping costs are not yet specified.</li>
+                <li><L en="Sample availability requires confirmation." sq="Disponueshmëria e mostrave duhet të konfirmohet." /></li>
+                <li><L en="Sample and shipping costs are not yet specified." sq="Kostoja e mostrës dhe e dërgesës nuk janë përcaktuar ende." /></li>
                 <li>
-                  Samples are separate from the published 5,000-bag wholesale
-                  minimum.
+                  <L en="Samples are separate from the 5,000-bag wholesale minimum." sq="Mostrat nuk përfshihen në minimumin prej 5,000 çantash për porosi me shumicë." />
                 </li>
               </ul>
               <Link href="/products" className="text-button">
-                Explore the five bag families ↗
+                <L en="Explore the five bag families" sq="Shikoni pesë llojet e çantave" /> ↗
               </Link>
             </aside>
           </div>
@@ -301,20 +344,20 @@ export default async function Page({
             <InquiryForm kind="contact" />
             <aside className="inquiry-aside">
               <h2>
-                Find Kobags
+                <L en="Find Kobags" sq="Gjeni Kobags" />
                 <br />
-                in Kosova.
+                <L en="in Kosova." sq="në Kosovë." />
               </h2>
-              <p>Made in Kosova</p>
+              <p><L en="Made in Kosova" sq="Prodhuar në Kosovë" /></p>
               <p>
-                Published contact details:
+                <L en="Email or call us:" sq="Na shkruani ose na telefononi:" />
                 <br />
                 info@kobags-group.com
                 <br />
                 +383 43 877 753
               </p>
               <Link href="/quote" className="text-button">
-                Looking for a quotation? Start here ↗
+                <L en="Looking for a quotation? Start here" sq="Kërkoni ofertë? Filloni këtu" /> ↗
               </Link>
             </aside>
           </div>
@@ -323,18 +366,17 @@ export default async function Page({
           <>
             <div className="industry-feature">
               <div>
-                <p className="eyebrow">RETAIL & BOUTIQUES</p>
+                <p className="eyebrow"><L en="RETAIL & BOUTIQUES" sq="SHITJE ME PAKICË DHE BUTIQE" /></p>
                 <h2>
-                  Let your packaging
+                  <L en="Let your packaging" sq="Le të flasë paketimi" />
                   <br />
-                  do the talking.
+                  <L en="do the talking." sq="për markën tuaj." />
                 </h2>
                 <p>
-                  Choose a shape for your merchandise, give your brand room to
-                  breathe and plan the quantity you need.
+                  <L en="Choose a shape for your merchandise, give your brand room to breathe and plan the quantity you need." sq="Zgjidhni formën për produktet tuaja, jepini hapësirë markës dhe planifikoni sasinë që ju nevojitet." />
                 </p>
                 <Link href="/industries/retail" className="button">
-                  Explore retail bags <ArrowUpRight size={17} />
+                  <L en="Explore retail bags" sq="Shikoni çantat për shitje" /> <ArrowUpRight size={17} />
                 </Link>
               </div>
               <img
@@ -346,23 +388,21 @@ export default async function Page({
             </div>
             <div className="grid-two product-notes">
               <article className="section-card">
-                <h3>Events & promotions</h3>
+                <h3><L en="Events & promotions" sq="Evente dhe promovime" /></h3>
                 <p>
-                  Explore lightweight D-Cut and String bags for printed
-                  giveaways and event materials.
+                  <L en="Explore lightweight D-Cut and String bags for printed giveaways and event materials." sq="Shikoni çantat e lehta D-Cut dhe String për dhurata promocionale dhe materiale eventesh." />
                 </p>
                 <Link href="/products/d-cut-bag" className="text-button">
-                  View D-Cut specifications ↗
+                  <L en="View D-Cut specifications" sq="Shikoni specifikimet D-Cut" /> ↗
                 </Link>
               </article>
               <article className="section-card">
-                <h3>Grocery & everyday carry</h3>
+                <h3><L en="Grocery & everyday carry" sq="Ushqimore dhe përdorim i përditshëm" /></h3>
                 <p>
-                  Compare the Box and T-Shirt profiles against the size and
-                  weight of the items your customers carry.
+                  <L en="Compare the Box and T-Shirt profiles against the size and weight of the items your customers carry." sq="Krahasoni format Box dhe T-Shirt me madhësinë dhe peshën e artikujve që mbajnë klientët tuaj." />
                 </p>
                 <Link href="/products/box-bag" className="text-button">
-                  View Box Bag specifications ↗
+                  <L en="View Box Bag specifications" sq="Shikoni specifikimet Box" /> ↗
                 </Link>
               </article>
             </div>
@@ -372,19 +412,17 @@ export default async function Page({
           <>
             <div className="industry-feature">
               <div>
-                <p className="eyebrow">PACKAGING FOR RETAIL</p>
+                <p className="eyebrow"><L en="PACKAGING FOR RETAIL" sq="PAKETIM PËR SHITJE ME PAKICË" /></p>
                 <h2>
-                  A good fit for
+                  <L en="A good fit for" sq="Përshtatje e mirë" />
                   <br />
-                  what’s inside.
+                  <L en="what’s inside." sq="për atë që mbart." />
                 </h2>
                 <p>
-                  Start with your largest typical purchase, how customers carry
-                  it and how much room your logo needs. Review dimensions and a
-                  material sample before committing to production.
+                  <L en="Start with your largest typical purchase, how customers carry it and how much room your logo needs. Review dimensions and a material sample before committing to production." sq="Filloni nga blerja më e madhe tipike, mënyra si e bart klienti dhe hapësira që i duhet logos suaj. Shqyrtoni përmasat dhe një mostër materiali para prodhimit." />
                 </p>
                 <Link href="/design" className="button">
-                  Design your retail bag <ArrowUpRight size={17} />
+                  <L en="Design your retail bag" sq="Dizajnoni çantën tuaj" /> <ArrowUpRight size={17} />
                 </Link>
               </div>
               <img
@@ -396,30 +434,26 @@ export default async function Page({
             </div>
             <div className="grid-two product-notes">
               <article className="section-card">
-                <h3>D-Cut: a compact choice</h3>
+                <h3><L en="D-Cut: a compact choice" sq="D-Cut: zgjedhje kompakte" /></h3>
                 <p>
-                  Published sizes include Small at 30 × 31 × 5 cm / 60 GSM and
-                  Large at 50 × 47.5 × 12 cm / 80 GSM.
+                  <L en="Sizes include Small at 30 × 31 × 5 cm / 60 GSM and Large at 50 × 47.5 × 12 cm / 80 GSM." sq="Madhësitë përfshijnë të voglën 30 × 31 × 5 cm / 60 GSM dhe të madhen 50 × 47.5 × 12 cm / 80 GSM." />
                 </p>
                 <Link href="/products/d-cut-bag" className="text-button">
-                  Review D-Cut ↗
+                  <L en="Review D-Cut" sq="Shikoni D-Cut" /> ↗
                 </Link>
               </article>
               <article className="section-card">
-                <h3>Handle: a familiar carry</h3>
+                <h3><L en="Handle: a familiar carry" sq="Handle: dorezë e njohur" /></h3>
                 <p>
-                  The published Small variant is 30 × 30 × 5 cm / 60 GSM, with
-                  short handles.
+                  <L en="The Small variant is 30 × 30 × 5 cm / 60 GSM, with short handles." sq="Varianti i vogël është 30 × 30 × 5 cm / 60 GSM, me doreza të shkurtra." />
                 </p>
                 <Link href="/products/handle-bag" className="text-button">
-                  Review Handle Bag ↗
+                  <L en="Review Handle Bag" sq="Shikoni çantën Handle" /> ↗
                 </Link>
               </article>
             </div>
             <div className="notice">
-              Wholesale planning: confirm quantity per design, material color,
-              final print artwork, destination and desired date. All timing and
-              pricing require quotation.
+              <L en="Wholesale planning: confirm quantity per design, material color, final print artwork, destination and desired date. All timing and pricing require quotation." sq="Për porosi me shumicë, konfirmoni sasinë për secilin dizajn, ngjyrën e materialit, dizajnin final për shtyp, destinacionin dhe datën e dëshiruar. Afatet dhe çmimet përcaktohen në ofertë." />
             </div>
           </>
         )}
@@ -428,10 +462,9 @@ export default async function Page({
             <div className="resource-download">
               <img className="resource-photo" src="/assets/client-2026-09/resource-bag-stacks.jpg" alt="Finished branded bags ready for order planning" width="240" height="160" loading="lazy" />
               <div>
-                <h2>Your bag specification checklist.</h2>
+                <h2><L en="Your bag specification checklist." sq="Lista e specifikimeve të çantës suaj." /></h2>
                 <p>
-                  A practical list of the details to prepare before requesting a
-                  quotation.
+                  <L en="A practical list of the details to prepare before requesting a quotation." sq="Një listë praktike e detajeve që duhen përgatitur para kërkesës për ofertë." />
                 </p>
               </div>
               <a
@@ -440,35 +473,30 @@ export default async function Page({
                 download
               >
                 <Download size={16} />
-                Download checklist
+                <L en="Download checklist" sq="Shkarkoni listën" />
               </a>
             </div>
             <ResourceContent />
             <Link className="text-button" href="/blog">
-              Explore the journal & buying guides ↗
+              <L en="Explore the journal & buying guides" sq="Shikoni artikujt dhe udhëzuesit" /> ↗
             </Link>
             <div className="grid-two product-notes">
               <article className="section-card">
-                <h3>From concept to approved artwork</h3>
+                <h3><L en="From concept to approved artwork" sq="Nga ideja te dizajni i miratuar" /></h3>
                 <p>
-                  Use the studio to explore placement. Production still needs
-                  approved printable dimensions, a color reference and a
-                  specific artwork revision before release.
+                  <L en="Use the studio to explore placement. Production still needs approved printable dimensions, a color reference and a specific artwork revision before release." sq="Përdorni studion për të provuar vendosjen e dizajnit. Para prodhimit duhen përmasat e miratuara të shtypit, referenca e ngjyrës dhe versioni i caktuar i dizajnit." />
                 </p>
                 <Link href="/design" className="text-button">
-                  Try the bag studio ↗
+                  <L en="Try the bag studio" sq="Provoni studion e çantave" /> ↗
                 </Link>
               </article>
               <article className="section-card">
-                <h3>Dispatch and delivery are different</h3>
+                <h3><L en="Dispatch and delivery are different" sq="Nisja dhe dorëzimi nuk janë e njëjta gjë" /></h3>
                 <p>
-                  Dispatch is when finished bags leave the production location.
-                  Arrival depends on transport, destination and any applicable
-                  customs process. Request a date; confirm it with the
-                  quotation.
+                  <L en="Dispatch is when finished bags leave the production location. Arrival depends on transport, destination and any applicable customs process. Request a date; confirm it with the quotation." sq="Nisja ndodh kur çantat e përfunduara largohen nga vendi i prodhimit. Mbërritja varet nga transporti, destinacioni dhe procedurat doganore, nëse zbatohen. Kërkoni një datë dhe konfirmojeni në ofertë." />
                 </p>
                 <Link href="/quote" className="text-button">
-                  Prepare a quotation request ↗
+                  <L en="Prepare a quotation request" sq="Përgatitni kërkesën për ofertë" /> ↗
                 </Link>
               </article>
             </div>
@@ -570,24 +598,6 @@ export default async function Page({
             </p>
             <CookieControls />
           </article>
-        )}
-        {![
-          "privacy",
-          "terms",
-          "cookies",
-          "samples",
-          "contact",
-          "partners/apply",
-        ].includes(path) && (
-          <div className="catalog-end">
-            <div>
-              <p className="eyebrow">READY WHEN YOU ARE</p>
-              <h2>Let’s make your bag.</h2>
-            </div>
-            <Link href="/design" className="button">
-              Design your bag <ArrowUpRight size={17} />
-            </Link>
-          </div>
         )}
       </div>
     </main>

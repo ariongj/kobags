@@ -1,7 +1,8 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "@/components/site-link";
-import { ArrowUpRight, ArrowLeft, Check, X, Plus } from "lucide-react";
+import { ArrowUpRight, ArrowLeft } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Table,
@@ -13,11 +14,12 @@ import {
 } from "@/components/ui/table";
 import { useKobags } from "./kobags-context";
 import { products, productMedia, Product, getProduct } from "@/lib/catalog";
+import { localizeProduct } from "@/lib/product-copy";
 import { useDemo } from "./demo-store";
 import { Choice } from "./bag-studio";
 export function ProductCatalog() {
   const { state } = useDemo();
-  const { t } = useKobags();
+  const { t, lang } = useKobags();
   const [handle, setHandle] = useState("all");
   const [use, setUse] = useState("all");
   const [compare, setCompare] = useState<string[]>([]);
@@ -60,7 +62,7 @@ export function ProductCatalog() {
           </span>
           <Choice
             id="handle-filter"
-            label="Handle style"
+            label={t("Handle style", "Lloji i dorezës")}
             value={handle}
             onChange={setHandle}
             options={[
@@ -71,12 +73,21 @@ export function ProductCatalog() {
               "String",
             ].map((s) => ({
               value: s,
-              label: s === "all" ? "All handles" : s,
+              label:
+                s === "all"
+                  ? t("All handles", "Të gjitha dorezat")
+                  : lang === "sq"
+                    ? localizeProduct(
+                        products.find((product) => product.handle === s) ||
+                          products[0],
+                        lang,
+                      ).handle
+                    : s,
             }))}
           />
           <Choice
             id="use-filter"
-            label="Use case"
+            label={t("Use case", "Përdorimi")}
             value={use}
             onChange={setUse}
             options={[
@@ -86,28 +97,47 @@ export function ProductCatalog() {
               "events",
               "gifting",
               "boutiques",
-            ].map((s) => ({ value: s, label: s === "all" ? "All uses" : s }))}
+            ].map((s) => ({
+              value: s,
+              label:
+                s === "all"
+                  ? t("All uses", "Të gjitha përdorimet")
+                  : t(
+                      s[0].toUpperCase() + s.slice(1),
+                      ({
+                        retail: "Shitje me pakicë",
+                        grocery: "Ushqimore",
+                        events: "Evente",
+                        gifting: "Dhurata",
+                        boutiques: "Butiqe",
+                      } as Record<string, string>)[s],
+                    ),
+            }))}
           />
-          <button
-            className="text-button"
-            onClick={() => {
-              setHandle("all");
-              setUse("all");
-            }}
-          >
-            Reset
-          </button>
+          {(handle !== "all" || use !== "all") && (
+            <button
+              className="text-button"
+              onClick={() => {
+                setHandle("all");
+                setUse("all");
+              }}
+            >
+              {t("Reset filters", "Pastro filtrat")}
+            </button>
+          )}
         </div>
         <div className="catalog-grid">
-          {results.map((p, i) => (
-            <article className="product-card" key={p.slug}>
+          {results.map((item, i) => {
+            const p = localizeProduct(item, lang);
+            return (
+            <article className="product-card" data-slug={p.slug} key={p.slug}>
               <Link href={"/products/" + p.slug} className="product-photo">
                 <span className="product-number">
                   0{products.findIndex((x) => x.slug === p.slug) + 1}
                 </span>
                 <img
                   src={p.image}
-                  alt={"Original Kobags " + p.name + " product photograph"}
+                  alt={t(`${p.name} by Kobags`, `${p.name} nga Kobags`)}
                   width="400"
                   height="500"
                   loading={i > 2 ? "lazy" : "eager"}
@@ -123,7 +153,9 @@ export function ProductCatalog() {
                 </h2>
                 <p>{p.description}</p>
                 <div className="product-foot">
-                  <span>{p.variants[0].gsm} GSM · Non-woven PP</span>
+                  <span>
+                    {p.variants[0].gsm} GSM · {t("Non-woven PP", "PP jo i endur")}
+                  </span>
                   <label>
                     <Checkbox
                       checked={compare.includes(p.slug)}
@@ -143,11 +175,12 @@ export function ProductCatalog() {
                 </div>
               </div>
             </article>
-          ))}
+            );
+          })}
         </div>
         {!results.length && (
           <div className="empty">
-            No bags match.{" "}
+            {t("No bags match these filters.", "Asnjë çantë nuk përputhet me këta filtra.")}{" "}
             <button
               className="text-button"
               onClick={() => {
@@ -155,7 +188,7 @@ export function ProductCatalog() {
                 setHandle("all");
               }}
             >
-              Reset filters
+              {t("Reset filters", "Pastro filtrat")}
             </button>
           </div>
         )}
@@ -166,17 +199,19 @@ export function ProductCatalog() {
                 {t("The details, side by side.", "Detajet, krah për krah.")}
               </h2>
               <button className="text-button" onClick={() => setCompare([])}>
-                Clear
+                {t("Clear", "Pastro")}
               </button>
             </div>
             <p className="source-note">
-              Compare up to three product families. Dimensions are shown as
-              published; confirm dimension order with production.
+              {t(
+                "Compare up to three bag families. Confirm final dimensions with production.",
+                "Krahasoni deri në tri lloje çantash. Konfirmoni përmasat përfundimtare me prodhimin.",
+              )}
             </p>
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Specification</TableHead>
+                  <TableHead>{t("Specification", "Specifikimi")}</TableHead>
                   {compare.map((slug) => (
                     <TableHead key={slug}>{getProduct(slug).name}</TableHead>
                   ))}
@@ -184,16 +219,16 @@ export function ProductCatalog() {
               </TableHeader>
               <TableBody>
                 {[
-                  "Dimensions (Small)",
-                  "GSM (Small)",
-                  "Handle",
-                  "Material",
-                  "Published printing",
+                  t("Dimensions (Small)", "Përmasat (Small)"),
+                  t("GSM (Small)", "GSM (Small)"),
+                  t("Handle", "Doreza"),
+                  t("Material", "Materiali"),
+                  t("Printing", "Shtypi"),
                 ].map((key, i) => (
                   <TableRow key={key}>
                     <TableCell>{key}</TableCell>
                     {compare.map((slug) => {
-                      const p = getProduct(slug);
+                      const p = localizeProduct(getProduct(slug), lang);
                       return (
                         <TableCell key={slug}>
                           {
@@ -201,8 +236,11 @@ export function ProductCatalog() {
                               p.variants[0].dimensions,
                               p.variants[0].gsm,
                               p.handle,
-                              "Non-woven PP",
-                              "Flexographic, up to 4 colors",
+                              t("Non-woven PP", "PP jo i endur"),
+                              t(
+                                "Flexographic, up to 4 colors",
+                                "Fleksografik, deri në 4 ngjyra",
+                              ),
                             ][i]
                           }
                         </TableCell>
@@ -214,44 +252,67 @@ export function ProductCatalog() {
             </Table>
           </section>
         )}
-        <div className="catalog-end">
-          <div>
-            <h2>Make the next one yours.</h2>
-            <p>
-              Wholesale guidance: from{" "}
-              {(state?.settings.moq || 5000).toLocaleString()} bags. Sample
-              inquiries are separate.
-            </p>
-          </div>
-          <Link className="button" href="/design">
-            Open the bag studio <ArrowUpRight size={17} />
-          </Link>
-        </div>
       </div>
     </main>
   );
 }
 export function ProductDetail({ product: original }: { product: Product }) {
   const { state } = useDemo();
-  const { design, update, t } = useKobags();
-  const p = state?.catalog.find((x) => x.slug === original.slug) || original;
+  const router = useRouter();
+  const { update, t, lang } = useKobags();
+  const p = localizeProduct(
+    state?.catalog.find((x) => x.slug === original.slug) || original,
+    lang,
+  );
   const [size, setSize] = useState(p.variants[0].name);
+  const [photo, setPhoto] = useState(0);
   const v = p.variants.find((v) => v.name === size)!;
+  const photos = [
+    { src: p.image, label: t("Bag", "Çanta") },
+    { src: productMedia[p.slug]?.detail, label: t("Print example", "Shembull shtypi") },
+    { src: productMedia[p.slug]?.home, label: t("Another finish", "Ngjyrë tjetër") },
+  ].filter((item, index, all): item is { src: string; label: string } =>
+    Boolean(item.src) && all.findIndex((other) => other.src === item.src) === index,
+  );
+  const activePhoto = photos[Math.min(photo, photos.length - 1)];
   return (
     <main className="product-detail content-width">
       <Link href="/products" className="text-button breadcrumb">
         <ArrowLeft size={15} />
-        Back to products
+        {t("Back to products", "Kthehu te çantat")}
       </Link>
       <div className="product-detail-grid">
-        <div className="detail-photo">
-          <img
-            src={productMedia[p.slug]?.detail ?? p.image}
-            alt={"Original Kobags " + p.name}
-            width="600"
-            height="750"
-          />
-          <span>Original Kobags product photograph</span>
+        <div className="detail-gallery">
+          <div className="detail-photo">
+            <img
+              src={activePhoto.src}
+              alt={`${p.name} · ${activePhoto.label.toLowerCase()}`}
+              width="600"
+              height="750"
+            />
+          </div>
+          {photos.length > 1 && (
+            <div className="detail-thumbnails" aria-label={t("Product images", "Fotografitë e çantës")}>
+              {photos.map((item, index) => (
+                <button
+                  type="button"
+                  key={item.src}
+                  aria-label={t(`Show ${item.label.toLowerCase()}`, `Shfaq ${item.label.toLowerCase()}`)}
+                  aria-pressed={index === photo}
+                  onClick={() => setPhoto(index)}
+                >
+                  <img src={item.src} alt="" loading="lazy" />
+                  <span>{item.label}</span>
+                </button>
+              ))}
+            </div>
+          )}
+          <p className="detail-gallery-caption">
+            {t(
+              "Made in Kosova · Product examples may show different colors and prints.",
+              "Prodhuar në Kosovë · Shembujt mund të kenë ngjyra dhe shtyp të ndryshëm.",
+            )}
+          </p>
         </div>
         <div className="product-detail-copy">
           <p className="eyebrow">{p.use}</p>
@@ -259,21 +320,21 @@ export function ProductDetail({ product: original }: { product: Product }) {
           <p className="intro">{p.description}</p>
           <Choice
             id="detail-size"
-            label="Choose a size"
+            label={t("Choose a size", "Zgjidhni madhësinë")}
             value={size}
             onChange={setSize}
             options={p.variants.map((v) => ({
               value: v.name,
-              label: v.name + " · " + v.dimensions,
+              label: t(v.name, ({ Small: "E vogël", Medium: "Mesatare", Large: "E madhe" } as Record<string, string>)[v.name]) + " · " + v.dimensions,
             }))}
           />
           <dl>
             {[
-              ["Published dimensions", v.dimensions],
-              ["Fabric weight", v.gsm + " g/m²"],
-              ["Material", "Non-woven polypropylene (PP)"],
-              ["Handle", p.handle],
-              ["Printing", "Flexographic · up to 4 colors"],
+              [t("Dimensions", "Përmasat"), v.dimensions],
+              [t("Fabric weight", "Pesha e materialit"), v.gsm + " g/m²"],
+              [t("Material", "Materiali"), t("Non-woven polypropylene (PP)", "Polipropilen jo i endur (PP)")],
+              [t("Handle", "Doreza"), p.handle],
+              [t("Printing", "Shtypi"), t("Flexographic · up to 4 colors", "Fleksografik · deri në 4 ngjyra")],
             ].map(([k, v]) => (
               <div key={k}>
                 <dt>{k}</dt>
@@ -282,16 +343,15 @@ export function ProductDetail({ product: original }: { product: Product }) {
             ))}
           </dl>
           <p className="notice">
-            Wholesale orders from{" "}
-            {(state?.settings.moq || 5000).toLocaleString()} bags. MOQ scope
-            across sizes, colors and designs will be confirmed.
+            {t("Wholesale orders from", "Porosi me shumicë nga")} {" "}
+            {(state?.settings.moq || 5000).toLocaleString()} {t("bags. We’ll confirm the mix of sizes, colors and designs with your quotation.", "çanta. Kombinimin e madhësive, ngjyrave dhe dizajneve e konfirmojmë në ofertë.")}
           </p>
           <div className="actions">
             <button
               className="button"
               onClick={() => {
                 update({ product: p.slug, size });
-                window.location.assign("/design");
+                router.push("/design");
               }}
             >
               {t("Design this bag", "Dizajnoni këtë çantë")}{" "}
@@ -301,51 +361,36 @@ export function ProductDetail({ product: original }: { product: Product }) {
               className="button secondary"
               onClick={() => {
                 update({ product: p.slug, size });
-                window.location.assign("/quote");
+                router.push("/quote");
               }}
             >
-              Request a quote
+              {t("Request a quote", "Kërkoni ofertë")}
             </button>
           </div>
           <Link href="/samples" className="text-button">
-            Request a material sample <ArrowUpRight size={14} />
+            {t("Request a material sample", "Kërkoni mostër materiali")} <ArrowUpRight size={14} />
           </Link>
         </div>
       </div>
       <div className="grid-two product-notes">
         <div className="section-card">
-          <h3>Plan your production</h3>
+          <h3>{t("Plan your production", "Planifikoni prodhimin")}</h3>
           <p>
             {state?.settings.leadTime ||
-              "Indicative dispatch 2–4 weeks after artwork approval, subject to production confirmation."}{" "}
-            Transport time depends on your destination and is additional. Custom
-            dimensions require feasibility review.
+              t("Indicative dispatch 2–4 weeks after artwork approval, subject to production confirmation.", "Dërgesa orientuese 2–4 javë pas miratimit të dizajnit, sipas konfirmimit të prodhimit.")}{" "}
+            {t("Transport time depends on your destination. Custom dimensions are reviewed for feasibility.", "Koha e transportit varet nga destinacioni. Përmasat e veçanta vlerësohen për realizueshmëri.")}
           </p>
         </div>
         <div className="section-card">
-          <h3>Material, care & artwork</h3>
+          <h3>{t("Material, care & artwork", "Materiali dhe dizajni")}</h3>
           <p>
-            PP is a plastic material; composition does not establish recycled
-            content. Ask for product-specific declarations and local collection
-            guidance. Final print area and dimension drawings require production
-            approval.
+            {t("PP is a plastic material; composition does not establish recycled content. Ask for product-specific declarations and local collection guidance. Final print area and dimension drawings require production approval.", "PP është material plastik; përbërja nuk dëshmon përmbajtje të ricikluar. Kërkoni deklarata për produktin dhe udhëzime lokale për grumbullimin. Zona përfundimtare e shtypit dhe vizatimet e përmasave kërkojnë miratim nga prodhimi.")}
           </p>
           <Link href="/sustainability" className="text-button">
-            Read the material guidance ↗
+            {t("Read the material guidance", "Lexoni udhëzuesin e materialit")} ↗
           </Link>
         </div>
       </div>
-      <p className="source-note">
-        Specification source:{" "}
-        <a
-          href={"https://kobags-group.com/kobags-bagsdetails/" + p.slug}
-          target="_blank"
-          rel="noreferrer"
-        >
-          Kobags original {p.name} page
-        </a>
-        . Rechecked 15 September 2026.
-      </p>
     </main>
   );
 }

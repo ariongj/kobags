@@ -5,10 +5,10 @@ import { articles } from "@/lib/journal";
 const journalPhotos: Record<string, { src: string; alt: string }> = {
   kobagsjourney: { src: "/assets/client-2026-09/journal-factory.jpg", alt: "Kobags production equipment" },
   whyswitchtokobags: { src: "/assets/client-2026-09/journal-reuse.jpg", alt: "Black reusable handle bag" },
-  kobagsmission: { src: "/assets/client-2026-09/journal-brand.jpg", alt: "Red branded bag" },
+  kobagsmission: { src: "/assets/client-2026-09/journal-brand-red-print.webp", alt: "Close-up of a red Kobags handle bag with printed brand artwork" },
   sciencebehindkobags: { src: "/assets/client-2026-09/journal-material.jpg", alt: "Material processing machinery" },
-  benefitsofkobags: { src: "/assets/client-2026-09/journal-checklist.jpg", alt: "Natural-color branded bag" },
-  helpingbusinesseskobags: { src: "/assets/client-2026-09/journal-order.jpg", alt: "White branded handle bag" },
+  benefitsofkobags: { src: "/assets/client-2026-09/journal-checklist-production.webp", alt: "Branded box bag showing its handles and side gusset inside the Kobags factory" },
+  helpingbusinesseskobags: { src: "/assets/client-2026-09/journal-orders-ready.webp", alt: "Stacks of printed bag panels prepared for assembly" },
 };
 export const metadata = {
   title: "Journal & buying guides",

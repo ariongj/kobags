@@ -57,6 +57,7 @@ async def main():
   await page.set_viewport_size({'width':390,'height':844});await screenshot('studio-layered-mobile.jpg')
   await page.reload(wait_until='networkidle');await page.get_by_role('tab',name='Photo + artwork',exact=True).click();await ready();saved=await draft();assert saved['backText']=='MADE FOR\nEVERY DAY' and saved['customDimensions']=='40 × 35 × 12 cm'
   await page.get_by_role('link',name='Get a quote for this bag',exact=True).click();await page.wait_for_url('**/quote')
+  await page.goto(BASE+'/quote?demo=1',wait_until='networkidle')
   await page.get_by_role('button',name='Use demo details',exact=True).click();await page.get_by_role('button',name='Continue',exact=True).click()
   assert await page.locator('.quote-artwork-pair canvas').count()==2
   saved=await draft();saved.update(company='Fictional layered QA',contact='Demo Buyer',email='layers@example.com',city='Prishtina',consent=True,key=str(uuid.uuid4()))

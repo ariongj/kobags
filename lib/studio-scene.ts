@@ -163,13 +163,24 @@ export function createStudioScene(
       ? x * (1 - 0.2 * Math.pow(t, 6))
       : x * (1 + 0.012 * (t - 0.5));
   }
+  function depthAt(y: number) {
+    if (product !== "string-bag" && product !== "t-shirt-bag") return depth;
+    // Gather the drawstring neck and bring the T-shirt handles together. Both
+    // retain their full body depth; thin handle material should not become
+    // two free-standing spikes when seen edge-on.
+    const start = product === "t-shirt-bag" ? 0.54 : 0.35;
+    const compression = product === "t-shirt-bag" ? 0.82 : 0.66;
+    const t = THREE.MathUtils.clamp((y - start) / (top - start), 0, 1);
+    const gathered = t * t * (3 - 2 * t);
+    return depth * (1 - compression * gathered);
+  }
   function zAt(x: number, y: number) {
     const t = (y - bottom) / (top - bottom);
     const flat = product === "box-bag" ? 0.029 : 0.105;
     const edge = Math.pow(Math.abs(x / half), 4);
     const lowerFold = 0.035 * Math.sin(Math.PI * Math.min(1, t * 2.4));
     return (
-      depth / 2 +
+      depthAt(y) / 2 +
       flat * Math.cos(((x / half) * Math.PI) / 2) * Math.sin(t * Math.PI) +
       lowerFold * (1 - edge) +
       0.018 * Math.sin(x * 15 + y * 3) * edge
@@ -459,6 +470,7 @@ export function createStudioScene(
       }
     if (spec.handles) {
       const positions: number[] = [],
+        uv: number[] = [],
         indices: number[] = [],
         edges: THREE.Vector3[][] = [[], []];
       for (let i = 0; i <= 60; i++) {
@@ -469,17 +481,37 @@ export function createStudioScene(
         const dx = 0.61 * Math.sin(t),
           dy = 1.2 * Math.cos(t),
           length = Math.hypot(dx, dy);
+        for (const thickness of [-1, 1])
+          for (const edge of [-1, 1]) {
+            const px = x - ((edge * dy) / length) * 0.1,
+              py = y + ((edge * dx) / length) * 0.1;
+            // A thin enclosed webbing strap catches light on its edge as the
+            // bag rotates, unlike a single infinitely thin ribbon plane.
+            positions.push(
+              px,
+              py,
+              z + face * (thickness * 0.012 + 0.006 * Math.sin(t * 5)),
+            );
+            uv.push((edge + 1) / 2, (i / 60) * 0.95);
+          }
         for (const edge of [-1, 1]) {
-          const px = x - ((edge * dy) / length) * 0.082,
-            py = y + ((edge * dx) / length) * 0.082;
-          positions.push(px, py, z + face * 0.013 * Math.sin(t * 5));
+          const px = x - ((edge * dy) / length) * 0.1,
+            py = y + ((edge * dx) / length) * 0.1;
           edges[(edge + 1) / 2].push(
-            new THREE.Vector3(px, py, z + face * 0.004),
+            new THREE.Vector3(px, py, z + face * 0.015),
           );
         }
         if (i < 60) {
-          const n = i * 2;
-          indices.push(n, n + 1, n + 2, n + 1, n + 3, n + 2);
+          const n = i * 4;
+          // Both broad surfaces and both slim edges form a closed strap.
+          for (const [a, b, c, d] of [
+            [0, 1, 4, 5],
+            [2, 3, 6, 7],
+            [0, 2, 4, 6],
+            [1, 3, 5, 7],
+          ]) {
+            indices.push(n + a, n + b, n + c, n + b, n + d, n + c);
+          }
         }
       }
       const g = new THREE.BufferGeometry();
@@ -487,14 +519,15 @@ export function createStudioScene(
         "position",
         new THREE.Float32BufferAttribute(positions, 3),
       );
+      g.setAttribute("uv", new THREE.Float32BufferAttribute(uv, 2));
       g.setIndex(indices);
       g.computeVertexNormals();
       add(g);
-      edges.forEach((points) => seam(points, 0.003));
+      edges.forEach((points) => seam(points, 0.004));
       for (const x of [-0.61, 0.61]) {
         const patch = add(new THREE.BoxGeometry(0.19, 0.22, 0.014));
-        patch.position.set(x, top - 0.1, face * (depth / 2 + 0.012));
-        const stitchZ = face * (depth / 2 + 0.023);
+        patch.position.set(x, top - 0.1, face * (zAt(x, top - 0.1) + 0.017));
+        const stitchZ = face * (zAt(x, top - 0.1) + 0.027);
         for (const diagonal of [-1, 1])
           seam(
             [
@@ -587,6 +620,37 @@ export function createStudioScene(
         }
         seam(edge, 0.008);
       }
+  if (product === "t-shirt-bag" && !photoShell)
+    for (const face of [-1, 1]) {
+      const rimPoint = (x: number, y: number) =>
+        new THREE.Vector3(xAt(x, y), y, face * (zAt(x, y) + 0.009));
+      // The photographed bag has a folded, stitched edge around its carry
+      // opening. Follow that edge on both faces so the cutout holds up in 3D.
+      const opening: THREE.Vector3[] = [];
+      for (let i = 0; i <= 24; i++) {
+        const t = i / 24;
+        const x = (1 - t) ** 2 * 0.52 + 2 * (1 - t) * t * 0.5;
+        const y = (1 - t) ** 2 * 1.07 + 2 * (1 - t) * t * 0.7 + t * t * 0.68;
+        opening.push(rimPoint(x, y));
+      }
+      for (let i = 1; i <= 24; i++) {
+        const t = i / 24;
+        const x = -(2 * (1 - t) * t * 0.5 + t * t * 0.52);
+        const y = (1 - t) ** 2 * 0.68 + 2 * (1 - t) * t * 0.7 + t * t * 1.07;
+        opening.push(rimPoint(x, y));
+      }
+      seam(opening, 0.006);
+      for (const side of [-1, 1])
+        seam(
+          [
+            rimPoint(side * 0.52, 1.07),
+            rimPoint(side * 0.55, top),
+            rimPoint(side * 1.02, top),
+            rimPoint(side * 1.04, 1.07),
+          ],
+          0.006,
+        );
+    }
   if (product === "box-bag" && !photoShell) {
     for (const face of [-1, 1])
       for (const side of [-1, 1])
@@ -601,20 +665,22 @@ export function createStudioScene(
   }
   if (product === "string-bag" && !photoShell)
     for (const face of [-1, 1]) {
+      const cordPoint = (x: number, y: number, lift: number) =>
+        new THREE.Vector3(xAt(x, y), y, face * (zAt(x, y) + lift));
       seam(
         [
-          new THREE.Vector3(-0.38, top - 0.05, face * (depth / 2 + 0.015)),
-          new THREE.Vector3(0, top - 0.18, face * (depth / 2 + 0.04)),
-          new THREE.Vector3(0.38, top - 0.05, face * (depth / 2 + 0.015)),
+          cordPoint(-0.38, top - 0.05, 0.015),
+          cordPoint(0, top - 0.18, 0.04),
+          cordPoint(0.38, top - 0.05, 0.015),
         ],
         0.015,
         cordMat,
       );
       seam(
         [
-          new THREE.Vector3(0.12, top - 0.16, face * (depth / 2 + 0.05)),
-          new THREE.Vector3(0.25, top - 0.42, face * (depth / 2 + 0.08)),
-          new THREE.Vector3(0.22, top - 0.7, face * (depth / 2 + 0.07)),
+          cordPoint(0.12, top - 0.16, 0.05),
+          cordPoint(0.25, top - 0.42, 0.08),
+          cordPoint(0.22, top - 0.7, 0.07),
         ],
         0.012,
         cordMat,

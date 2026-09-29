@@ -26,6 +26,7 @@ async def main():
   async with page.expect_download():await page.get_by_role('button',name='Download design preview',exact=True).click()
   await page.get_by_role('status').filter(has_text='kobags-box-bag-front-concept.png').wait_for()
   await page.get_by_role('link',name='Get a quote for this bag').click();await page.wait_for_url('**/quote')
+  await page.goto(BASE+'/quote?demo=1',wait_until='networkidle')
   await page.get_by_role('button',name='Use demo details',exact=True).click()
   await page.get_by_role('button',name='Continue',exact=True).click();await page.get_by_role('button',name='Continue',exact=True).click()
   await page.locator('#q-city').fill('');await page.get_by_role('button',name='Continue',exact=True).click();assert await page.get_by_role('alert').inner_text()=='Add your delivery city.'
@@ -35,11 +36,11 @@ async def main():
   async def fail_post(route):
    if route.request.method=='POST':await route.fulfill(status=503,content_type='application/json',body='{"error":"STORAGE_UNAVAILABLE"}')
    else:await route.continue_()
-  await page.route('**/api/demo',fail_post);await page.get_by_role('button',name='Submit demo request').click();await page.get_by_role('alert').wait_for()
+  await page.route('**/api/demo',fail_post);await page.get_by_role('button',name='Save design request').click();await page.get_by_role('alert').wait_for()
   assert await page.locator('#q-email').input_value()=='buyer@example.com';await page.unroute('**/api/demo',fail_post)
-  await page.get_by_role('button',name='Submit demo request').click();await page.get_by_role('link',name='Continue to demo order').wait_for()
+  await page.get_by_role('button',name='Save design request').click();await page.get_by_role('link',name='Explore next steps').wait_for()
   s=await state();assert len(s['requests'])==1;r=s['requests'][0];rid=r['id'];assert r['snapshot']['text']=='NOVA STUDIO' and r['snapshot']['product']=='box-bag'
-  await page.get_by_role('link',name='Continue to demo order').click();await page.wait_for_url('**/demo/customer?id='+rid)
+  await page.get_by_role('link',name='Explore next steps').click();await page.wait_for_url('**/demo/customer?id='+rid)
   await page.get_by_role('button',name='Prepare my demo quote',exact=True).click();await page.get_by_text('DEMO QUOTATION · V1',exact=True).wait_for()
   s=await state();r=s['requests'][0];assert len(r['quotes'])==1 and len(r['artworks'])==1 and r['artworks'][0]['design']['text']=='NOVA STUDIO'
   data=await post({'type':'prepare-demo','id':rid});assert len(data['state']['requests'][0]['quotes'])==1 and len(data['state']['requests'][0]['artworks'])==1
@@ -68,16 +69,16 @@ async def main():
   for path,kind in [('/samples','sample'),('/contact','contact'),('/partners/apply','partner')]:
    await go(path)
    for k,v in {'company':'Fictional visitor','contact':'Demo Buyer','email':'buyer@example.com','country':'Kosovo'}.items():await page.locator('#inquiry-'+k).fill(v)
-   await page.locator('#inquiry-message').fill('Fictional inquiry to test the public demonstration.');await page.get_by_role('checkbox').check();await page.get_by_role('button',name='Submit demo inquiry').click();await page.get_by_role('heading',name='Your inquiry is saved.').wait_for()
+   await page.locator('#inquiry-message').fill('Fictional inquiry to test the public demonstration.');await page.get_by_role('checkbox').check();await page.get_by_role('button',name='Save inquiry').click();await page.get_by_role('heading',name='Your inquiry is saved.').wait_for()
   assert {i['kind'] for i in (await state())['inquiries']}=={'sample','contact','partner'}
   # Mobile completion and repeat ordering retain the original design, but no previous approvals.
   await page.set_viewport_size({'width':390,'height':844});await go('/demo/customer?id='+rid)
   assert not await page.evaluate('document.documentElement.scrollWidth > innerWidth')
   await page.screenshot(path=str(ROOT/'evidence/demo-order-mobile.jpg'),type='jpeg',quality=86,full_page=True)
   await page.get_by_role('button',name='View order details',exact=True).click();await page.get_by_role('button',name='Request these bags again',exact=True).click();await page.wait_for_url('**/quote')
-  await page.get_by_role('button',name='Continue',exact=True).click();await page.get_by_role('checkbox').check();await page.get_by_role('button',name='Submit demo request').click();await page.get_by_role('link',name='Continue to demo order').wait_for()
+  await page.get_by_role('button',name='Continue',exact=True).click();await page.get_by_role('checkbox').check();await page.get_by_role('button',name='Save design request').click();await page.get_by_role('link',name='Explore next steps').wait_for()
   s=await state();assert len(s['requests'])==2 and s['requests'][0]['quotes']==[] and s['requests'][0]['snapshot']['reorderOf']==rid
-  await page.get_by_role('link',name='Continue to demo order').click();await page.get_by_role('button',name='Prepare my demo quote',exact=True).click();await page.get_by_role('button',name='Accept demo quotation',exact=True).click();await page.get_by_role('button',name='Review my artwork',exact=True).click();await page.get_by_role('button',name='Approve this revision',exact=True).click();await page.get_by_role('button',name='Review & place demo order',exact=True).click();await page.get_by_role('button',name='Place demo order',exact=True).click();await page.get_by_role('heading',name='Your demo order is placed.',exact=True).wait_for()
+  await page.get_by_role('link',name='Explore next steps').click();await page.get_by_role('button',name='Prepare my demo quote',exact=True).click();await page.get_by_role('button',name='Accept demo quotation',exact=True).click();await page.get_by_role('button',name='Review my artwork',exact=True).click();await page.get_by_role('button',name='Approve this revision',exact=True).click();await page.get_by_role('button',name='Review & place demo order',exact=True).click();await page.get_by_role('button',name='Place demo order',exact=True).click();await page.get_by_role('heading',name='Your demo order is placed.',exact=True).wait_for()
   assert not await page.evaluate('document.documentElement.scrollWidth > innerWidth')
   await page.get_by_role('button',name='Switch to Albanian').click();await page.get_by_role('button',name='Hap ose mbyll menynë',exact=True).click();assert await page.locator('.nav.open').is_visible()
   assert not errors,errors

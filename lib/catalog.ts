@@ -83,7 +83,7 @@ export const products: Product[] = [
 export const productMedia: Record<string, { home: string; detail: string }> = {
   "d-cut-bag": {
     home: "/assets/client-2026-09/home-d-cut.jpg",
-    detail: "/assets/client-2026-09/detail-d-cut.jpg",
+    detail: "/assets/studio-real-d-cut.webp",
   },
   "handle-bag": {
     home: "/assets/client-2026-09/home-handle.jpg",

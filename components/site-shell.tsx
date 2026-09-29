@@ -142,33 +142,33 @@ export function Footer() {
         </div>
         <div>
           <h3>{t("Explore", "Eksploro")}</h3>
-          <Link href="/products">Our bags</Link>
-          <Link href="/design">Design studio</Link>
-          <Link href="/industries">Industries</Link>
-          <Link href="/manufacturing">Manufacturing</Link>
+          <Link href="/products">{t("Our bags", "Çantat tona")}</Link>
+          <Link href="/design">{t("Design studio", "Studioja")}</Link>
+          <Link href="/industries">{t("Industries", "Industritë")}</Link>
+          <Link href="/manufacturing">{t("Manufacturing", "Prodhimi")}</Link>
         </div>
         <div>
           <h3>{t("Good to know", "Informacione")}</h3>
-          <Link href="/resources">Buyer resources</Link>
-          <Link href="/blog">Journal & guides</Link>
-          <Link href="/certifications">Certifications</Link>
-          <Link href="/samples">Request samples</Link>
+          <Link href="/resources">{t("Buyer resources", "Burime për blerësit")}</Link>
+          <Link href="/blog">{t("Journal & guides", "Artikuj dhe udhëzues")}</Link>
+          <Link href="/certifications">{t("Certifications", "Certifikimet")}</Link>
+          <Link href="/samples">{t("Request samples", "Kërkoni mostra")}</Link>
         </div>
         <div>
           <h3>{t("Let’s talk bags", "Le të flasim për çantat")}</h3>
-          <span>info@kobags-group.com</span>
-          <span>+383 43 877 753</span>
+          <a href="mailto:info@kobags-group.com">info@kobags-group.com</a>
+          <a href="tel:+38343877753">+383 43 877 753</a>
           <Link href="/contact">
-            General inquiries <ArrowUpRight size={14} />
+            {t("General inquiries", "Pyetje të përgjithshme")} <ArrowUpRight size={14} />
           </Link>
         </div>
       </div>
       <div className="footer-bottom">
         <span>© 2026 Kobags Group</span>
         <div>
-          <Link href="/privacy">Privacy</Link>
-          <Link href="/terms">Terms</Link>
-          <Link href="/cookies">Cookies</Link>
+          <Link href="/privacy">{t("Privacy", "Privatësia")}</Link>
+          <Link href="/terms">{t("Terms", "Kushtet")}</Link>
+          <Link href="/cookies">{t("Cookies", "Cookies")}</Link>
         </div>
       </div>
     </footer>

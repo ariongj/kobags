@@ -24,14 +24,14 @@ async def main():
    await go(path)
    for k,v in {'company':'Fictional '+kind,'contact':'Demo Buyer','email':'buyer@example.com','country':'Kosovo'}.items():await page.locator('#inquiry-'+k).fill(v)
    await page.locator('#inquiry-message').fill('Fictional inquiry for the isolated QA workspace.')
-   await page.get_by_role('button',name='Submit demo inquiry').click();await page.get_by_role('alert').wait_for()
-   await page.get_by_role('checkbox').check();await page.get_by_role('button',name='Submit demo inquiry').click();await page.get_by_role('heading',name='Your inquiry is saved.').wait_for()
+   await page.get_by_role('button',name='Save inquiry').click();await page.get_by_role('alert').wait_for()
+   await page.get_by_role('checkbox').check();await page.get_by_role('button',name='Save inquiry').click();await page.get_by_role('heading',name='Your inquiry is saved.').wait_for()
   s=await state();assert {i['kind'] for i in s['inquiries']}=={'sample','partner','contact'}
   await post({'type':'inquiry-stage','id':s['inquiries'][0]['id'],'status':'reviewing'})
   assert (await state())['inquiries'][0]['status']=='reviewing'
   await go('/products');assert await page.locator('.product-card').count()==5
   await page.locator('#handle-filter').click();await page.get_by_role('option',name='Die-cut',exact=True).click();assert await page.locator('.product-card').count()==1
-  await page.get_by_role('button',name='Reset',exact=True).click()
+  await page.get_by_role('button',name='Reset filters',exact=True).click()
   for i in range(3):await page.locator('.product-card').nth(i).get_by_role('checkbox').check()
   assert await page.locator('.product-card').nth(3).get_by_role('checkbox').is_disabled()
   assert await page.get_by_role('table').count()==1

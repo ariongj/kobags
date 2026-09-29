@@ -8,7 +8,6 @@ import {
   CheckCircle2,
   LockKeyhole,
   Pencil,
-  Info,
 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Choice, BagPreview } from "./bag-studio";
@@ -24,6 +23,7 @@ export default function QuoteFlow() {
   const [validation, setValidation] = useState("");
   const [submitted, setSubmitted] = useState("");
   const [hydrated, setHydrated] = useState(false);
+  const [showExampleDetails, setShowExampleDetails] = useState(false);
   const p = getProduct(design.product);
   const variant =
     p.variants.find((v) => v.name === design.size) || p.variants[0];
@@ -40,17 +40,22 @@ export default function QuoteFlow() {
         .join(" + ")
     : t("No artwork added", "Pa dizajn");
   useEffect(() => {
-    try {
-      setStep(
-        Math.min(
-          3,
-          Math.max(0, Number(localStorage.getItem("kobags-quote-step")) || 0),
-        ),
-      );
-    } catch {}
-    setHydrated(true);
-    const done = new URLSearchParams(location.search).get("submitted");
-    if (done) setSubmitted(done);
+    const frame = requestAnimationFrame(() => {
+      try {
+        setStep(
+          Math.min(
+            3,
+            Math.max(0, Number(localStorage.getItem("kobags-quote-step")) || 0),
+          ),
+        );
+      } catch {}
+      const params = new URLSearchParams(location.search);
+      const done = params.get("submitted");
+      if (done) setSubmitted(done);
+      setShowExampleDetails(params.get("demo") === "1");
+      setHydrated(true);
+    });
+    return () => cancelAnimationFrame(frame);
   }, []);
   useEffect(() => {
     if (hydrated)
@@ -208,7 +213,7 @@ export default function QuoteFlow() {
         </p>
       </div>
       <div className="content-width">
-        <div className="demo-details-helper">
+        {showExampleDetails && <div className="demo-details-helper">
           <span>
             {t(
               "Just exploring? Try the journey with example contact details.",
@@ -230,7 +235,7 @@ export default function QuoteFlow() {
             {t("Use demo details", "Përdor të dhëna demo")}{" "}
             <ArrowRight size={15} />
           </button>
-        </div>
+        </div>}
         <div className="quote-progress">
           {[
             [t("Bag & purpose", "Çanta dhe qëllimi")],

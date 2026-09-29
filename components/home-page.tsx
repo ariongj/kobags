@@ -7,11 +7,11 @@ import {
   Package,
   Paintbrush,
   Factory,
-  ShieldCheck,
 } from "lucide-react";
 import { useKobags } from "./kobags-context";
 import { useDemo } from "./demo-store";
 import { products, productMedia } from "@/lib/catalog";
+import { productCopySq } from "@/lib/product-copy";
 import BagShowcase from "./bag-showcase";
 
 export default function HomePage() {
@@ -248,7 +248,7 @@ export default function HomePage() {
                 <ArrowUpRight size={17} />
               </h3>
               <p>
-                {p.use}
+                {t(p.use, productCopySq[p.slug]?.use)}
                 <span className="product-size-count">
                   3 {t("sizes", "madhësi")}
                 </span>

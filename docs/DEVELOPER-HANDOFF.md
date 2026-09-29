@@ -1,6 +1,6 @@
 # Kobags Group — code and setup handoff
 
-Revision: 16 September 2026. This is a public demonstration with a persistent, visitor-isolated data flow. It is not connected to Kobags production systems.
+Revision: 29 September 2026. This is a public demonstration with a persistent, visitor-isolated data flow. It is not connected to Kobags production systems.
 
 ## Quick start
 
@@ -119,11 +119,11 @@ Updates compare the stored revision and retry at most three times. A second edit
 
 The RFQ success page leads directly to the customer journey (`components/demo-journey.tsx`). `prepare-demo` composes the existing issue-quote and issue-artwork transitions in one optimistic update. Its example price is EUR 0.45 per bag plus EUR 120 setup, explicitly fictional. Missing artifacts are created once; existing revisions/approvals are preserved. The buyer reviews and accepts the quotation, reviews and approves artwork, then explicitly selects **Place demo order**. The existing release gates and immutable version references still apply. No charge, outgoing message or manufacturing job is created. The sales view can revise artifacts and advance simulated production stages. Reorders remain new requests requiring fresh approvals.
 
-The quote form offers fictional contact details without checking consent automatically. Missing delivery-country and city feedback is specific. Download feedback persists with its filename, including fullscreen, and the mobile menu label is translated.
+The quote form offers fictional contact details through `?demo=1` for automated/internal checks only; the normal public form asks buyers to enter their own details. Consent is never checked automatically. Missing delivery-country and city feedback is specific. Download feedback persists with its filename, including fullscreen, and the mobile menu label is translated.
 
 ### Navigation compatibility
 
-`components/site-link.tsx` uses standard anchor navigation. The installed Vinext production Link chunk loaded a missing dynamic `navigateClientSide` export, causing clicks to fail while development navigation worked. Standard document links remove that dependency. Product/reorder actions use `window.location.assign`; the context synchronously saves the draft before navigating. This preserves selections and native new-tab/download behavior. A future framework update can restore client transitions only after testing the compiled journey, not just the dev server.
+`components/site-link.tsx` uses standard anchor navigation. The installed Vinext production Link chunk loaded a missing dynamic `navigateClientSide` export, causing clicks to fail while development navigation worked. Standard document links remove that dependency. Catalog detail actions save the selected bag and size, then use router navigation to enter the studio or quote flow; repeat-order actions use document navigation. The context synchronously saves the draft before navigating. Test the compiled journey, not just the dev server, after any framework or routing change.
 
 ### Artwork
 

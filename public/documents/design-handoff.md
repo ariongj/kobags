@@ -1,6 +1,6 @@
 # Kobags Group — design handoff
 
-Revision: 16 September 2026. Website demonstration, prepared from the supplied audit and the original Kobags website. Edition 05 reworks the full website around industrial precision and a brand studio: cinematic original factory imagery, a real interactive 3D showroom, stronger typography, a consistent product collection, editorial openings and a shared dark footer.
+Revision: 29 September 2026. Website demonstration, prepared from the supplied audit and the original Kobags website. Edition 05 reworks the full website around industrial precision and a brand studio: cinematic original factory imagery, a real interactive 3D showroom, stronger typography, a consistent product collection, editorial openings and a shared dark footer. This revision adds photographic product galleries, distinct production and journal imagery, and a more detailed five-family 3D studio.
 
 ## 1. Creative direction
 
@@ -10,7 +10,7 @@ The original logo is retained. This is an extension of Kobags' navy/green identi
 
 ## 2. Design tokens
 
-The base is `app/globals.css`; the current visual direction is `app/brand-refresh.css`, imported after it. Use the edition stylesheet for new visual refinements rather than adding competing global overrides.
+The base is `app/globals.css`; `app/brand-refresh.css` defines the brand direction and `app/compact.css` is the final responsive layer, imported last. Keep new visual refinements scoped to their component and place final responsive overrides in `app/compact.css`.
 
 | Token / role | Value | Use |
 | --- | --- | --- |
@@ -51,21 +51,21 @@ The intended balance is manufacturer first, products and customization next. Do 
 
 Lead with “Build your bag.” Keep the working surface compact: a 30px desktop title, 26px mobile title, 360px controls column (330/305px on smaller desktops/tablets), 38px fields and short shape tiles. Use the scoped `.studio-compact` rules at the end of `app/brand-refresh.css`; the older `.studio-v4` rules are the compatibility baseline. Cards stack below 700px, and the mobile preview is 310px tall. Desktop keeps the quote action visible while long editing controls scroll inside their panel. Mobile controls and the quote action stay in normal document flow so nothing covers the form. The designer has a short footer instead of the site's large promotional invitation.
 
-**3D view** opens by default. All five families have distinct volumetric shapes, live bag color, independent front/back logo and text, direct logo/text selection and dragging, empty-space drag rotation, keyboard arrows, rotation buttons, zoom, reset and optional automatic rotation. Front/back actions select the matching view. Automatic motion starts off and remains disabled for reduced-motion users. Fullscreen keeps the same controls; devices without WebGL receive the existing flat preview.
+**3D view** opens by default with a visible 360° control and slow automatic rotation of an untouched default design. Interaction stops the spin so buyers can place artwork without the bag moving. The five volumetric models use photographed fabric on the front, a distinct rear surface made from unprinted fabric in the same client photo, and separately modelled gussets, openings and closures. No clean rear-view photo was supplied, so the back is a visual reconstruction rather than a scanned product model. All five families retain independent front/back logo and text, direct logo/text selection and dragging, empty-space drag rotation, keyboard arrows, rotation buttons, zoom and reset. Reduced-motion users start with a still view. Fullscreen keeps the same controls; devices without WebGL receive the flat preview. The natural T-Shirt photo is used directly without recoloring; natural Handle and Box photos also keep their source fabric detail. Other selected colors remain visual approximations. A compact strip below the stage opens three real client-supplied photos of the selected bag family for material and construction reference.
 
 The bag tab contains size, color, material, print-color count and an optional custom-dimension request. “Next: add your design” opens the artwork tab. Logo and Text select independent layers and show only the selected layer's controls. Logo includes upload, thumbnail/name and optional white-background cleanup; Text includes a short text field, three typefaces, alignment and ink color. Artwork size is immediately available; coordinates and rotation sit inside the expandable **Position & rotation** section. Undo/redo, Center artwork, remove and copy-to-other-side remain available.
 
 In **3D view**, click or tap a logo/text layer to select it. Drag it in any direction within the artwork placement limits; a dashed outline follows the selected layer. Drag empty fabric/background to rotate the bag. Selecting visible back artwork switches the editing side without snapping the camera. Arrow keys nudge selected artwork (Shift: larger steps); Escape deselects it. A complete drag is one undo step, even with a pause. Fullscreen and mobile touch use the same editing behavior.
 
-**Place artwork** remains an alternative flat canvas for precise dragging and keyboard placement. Both views use the same saved design. Dragging preserves the initial grab offset; keyboard arrows move by 1% (Shift: 5%). Guides can be hidden and never appear in exports. The clean downloads remain a single-face concept and a two-sided specification sheet. Keep controls readable; achieve compactness by removing duplicate information and revealing advanced tools on demand.
+**Photo + artwork** is the alternate flat canvas, based on blank cutouts edited from the supplied product photos. Buyers can drag artwork directly and use keyboard placement. Both views use the same saved design. Dragging preserves the initial grab offset; keyboard arrows move by 1% (Shift: 5%). Guides can be hidden and never appear in exports. The clean downloads remain a single-face concept and a two-sided specification sheet. Keep controls readable; achieve compactness by removing duplicate information and revealing advanced tools on demand.
 
 ### Catalog and detail
 
-The catalog opens with a large two-line title and layered blank-bag imagery. Refined product cards keep the five original product families with source photographs, handle/use filters and up to three comparison columns. Detail pages contain Small, Medium and Large published sizes, GSM and a direct design action. Do not label inferred width/height/gusset order until a client drawing establishes it.
+The catalog opens with a large two-line title and layered blank-bag imagery. Refined product cards keep the five original product families with source photographs, handle/use filters and up to three comparison columns. Each detail page starts with the matching catalog photo and a three-image gallery of distinct product/print examples. It also contains Small, Medium and Large published sizes, GSM and direct design/quote actions. Alternate photographs can show different colors or prints; label them as examples. Do not label inferred width/height/gusset order until a client drawing establishes it.
 
 ### Quote request
 
-Four explicit steps: bag, branding, quantity/destination, company/contact. A persistent summary keeps the selected bag visible. Preserve user input on validation/network errors. The final confirmation appears only after a successful server save.
+Four explicit steps: bag, branding, quantity/destination, company/contact. A persistent summary keeps the selected bag visible. Preserve user input on validation/network errors. The public form omits the internal example-details helper; it is available only with `?demo=1` for testing. The final confirmation appears only after a successful server save.
 
 ### Company and guidance
 
@@ -88,18 +88,19 @@ Mobile is a primary review surface. Keep 44px main actions/menu rows, readable 1
 | Asset | Source / treatment |
 | --- | --- |
 | `public/assets/logo.png`, `favicon.png` | Original Kobags identity; preserve proportions |
-| Five `*-bag.webp` photos | Original Kobags product photographs; existing printed brand text is part of the photo |
-| `factory.webp`, `factory-printing.webp` | Original public manufacturing evidence |
-| `printing-process.mp4` | Original printing video; controls, no autoplay, preload none |
+| `public/assets/client-2026-09/*-bag.jpg`, `home-*.jpg`, `detail-*.jpg` | Distinct client-supplied product photos for catalog, home, and detail; printed brand text is part of the original image |
+| `public/assets/client-2026-09/factory-*.jpg`, material and process photographs | Client-supplied factory evidence across home, manufacturing, partners, resources, and journal; selection and source hashes in `docs/client-media-2026-09-28.json` |
+| `printing-process.mp4` and `client-2026-09/*-reel.mp4` | One original horizontal film on home and two different client-supplied portrait reels on manufacturing; controls, no autoplay, preload none |
 | `certificate-iso*.webp`, `public/documents/iso-*-original.png` | Display derivatives and original scans; readable transcription with current issuer verification still required |
-| `studio-v4/*.webp` | Five individual transparent AI-generated blank-bag mockups, tinted at runtime; current designer |
+| `studio-real-*.webp` | Five blank cutouts edited from client-supplied product photos for the editable flat preview and downloads; tint and artwork are composited at runtime. See `docs/studio-real-photo-sources.json` for source mapping |
+| `studio-v4/*.webp` | Earlier blank mockups retained for reference |
 | `studio-bag-atlas.png` | Earlier mockup geometry retained for historic artwork snapshots |
-| `docs/asset-sources.json` | Asset source manifest |
+| `docs/asset-sources.json`, `docs/client-media-2026-09-28.json` | Original asset sources and newly supplied archive selection |
 | `docs/source-catalog.json` | Original catalog snapshot with 15 variants |
 
-The designer offers illustrative 3D family models and flat artwork previews. Family geometry does not change physical proportions for each catalogue size. Neither view is an approved dieline, production CAD, color sample or guarantee of printable area. Production work should substitute approved per-variant templates or approved 3D assets. Preview downloads carry a concept label.
+The designer offers rotatable 3D family models with photographed front fabric, a reconstructed rear fabric surface and matching cloth texture on modelled gussets, bases and handles, alongside flat artwork previews. The models are built from one supplied photo per family, so unseen surfaces are reconstructed, and geometry does not change physical proportions for each catalogue size. Neither view is an approved dieline, production CAD, color sample or guarantee of printable area. Production work should substitute approved per-variant templates or approved 3D assets. Preview downloads carry a concept label.
 
-Kobags assets remain subject to their owner's rights. The archive is a handoff for this project; it does not grant trademark, photo or video rights for unrelated brands. Replace brand assets when using the architecture for another business.
+The 28 September 2026 client archive supplied 72 photos and 105 short portrait videos. Distinct original photographs, video-frame posters and two short clips were curated for placements across the site; the existing horizontal process film remains on the homepage. The latest pass added factory forming and printed material images, plus three journal images. Kobags assets remain subject to their owner's rights. The archive is a handoff for this project; it does not grant trademark, photo or video rights for unrelated brands. Replace brand assets when using the architecture for another business.
 
 ### Guided visitor journey
 
@@ -135,7 +136,7 @@ Visitors need no sign-in to try the complete demo. The quote form can fill ficti
 - Use 5,000 as the published starting MOQ, subject to confirmed scope. Sample inquiries are separate.
 - Express dispatch timing as conditional and separate it from delivery arrival.
 - Use clear language around fictional prices, no outgoing messages and isolated demo records.
-- EN/SQ covers the homepage and core studio/quote journey. Supporting editorial and most sales copy are English; human Albanian review and full locale coverage remain outstanding.
+- EN/SQ covers the homepage, catalog/product details, studio, quote journey, shared shell, and main supporting-page headings/copy. Editable resource entries, journal articles, legal pages and much of the sales workspace remain English; human Albanian review and full locale coverage remain outstanding.
 - Avoid unsupported recycled-content, plastic-free, carbon-impact, food-contact or durability claims.
 
 ## 8. Next design deliverables

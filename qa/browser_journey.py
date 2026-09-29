@@ -54,11 +54,11 @@ async def main():
   await page.get_by_role('checkbox').check()
   async def fail(route):await route.fulfill(status=503,content_type='application/json',body='{"error":"STORAGE_UNAVAILABLE"}')
   await page.route('**/api/demo',fail)
-  await page.get_by_role('button',name='Submit demo request').click()
+  await page.get_by_role('button',name='Save design request').click()
   await page.get_by_role('alert').wait_for();assert await page.locator('#q-company').input_value()=='Mira Market — fictional QA'
   assert await page.get_by_text('Your bag has a beginning.').count()==0
   await page.unroute('**/api/demo',fail)
-  await page.get_by_role('button',name='Submit demo request').click();await page.get_by_text('Your bag has a beginning.').wait_for()
+  await page.get_by_role('button',name='Save design request').click();await page.get_by_text('Your bag has a beginning.').wait_for()
   s=await state();assert len(s['requests'])==1;r=s['requests'][0];rid=r['id'];snap=r['snapshot']
   res,data=await post({'type':'submit','design':snap});assert res.status==200 and len(data['state']['requests'])==1 and data['id']==rid
   assert snap['size']=='Large' and snap['quantity']==5000 and snap['city']=='Prishtina' and snap['logo']
@@ -93,7 +93,7 @@ async def main():
   assert (await state())['requests'][0]['snapshot']['description']==old_description
   await go('/demo/customer?id='+rid);await page.get_by_role('tab',name='Timeline',exact=True).click();await page.get_by_role('button',name='Request these bags again').click()
   await page.wait_for_url('**/quote');d=await page.evaluate("JSON.parse(localStorage.getItem('kobags-design-v1'))");assert d['reorderOf']==rid and d['key']!=snap['key']
-  await page.get_by_role('button',name='Continue',exact=True).click();await page.get_by_role('checkbox').check();await page.get_by_role('button',name='Submit demo request').click();await page.get_by_text('Your bag has a beginning.').wait_for()
+  await page.get_by_role('button',name='Continue',exact=True).click();await page.get_by_role('checkbox').check();await page.get_by_role('button',name='Save design request').click();await page.get_by_text('Your bag has a beginning.').wait_for()
   s=await state();assert len(s['requests'])==2 and s['requests'][0]['quotes']==[] and s['requests'][0]['snapshot']['reorderOf']==rid
   routes=['/','/design','/products','/manufacturing','/sustainability','/certifications','/partners','/partners/apply','/resources','/industries','/industries/retail','/samples','/contact','/privacy','/terms','/cookies']
   for path in routes:

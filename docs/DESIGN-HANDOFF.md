@@ -1,6 +1,6 @@
 # Kobags Group — design handoff
 
-Revision: 28 September 2026. Website demonstration, prepared from the supplied audit and the original Kobags website. Edition 05 reworks the full website around industrial precision and a brand studio: cinematic original factory imagery, a real interactive 3D showroom, stronger typography, a consistent product collection, editorial openings and a shared dark footer.
+Revision: 29 September 2026. Website demonstration, prepared from the supplied audit and the original Kobags website. Edition 05 reworks the full website around industrial precision and a brand studio: cinematic original factory imagery, a real interactive 3D showroom, stronger typography, a consistent product collection, editorial openings and a shared dark footer. This revision adds photographic product galleries, distinct production and journal imagery, and a more detailed five-family 3D studio.
 
 ## 1. Creative direction
 
@@ -10,7 +10,7 @@ The original logo is retained. This is an extension of Kobags' navy/green identi
 
 ## 2. Design tokens
 
-The base is `app/globals.css`; the current visual direction is `app/brand-refresh.css`, imported after it. Use the edition stylesheet for new visual refinements rather than adding competing global overrides.
+The base is `app/globals.css`; `app/brand-refresh.css` defines the brand direction and `app/compact.css` is the final responsive layer, imported last. Keep new visual refinements scoped to their component and place final responsive overrides in `app/compact.css`.
 
 | Token / role | Value | Use |
 | --- | --- | --- |
@@ -61,11 +61,11 @@ In **3D view**, click or tap a logo/text layer to select it. Drag it in any dire
 
 ### Catalog and detail
 
-The catalog opens with a large two-line title and layered blank-bag imagery. Refined product cards keep the five original product families with source photographs, handle/use filters and up to three comparison columns. Detail pages contain Small, Medium and Large published sizes, GSM and a direct design action. Do not label inferred width/height/gusset order until a client drawing establishes it.
+The catalog opens with a large two-line title and layered blank-bag imagery. Refined product cards keep the five original product families with source photographs, handle/use filters and up to three comparison columns. Each detail page starts with the matching catalog photo and a three-image gallery of distinct product/print examples. It also contains Small, Medium and Large published sizes, GSM and direct design/quote actions. Alternate photographs can show different colors or prints; label them as examples. Do not label inferred width/height/gusset order until a client drawing establishes it.
 
 ### Quote request
 
-Four explicit steps: bag, branding, quantity/destination, company/contact. A persistent summary keeps the selected bag visible. Preserve user input on validation/network errors. The final confirmation appears only after a successful server save.
+Four explicit steps: bag, branding, quantity/destination, company/contact. A persistent summary keeps the selected bag visible. Preserve user input on validation/network errors. The public form omits the internal example-details helper; it is available only with `?demo=1` for testing. The final confirmation appears only after a successful server save.
 
 ### Company and guidance
 
@@ -100,7 +100,7 @@ Mobile is a primary review surface. Keep 44px main actions/menu rows, readable 1
 
 The designer offers rotatable 3D family models with photographed front fabric, a reconstructed rear fabric surface and matching cloth texture on modelled gussets, bases and handles, alongside flat artwork previews. The models are built from one supplied photo per family, so unseen surfaces are reconstructed, and geometry does not change physical proportions for each catalogue size. Neither view is an approved dieline, production CAD, color sample or guarantee of printable area. Production work should substitute approved per-variant templates or approved 3D assets. Preview downloads carry a concept label.
 
-The 28 September 2026 client archive supplied 72 photos and 105 short portrait videos. Thirty-three original photographs, two video-frame posters and two short clips were curated for distinct placements across the site; the existing horizontal process film remains on the homepage. Kobags assets remain subject to their owner's rights. The archive is a handoff for this project; it does not grant trademark, photo or video rights for unrelated brands. Replace brand assets when using the architecture for another business.
+The 28 September 2026 client archive supplied 72 photos and 105 short portrait videos. Distinct original photographs, video-frame posters and two short clips were curated for placements across the site; the existing horizontal process film remains on the homepage. The latest pass added factory forming and printed material images, plus three journal images. Kobags assets remain subject to their owner's rights. The archive is a handoff for this project; it does not grant trademark, photo or video rights for unrelated brands. Replace brand assets when using the architecture for another business.
 
 ### Guided visitor journey
 
@@ -136,7 +136,7 @@ Visitors need no sign-in to try the complete demo. The quote form can fill ficti
 - Use 5,000 as the published starting MOQ, subject to confirmed scope. Sample inquiries are separate.
 - Express dispatch timing as conditional and separate it from delivery arrival.
 - Use clear language around fictional prices, no outgoing messages and isolated demo records.
-- EN/SQ covers the homepage and core studio/quote journey. Supporting editorial and most sales copy are English; human Albanian review and full locale coverage remain outstanding.
+- EN/SQ covers the homepage, catalog/product details, studio, quote journey, shared shell, and main supporting-page headings/copy. Editable resource entries, journal articles, legal pages and much of the sales workspace remain English; human Albanian review and full locale coverage remain outstanding.
 - Avoid unsupported recycled-content, plastic-free, carbon-impact, food-contact or durability claims.
 
 ## 8. Next design deliverables
