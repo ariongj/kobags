@@ -101,7 +101,7 @@ export default function QuoteFlow() {
       "Shtoni kompaninë, emrin e kontaktit dhe emailin e vlefshëm.",
     ],
     consent: [
-      "Please acknowledge the demo privacy notice.",
+      "Please acknowledge the privacy notice.",
       "Ju lutemi pranoni njoftimin e privatësisë.",
     ],
   };
@@ -131,7 +131,7 @@ export default function QuoteFlow() {
           <CheckCircle2 size={36} />
         </div>
         <p className="eyebrow">
-          {t("DESIGN RECEIVED · DEMO", "DIZAJNI U PRANUA · DEMO")}
+          {t("DESIGN SAVED", "DIZAJNI U RUAJT")}
         </p>
         <h1>{t("Your bag has a beginning.", "Çanta juaj ka një fillim.")}</h1>
         <p>
@@ -143,20 +143,14 @@ export default function QuoteFlow() {
         </p>
         <p>
           {t(
-            "Continue to prepare a fictional quote, approve your artwork and place a demo order. No sign-in, payment or real order is needed.",
-            "Vazhdoni me ofertën fiktive, miratoni dizajnin dhe vendosni porosinë demo. Pa hyrje në llogari, pagesë ose porosi reale.",
+            "Explore the sample quote and artwork approval steps with your saved design.",
+            "Shihni hapat e ofertës shembull dhe miratimit të dizajnit tuaj të ruajtur.",
           )}
         </p>
         <div className="actions">
           <Link href={"/demo/customer?id=" + submitted} className="button">
-            {t("Continue to demo order", "Vazhdo te porosia demo")}{" "}
+            {t("Explore next steps", "Shihni hapat vijues")}{" "}
             <ArrowRight size={17} />
-          </Link>
-          <Link
-            href={"/demo/admin?id=" + submitted}
-            className="button secondary"
-          >
-            {t("Open sales demo", "Hap demonstrimin e shitjeve")}
           </Link>
         </div>
         <button
@@ -475,12 +469,6 @@ export default function QuoteFlow() {
             )}
             {step === 3 && (
               <div className="form-grid">
-                <p className="notice full">
-                  {t(
-                    "Website demonstration. Please use fictional company and contact details. Nothing is sent to Kobags.",
-                    "Demonstrim privat. Përdorni të dhëna fiktive për kompaninë dhe kontaktin. Asgjë nuk dërgohet te Kobags.",
-                  )}
-                </p>
                 {fields("company", t("Company", "Kompania"), "text", true)}
                 {fields("contact", t("Your name", "Emri juaj"), "text", true)}
                 {fields(
@@ -556,7 +544,7 @@ export default function QuoteFlow() {
                 {busy
                   ? t("Saving…", "Duke ruajtur…")
                   : step === 3
-                    ? t("Submit demo request", "Dërgo kërkesën demo")
+                    ? t("Save design request", "Ruaj kërkesën e dizajnit")
                     : t("Continue", "Vazhdo")}
                 <ArrowRight size={16} />
               </button>

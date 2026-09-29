@@ -34,7 +34,7 @@ export default function InquiryForm({
     if (!consent) {
       setInvalid(
         t(
-          "Please acknowledge the demo privacy notice.",
+          "Please acknowledge how this inquiry is saved.",
           "Ju lutemi pranoni njoftimin e privatësisë.",
         ),
       );
@@ -74,17 +74,14 @@ export default function InquiryForm({
         <CheckCircle2 size={35} />
         <h2>{t("Your inquiry is saved.", "Kërkesa juaj u ruajt.")}</h2>
         <p>
-          {t("Demo reference:", "Referenca demo:")} {done}
+          {t("Reference:", "Referenca:")} {done}
         </p>
         <p>
           {t(
-            "The sales demo has the same record. No message has been sent to Kobags.",
-            "Demo e shitjeve ka të njëjtën kërkesë. Asnjë mesazh nuk është dërguar te Kobags.",
+            "Your inquiry is saved in this website workspace. No message has been sent to Kobags.",
+            "Kërkesa juaj është ruajtur në këtë hapësirë të faqes. Asnjë mesazh nuk është dërguar te Kobags.",
           )}
         </p>
-        <Link className="button" href="/demo/admin">
-          Open sales demo <ArrowRight size={16} />
-        </Link>
       </div>
     );
   return (
@@ -96,12 +93,6 @@ export default function InquiryForm({
             ? t("Introduce your business.", "Prezantoni biznesin tuaj.")
             : t("What can we help with?", "Si mund t’ju ndihmojmë?")}
       </h2>
-      <div className="notice">
-        {t(
-          "Demo only. Please use fictional contact details. No message will be sent.",
-          "Vetëm demo. Përdorni të dhëna fiktive. Asnjë mesazh nuk dërgohet.",
-        )}
-      </div>
       <div className="form-grid">
         {[
           ["company", t("Company", "Kompania"), "text"],
@@ -180,8 +171,8 @@ export default function InquiryForm({
           />
           <span>
             {t(
-              "I understand this is a website demonstration and my inquiry will be stored for review.",
-              "E kuptoj se ky është demonstrim privat dhe kërkesa ruhet për shqyrtim.",
+              "I understand my inquiry is saved in this website workspace and no email is sent to Kobags.",
+              "E kuptoj se kërkesa ruhet në këtë faqe dhe nuk dërgohet email te Kobags.",
             )}{" "}
             <Link href="/privacy">{t("Privacy notice", "Privatësia")}</Link>
           </span>
@@ -196,7 +187,7 @@ export default function InquiryForm({
       <button className="button" type="submit" disabled={busy}>
         {busy
           ? t("Saving…", "Duke ruajtur…")
-          : t("Submit demo inquiry", "Dërgo kërkesën demo")}{" "}
+          : t("Save inquiry", "Ruaj kërkesën")}{" "}
         <ArrowRight size={16} />
       </button>
     </form>

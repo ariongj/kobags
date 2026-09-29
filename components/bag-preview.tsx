@@ -136,6 +136,11 @@ async function tintedBag(design: Design) {
   layerCache.set(key, promise);
   return promise;
 }
+// The photographic shell in the 3D viewer uses the same blank, colorized bag
+// as the flat editor, so the two modes do not disagree about the product.
+export async function renderBlankBagTexture(design: Design) {
+  return tintedBag(design);
+}
 export type { ArtworkBounds } from "@/lib/studio-artwork";
 import type { ArtworkBounds } from "@/lib/studio-artwork";
 async function paintArtwork(

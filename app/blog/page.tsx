@@ -44,10 +44,6 @@ export default function Journal() {
             </Link>
           ))}
         </div>
-        <p className="source-note">
-          Proposed editorial copy for this website demonstration. Original article
-          addresses are preserved; final copy needs client review.
-        </p>
       </div>
     </main>
   );

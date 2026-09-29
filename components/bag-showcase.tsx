@@ -322,12 +322,6 @@ export default function BagShowcase() {
               {playing ? <Pause size={17} /> : <Play size={17} />}
             </button>
           </div>
-          <p className="showcase-stage-note">
-            {t(
-              "Interactive concept · Final shape, color and print require approval.",
-              "Koncept interaktiv · Forma, ngjyra dhe shtypi kërkojnë miratim.",
-            )}
-          </p>
         </div>
       </div>
       <div className="showcase-bottom">

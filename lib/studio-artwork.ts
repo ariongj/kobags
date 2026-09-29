@@ -146,6 +146,6 @@ export const studioBounds: Record<string, [number, number, number, number]> = {
   "d-cut-bag": [169, 84, 1090, 1170],
   "handle-bag": [326, 28, 980, 1225],
   "box-bag": [119, 76, 1039, 1361],
-  "t-shirt-bag": [294, 75, 968, 1183],
+  "t-shirt-bag": [292, 73, 971, 1184],
   "string-bag": [114, 25, 1138, 1205],
 };

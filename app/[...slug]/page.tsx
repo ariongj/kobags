@@ -203,8 +203,7 @@ export default async function Page({
               <p>
                 Figures for environmental impact, product lifetime, recycled
                 percentage and food contact require product-specific evidence
-                and clear scope. This demonstration does not publish unsupported
-                impact totals.
+                and clear scope. Ask for the relevant evidence for your bag.
               </p>
               <p>
                 Management-system certificates describe the certified
@@ -252,11 +251,6 @@ export default async function Page({
                 </article>
               ))}
             </div>
-            <div className="notice">
-              These models are described on Kobags’ existing partner page. The
-              demo does not imply that an affiliate platform, commission
-              integration or live partner account is connected.
-            </div>
           </>
         )}
         {path === "partners/apply" && (
@@ -267,10 +261,6 @@ export default async function Page({
               <p>
                 Tell us which partner model fits, the country you work in and
                 the buyers you can support.
-              </p>
-              <p>
-                Applications appear in the sales demo for review. No partner
-                agreement is created.
               </p>
               <Link href="/partners" className="text-button">
                 Review partner models ↗
@@ -322,10 +312,6 @@ export default async function Page({
                 info@kobags-group.com
                 <br />
                 +383 43 877 753
-              </p>
-              <p>
-                Demo forms save isolated records. These contact details are
-                shown for reference.
               </p>
               <Link href="/quote" className="text-button">
                 Looking for a quotation? Start here ↗

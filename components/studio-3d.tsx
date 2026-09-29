@@ -13,7 +13,7 @@ import {
 import type { Design } from "@/lib/catalog";
 import { placementPatch, type ArtworkLayer } from "@/lib/studio-artwork";
 import type { StudioSelection, StudioScene } from "@/lib/studio-scene";
-import { BagPreview, renderArtworkTexture } from "./bag-preview";
+import { BagPreview, renderArtworkTexture, renderBlankBagTexture } from "./bag-preview";
 import { useKobags } from "./kobags-context";
 export default function Studio3D({
   design,
@@ -106,24 +106,31 @@ export default function Studio3D({
       const selection: StudioSelection | null = current.selected
         ? { side: d.side, layer: current.activeLayer }
         : null;
-      Promise.all(
-        (["front", "back"] as const).map((side) =>
-          renderArtworkTexture(
-            { ...d, side },
-            current.guides && selection?.side === side
-              ? selection.layer
-              : undefined,
-          ),
+      Promise.all([
+        renderArtworkTexture(
+          { ...d, side: "front" },
+          current.guides && selection?.side === "front"
+            ? selection.layer
+            : undefined,
         ),
-      )
-        .then(([front, back]) => {
+        renderArtworkTexture(
+          { ...d, side: "back" },
+          current.guides && selection?.side === "back"
+            ? selection.layer
+            : undefined,
+        ),
+        d.product === "t-shirt-bag"
+          ? renderBlankBagTexture(d)
+          : Promise.resolve(undefined),
+      ] as const)
+        .then(([front, back, photo]) => {
           if (
             disposed ||
             ticket !== generation.current ||
             scene.current !== instance
           )
             return;
-          instance.update(d, front, back, selection);
+          instance.update(d, front, back, selection, photo);
           setStatus("ready");
           onReady?.(true);
         })

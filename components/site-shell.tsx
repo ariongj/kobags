@@ -22,17 +22,6 @@ export function Header() {
   }, [open]);
   return (
     <>
-      <div className="utility">
-        <span>
-          {t(
-            "Made in Kosova. Made for your brand.",
-            "Prodhuar në Kosovë. Për markën tuaj.",
-          )}
-        </span>
-        <Link href="/demo/customer">
-          {t("Customer demo", "Demo për klientin")} <ArrowUpRight size={13} />
-        </Link>
-      </div>
       <header className="header">
         <Link href="/" className="brand" aria-label="Kobags Group home">
           <span className="brand-wordmark">
@@ -175,13 +164,11 @@ export function Footer() {
         </div>
       </div>
       <div className="footer-bottom">
-        <span>© 2026 Kobags Group · Interactive concept demo</span>
+        <span>© 2026 Kobags Group</span>
         <div>
           <Link href="/privacy">Privacy</Link>
           <Link href="/terms">Terms</Link>
           <Link href="/cookies">Cookies</Link>
-          <Link href="/demo/admin">Sales demo ↗</Link>
-          <Link href="/handoff">Site outline & handoff ↗</Link>
         </div>
       </div>
     </footer>

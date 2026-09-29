@@ -13,7 +13,6 @@ import {
   Maximize2,
   Package,
   ShieldCheck,
-  Info,
   ImagePlus,
   AlignLeft,
   AlignCenter,
@@ -23,7 +22,6 @@ import {
   EyeOff,
   Trash2,
   CheckCircle2,
-  AlertTriangle,
   Eraser,
   Box,
   Undo2,
@@ -58,8 +56,6 @@ import {
 } from "@/lib/studio-artwork";
 import {
   artworkSides,
-  inkContrast,
-  readableInk,
   clearWhiteBackground,
 } from "@/lib/studio-checks";
 import { useDemo } from "./demo-store";
@@ -259,11 +255,6 @@ export default function BagStudio() {
   const transform = (patch: Parameters<typeof placementPatch>[2]) =>
     update(placementPatch(design, activeLayer, patch));
   const sides = artworkSides(design);
-  const fabric = colors.find((c) => c.name === design.color) || colors[0];
-  const lowContrast =
-    (!art.logo || design.layeredArtwork) &&
-    !!art.text.trim() &&
-    inkContrast(art.ink, fabric.hex) < 3;
   const [backgroundBusy, setBackgroundBusy] = useState(false);
   const [backgroundEdits, setBackgroundEdits] = useState<
     Partial<Record<Design["side"], { original: string; cleaned: string }>>
@@ -435,39 +426,6 @@ export default function BagStudio() {
       setBackgroundBusy(false);
     }
   };
-  const contrastHint = lowContrast ? (
-    <div className="studio-contrast-hint" role="status">
-      <AlertTriangle size={18} />
-      <div>
-        <strong>
-          {t(
-            "Your text may be hard to see",
-            "Teksti mund të jetë i vështirë për t’u parë",
-          )}
-        </strong>
-        <p>
-          {t(
-            back
-              ? "The back text is close to the bag color."
-              : "The front text is close to the bag color.",
-            back
-              ? "Teksti prapa është i ngjashëm me ngjyrën e çantës."
-              : "Teksti përpara është i ngjashëm me ngjyrën e çantës.",
-          )}
-        </p>
-        <button
-          type="button"
-          className="text-button"
-          onClick={() => {
-            const ink = readableInk(fabric.hex);
-            update(back ? { backInk: ink } : { ink });
-          }}
-        >
-          {t("Use a clearer text color", "Përdorni një ngjyrë më të qartë")}
-        </button>
-      </div>
-    </div>
-  ) : null;
   const download = async () => {
     if (exporting || !previewReady) return;
     setExporting(true);
@@ -797,7 +755,7 @@ export default function BagStudio() {
             <DialogContent className="studio-sample-dialog">
               <DialogTitle>{t("A real bag made by Kobags", "Çantë reale e prodhuar nga Kobags")}</DialogTitle>
               <DialogDescription>
-                {t("An actual printed product. Your design above is an illustrative preview; final details are confirmed before production.", "Produkt real i shtypur. Dizajni juaj më sipër është një paraqitje ilustruese; detajet përfundimtare konfirmohen para prodhimit.")}
+                {t("Explore the material, stitching and shape of a bag made by Kobags.", "Shihni materialin, qepjet dhe formën e një çante të prodhuar nga Kobags.")}
               </DialogDescription>
               {samplePhoto && <img src={samplePhoto} alt={t(`Real ${p.name} product sample`, `Mostër reale e ${p.name}`)} />}
             </DialogContent>
@@ -819,13 +777,6 @@ export default function BagStudio() {
             </span>
             <ArrowUpRight size={15} />
           </button>
-          <div className="preview-disclaimer">
-            <Info size={14} />
-            {t(
-              "Illustrative 3D and artwork views. Final details are approved before production.",
-              "Paraqitje ilustruese. Ngjyra, forma, shkalla dhe shtypi kërkojnë miratim.",
-            )}
-          </div>
         </div>
         <aside className="studio-controls">
           <Tabs value={tab} onValueChange={setTab}>
@@ -895,7 +846,6 @@ export default function BagStudio() {
                   )}
                 </small>
               </div>
-              {contrastHint}
               <div className="spec-mini">
                 <div>
                   <Package size={17} />
@@ -1244,7 +1194,6 @@ export default function BagStudio() {
                   </div>
                 </>
               )}
-              {contrastHint}
               <div className="artwork-transform">
                 <div className="transform-heading">
                   <h3>

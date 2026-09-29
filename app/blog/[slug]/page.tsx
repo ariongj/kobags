@@ -41,26 +41,6 @@ export default async function Article({
               <p>{s.body}</p>
             </section>
           ))}
-          <p className="source-note">
-            Proposed editorial rewrite for this website demonstration. Product references
-            come from the{" "}
-            <a
-              href="https://kobags-group.com/products"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Kobags public catalog
-            </a>
-            . This page retains the{" "}
-            <a
-              href={"https://kobags-group.com/blog/" + a.slug}
-              target="_blank"
-              rel="noreferrer"
-            >
-              original article address
-            </a>
-            . Company, production and material claims require client approval.
-          </p>
         </article>
         <aside className="journal-aside">
           <p className="eyebrow">MAKE IT YOURS</p>

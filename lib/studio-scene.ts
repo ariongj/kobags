@@ -23,6 +23,7 @@ export type StudioScene = {
     front: ArtworkTexture,
     back: ArtworkTexture,
     selection: StudioSelection | null,
+    photo?: HTMLCanvasElement,
   ) => void;
   view: (side: "front" | "back" | "angle") => void;
   rotate: (direction: number) => void;
@@ -51,7 +52,7 @@ const families: Record<
   },
   "box-bag": { width: 2.8, bottom: -1.2, top: 0.95, depth: 1.0, handles: true },
   "d-cut-bag": { width: 2.45, bottom: -1.4, top: 1.6, depth: 0.3 },
-  "t-shirt-bag": { width: 2.4, bottom: -1.4, top: 1.8, depth: 0.55 },
+  "t-shirt-bag": { width: 2.1, bottom: -1.4, top: 1.8, depth: 0.34 },
   "string-bag": { width: 2.35, bottom: -1.4, top: 1.55, depth: 0.45 },
 };
 export function createStudioScene(
@@ -226,6 +227,18 @@ export function createStudioScene(
     return s;
   }
   const shaped = product === "d-cut-bag" || product === "t-shirt-bag";
+  const photoShell = product === "t-shirt-bag";
+  const photoPlaneSize = 4;
+  const photoPlaneCenterY = 0.18;
+  const photoFaceZ = depth / 2 + 0.03;
+  const photoCanvas = document.createElement("canvas");
+  photoCanvas.width = photoCanvas.height = 1440;
+  const photoTexture = photoShell ? new THREE.CanvasTexture(photoCanvas) : null;
+  if (photoTexture) {
+    photoTexture.colorSpace = THREE.SRGBColorSpace;
+    photoTexture.anisotropy = Math.min(4, renderer.capabilities.getMaxAnisotropy());
+    textures.add(photoTexture);
+  }
   if (spec.handles) {
     // The narrow dark opening and rolled upper lip make the bag read as an
     // open, sewn object instead of two flat printed planes.
@@ -271,7 +284,19 @@ export function createStudioScene(
   const faceSides = new Map<THREE.Object3D, Design["side"]>();
   const printTextures: THREE.CanvasTexture[] = [];
   for (const face of [1, -1]) {
-    const panel = add(faceGeometry());
+    const panel = photoShell
+      ? add(
+          new THREE.PlaneGeometry(photoPlaneSize, photoPlaneSize),
+          new THREE.MeshStandardMaterial({
+            map: photoTexture,
+            transparent: true,
+            alphaTest: 0.08,
+            roughness: 0.94,
+            side: THREE.FrontSide,
+          }),
+        )
+      : add(faceGeometry());
+    if (photoShell) panel.position.set(0, photoPlaneCenterY, face * photoFaceZ);
     if (face < 0) panel.rotation.y = Math.PI;
     faceSides.set(panel, face > 0 ? "front" : "back");
     // Allocate the final size before the first frame. Uploaded logos load
@@ -293,10 +318,18 @@ export function createStudioScene(
       polygonOffset: true,
       polygonOffsetFactor: -2,
     });
-    const print = add(faceGeometry(), ink);
-    print.position.z = face * 0.006;
+    const print = add(
+      photoShell
+        ? new THREE.PlaneGeometry(photoPlaneSize, photoPlaneSize)
+        : faceGeometry(),
+      ink,
+    );
+    if (photoShell)
+      print.position.set(0, photoPlaneCenterY, face * (photoFaceZ + 0.008));
+    else print.position.z = face * 0.006;
     if (face < 0) print.rotation.y = Math.PI;
     faceSides.set(print, face > 0 ? "front" : "back");
+    if (photoShell) continue;
     for (const x of [-half + 0.022, half - 0.022]) {
       const pts: THREE.Vector3[] = [];
       const seamTop = product === "t-shirt-bag" ? 0.65 : top - 0.03;
@@ -388,13 +421,20 @@ export function createStudioScene(
         y = pos.getY(i) + (sideTop + bottom) / 2;
       const fold = Math.sin((z / depth + 0.5) * Math.PI) *
         (product === "box-bag" ? 0.14 : 0.075);
-      pos.setXYZ(i, side * (Math.abs(xAt(half, y)) - fold), y, z);
+      pos.setXYZ(
+        i,
+        side * (Math.abs(xAt(half, y)) - fold - (photoShell ? 0.22 : 0)),
+        y,
+        z,
+      );
     }
     g.computeVertexNormals();
     add(g);
   }
-  const base = add(new THREE.BoxGeometry(width - 0.01, 0.025, depth));
-  base.position.y = bottom + 0.012;
+  const base = add(
+    new THREE.BoxGeometry(photoShell ? width - 0.45 : width - 0.01, 0.025, depth),
+  );
+  base.position.y = bottom + (photoShell ? 0.12 : 0.012);
   if (product === "box-bag") {
     for (const face of [-1, 1])
       for (const side of [-1, 1])
@@ -451,7 +491,7 @@ export function createStudioScene(
     scene,
   );
   floor.rotation.x = -Math.PI / 2;
-  floor.position.y = bottom - 0.06;
+  floor.position.y = bottom - (photoShell ? 0.22 : 0.06);
   let alive = true,
     visible = true,
     raf = 0,
@@ -541,12 +581,20 @@ export function createStudioScene(
     dy: number;
   } | null = null;
   const fullTop = spec.handles ? top + 1.1 : top;
-  const artworkScale = Math.min(650 / width, 690 / (fullTop - bottom));
-  const artworkCenter = (fullTop + bottom) / 2;
+  const artworkScale = photoShell
+    ? 800 / photoPlaneSize
+    : Math.min(650 / width, 690 / (fullTop - bottom));
+  const artworkCenter = photoShell ? photoPlaneCenterY : (fullTop + bottom) / 2;
   const faceSign = (side: Design["side"]) => (side === "front" ? 1 : -1);
   function artworkPoint(x: number, y: number, side: Design["side"]) {
     const xx = (x - 400) / artworkScale;
     const yy = artworkCenter + (400 - y) / artworkScale;
+    if (photoShell)
+      return new THREE.Vector3(
+        faceSign(side) * xx,
+        yy,
+        faceSign(side) * (photoFaceZ + 0.008),
+      );
     const t = (yy - bottom) / (top - bottom);
     const warp =
       product === "string-bag"
@@ -796,7 +844,7 @@ export function createStudioScene(
   host.dataset.model = product;
   host.dataset.ready = "true";
   return {
-    update(design, front, back, selected) {
+    update(design, front, back, selected, photo) {
       currentDesign = design;
       selection = selected;
       const hex = (colors.find((c) => c.name === design.color) || colors[0])
@@ -804,6 +852,10 @@ export function createStudioScene(
       fabric.color.set(hex);
       seamMat.color.set(hex).multiplyScalar(0.84);
       innerMat.color.set(hex).multiplyScalar(0.48);
+      if (photoTexture && photo) {
+        photoTexture.image = photo;
+        photoTexture.needsUpdate = true;
+      }
       [front, back].forEach((artwork, i) => {
         faceBounds[i === 0 ? "front" : "back"] = artwork.bounds;
         printTextures[i].image = artwork.canvas;
