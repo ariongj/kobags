@@ -2910,11 +2910,17 @@
   font-size: 12px;
 }
 .kobags-v5 .studio-compact .text-field-help > span:first-child {
-  display: none;
+  display: inline;
 }
 .kobags-v5 .studio-compact .text-field-help {
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-top: 3px;
+}
+.kobags-v5 .studio-compact .text-limit-warning {
+  margin: 3px 0 0;
+  color: #86531c;
+  font-size: 12px;
+  line-height: 1.35;
 }
 .kobags-v5 .studio-compact .text-format-row {
   margin: 0;
@@ -3399,9 +3405,6 @@ body.kobags-v5:has(.studio-compact) .footer-top img {
   .kobags-v5 .studio-compact .studio-spec-line {
     padding: 8px 11px;
     font-size: 12px;
-  }
-  .kobags-v5 .studio-compact .studio-spec-line > span:last-child {
-    display: none;
   }
   .kobags-v5 .studio-compact .preview-disclaimer {
     font-size: 12px;

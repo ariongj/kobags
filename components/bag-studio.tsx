@@ -66,6 +66,7 @@ import {
   getProduct,
   initialDesign,
   productMedia,
+  MAX_BRAND_TEXT_LENGTH,
 } from "@/lib/catalog";
 import { useKobags } from "./kobags-context";
 export function Choice({
@@ -217,11 +218,15 @@ export default function BagStudio() {
   };
   const p = getProduct(design.product);
   const v = p.variants.find((v) => v.name === design.size) || p.variants[0];
+  const sizeSq: Record<string, string> = { Small: "E vogël", Medium: "Mesatare", Large: "E madhe" };
+  const displaySize = t(design.size, sizeSq[design.size]);
+  const displayColor = t(design.color, colors.find((color) => color.name === design.color)?.sq);
   const [copied, setCopied] = useState(false);
   const [tab, setTab] = useState("bag");
   const [viewMode, setViewMode] = useState("3d");
   const [samplePhoto, setSamplePhoto] = useState<string | null>(null);
   const [error, setError] = useState("");
+  const [textLimitNotice, setTextLimitNotice] = useState(false);
   const [full, setFull] = useState(false);
   const [downloaded, setDownloaded] = useState("");
   const [exporting, setExporting] = useState(false);
@@ -232,6 +237,7 @@ export default function BagStudio() {
     layer: ArtworkLayer,
     side: Design["side"] = design.side,
   ) => {
+    setTextLimitNotice(false);
     setActiveLayer(layer);
     setTab("artwork");
     setSelectionKey((key) => key + 1);
@@ -449,21 +455,22 @@ export default function BagStudio() {
       ctx.stroke();
       ctx.fillStyle = "#193b67";
       ctx.font = "600 30px Arial";
-      ctx.fillText("KOBAGS / YOUR DESIGN CONCEPT", 65, 1635);
+      ctx.fillText(t("KOBAGS / YOUR DESIGN CONCEPT", "KOBAGS / KONCEPTI I DIZAJNIT"), 65, 1635);
       ctx.font = "24px Arial";
       ctx.fillText(
-        `${p.name} · ${design.size} · ${design.color} · ${back ? "Back" : "Front"}`,
+        `${p.name} · ${displaySize} · ${displayColor} · ${t(back ? "Back" : "Front", back ? "Prapa" : "Përpara")}`,
         65,
         1685,
       );
       ctx.fillStyle = "#62717b";
       ctx.font = "22px Arial";
-      ctx.fillText(`${v.dimensions} · ${v.gsm} GSM · Non-woven PP`, 65, 1725);
+      ctx.fillText(`${v.dimensions} · ${v.gsm} GSM · ${t("Non-woven PP", "PP jo i endur")}`, 65, 1725);
       ctx.font = "20px Arial";
       ctx.fillText(
-        "Illustrative preview. Final shape, color and print placement require production approval.",
+        t("Illustrative preview. Final shape, color and print placement require production approval.", "Pamje orientuese. Forma, ngjyra dhe shtypi miratohen para prodhimit."),
         65,
         1780,
+        1470,
       );
       const a = document.createElement("a");
       a.href = output.toDataURL("image/png");
@@ -501,47 +508,49 @@ export default function BagStudio() {
       ctx.fillRect(0, 0, 2000, 1400);
       ctx.fillStyle = "#193b67";
       ctx.font = "600 40px Arial";
-      ctx.fillText("KOBAGS / DESIGN SHEET", 70, 90);
+      ctx.fillText(t("KOBAGS / DESIGN SHEET", "KOBAGS / FLETA E DIZAJNIT"), 70, 90);
       ctx.font = "22px Arial";
       ctx.fillStyle = "#62717b";
-      ctx.fillText("Two sides. One design concept.", 70, 132);
+      ctx.fillText(t("Two sides. One design concept.", "Dy anë. Një koncept dizajni."), 70, 132);
       faces.forEach((face, index) => {
         ctx.drawImage(face, 80 + index * 1000, 175, 840, 840);
         ctx.fillStyle = "#193b67";
         ctx.font = "600 22px Arial";
         ctx.textAlign = "center";
-        ctx.fillText(index ? "BACK" : "FRONT", 500 + index * 1000, 1030);
+        ctx.fillText(index ? t("BACK", "PRAPA") : t("FRONT", "PËRPARA"), 500 + index * 1000, 1030);
       });
       ctx.textAlign = "left";
       ctx.fillStyle = "#fff";
       ctx.fillRect(0, 1090, 2000, 310);
       ctx.fillStyle = "#193b67";
       ctx.font = "600 28px Arial";
-      ctx.fillText(`${p.name} · ${design.size} · ${design.color}`, 70, 1145);
+      ctx.fillText(`${p.name} · ${displaySize} · ${displayColor}`, 70, 1145);
       ctx.font = "24px Arial";
       ctx.fillText(
-        `${v.dimensions} · ${v.gsm} GSM · Non-woven PP · ${design.printColors} requested print color${design.printColors === 1 ? "" : "s"}`,
+        `${v.dimensions} · ${v.gsm} GSM · ${t("Non-woven PP", "PP jo i endur")} · ${design.printColors} ${t(design.printColors === 1 ? "requested print color" : "requested print colors", design.printColors === 1 ? "ngjyrë shtypi e kërkuar" : "ngjyra shtypi të kërkuara")}`,
         70,
         1190,
+        1860,
       );
       ctx.fillStyle = "#62717b";
       ctx.font = "22px Arial";
       if (design.customDimensions)
         ctx.fillText(
-          `Custom size request: ${design.customDimensions} — subject to feasibility review.`,
+          t(`Custom size request: ${design.customDimensions} — subject to feasibility review.`, `Përmasa e kërkuar: ${design.customDimensions} — në shqyrtim teknik.`),
           70,
           1235,
           1860,
         );
       ctx.fillText(
-        "Illustrative concept. The mockup uses the selected catalogue size.",
+        t("Illustrative concept. The mockup uses the selected catalogue size.", "Koncept orientues. Pamja përdor madhësinë e zgjedhur nga katalogu."),
         70,
         1300,
       );
       ctx.fillText(
-        "Final material, color and print placement require approval before production. No order is placed by this download.",
+        t("Final material, color and print placement require approval before production. No order is placed by this download.", "Materiali, ngjyra dhe shtypi miratohen para prodhimit. Shkarkimi nuk krijon porosi."),
         70,
         1340,
+        1860,
       );
       const link = document.createElement("a");
       link.href = output.toDataURL("image/png");
@@ -645,7 +654,7 @@ export default function BagStudio() {
           <div className="preview-stage">
             <div className="stage-top">
               <span>
-                {p.name} <span className="subtle">/ {design.size}</span>
+                {p.name} <span className="subtle">/ {displaySize}</span>
               </span>
               <button
                 className="icon-button"
@@ -676,7 +685,10 @@ export default function BagStudio() {
             <div className="stage-bottom">
               <Tabs
                 value={design.side}
-                onValueChange={(s) => update({ side: s as "front" | "back" })}
+                onValueChange={(s) => {
+                  setTextLimitNotice(false);
+                  update({ side: s as "front" | "back" });
+                }}
               >
                 <TabsList className="side-switch">
                   <TabsTrigger value="front">
@@ -729,9 +741,9 @@ export default function BagStudio() {
           )}
           <div className="studio-spec-line">
             <span>
-              {v.dimensions} · {v.gsm} GSM · Non-woven PP
+              {v.dimensions} · {v.gsm} GSM · {t("Non-woven PP", "PP jo i endur")}
             </span>
-            <span>{design.color}</span>
+            <span>{displayColor}</span>
           </div>
           <div className="studio-real-samples">
             <div className="studio-real-samples-copy">
@@ -796,7 +808,7 @@ export default function BagStudio() {
                 onChange={(size) => update({ size })}
                 options={p.variants.map((v) => ({
                   value: v.name,
-                  label: `${v.name} · ${v.dimensions}`,
+                  label: `${t(v.name, sizeSq[v.name])} · ${v.dimensions}`,
                 }))}
               />
               <div className="field">
@@ -851,7 +863,7 @@ export default function BagStudio() {
                   <Package size={17} />
                   <span>
                     {t("Material", "Materiali")}
-                    <strong>Non-woven PP</strong>
+                    <strong>{t("Non-woven PP", "PP jo i endur")}</strong>
                   </span>
                 </div>
                 <div>
@@ -929,7 +941,10 @@ export default function BagStudio() {
                 <button
                   type="button"
                   className="text-button flip-edit-side"
-                  onClick={() => update({ side: back ? "front" : "back" })}
+                  onClick={() => {
+                    setTextLimitNotice(false);
+                    update({ side: back ? "front" : "back" });
+                  }}
                 >
                   {t(
                     back ? "Edit front" : "Edit back",
@@ -1103,29 +1118,37 @@ export default function BagStudio() {
                     <textarea
                       id="brand-text"
                       rows={2}
-                      maxLength={60}
+                      maxLength={MAX_BRAND_TEXT_LENGTH}
                       value={art.text}
                       placeholder={t("Your brand name", "Emri i markës suaj")}
                       onChange={(e) => {
+                        const limitedText = e.currentTarget.value.slice(0, MAX_BRAND_TEXT_LENGTH);
+                        setTextLimitNotice(e.currentTarget.value.length > MAX_BRAND_TEXT_LENGTH);
+                        if (e.currentTarget.value !== limitedText) e.currentTarget.value = limitedText;
                         setError("");
                         setActiveLayer("text");
                         update({
                           ...(art.logo ? enableLayers(design) : {}),
                           ...(back
-                            ? { backText: e.target.value }
-                            : { text: e.target.value }),
+                            ? { backText: limitedText }
+                            : { text: limitedText }),
                         });
                       }}
                     />
                     <div className="text-field-help">
                       <span>
                         {t(
-                          "Short and clear works best.",
-                          "Teksti i shkurtër është më i qartë.",
+                          "60-character limit",
+                          "Maksimumi 60 karaktere",
                         )}
                       </span>
-                      <span>{art.text.length}/60</span>
+                      <span>{art.text.length}/{MAX_BRAND_TEXT_LENGTH}</span>
                     </div>
+                    {textLimitNotice && (
+                      <p className="text-limit-warning" role="status">
+                        {t("Extra text was removed.", "Teksti shtesë u hoq.")}
+                      </p>
+                    )}
                   </div>
                 </>
               )}
@@ -1392,7 +1415,7 @@ export default function BagStudio() {
           }}
         >
           <DialogTitle>
-            {p.name} · {design.color}
+            {p.name} · {displayColor}
           </DialogTitle>
           <DialogDescription>
             {t(

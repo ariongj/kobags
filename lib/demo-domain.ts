@@ -6,6 +6,7 @@ import {
   Design,
   Product,
   getProduct,
+  MAX_BRAND_TEXT_LENGTH,
 } from "./catalog";
 export type Event = { at: string; message: string; actor: string };
 export type Quote = {
@@ -200,7 +201,7 @@ export const designSchema = z.object({
   side: z.enum(["front", "back"]),
   logo: image,
   logoName: z.string().max(150),
-  text: z.string().max(60),
+  text: z.string().max(MAX_BRAND_TEXT_LENGTH),
   ink: z.string().regex(/^#[0-9a-fA-F]{6}$/),
   x: z.number().min(24).max(76),
   y: z.number().min(33).max(80),
@@ -216,7 +217,7 @@ export const designSchema = z.object({
     .regex(/^#[0-9a-fA-F]{6}$/)
     .optional(),
   backLogo: image,
-  backText: z.string().max(60),
+  backText: z.string().max(MAX_BRAND_TEXT_LENGTH),
   backX: z.number().min(24).max(76),
   backY: z.number().min(33).max(80),
   backScale: z.number().min(10).max(55),

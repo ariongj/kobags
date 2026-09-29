@@ -2,6 +2,8 @@
 
 Revision: 29 September 2026. This is a public demonstration with a persistent, visitor-isolated data flow. It is not connected to Kobags production systems.
 
+The 29 September technical audit follow-up centralizes the 60-character brand-text limit in `lib/catalog.ts`. `components/bag-studio.tsx` constrains even scripted overlength input, and `components/kobags-context.tsx` trims older local drafts and all design updates before persistence. `lib/demo-domain.ts` enforces the same limit at the API boundary. Studio/quote display labels and concept-sheet text follow EN/SQ without changing stored catalog values. The 3D canvas updates its accessible instruction when the language changes. `qa/technical_audit_2026_09_29.py` checks these boundaries, image formats, readable PNG exports and quote carry-through on a compiled local Worker.
+
 ## Quick start
 
 Requires Node 22.13+ and npm. The included lockfile preserves the installed package versions.

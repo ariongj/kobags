@@ -8,8 +8,15 @@ import {
   useRef,
   ReactNode,
 } from "react";
-import { Design, initialDesign, products, colors } from "@/lib/catalog";
+import { Design, initialDesign, products, colors, MAX_BRAND_TEXT_LENGTH } from "@/lib/catalog";
 import { inkContrast, readableInk } from "@/lib/studio-checks";
+function limitDesignText(design: Design): Design {
+  return {
+    ...design,
+    text: typeof design.text === "string" ? design.text.slice(0, MAX_BRAND_TEXT_LENGTH) : initialDesign.text,
+    backText: typeof design.backText === "string" ? design.backText.slice(0, MAX_BRAND_TEXT_LENGTH) : initialDesign.backText,
+  };
+}
 function readableTextForBag(design: Design): Design {
   const fabric = colors.find((color) => color.name === design.color)?.hex;
   if (!fabric) return design;
@@ -35,9 +42,10 @@ export function KobagsProvider({ children }: { children: ReactNode }) {
   const [ready, setReady] = useState(false);
   const draftRef = useRef<Design>(initialDesign);
   const updateDraft = (patch: Partial<Design>) => {
+    const merged = limitDesignText({ ...draftRef.current, ...patch });
     const next = patch.color && patch.color !== draftRef.current.color
-      ? readableTextForBag({ ...draftRef.current, ...patch })
-      : { ...draftRef.current, ...patch };
+      ? readableTextForBag(merged)
+      : merged;
     draftRef.current = next;
     // Product and reorder buttons navigate immediately after this call.
     try {
@@ -49,7 +57,7 @@ export function KobagsProvider({ children }: { children: ReactNode }) {
     try {
       const d = localStorage.getItem("kobags-design-v1");
       if (d) {
-        draftRef.current = readableTextForBag({ ...initialDesign, ...JSON.parse(d) });
+        draftRef.current = readableTextForBag(limitDesignText({ ...initialDesign, ...JSON.parse(d) }));
         setDesign(draftRef.current);
       }
       const l = localStorage.getItem("kobags-language");
@@ -113,7 +121,7 @@ export function KobagsProvider({ children }: { children: ReactNode }) {
           properties: {
             product: { type: "string", enum: products.map((p) => p.slug) },
             color: { type: "string", enum: colors.map((c) => c.name) },
-            text: { type: "string", maxLength: 60 },
+            text: { type: "string", maxLength: MAX_BRAND_TEXT_LENGTH },
           },
           additionalProperties: false,
         },
@@ -134,7 +142,7 @@ export function KobagsProvider({ children }: { children: ReactNode }) {
             throw Error("Unknown color");
           if (
             v.text !== undefined &&
-            (typeof v.text !== "string" || v.text.length > 60)
+            (typeof v.text !== "string" || v.text.length > MAX_BRAND_TEXT_LENGTH)
           )
             throw Error("Invalid brand text");
           const patch: Partial<Design> = {};

@@ -2,6 +2,8 @@
 
 Revision: 29 September 2026. Website demonstration, prepared from the supplied audit and the original Kobags website. Edition 05 reworks the full website around industrial precision and a brand studio: cinematic original factory imagery, a real interactive 3D showroom, stronger typography, a consistent product collection, editorial openings and a shared dark footer. This revision adds inspectable product photography, six distinct article photographs, complete Albanian journal copy and finer construction detail in the five-family 3D studio.
 
+The 29 September technical audit follow-up keeps the 60-character brand-text limit visible on phones and enforces it in the editor and saved draft. Studio and quote size/color summaries, the 3D canvas instruction, and downloaded concept sheets now follow the selected EN/SQ language. The compact preview retains its color label on phones.
+
 ## 1. Creative direction
 
 **Manufacturing bags. Building brands.** The homepage leads with Kobags as a manufacturer: real equipment, material and production footage. The collection shows what the factory produces, and **Your brand. Your bag.** introduces the new customization experience. Preserve the original identity, navy/green palette and factory evidence. The dedicated `/design` page still opens directly into the working designer.

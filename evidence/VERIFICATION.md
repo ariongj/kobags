@@ -1,6 +1,14 @@
 # Kobags website — verification record
 
-Updated 16 September 2026. This record supersedes the earlier incomplete v1 check. Tests ran against the compiled local Worker at `http://localhost:8787` with synthetic data. No live Kobags forms, customer records or production systems were used.
+Updated 29 September 2026. Tests ran against the compiled local Worker at `http://localhost:8787` with synthetic data. No live Kobags forms, customer records or production systems were used.
+
+## Latest revision — 29 September technical audit closure
+
+- The 60-character brand-text limit is enforced by the textarea, editor change handler, persisted browser draft and server schema. Overlong saved drafts are trimmed on load. The visible limit and correction notice remain readable on mobile.
+- Studio and quote size/color/material labels, the 3D canvas instruction and exported concept-sheet copy follow the selected Albanian or English language.
+- `qa/technical_audit_2026_09_29.py` passed at 390px: 59/60/61/80-character cases, old overlong drafts, separate front/back text, Albanian labels, readable 1600 × 1820 single-face and 2000 × 1400 two-face PNGs, distinct front/back content, valid PNG/JPG/WebP logos, rejected SVG and over-5MB files, export after logo upload and design carry-through to the quote.
+- `qa/guest_journey.py` passed with `KOBAGS_MOBILE_FIRST=1`: saved request, customer and sales views, fictional quotation, artwork approval, simulated order, reorder and visitor isolation. `qa/studio_3d_checks.py` passed across five bag models and 320–1440px widths. `qa/mobile_site_checks.py` passed 54 route/width checks, touch rotation and menu behavior.
+- TypeScript and the compiled build passed. These are browser and functional checks, not a security, performance, physical-device or real-order integration certification. The demo still does not send a real order or email.
 
 ## Latest revision — direct 3D artwork placement and lime wordmark
 

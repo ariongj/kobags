@@ -1,4 +1,5 @@
 export type Variant = { name: string; dimensions: string; gsm: number };
+export const MAX_BRAND_TEXT_LENGTH = 60;
 export type Product = {
   slug: string;
   name: string;

@@ -13,7 +13,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Choice, BagPreview } from "./bag-studio";
 import { useKobags } from "./kobags-context";
 import { useDemo, errors } from "./demo-store";
-import { products, getProduct, Design } from "@/lib/catalog";
+import { products, getProduct, Design, colors } from "@/lib/catalog";
 import { sideArtwork } from "@/lib/studio-artwork";
 import { artworkSides } from "@/lib/studio-checks";
 export default function QuoteFlow() {
@@ -27,6 +27,9 @@ export default function QuoteFlow() {
   const p = getProduct(design.product);
   const variant =
     p.variants.find((v) => v.name === design.size) || p.variants[0];
+  const sizeSq: Record<string, string> = { Small: "E vogël", Medium: "Mesatare", Large: "E madhe" };
+  const displaySize = t(design.size, sizeSq[design.size]);
+  const displayColor = t(design.color, colors.find((color) => color.name === design.color)?.sq);
   const minimum = state?.settings.moq || 5000;
   const sides = artworkSides(design);
   const artworkSummary = sides.length
@@ -296,7 +299,7 @@ export default function QuoteFlow() {
                   onChange={(size) => update({ size })}
                   options={p.variants.map((v) => ({
                     value: v.name,
-                    label: v.name + " · " + v.dimensions,
+                    label: t(v.name, sizeSq[v.name]) + " · " + v.dimensions,
                   }))}
                 />
                 <Choice
@@ -310,7 +313,16 @@ export default function QuoteFlow() {
                     "Events & promotions",
                     "Gift packaging",
                     "Distribution",
-                  ].map((s) => ({ value: s, label: s }))}
+                  ].map((s) => ({
+                    value: s,
+                    label: t(s, ({
+                      "Retail packaging": "Paketim për shitje me pakicë",
+                      Grocery: "Ushqimore",
+                      "Events & promotions": "Evente dhe promovime",
+                      "Gift packaging": "Paketim dhuratash",
+                      Distribution: "Shpërndarje",
+                    } as Record<string, string>)[s]),
+                  }))}
                 />
                 {fields(
                   "customDimensions",
@@ -568,13 +580,13 @@ export default function QuoteFlow() {
               {[
                 [
                   t("Size", "Madhësia"),
-                  design.size + " · " + variant.dimensions,
+                  displaySize + " · " + variant.dimensions,
                 ],
                 [
                   t("Material", "Materiali"),
-                  "Non-woven PP · " + variant.gsm + " GSM",
+                  t("Non-woven PP", "PP jo i endur") + " · " + variant.gsm + " GSM",
                 ],
-                [t("Color", "Ngjyra"), design.color],
+                [t("Color", "Ngjyra"), displayColor],
                 [
                   t("Print", "Shtypi"),
                   design.printColors +

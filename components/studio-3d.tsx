@@ -66,6 +66,13 @@ export default function Studio3D({
   const [status, setStatus] = useState<"loading" | "ready" | "fallback">(
     "loading",
   );
+  const canvasInstructions = t(
+    "3D bag. Select and drag logo or text to move it. Drag empty space to rotate. Arrow keys move selected artwork; Escape deselects. Plus and minus zoom.",
+    "Çantë 3D. Zgjidhni dhe tërhiqni logon ose tekstin për t'i lëvizur. Tërhiqni hapësirën bosh për ta rrotulluar çantën. Shigjetat lëvizin dizajnin e zgjedhur; Escape e çzgjedh. Plus dhe minus zmadhojnë ose zvogëlojnë pamjen.",
+  );
+  useEffect(() => {
+    host.current?.querySelector("canvas")?.setAttribute("aria-label", canvasInstructions);
+  }, [canvasInstructions, status]);
   const [spinning, setSpinning] = useState(false);
   const autoplayed = useRef(false);
   const [reduced, setReduced] = useState(false);
