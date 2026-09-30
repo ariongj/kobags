@@ -66,7 +66,7 @@ async def main():
    # The hosting asset binding may validly ignore Range and send the full file.
    assert len(await video.body())==(ROOT/'public/assets/printing-process.mp4').stat().st_size
   home=Document(await (await context.request.get(BASE+'/')).text())
-  styles='/'+str(next((ROOT/'dist/client/_next/static/css').glob('*.css')).relative_to(ROOT/'dist/client'))
+  styles='/_next/static/css/'+next((ROOT/'dist/client/__kobags_static/_next/static/css').glob('*.css')).name
   style=await context.request.get(BASE+styles)
   assert 'max-age=31536000, immutable' in style.headers.get('cache-control','')
   assert style.headers.get('content-type','').startswith('text/css')

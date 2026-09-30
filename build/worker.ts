@@ -14,9 +14,20 @@ export default {
     const asset = /^\/(assets|documents|_next\/static)\//.test(path);
     // Hashed framework files are not page routes. Resolve them directly while
     // retaining the original Range / If-None-Match headers and HEAD method.
-    const response: Response = asset && env.ASSETS && ["GET", "HEAD"].includes(request.method)
-      ? await env.ASSETS.fetch(request)
-      : await framework.fetch(request, env, context);
+    let response: Response;
+    if (asset && env.ASSETS && ["GET", "HEAD"].includes(request.method)) {
+      const storedUrl = new URL(request.url);
+      storedUrl.pathname = "/__kobags_static" + path;
+      response = await env.ASSETS.fetch(new Request(storedUrl, request));
+      // Development servers serve the original public tree; compiled builds
+      // move it out of the dispatcher's direct path so our headers can apply.
+      if (response.status === 404) {
+        await response.body?.cancel();
+        response = await env.ASSETS.fetch(request);
+      }
+    } else {
+      response = await framework.fetch(request, env, context);
+    }
     if (!asset) return response;
 
     // Sites serves assets through the Worker; its dispatcher does not apply

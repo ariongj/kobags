@@ -52,7 +52,7 @@
   },
   "after": {
     "lighthouseVersion": "13.5.0",
-    "fetchTime": "2026-09-30T20:41:41.849Z",
+    "fetchTime": "2026-09-30T21:08:37.349Z",
     "testedUrl": "http://127.0.0.1:8787/",
     "scores": {
       "performance": 84,
@@ -62,24 +62,24 @@
     },
     "metrics": {
       "first-contentful-paint": {
-        "value": 2441.2800000000007,
+        "value": 2470.474,
         "unit": "millisecond",
-        "display": "2.4\u00a0s"
+        "display": "2.5\u00a0s"
       },
       "largest-contentful-paint": {
-        "value": 4016.45,
+        "value": 3955.6825940017698,
         "unit": "millisecond",
         "display": "4.0\u00a0s"
       },
       "speed-index": {
-        "value": 2722.3614919973315,
+        "value": 2859.356945208182,
         "unit": "millisecond",
-        "display": "2.7\u00a0s"
+        "display": "2.9\u00a0s"
       },
       "total-blocking-time": {
-        "value": 0.5,
+        "value": 23.5,
         "unit": "millisecond",
-        "display": "0\u00a0ms"
+        "display": "20\u00a0ms"
       },
       "cumulative-layout-shift": {
         "value": 0,
@@ -108,6 +108,7 @@
     "Responsive homepage bag photos; smaller poster/loading image; originals retained",
     "Separate lightweight certificate showcase",
     "Final Worker asset MIME/caching and download noindex headers",
-    "Darker secondary labels and accessible language-switch name"
+    "Darker secondary labels and accessible language-switch name",
+    "Post-build storage routing makes Worker asset headers apply on Sites"
   ]
 }
