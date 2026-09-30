@@ -1,0 +1,113 @@
+{
+  "date": "2026-09-30",
+  "status": "completed",
+  "scope": "Lighthouse mobile lab audit of the compiled local homepage, not a public PageSpeed or real-user measurement",
+  "before": {
+    "lighthouseVersion": "13.5.0",
+    "fetchTime": "2026-09-30T20:30:08.695Z",
+    "testedUrl": "http://127.0.0.1:8787/",
+    "scores": {
+      "performance": 69,
+      "accessibility": 96,
+      "best-practices": 100,
+      "seo": 92
+    },
+    "metrics": {
+      "first-contentful-paint": {
+        "value": 2622.455,
+        "unit": "millisecond",
+        "display": "2.6\u00a0s"
+      },
+      "largest-contentful-paint": {
+        "value": 7089.182000000001,
+        "unit": "millisecond",
+        "display": "7.1\u00a0s"
+      },
+      "speed-index": {
+        "value": 4620.570162005943,
+        "unit": "millisecond",
+        "display": "4.6\u00a0s"
+      },
+      "total-blocking-time": {
+        "value": 115.49999999999955,
+        "unit": "millisecond",
+        "display": "120\u00a0ms"
+      },
+      "cumulative-layout-shift": {
+        "value": 0,
+        "unit": "unitless",
+        "display": "0"
+      }
+    },
+    "warnings": [],
+    "throttling": {
+      "rttMs": 150,
+      "throughputKbps": 1638.4,
+      "requestLatencyMs": 562.5,
+      "downloadThroughputKbps": 1474.5600000000002,
+      "uploadThroughputKbps": 675,
+      "cpuSlowdownMultiplier": 4
+    },
+    "throttlingMethod": "simulate"
+  },
+  "after": {
+    "lighthouseVersion": "13.5.0",
+    "fetchTime": "2026-09-30T20:41:41.849Z",
+    "testedUrl": "http://127.0.0.1:8787/",
+    "scores": {
+      "performance": 84,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "metrics": {
+      "first-contentful-paint": {
+        "value": 2441.2800000000007,
+        "unit": "millisecond",
+        "display": "2.4\u00a0s"
+      },
+      "largest-contentful-paint": {
+        "value": 4016.45,
+        "unit": "millisecond",
+        "display": "4.0\u00a0s"
+      },
+      "speed-index": {
+        "value": 2722.3614919973315,
+        "unit": "millisecond",
+        "display": "2.7\u00a0s"
+      },
+      "total-blocking-time": {
+        "value": 0.5,
+        "unit": "millisecond",
+        "display": "0\u00a0ms"
+      },
+      "cumulative-layout-shift": {
+        "value": 0,
+        "unit": "unitless",
+        "display": "0"
+      }
+    },
+    "warnings": [],
+    "throttling": {
+      "rttMs": 150,
+      "throughputKbps": 1638.4,
+      "requestLatencyMs": 562.5,
+      "downloadThroughputKbps": 1474.5600000000002,
+      "uploadThroughputKbps": 675,
+      "cpuSlowdownMultiplier": 4
+    },
+    "throttlingMethod": "simulate"
+  },
+  "limits": [
+    "One recorded run per retained configuration; results vary with machine load.",
+    "Chromium headless with software graphics and mobile simulation; physical iOS/Android not verified.",
+    "Scores do not establish search rankings, indexing or real-user Core Web Vitals."
+  ],
+  "changes": [
+    "Correct initial-head metadata",
+    "Responsive homepage bag photos; smaller poster/loading image; originals retained",
+    "Separate lightweight certificate showcase",
+    "Final Worker asset MIME/caching and download noindex headers",
+    "Darker secondary labels and accessible language-switch name"
+  ]
+}

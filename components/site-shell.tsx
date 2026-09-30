@@ -76,7 +76,7 @@ export function Header() {
             hrefLang={lang === "en" ? "sq" : "en"}
             onClick={(event) => { event.preventDefault(); setLang(lang === "en" ? "sq" : "en"); }}
             aria-label={
-              lang === "en" ? "Switch to Albanian" : "Kalo në anglisht"
+              lang === "en" ? "EN: Switch to Albanian" : "SQ: Kalo në anglisht"
             }
           >
             <Globe2 size={16} />

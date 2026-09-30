@@ -1,5 +1,7 @@
 import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
+  // Metadata is small and local. Put it in <head> for every browser and crawler.
+  htmlLimitedBots: /.*/,
   async redirects() {
     return [
       {source:"/shop",destination:"/products",permanent:true},

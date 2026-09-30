@@ -10,6 +10,8 @@ The completion pass carries EN/SQ through the buyer's specifications, quotation,
 
 The SEO revision renders English at existing URLs and Albanian at `/sq` URLs, with language-specific titles, descriptions, canonical links and social previews. Public marketing pages are indexable; synthetic order/workspace and handoff pages remain excluded. Language switching preserves the design draft. The existing hero photograph and logo now have smaller delivery copies; original supplied assets remain in the handoff.
 
+The final delivery pass keeps the same layouts and source photography, with responsive bag thumbnails, a smaller factory-film poster and a lighter showroom loading image. Secondary labels have stronger contrast, and the language switch includes its visible language code in its accessible name. Mobile Lighthouse evidence and its limits are recorded in `evidence/VERIFICATION.md`; automated full marks are not a claim of complete accessibility conformance.
+
 ## 1. Creative direction
 
 **Manufacturing bags. Building brands.** The homepage leads with Kobags as a manufacturer: real equipment, material and production footage. The collection shows what the factory produces, and **Your brand. Your bag.** introduces the new customization experience. Preserve the original identity, navy/green palette and factory evidence. The dedicated `/design` page still opens directly into the working designer.

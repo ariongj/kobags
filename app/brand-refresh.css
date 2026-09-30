@@ -268,7 +268,7 @@
 }
 .kobags-v5 .production-stages li > span {
   background: transparent;
-  color: #789187;
+  color: #4f6a5e;
   border: 1px solid #dce6df;
   border-radius: 50%;
   width: 33px;
@@ -653,7 +653,7 @@
 }
 .product-size-count {
   white-space: nowrap;
-  color: #84988f;
+  color: #4f6a5e;
 }
 .kobags-v5 .home-process {
   gap: 0;
@@ -671,7 +671,7 @@
 }
 .kobags-v5 .home-process article > span {
   font-size: 40px;
-  color: #bbcbc5;
+  color: #678175;
   letter-spacing: -0.07em;
   margin-bottom: 30px;
   display: block;

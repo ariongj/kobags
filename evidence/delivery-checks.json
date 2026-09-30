@@ -1,0 +1,45 @@
+{
+  "status": "passed",
+  "sitemapPages": 46,
+  "internalDestinations": 62,
+  "sectionLinks": 52,
+  "delivery": [
+    {
+      "path": "/assets/logo-web.png",
+      "status": 200,
+      "type": "image/png",
+      "cache": "public, max-age=86400"
+    },
+    {
+      "path": "/assets/client-2026-09/factory-line-960.webp",
+      "status": 200,
+      "type": "image/webp",
+      "cache": "public, max-age=86400"
+    },
+    {
+      "path": "/documents/buyer-checklist.txt",
+      "status": 200,
+      "type": "text/plain; charset=utf-8",
+      "cache": "public, max-age=0, must-revalidate"
+    },
+    {
+      "path": "/documents/kobags-source.zip",
+      "status": 200,
+      "type": "application/zip",
+      "cache": "public, max-age=0, must-revalidate"
+    }
+  ],
+  "videoRangeStatus": 200,
+  "checks": [
+    "All sitemap-page links and section anchors resolve",
+    "Metadata remains in the server-rendered head",
+    "Document downloads remain noindex",
+    "Correct media MIME types",
+    "Immutable hashed CSS; short-lived mutable images",
+    "Conditional image 304 preserves headers",
+    "Video range request receives a valid full or partial response; mobile playback and seeking work",
+    "Missing assets remain uncached 404s",
+    "Customer and quote pages remain no-store",
+    "Production styles are linked in the initial head"
+  ]
+}

@@ -233,7 +233,11 @@ export default function BagShowcase() {
                 <BagPreview design={{ ...initialDesign, color, text, ink }} />
               ) : (
                 <img
-                  src="/assets/studio-v4/handle.webp"
+                  src="/assets/studio-v4/handle-showcase.webp"
+                  width={640}
+                  height={640}
+                  loading="lazy"
+                  decoding="async"
                   alt={t(
                     "Illustrative blank handle bag",
                     "Çantë ilustruese me doreza",

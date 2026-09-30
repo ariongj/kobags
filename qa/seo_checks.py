@@ -49,7 +49,11 @@ async def main():
    assert url==ORIGIN or url.startswith(ORIGIN+'/')
    path=urlparse(url).path or '/';lang='sq' if path=='/sq' or path.startswith('/sq/') else 'en'
    r=await context.request.get(BASE+path);assert r.status==200,(path,r.status)
-   doc=Document(await r.text());assert doc.lang==lang,(path,doc.lang)
+   source=await r.text();doc=Document(source);assert doc.lang==lang,(path,doc.lang)
+   head=Document(source.split('</head>',1)[0])
+   assert head.meta_one('description')==doc.meta_one('description'),(path,'description outside head')
+   assert head.meta_one('robots')==doc.meta_one('robots'),(path,'robots outside head')
+   assert head.canonical()==url,(path,'canonical outside head')
    assert r.headers.get('content-language')==lang
    assert len(doc.h1)==1 and len(doc.titles)==1,(path,doc.h1,doc.titles)
    assert doc.canonical()==url,(path,doc.canonical())
@@ -106,6 +110,9 @@ async def main():
   page.on('pageerror',lambda error:errors.append(str(error)))
   page.on('response',lambda r:failed.append(r.url) if r.status>=400 and r.request.resource_type in ['stylesheet','script','image','font'] else None)
   await page.goto(BASE+'/',wait_until='networkidle');hero=page.locator('.industrial-hero-photo')
+  assert await page.locator('head meta[name=description]').count()==1
+  assert await page.locator('head link[rel=canonical]').get_attribute('href')==ORIGIN
+  assert await page.locator('body meta[name=description]').count()==0
   await hero.evaluate('(image)=>image.decode()')
   chosen=await hero.evaluate('(image)=>image.currentSrc');assert re.search(r'factory-line-(640|960|1600)\.webp$',chosen),chosen
   assert await page.locator('.header .brand img').get_attribute('src')=='/assets/logo-web.png'
@@ -115,6 +122,7 @@ async def main():
   saved=await page.evaluate("JSON.parse(localStorage.getItem('kobags-design-v1'))")
   await page.get_by_role('link',name='Switch to Albanian').click()
   await page.wait_for_url('**/sq/design');await page.get_by_role('tab',name='02 Dizajni juaj').wait_for()
+  assert await page.locator('head meta[name=description]').count()==1
   assert await page.evaluate("JSON.parse(localStorage.getItem('kobags-design-v1'))")==saved
   assert await page.locator('link[rel=canonical]').get_attribute('href')==ORIGIN+'/sq/design'
   await page.locator('.studio-controls a[href="/sq/quote"]').click();await page.wait_for_url('**/sq/quote')
@@ -123,4 +131,4 @@ async def main():
   assert not errors and not failed,(errors,failed)
   report={'status':'passed','sitemapUrls':len(urls),'pages':results,'checks':['crawler-visible EN/SQ content without JavaScript','unique titles/descriptions, absolute canonicals, reciprocal hreflang and social images','sitemap excludes synthetic and private-flow pages','robots allow public crawling; private routes and 404s remain noindex','valid source-backed product/article/organization/breadcrumb JSON-LD without fictional offers or ratings','tracking queries canonicalized and language override ignored','localized legacy redirects','mobile responsive hero and compact logo delivery','design preserved through language switch and quote navigation'],'mobileHero':chosen,'browserErrors':errors,'failedAssets':failed}
   (ROOT/'evidence/seo-checks.json').write_text(json.dumps(report,indent=2,ensure_ascii=False));print('PASS SEO:',len(urls),'EN/SQ sitemap URLs, crawler HTML, metadata, schemas, private exclusions and mobile language handoff');await browser.close()
-asyncio.run(main())
+if __name__=='__main__': asyncio.run(main())

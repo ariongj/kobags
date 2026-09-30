@@ -1,5 +1,5 @@
 "use client";
-import { CertificateShowcase } from "./certificates";
+import { CertificateShowcase } from "./certificate-showcase";
 import Link from "@/components/site-link";
 import {
   ArrowUpRight,
@@ -178,7 +178,7 @@ export default function HomePage() {
             controls
             playsInline
             preload="none"
-            poster="/assets/client-2026-09/home-film-poster.jpg"
+            poster="/assets/client-2026-09/home-film-poster-640.webp"
             width={1000}
             height={750}
             aria-label={t(
@@ -238,11 +238,14 @@ export default function HomePage() {
                   0{i + 1} / {t(p.handle, productCopySq[p.slug]?.handle).toUpperCase()}
                 </span>
                 <img
-                  src={productMedia[p.slug]?.home ?? p.image}
+                  src={productMedia[p.slug].home.replace(".jpg", "-640.webp")}
+                  srcSet={[320, 640].map(width => `${productMedia[p.slug].home.replace(".jpg", `-${width}.webp`)} ${width}w`).join(", ")}
+                  sizes="(max-width: 767px) 44vw, (max-width: 1024px) 28vw, 18vw"
                   alt={p.name}
                   width={220}
                   height={275}
                   loading="lazy"
+                  decoding="async"
                 />
               </div>
               <h3>
