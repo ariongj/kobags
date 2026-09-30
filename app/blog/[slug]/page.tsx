@@ -1,6 +1,11 @@
 import JournalArticle, { type JournalPhoto } from "@/components/journal-article";
 import { notFound } from "next/navigation";
 import { articles } from "@/lib/journal";
+import { localizeArticle } from "@/lib/journal-sq";
+import { pageMetadata, requestLanguage } from "@/lib/seo";
+import { absolutePage, articleSearchTitles, SITE_ORIGIN } from "@/lib/seo-config";
+import { breadcrumbs, organizationReference } from "@/lib/seo-schema";
+import StructuredData from "@/components/structured-data";
 const articlePhotos: Record<string, JournalPhoto> = {
   kobagsjourney: {
     src: "/assets/client-2026-09/journal-article-kobagsjourney.webp",
@@ -47,10 +52,10 @@ export async function generateMetadata({
 }) {
   const { slug } = await params;
   const a = articles.find((a) => a.slug === slug);
-  return {
-    title: a ? a.title : "Article not found",
-    description: a?.intro,
-  };
+  if (!a) notFound();
+  const lang = await requestLanguage();
+  const article = localizeArticle(a, lang);
+  return pageMetadata("/blog/" + slug, { title: articleSearchTitles[slug][lang === "sq" ? 1 : 0], description: article.intro, image: articlePhotos[slug].src, article: true });
 }
 export default async function Article({
   params,
@@ -61,5 +66,12 @@ export default async function Article({
   const a = articles.find((a) => a.slug === slug);
   if (!a) notFound();
   const photo = articlePhotos[a.slug];
-  return <JournalArticle source={a} photo={photo} />;
+  const lang = await requestLanguage();
+  const article = localizeArticle(a, lang);
+  const url = absolutePage("/blog/" + slug, lang);
+  return <>
+    <StructuredData data={{ "@context": "https://schema.org", "@type": "BlogPosting", headline: article.title, description: article.intro, image: SITE_ORIGIN + photo.src, mainEntityOfPage: url, url, inLanguage: lang, publisher: organizationReference }} />
+    <StructuredData data={breadcrumbs([{ path: "/", name: lang === "sq" ? "Ballina" : "Home" }, { path: "/blog", name: lang === "sq" ? "Artikuj dhe udhëzues" : "Journal & guides" }, { path: "/blog/" + slug, name: article.title }], lang)} />
+    <JournalArticle source={a} photo={photo} />
+  </>;
 }

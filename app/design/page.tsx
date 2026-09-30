@@ -1,9 +1,6 @@
 import BagStudio from "@/components/bag-studio";
-export const metadata = {
-  title: "Your brand. Your bag. — Design studio",
-  description:
-    "Choose a bag, place your logo and prepare a wholesale quotation request with Kobags Group.",
-};
+import { pageMetadata } from "@/lib/seo";
+export const generateMetadata = () => pageMetadata("/design");
 export default function DesignPage() {
   return (
     <main>

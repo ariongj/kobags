@@ -13,11 +13,12 @@ async def main():
   page.on('pageerror',lambda e:errors.append(str(e)))
   page.on('response',lambda r:failed_assets.append(r.url) if r.status>=400 and r.request.resource_type in ['stylesheet','script','image','font'] else None)
   async def go(path,status=200):
-   r=await page.goto(BASE+path,wait_until='networkidle');assert r.status==status,(path,r.status)
+   localized='/sq'+(path if path!='/' else '') if '/sq/' in page.url or page.url.endswith('/sq') else path
+   r=await page.goto(BASE+localized,wait_until='networkidle');assert r.status==status,(localized,r.status)
   async def state():return (await (await context.request.get(BASE+'/api/demo')).json())['state']
   async def fits():assert not await page.evaluate('document.documentElement.scrollWidth>innerWidth')
   await go('/demo/customer');assert (await state())['requests']==[]
-  await page.get_by_role('button',name='Switch to Albanian').click()
+  await page.get_by_role('link',name='Switch to Albanian').click()
   await page.get_by_role('heading',name='Dizajni juaj i parë fillon këtu.').wait_for()
   await page.get_by_role('button',name='Krijo shembull fiktiv').click()
   await page.get_by_role('button',name='Përgatit ofertën demo',exact=True).wait_for()
@@ -79,8 +80,8 @@ async def main():
     await go(path);await fits()
    await go('/missing-page-for-qa',404)
    await page.get_by_role('heading',name='Kjo faqe nuk u gjet.',exact=True).wait_for()
-   assert await page.get_by_role('link',name='Kthehu në ballinë',exact=True).get_attribute('href')=='/'
-   assert await page.get_by_role('link',name='Hap studion e çantave',exact=True).get_attribute('href')=='/design'
+   assert await page.get_by_role('link',name='Kthehu në ballinë',exact=True).get_attribute('href')=='/sq'
+   assert await page.get_by_role('link',name='Hap studion e çantave',exact=True).get_attribute('href')=='/sq/design'
    await fits()
   assert not errors,errors
   assert not failed_assets,failed_assets

@@ -18,8 +18,8 @@ async def main():
    res=await context.request.post(BASE+'/api/demo',data=data);body=await res.json();assert res.status==expected,(data.get('type'),res.status,body);return body
   async def state():return (await (await context.request.get(BASE+'/api/demo')).json())['state']
   await go('/');await page.screenshot(path=str(ROOT/'evidence/desktop-home.png'),full_page=True)
-  await page.get_by_role('button',name='Switch to Albanian').click();assert 'Ndërtojmë marka' in await page.locator('h1').inner_text()
-  await page.get_by_role('button',name='Kalo në anglisht').click()
+  await page.get_by_role('link',name='Switch to Albanian').click();assert 'Ndërtojmë marka' in await page.locator('h1').inner_text()
+  await page.get_by_role('link',name='Kalo në anglisht').click()
   for path,kind in [('/samples','sample'),('/partners/apply','partner'),('/contact','contact')]:
    await go(path)
    for k,v in {'company':'Fictional '+kind,'contact':'Demo Buyer','email':'buyer@example.com','country':'Kosovo'}.items():await page.locator('#inquiry-'+k).fill(v)

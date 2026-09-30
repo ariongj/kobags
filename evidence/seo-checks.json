@@ -1,0 +1,342 @@
+{
+  "status": "passed",
+  "sitemapUrls": 46,
+  "pages": [
+    {
+      "path": "/",
+      "language": "en",
+      "title": "Non-Woven Bag Manufacturer in Kosovo | Kobags Group",
+      "description": "Kobags Group manufactures custom non-woven bags in Kosovo. Explore five bag families, add your logo in the 3D studio and plan a wholesale quotation.",
+      "h1": "Manufacturing bags.Building brands."
+    },
+    {
+      "path": "/sq",
+      "language": "sq",
+      "title": "Prodhues i çantave jo të endura në Kosovë | Kobags Group",
+      "description": "Kobags Group prodhon çanta jo të endura në Kosovë. Shikoni pesë llojet e çantave, shtoni logon në studion 3D dhe përgatitni kërkesën për ofertë.",
+      "h1": "Prodhojmë çanta.Ndërtojmë marka."
+    },
+    {
+      "path": "/products",
+      "language": "en",
+      "title": "Custom Non-Woven Bags: Wholesale Collection | Kobags Group",
+      "description": "Compare D-Cut, Handle, Box, T-Shirt and String bags from Kobags. Review published sizes and fabric weights, then customize your bag for a wholesale quote.",
+      "h1": "Five shapes.Your signature."
+    },
+    {
+      "path": "/sq/products",
+      "language": "sq",
+      "title": "Çanta jo të endura: koleksioni me shumicë | Kobags Group",
+      "description": "Krahasoni çantat D-Cut, Handle, Box, T-Shirt dhe String të Kobags. Shikoni përmasat dhe peshën e materialit, pastaj personalizoni çantën për ofertë.",
+      "h1": "Pesë forma.Identiteti juaj."
+    },
+    {
+      "path": "/design",
+      "language": "en",
+      "title": "Design Your Custom Bag in 3D | Kobags Group",
+      "description": "Choose a bag shape and color, upload your logo and place text on both sides. Rotate your custom bag in 3D, download a preview and request a wholesale quote.",
+      "h1": "Build your bag."
+    },
+    {
+      "path": "/sq/design",
+      "language": "sq",
+      "title": "Dizajnoni çantën tuaj në 3D | Kobags Group",
+      "description": "Zgjidhni formën dhe ngjyrën, ngarkoni logon dhe vendosni tekst në të dyja anët. Rrotullojeni çantën në 3D, shkarkoni pamjen dhe kërkoni ofertë me shumicë.",
+      "h1": "Krijoni çantën tuaj."
+    },
+    {
+      "path": "/manufacturing",
+      "language": "en",
+      "title": "Non-Woven Bag Manufacturing in Kosovo | Kobags Group",
+      "description": "See Kobags bag manufacturing in Kosovo through original factory photos and videos. Explore non-woven PP material, custom printing, forming and finishing.",
+      "h1": "From raw material to finished bags."
+    },
+    {
+      "path": "/sq/manufacturing",
+      "language": "sq",
+      "title": "Prodhimi i çantave jo të endura në Kosovë | Kobags Group",
+      "description": "Shihni prodhimin e çantave Kobags në Kosovë me fotografi dhe video të fabrikës. Njihuni me materialin PP jo të endur, shtypin, formimin dhe përfundimin.",
+      "h1": "Nga materiali te çanta e përfunduar."
+    },
+    {
+      "path": "/sustainability",
+      "language": "en",
+      "title": "Non-Woven PP Bags: Materials & Responsibility | Kobags Group",
+      "description": "Understand the material behind Kobags bags. Read practical guidance on non-woven polypropylene, reuse, recycled content and local recycling requirements.",
+      "h1": "Better questions. Clearer choices."
+    },
+    {
+      "path": "/sq/sustainability",
+      "language": "sq",
+      "title": "Çanta PP jo të endura: materiali dhe përgjegjësia | Kobags Group",
+      "description": "Njihuni me materialin e çantave Kobags. Lexoni për polipropilenin jo të endur, ripërdorimin, përmbajtjen e ricikluar dhe kërkesat e riciklimit lokal.",
+      "h1": "Pyetje më të mira. Zgjedhje më të qarta."
+    },
+    {
+      "path": "/certifications",
+      "language": "en",
+      "title": "ISO 9001 & ISO 14001 Certificate Documents | Kobags Group",
+      "description": "Inspect the published Kobags ISO 9001 and ISO 14001 certificate scans, registration details, dates and issuer references. Download the original documents.",
+      "h1": "Evidence you can look closer at."
+    },
+    {
+      "path": "/sq/certifications",
+      "language": "sq",
+      "title": "Dokumentet e certifikatave ISO 9001 dhe ISO 14001 | Kobags Group",
+      "description": "Shqyrtoni skanimet e publikuara ISO 9001 dhe ISO 14001 të Kobags, regjistrimin, datat dhe referencat e lëshuesit. Shkarkoni dokumentet origjinale.",
+      "h1": "Dëshmi që mund t'i shihni nga afër."
+    },
+    {
+      "path": "/partners",
+      "language": "en",
+      "title": "Wholesale Bag Partnerships & Distribution | Kobags Group",
+      "description": "Explore distribution, retail and commercial partnership opportunities with Kobags Group. Introduce your market and discuss the right wholesale bag model.",
+      "h1": "Bring Kobags to your market."
+    },
+    {
+      "path": "/sq/partners",
+      "language": "sq",
+      "title": "Partneritete dhe shpërndarje të çantave me shumicë | Kobags Group",
+      "description": "Eksploroni mundësitë e shpërndarjes dhe partneriteteve tregtare me Kobags Group. Prezantoni tregun tuaj dhe diskutoni modelin e bashkëpunimit me shumicë.",
+      "h1": "Sillni Kobags në tregun tuaj."
+    },
+    {
+      "path": "/resources",
+      "language": "en",
+      "title": "Bag Buying Guides & Wholesale Brief Checklist | Kobags Group",
+      "description": "Prepare a complete custom bag brief with Kobags buying guides. Check sizes, materials, logo files, printing, quantities and delivery information.",
+      "h1": "Prepare a better bag brief."
+    },
+    {
+      "path": "/sq/resources",
+      "language": "sq",
+      "title": "Udhëzues për çanta dhe listë për kërkesën me shumicë | Kobags Group",
+      "description": "Përgatitni kërkesën për çanta me udhëzuesit Kobags. Kontrolloni madhësitë, materialet, skedarët e logos, shtypin, sasinë dhe të dhënat e dërgesës.",
+      "h1": "Përgatitni një kërkesë të plotë."
+    },
+    {
+      "path": "/industries",
+      "language": "en",
+      "title": "Custom Bags for Retail, Grocery & Events | Kobags Group",
+      "description": "Find a Kobags bag shape for shops, grocery, gifting or events. Match published dimensions and handles to what you carry, then plan your branding.",
+      "h1": "The right bag for your kind of business."
+    },
+    {
+      "path": "/sq/industries",
+      "language": "sq",
+      "title": "Çanta me markë për dyqane, ushqimore dhe evente | Kobags Group",
+      "description": "Gjeni formën e çantës Kobags për dyqane, ushqimore, dhurata ose evente. Përshtatni përmasat dhe dorezat me produktin, pastaj planifikoni markën.",
+      "h1": "Çanta e duhur për biznesin tuaj."
+    },
+    {
+      "path": "/industries/retail",
+      "language": "en",
+      "title": "Branded Shopping Bags for Retail Businesses | Kobags Group",
+      "description": "Choose branded non-woven bags around your retail products. Compare dimensions and handles, plan logo placement and prepare your wholesale requirements.",
+      "h1": "Packaging that fits your merchandise."
+    },
+    {
+      "path": "/sq/industries/retail",
+      "language": "sq",
+      "title": "Çanta blerjesh me markë për bizneset e pakicës | Kobags Group",
+      "description": "Zgjidhni çanta jo të endura me markë sipas produkteve të dyqanit. Krahasoni përmasat dhe dorezat, planifikoni logon dhe kërkesat për porosinë me shumicë.",
+      "h1": "Paketim që i përshtatet produktit tuaj."
+    },
+    {
+      "path": "/contact",
+      "language": "en",
+      "title": "Contact Kobags Group: Bags & Manufacturing | Kobags Group",
+      "description": "Contact Kobags Group about non-woven bags, manufacturing or partnerships. Find the published telephone and email, or prepare a detailed wholesale inquiry.",
+      "h1": "Talk to the Kobags team."
+    },
+    {
+      "path": "/sq/contact",
+      "language": "sq",
+      "title": "Kontaktoni Kobags Group: çanta dhe prodhim | Kobags Group",
+      "description": "Kontaktoni Kobags Group për çanta jo të endura, prodhim ose partneritete. Gjeni telefonin dhe emailin ose përgatitni kërkesën me shumicë.",
+      "h1": "Kontaktoni ekipin Kobags."
+    },
+    {
+      "path": "/blog",
+      "language": "en",
+      "title": "Non-Woven Bag Guides & Manufacturing Journal | Kobags Group",
+      "description": "Read Kobags guides on non-woven bag materials, printing, product specifications and wholesale planning. Practical questions for your next branded bag order.",
+      "h1": "Good ideas, ready to carry."
+    },
+    {
+      "path": "/sq/blog",
+      "language": "sq",
+      "title": "Udhëzues për çanta jo të endura dhe prodhim | Kobags Group",
+      "description": "Lexoni udhëzuesit Kobags për materialet, shtypin, specifikimet dhe porositë me shumicë. Pyetje praktike për porosinë e radhës të çantave me markë.",
+      "h1": "Ide të mira, gati për t'u bartur."
+    },
+    {
+      "path": "/products/d-cut-bag",
+      "language": "en",
+      "title": "D-Cut Bag — Custom Non-Woven Bags | Kobags Group",
+      "description": "A clean, lightweight shape with an integrated grip. A practical canvas for your next promotion.",
+      "h1": "D-Cut Bag"
+    },
+    {
+      "path": "/sq/products/d-cut-bag",
+      "language": "sq",
+      "title": "D-Cut Bag — Çanta me markë | Kobags Group",
+      "description": "Formë e lehtë me dorezë të integruar. Një sipërfaqe e pastër për promovimin tuaj të radhës.",
+      "h1": "D-Cut Bag"
+    },
+    {
+      "path": "/products/handle-bag",
+      "language": "en",
+      "title": "Handle Bag — Custom Non-Woven Bags | Kobags Group",
+      "description": "An everyday carry bag with comfortable handles and room for your brand to stand out.",
+      "h1": "Handle Bag"
+    },
+    {
+      "path": "/sq/products/handle-bag",
+      "language": "sq",
+      "title": "Handle Bag — Çanta me markë | Kobags Group",
+      "description": "Çantë e përditshme me doreza të rehatshme dhe hapësirë të bollshme për markën tuaj.",
+      "h1": "Handle Bag"
+    },
+    {
+      "path": "/products/box-bag",
+      "language": "en",
+      "title": "Box Bag — Custom Non-Woven Bags | Kobags Group",
+      "description": "A structured profile with a generous base for packaging that needs a little more room.",
+      "h1": "Box Bag"
+    },
+    {
+      "path": "/sq/products/box-bag",
+      "language": "sq",
+      "title": "Box Bag — Çanta me markë | Kobags Group",
+      "description": "Formë e strukturuar me bazë të gjerë për paketim që kërkon më shumë hapësirë.",
+      "h1": "Box Bag"
+    },
+    {
+      "path": "/products/t-shirt-bag",
+      "language": "en",
+      "title": "T-Shirt Bag — Custom Non-Woven Bags | Kobags Group",
+      "description": "A familiar shopping shape with integrated handles for convenient everyday carrying.",
+      "h1": "T-Shirt Bag"
+    },
+    {
+      "path": "/sq/products/t-shirt-bag",
+      "language": "sq",
+      "title": "T-Shirt Bag — Çanta me markë | Kobags Group",
+      "description": "Formë e njohur blerjesh me doreza të integruara për përdorim të përditshëm.",
+      "h1": "T-Shirt Bag"
+    },
+    {
+      "path": "/products/string-bag",
+      "language": "en",
+      "title": "String Bag — Custom Non-Woven Bags | Kobags Group",
+      "description": "A drawstring closure and simple profile for events, promotions and brand giveaways.",
+      "h1": "String Bag"
+    },
+    {
+      "path": "/sq/products/string-bag",
+      "language": "sq",
+      "title": "String Bag — Çanta me markë | Kobags Group",
+      "description": "Mbyllje me kordon dhe formë e thjeshtë për evente, promovime dhe dhurata të markës.",
+      "h1": "String Bag"
+    },
+    {
+      "path": "/blog/kobagsjourney",
+      "language": "en",
+      "title": "How Non-Woven Bags Are Made at Kobags | Kobags Group",
+      "description": "How your product choices become a specification the factory can work with.",
+      "h1": "Inside Kobags: from brief to production."
+    },
+    {
+      "path": "/sq/blog/kobagsjourney",
+      "language": "sq",
+      "title": "Si prodhohen çantat jo të endura në Kobags | Kobags Group",
+      "description": "Si kthehen zgjedhjet tuaja në specifikime për fabrikën.",
+      "h1": "Brenda Kobags: nga kërkesa te prodhimi."
+    },
+    {
+      "path": "/blog/whyswitchtokobags",
+      "language": "en",
+      "title": "Choosing Reusable Bags for Your Business | Kobags Group",
+      "description": "Make the decision around your products, your customers and the details you can verify.",
+      "h1": "Is a reusable bag the right fit for your business?"
+    },
+    {
+      "path": "/sq/blog/whyswitchtokobags",
+      "language": "sq",
+      "title": "Zgjedhja e çantave për ripërdorim për biznesin | Kobags Group",
+      "description": "Vendosni duke marrë parasysh produktet, klientët dhe hollësitë që mund t'i verifikoni.",
+      "h1": "A është çanta për ripërdorim zgjedhja e duhur për biznesin tuaj?"
+    },
+    {
+      "path": "/blog/kobagsmission",
+      "language": "en",
+      "title": "Reuse, Recycling & Responsible Bag Choices | Kobags Group",
+      "description": "A clear logo, a considered color and the right shape can make a simple bag feel intentional.",
+      "h1": "Make your packaging feel like your brand."
+    },
+    {
+      "path": "/sq/blog/kobagsmission",
+      "language": "sq",
+      "title": "Ripërdorimi, riciklimi dhe zgjedhja e çantave | Kobags Group",
+      "description": "Një logo e qartë, ngjyrë e menduar dhe formë e duhur e bëjnë çantën të duket e qëllimshme.",
+      "h1": "Bëjeni paketimin pjesë të identitetit të markës suaj."
+    },
+    {
+      "path": "/blog/sciencebehindkobags",
+      "language": "en",
+      "title": "Non-Woven Polypropylene Bags: Material Guide | Kobags Group",
+      "description": "Material composition, recycled content and recyclability answer different questions.",
+      "h1": "Non-woven PP, explained clearly."
+    },
+    {
+      "path": "/sq/blog/sciencebehindkobags",
+      "language": "sq",
+      "title": "Çanta PP jo të endura: udhëzues për materialin | Kobags Group",
+      "description": "Përbërja, përmbajtja e ricikluar dhe riciklueshmëria janë pyetje të ndryshme.",
+      "h1": "PP jo i endur, i shpjeguar qartë."
+    },
+    {
+      "path": "/blog/benefitsofkobags",
+      "language": "en",
+      "title": "Custom Bag Orders: Five Details to Confirm | Kobags Group",
+      "description": "A short checklist makes your quote request easier to understand and compare.",
+      "h1": "Five details to settle before ordering branded bags."
+    },
+    {
+      "path": "/sq/blog/benefitsofkobags",
+      "language": "sq",
+      "title": "Porositë e çantave: pesë hollësi për konfirmim | Kobags Group",
+      "description": "Një listë e shkurtër e bën kërkesën tuaj për ofertë më të qartë dhe më të lehtë për krahasim.",
+      "h1": "Pesë hollësi që duhen sqaruar para porosisë së çantave me markë."
+    },
+    {
+      "path": "/blog/helpingbusinesseskobags",
+      "language": "en",
+      "title": "Branded Bags: From Logo to Wholesale Brief | Kobags Group",
+      "description": "Use a sample, a shared brief and a review process to make the change easier for your team.",
+      "h1": "Introduce a new bag without the guesswork."
+    },
+    {
+      "path": "/sq/blog/helpingbusinesseskobags",
+      "language": "sq",
+      "title": "Çanta me markë: nga logoja te kërkesa me shumicë | Kobags Group",
+      "description": "Përdorni një mostër, kërkesë të përbashkët dhe proces rishikimi që ndryshimi të jetë më i lehtë për ekipin.",
+      "h1": "Prezantoni një çantë të re pa hamendësime."
+    }
+  ],
+  "checks": [
+    "crawler-visible EN/SQ content without JavaScript",
+    "unique titles/descriptions, absolute canonicals, reciprocal hreflang and social images",
+    "sitemap excludes synthetic and private-flow pages",
+    "robots allow public crawling; private routes and 404s remain noindex",
+    "valid source-backed product/article/organization/breadcrumb JSON-LD without fictional offers or ratings",
+    "tracking queries canonicalized and language override ignored",
+    "localized legacy redirects",
+    "mobile responsive hero and compact logo delivery",
+    "design preserved through language switch and quote navigation"
+  ],
+  "mobileHero": "http://127.0.0.1:8787/assets/client-2026-09/factory-line-960.webp",
+  "browserErrors": [],
+  "failedAssets": []
+}

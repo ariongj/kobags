@@ -38,7 +38,7 @@ These are useful interface patterns, not evidence of conversion performance or K
 - Sample, partner and contact inquiries; partner model and target market capture.
 - Demo catalog description drafts/publishing, commercial display rules, evidence/guide wording drafts/publishing, activity log, export and synthetic reset.
 - Original factory evidence and user-controlled video; readable scoped certificate references with scan downloads.
-- Meaningful supporting industry, resource, material and demo policy pages; real 404s; legacy product/contact/partner redirects; demo-wide noindex and blocked crawling.
+- Meaningful supporting industry, resource, material and demo policy pages; real 404s; legacy product/contact/partner redirects. The 30 September SEO revision makes public marketing routes indexable with EN/SQ canonicals and a sitemap; simulated-order and internal pages remain excluded.
 - Optional browser WebMCP hooks to inspect and configure an unsent design draft; gracefully absent in unsupported browsers.
 
 ## Deliberately simulated or limited
@@ -69,4 +69,4 @@ Live Kobags forms/systems, CRM, ERP, Kraken.os, production scheduling, shipping/
 7. Target languages/markets and human copy review.
 8. Existing sales/production systems and available integrations.
 9. Production roles, customer isolation, rate limits, file scanning, backups and restore validation.
-10. Preferred production host, client review of the rewritten six-article journal and retained original slugs, indexable metadata, canonical XML sitemap and monitoring. This private demo intentionally blocks indexing; no production SEO results are claimed.
+10. Preferred production host, client review of the rewritten six-article journal and retained original slugs, final canonical domain, Search Console verification and monitoring. Technical metadata and an EN/SQ sitemap are now implemented on the public presentation domain; actual indexing and ranking results are not claimed.

@@ -1,10 +1,6 @@
 import JournalIndex from "@/components/journal-index";
-
-export const metadata = {
-  title: "Journal & buying guides",
-  description:
-    "Practical guidance for choosing, branding and ordering reusable bags.",
-};
+import { pageMetadata } from "@/lib/seo";
+export const generateMetadata = () => pageMetadata("/blog");
 
 export default function Journal() {
   return <JournalIndex />;

@@ -17,7 +17,9 @@ async def main():
         errors = []
         page.on('pageerror', lambda error: errors.append(str(error)))
         async def go(path):
-            response = await page.goto(BASE+path, wait_until='networkidle')
+            lang = 'sq' if '/sq/' in page.url or page.url.endswith('/sq') else 'en'
+            localized = '/sq'+(path if path!='/' else '') if lang=='sq' else path
+            response = await page.goto(BASE+localized, wait_until='networkidle')
             assert response.status == 200, (path, response.status)
         await go('/handoff')
         paths = await page.locator('.outline-group a').evaluate_all('(els)=>els.map(a=>a.getAttribute("href"))')
@@ -25,7 +27,7 @@ async def main():
         results, headings, descriptions, duplicates = [], {}, {}, []
         for lang in ['en', 'sq']:
             if lang == 'sq':
-                await page.get_by_role('button', name='Switch to Albanian').click()
+                await page.get_by_role('link',name='Switch to Albanian').click()
             for path in marketing:
                 await go(path)
                 assert await page.locator('h1').count() == 1, path
@@ -59,7 +61,7 @@ async def main():
         assert await link.get_attribute('href') == '/documents/buyer-checklist-sq.txt'
         response = await context.request.get(BASE+'/documents/buyer-checklist-sq.txt')
         assert response.status == 200 and 'LISTA PËR BLERËSIT' in await response.text()
-        await page.get_by_role('button',name='Kalo në anglisht').click()
+        await page.get_by_role('link',name='Kalo në anglisht').click()
         await page.get_by_role('heading',name='Preparing your artwork').wait_for()
         assert await page.get_by_role('link',name='Download checklist',exact=True).get_attribute('href') == '/documents/buyer-checklist.txt'
         response = await context.request.get(BASE+'/documents/buyer-checklist.txt')
@@ -70,14 +72,14 @@ async def main():
         response = await context.request.post(BASE+'/api/demo',data={'type':'content-publish','id':'artwork'})
         assert response.status == 200
         await go('/resources')
-        await page.get_by_role('button',name='Switch to Albanian').click()
+        await page.get_by_role('link',name='Switch to Albanian').click()
         await page.get_by_text('A client-reviewed artwork revision.',exact=True).wait_for()
         await go('/products/handle-bag')
         assert 'Indicative dispatch' not in await page.locator('main').inner_text()
         assert 'Dërgesa orientuese' in await page.locator('main').inner_text()
         await go('/')
         assert 'Rrotullo çantën majtas' == await page.locator('.showcase-view-controls button').first.get_attribute('aria-label')
-        await page.get_by_role('button',name='Kalo në anglisht').click()
+        await page.get_by_role('link',name='Kalo në anglisht').click()
         for width,height,name in [(1440,1000,'desktop'),(390,844,'mobile'),(320,844,'small-mobile')]:
             await page.set_viewport_size({'width':width,'height':height})
             await go('/')

@@ -66,7 +66,7 @@ async def main():
         assert len((await draft())["text"]) == 60
         await page.get_by_role("button", name="Edit front").click()
 
-        await page.get_by_role("button", name="Switch to Albanian").click()
+        await page.get_by_role("link", name="Switch to Albanian").click()
         await page.get_by_role("tab", name="01 Çanta").click()
         await page.locator("#bag-size").click()
         await page.get_by_role("option", name=re.compile("Mesatare")).click()

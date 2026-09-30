@@ -44,9 +44,9 @@ async def main():
   await page.get_by_role('button',name='Continue',exact=True).click()
   await page.locator('#quantity').fill('4999');await page.get_by_role('button',name='Continue',exact=True).click()
   assert 'minimum' in (await page.get_by_role('alert').inner_text()).lower()
-  await page.get_by_role('button',name='Switch to Albanian').click()
+  await page.get_by_role('link',name='Switch to Albanian').click()
   assert 'Minimumi' in await page.get_by_role('alert').inner_text()
-  await page.get_by_role('button',name='Kalo në anglisht').click()
+  await page.get_by_role('link',name='Kalo në anglisht').click()
   await page.locator('#quantity').fill('5000');await page.locator('#q-city').fill('Prishtina')
   await page.reload(wait_until='networkidle');assert await page.locator('#q-city').input_value()=='Prishtina'
   await page.get_by_role('button',name='Continue',exact=True).click()

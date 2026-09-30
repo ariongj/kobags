@@ -47,6 +47,6 @@ Original identity and business scope remain visible: collection, manufacturing, 
 
 ## Indexing
 
-This public presentation demo is intentionally excluded from search indexing. Metadata, response headers and `robots.txt` deliberately block indexing. No public XML sitemap or production canonical domain has been asserted. Before a real launch, implement canonical metadata, XML sitemap, approved redirects and monitoring on the actual domain, then remove demo restrictions deliberately.
+The 30 September SEO request replaces the previous blanket crawl block with indexable marketing pages. English retains existing addresses; Albanian has server-rendered `/sq` addresses, reciprocal language alternatives and matching metadata. `/sitemap.xml` lists 46 public EN/SQ addresses and `/robots.txt` permits public crawling. Quote/inquiry forms, demo workspaces, demo policies and handoff/downloads stay noindex; the API is disallowed. Canonicals currently use `https://kobags.itdks.tech`. Change `SITE_ORIGIN` in `lib/seo-config.ts` when the approved final domain is connected. Preserve legacy redirects and verify/submit the sitemap in Search Console; actual search rankings have not been measured.
 
 Sources: [Original website](https://kobags-group.com/), [catalog](https://kobags-group.com/products), [public article index](https://api.kobags-group.com/blogs), supplied audit, `docs/source-catalog.json` and `docs/asset-sources.json`.

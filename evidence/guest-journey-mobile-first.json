@@ -1,8 +1,8 @@
 {
   "status": "passed",
   "mobileFirst": true,
-  "request": "KBG-8CEDDA3E",
-  "order": "DEMO-ORDER-EB98B5",
+  "request": "KBG-BB88543A",
+  "order": "DEMO-ORDER-09B0B2",
   "checks": [
     "anonymous design to quote to artwork approval to simulated order",
     "guest cookie continuity across refresh and sales/customer views",

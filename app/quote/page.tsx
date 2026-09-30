@@ -1,5 +1,6 @@
 import QuoteFlow from "@/components/quote-flow";
-export const metadata = { title: "Request a quotation" };
+import { pageMetadata } from "@/lib/seo";
+export const generateMetadata = () => pageMetadata("/quote");
 export default function Page() {
   return <QuoteFlow />;
 }

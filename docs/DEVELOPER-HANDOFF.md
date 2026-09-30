@@ -8,6 +8,18 @@ The 30 September presentation pass adds `qa/presentation_copy_checks.py`: 48 ren
 
 The final completion pass adds EN/SQ footer policies in `components/policy-content.tsx` and buyer display translations in `lib/workspace-copy.ts`. Translations map known catalog values, system events and default quotation terms; custom terms, names and notes remain intact. Canonical stored values and API payloads are unchanged. Albanian timeline dates use explicit month names to remain readable in browsers without Albanian locale data. Browser-draft reset leaves submitted records untouched. The 404 links now lead to their correctly labelled destinations.
 
+## SEO and language URLs — 30 September
+
+At the user's request, public marketing pages are now crawlable and indexable on `https://kobags.itdks.tech`. English uses the existing addresses; Albanian uses `/sq`, `/sq/products`, `/sq/manufacturing`, etc. `middleware.ts` rewrites Albanian routes and sets the server language; the first HTML response contains translated content and `html[lang]`. `components/site-link.tsx` preserves the URL language on page links while leaving APIs, original downloads and external links alone. The header language link is crawlable without JavaScript. Switching language preserves query parameters and the synchronous browser design draft. Browser language storage no longer overrides an explicit URL's language.
+
+`lib/seo-config.ts` owns the current canonical origin, searchable paths and page-specific EN/SQ copy. `lib/seo.ts` produces absolute canonicals, reciprocal `en`/`sq`/`x-default` alternatives, Open Graph/Twitter previews and page robots metadata. `/robots.txt` and `/sitemap.xml` are regular Worker routes: the sitemap contains 46 addresses for 23 public pages in two languages. It omits unknown routes, form-only sample/partnership inquiries, quote flow, buyer/sales demos, handoff and demo policies. Those pages retain noindex metadata and response headers. `/api/` is disallowed; `/documents/*` downloads receive a noindex response header through `public/_headers`. Noindex is not access control; visitor isolation remains the API's responsibility.
+
+Organization/WebSite JSON-LD uses published identity/contact fields. Product pages add source-backed Product and BreadcrumbList data; the collection adds ItemList, and articles add BlogPosting/BreadcrumbList. No fictional prices, ratings, product identifiers, author names or publication dates were invented. Product rich-result eligibility is not claimed without real supported offers/reviews. Tracking queries use the clean page canonical. Both ordinary and Albanian legacy links preserve their correct destinations.
+
+Responsive WebP copies of the original factory hero are 45/76/150 KB at 640/960/1600px. The 344px displayed logo is 9 KB; the original 1600px PNG and factory JPEG remain unchanged for reuse and social metadata. `scripts/optimize-seo-media.mjs` reproduces delivery copies. Existing deferred 3D loading, manual-play videos and dimensioned images remain in place.
+
+For the final business-domain launch, change `SITE_ORIGIN`, configure that domain's hosting/DNS, retain approved legacy redirects and verify the property in Google Search Console. Submit `/sitemap.xml`, inspect representative EN/SQ URLs and monitor real-user Core Web Vitals. No Search Console account, actual Google index inclusion, ranking position or field-performance score is represented as verified by the local acceptance checks.
+
 ## Quick start
 
 Requires Node 22.13+ and npm. The included lockfile preserves the installed package versions.
@@ -39,7 +51,7 @@ Existing demo records, credentials, provider configuration, Git history, install
 - Drizzle schema/migration; prepared D1 queries at runtime.
 - Canvas 2D for precise artwork placement, shared artwork textures and PNG export.
 - Three.js for the lazily loaded homepage showroom and the five-family 3D designer.
-- Local storage for unfinished design, quote step and locale.
+- Local storage for unfinished design and quote step; URL-driven server-rendered language.
 - Existing accessible UI primitives for dialogs, tabs, selects, tables and checkboxes.
 
 `package.json` and `package-lock.json` are authoritative for exact dependencies. This starter includes more UI primitives than the demo currently uses; dependencies were preserved for reuse.
@@ -54,6 +66,12 @@ lib/site-outline.ts      Canonical clickable page outline
 lib/journal.ts           Six proposed articles retaining original slugs
 lib/journal-sq.ts        Albanian article translations, keyed by those slugs
 lib/workspace-copy.ts    Known system labels/events; preserves authored copy
+lib/site-locale.ts       EN/SQ page links; preserves file/API addresses
+lib/seo-config.ts        Canonical origin, public paths and search copy
+lib/seo.ts               Server metadata and request language
+middleware.ts           Albanian rewrites, language headers and exclusions
+app/robots.txt/route.ts  Crawl rules and canonical sitemap address
+app/sitemap.xml/route.ts 46 public EN/SQ addresses with reciprocal alternatives
 app/api/demo/route.ts     Owner lookup, persistence, concurrency, errors
 components/demo-store.tsx Client read/write hook and translated core errors
 components/kobags-context.tsx Browser draft, locale, optional WebMCP
@@ -180,7 +198,7 @@ The 3D model is illustrative and independent of the v4 generated images. It is n
 
 ### Content and integration boundaries
 
-No real messages, payments, ERP/CRM actions or manufacturing jobs are sent. Notifications live in a preview outbox. The only site API is the isolated demo API. Certificate entries can demonstrate review state; changing a demo approval field does not verify an issuer or validate a real claim. Six journal articles are proposed rewrites of the original structure, not migrated editorial approval. `components/journal-index.tsx` and `components/journal-article.tsx` render those articles with EN/SQ text from `lib/journal-sq.ts`; the language follows the shared browser preference. Each article has its own client photograph, with source hashes recorded in `docs/journal-article-media-sources.json`. `components/product-catalog.tsx` owns the detail gallery and its accessible close-up dialog; it preserves keyboard navigation, zoom state and return focus on close.
+No real messages, payments, ERP/CRM actions or manufacturing jobs are sent. Notifications live in a preview outbox. The isolated demo API stores synthetic records; the robots and sitemap routes serve public search directives. Certificate entries can demonstrate review state; changing a demo approval field does not verify an issuer or validate a real claim. Six journal articles are proposed rewrites of the original structure, not migrated editorial approval. `components/journal-index.tsx` and `components/journal-article.tsx` render those articles with EN/SQ text from `lib/journal-sq.ts`; the language follows the server-rendered URL. Each article has its own client photograph, with source hashes recorded in `docs/journal-article-media-sources.json`. `components/product-catalog.tsx` owns the detail gallery and its accessible close-up dialog; it preserves keyboard navigation, zoom state and return focus on close.
 
 Feature-detected WebMCP draft tools are implemented in the context provider. Standard interaction works when the browser lacks the API. Protocol execution has not been verified in a supporting browser; do not advertise tool compatibility as certified.
 
@@ -209,9 +227,9 @@ For browser checks, run `npm run start -- --port 8787` after the build and local
 3. **Production backend:** replace the aggregate with explicit organization, user, RFQ, quote, artwork, approval and order entities. Keep snapshots and version checks. Add authenticated roles before real data.
 4. **Real artwork:** add private object storage and original file handling, enforce allowed formats/limits, scan files, generate approved-template previews and use authorized signed downloads.
 5. **Messages and integrations:** replace outbox previews with queued/idempotent provider delivery and a delivery log. Connect only after client authorization and sandbox testing.
-6. **Production publication:** approve content/policies, verify evidence, configure real customer access and operational services, implement translations and accessibility fixes, create canonicals and an XML sitemap, then deliberately remove demo noindex/robots restrictions.
+6. **Production publication:** approve content/policies, verify evidence, configure real customer access and operational services, finish human translation/accessibility review and configure the final canonical domain. Keep demo/order/handoff pages excluded from search. Submit the domain's sitemap in verified Search Console and monitor indexing and field performance.
 
-No production SEO, legal approval, certificate verification, load testing, backup/restore testing or real delivery integration is represented as completed.
+Technical SEO has local acceptance coverage. Actual index inclusion, rankings, Search Console verification, legal approval, certificate verification, load testing, backup/restore testing and real delivery integration are not represented as completed.
 
 ## Layered studio and certificate library
 

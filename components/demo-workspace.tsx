@@ -38,6 +38,7 @@ import { Request, DemoState } from "@/lib/demo-domain";
 import { DemoJourney } from "./demo-journey";
 import { initialDesign } from "@/lib/catalog";
 import { workspaceLabel, workspaceEvent } from "@/lib/workspace-copy";
+import { languageHref } from "@/lib/site-locale";
 const formatMoney = (n: number, lang: "en" | "sq") =>
   new Intl.NumberFormat(lang === "sq" ? "sq-AL" : "en", { style: "currency", currency: "EUR" }).format(
     n / 100,
@@ -189,7 +190,7 @@ export default function DemoWorkspace({
     try {
       localStorage.setItem("kobags-quote-step", "2");
     } catch {}
-    window.location.assign("/quote");
+    window.location.assign(languageHref("/quote", lang));
   };
   const example = async () => {
     const id = await run(

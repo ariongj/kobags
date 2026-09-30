@@ -23,13 +23,15 @@ export default function HomePage() {
       <section className="industrial-hero">
         <img
           className="industrial-hero-photo"
-          src="/assets/client-2026-09/factory-line.jpg"
+          src="/assets/client-2026-09/factory-line-1600.webp"
+          srcSet="/assets/client-2026-09/factory-line-640.webp 640w, /assets/client-2026-09/factory-line-960.webp 960w, /assets/client-2026-09/factory-line-1600.webp 1600w"
+          sizes="100vw"
           alt={t(
             "Inside the Kobags production facility: machinery and rolls of non-woven material",
             "Brenda fabrikës Kobags: makineri dhe rula materiali jo të endur",
           )}
-          width={1400}
-          height={1000}
+          width={1600}
+          height={960}
           fetchPriority="high"
         />
         <div className="industrial-hero-copy">

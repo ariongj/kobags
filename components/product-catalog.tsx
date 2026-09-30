@@ -1,6 +1,5 @@
 "use client";
 import { useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "@/components/site-link";
 import { ArrowUpRight, ArrowLeft, Maximize2, ChevronLeft, ChevronRight, ZoomIn, ZoomOut } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -18,6 +17,7 @@ import { localizeProduct } from "@/lib/product-copy";
 import { useDemo } from "./demo-store";
 import { Choice } from "./bag-studio";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "./ui/dialog";
+import { languageHref } from "@/lib/site-locale";
 export function ProductCatalog() {
   const { state } = useDemo();
   const { t, lang } = useKobags();
@@ -259,7 +259,6 @@ export function ProductCatalog() {
 }
 export function ProductDetail({ product: original }: { product: Product }) {
   const { state } = useDemo();
-  const router = useRouter();
   const { update, t, lang } = useKobags();
   const p = localizeProduct(
     state?.catalog.find((x) => x.slug === original.slug) || original,
@@ -364,7 +363,7 @@ export function ProductDetail({ product: original }: { product: Product }) {
               className="button"
               onClick={() => {
                 update({ product: p.slug, size });
-                router.push("/design");
+                window.location.assign(languageHref("/design", lang));
               }}
             >
               {t("Design this bag", "Dizajnoni këtë çantë")}{" "}
@@ -374,7 +373,7 @@ export function ProductDetail({ product: original }: { product: Product }) {
               className="button secondary"
               onClick={() => {
                 update({ product: p.slug, size });
-                router.push("/quote");
+                window.location.assign(languageHref("/quote", lang));
               }}
             >
               {t("Request a quote", "Kërkoni ofertë")}

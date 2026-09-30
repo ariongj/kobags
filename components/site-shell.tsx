@@ -4,10 +4,11 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, ReactNode } from "react";
 import { ArrowUpRight, Menu, Globe2, X } from "lucide-react";
 import { useKobags } from "./kobags-context";
+import { contentPath, languageHref } from "@/lib/site-locale";
 export function Header() {
   const { t, lang, setLang } = useKobags();
   const [open, setOpen] = useState(false);
-  const path = usePathname();
+  const path = contentPath(usePathname());
   const menuButton = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     if (!open) return;
@@ -26,10 +27,10 @@ export function Header() {
         <Link href="/" className="brand" aria-label={t("Kobags Group home", "Ballina e Kobags Group")}>
           <span className="brand-wordmark">
             <img
-              src="/assets/logo.png"
+              src="/assets/logo-web.png"
               alt="Kobags Group"
-              width="172"
-              height="52"
+              width="344"
+              height="95"
             />
           </span>
         </Link>
@@ -69,16 +70,18 @@ export function Header() {
           </Link>
         </nav>
         <div className="header-actions">
-          <button
+          <a
             className="language"
-            onClick={() => setLang(lang === "en" ? "sq" : "en")}
+            href={languageHref(path, lang === "en" ? "sq" : "en")}
+            hrefLang={lang === "en" ? "sq" : "en"}
+            onClick={(event) => { event.preventDefault(); setLang(lang === "en" ? "sq" : "en"); }}
             aria-label={
               lang === "en" ? "Switch to Albanian" : "Kalo në anglisht"
             }
           >
             <Globe2 size={16} />
             {lang.toUpperCase()}
-          </button>
+          </a>
           <Link href="/quote" className="button small navy">
             {t("Request a quote", "Kërko ofertë")} <ArrowUpRight size={16} />
           </Link>
@@ -129,10 +132,11 @@ export function Footer() {
       <div className="footer-top">
         <div>
           <img
-            src="/assets/logo.png"
-            width="164"
-            height="50"
+            src="/assets/logo-web.png"
+            width="344"
+            height="95"
             alt="Kobags Group"
+            loading="lazy"
           />
           <p>
             {t("Non-woven bag manufacturing.", "Prodhimi i çantave jo të endura.")}

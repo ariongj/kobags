@@ -9,11 +9,8 @@ import {
 } from "lucide-react";
 import { PageHeading } from "@/components/site-shell";
 import { siteSections } from "@/lib/site-outline";
-export const metadata = {
-  title: "Site outline & project handoff",
-  description:
-    "Clickable site structure, review walkthrough and complete design and code handoff.",
-};
+import { pageMetadata } from "@/lib/seo";
+export const generateMetadata = () => pageMetadata("/handoff");
 export default function Handoff() {
   return (
     <main className="handoff-page">

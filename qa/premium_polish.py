@@ -31,7 +31,7 @@ async def main():
         await page.wait_for_function("document.activeElement?.classList.contains('detail-photo-open')")
 
         await page.goto(BASE + "/blog", wait_until="networkidle")
-        await page.get_by_role("button", name="Switch to Albanian").click()
+        await page.get_by_role("link", name="Switch to Albanian").click()
         assert "Ide të mira" in await page.locator("h1").inner_text()
         await page.locator(".journal-card").first.click()
         await page.wait_for_function("document.querySelector('h1')?.textContent?.includes('Brenda Kobags')")
@@ -50,7 +50,7 @@ async def main():
         assert toolbar["x"] + toolbar["width"] <= preview["x"] + preview["width"] + 1
         assert not await page.evaluate("document.documentElement.scrollWidth > innerWidth")
 
-        await page.goto(BASE + "/products/box-bag", wait_until="networkidle")
+        await page.goto(BASE + "/sq/products/box-bag", wait_until="networkidle")
         await page.get_by_role("button", name="Shihni foton").click()
         dialog = page.get_by_role("dialog")
         assert await dialog.is_visible()

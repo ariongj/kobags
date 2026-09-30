@@ -941,8 +941,8 @@ body.kobags-v5:has(.studio-compact) .footer-top p {
   inset: 0;
   pointer-events: none;
   background: #c6eb9d;
-  mask: url("/assets/logo.png") center / 100% 100% no-repeat;
-  -webkit-mask: url("/assets/logo.png") center / 100% 100% no-repeat;
+  mask: url("/assets/logo-web.png") center / 100% 100% no-repeat;
+  -webkit-mask: url("/assets/logo-web.png") center / 100% 100% no-repeat;
   clip-path: polygon(0 0, 32% 0, 32% 70%, 100% 70%, 100% 100%, 0 100%);
 }
 

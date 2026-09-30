@@ -10,6 +10,7 @@ import {
 } from "react";
 import { Design, initialDesign, products, colors, MAX_BRAND_TEXT_LENGTH } from "@/lib/catalog";
 import { inkContrast, readableInk } from "@/lib/studio-checks";
+import { languageHref, type SiteLanguage } from "@/lib/site-locale";
 function limitDesignText(design: Design): Design {
   return {
     ...design,
@@ -36,8 +37,13 @@ type Context = {
   ready: boolean;
 };
 const C = createContext<Context>(null!);
-export function KobagsProvider({ children }: { children: ReactNode }) {
-  const [lang, setLang] = useState<"en" | "sq">("en");
+export function KobagsProvider({ children, initialLanguage = "en" }: { children: ReactNode; initialLanguage?: SiteLanguage }) {
+  // The URL determines the rendered language, including the first crawler response.
+  const [lang] = useState<SiteLanguage>(initialLanguage);
+  const setLang = (value: SiteLanguage) => {
+    try { localStorage.setItem("kobags-language", value); } catch {}
+    window.location.assign(languageHref(location.pathname + location.search + location.hash, value));
+  };
   const [design, setDesign] = useState<Design>(initialDesign);
   const [ready, setReady] = useState(false);
   const draftRef = useRef<Design>(initialDesign);
@@ -60,8 +66,6 @@ export function KobagsProvider({ children }: { children: ReactNode }) {
         draftRef.current = readableTextForBag(limitDesignText({ ...initialDesign, ...JSON.parse(d) }));
         setDesign(draftRef.current);
       }
-      const l = localStorage.getItem("kobags-language");
-      if (l === "sq") setLang(l);
     } catch {}
     setReady(true);
   }, []);

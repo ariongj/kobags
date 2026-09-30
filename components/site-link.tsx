@@ -1,4 +1,8 @@
+"use client";
+
 import type { ComponentProps } from "react";
+import { useKobags } from "./kobags-context";
+import { languageHref } from "@/lib/site-locale";
 
 /**
  * Native document navigation avoids the installed Vinext production Link
@@ -6,5 +10,6 @@ import type { ComponentProps } from "react";
  * Keep ordinary anchor behavior (new tab, downloads and fragment links).
  */
 export default function SiteLink(props: ComponentProps<"a">) {
-  return <a {...props} />;
+  const { lang } = useKobags();
+  return <a {...props} href={props.href ? languageHref(props.href, lang) : undefined} />;
 }

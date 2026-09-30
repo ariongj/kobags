@@ -11,6 +11,7 @@ import { LocalizedCopy as L, LocalizedPageHeading, BuyerChecklistDownload } from
 import InquiryForm from "@/components/inquiry-form";
 import ResourceContent from "@/components/resource-content";
 import PolicyContent from "@/components/policy-content";
+import { pageMetadata } from "@/lib/seo";
 const titles: Record<string, string> = {
   manufacturing: "From raw material to finished bags.",
   sustainability: "Better questions. Clearer choices.",
@@ -102,12 +103,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string[] }>;
 }) {
   const path = (await params).slug.join("/");
-  return {
-    title: titles[path] || "Page not found",
-    description: titles[path]
-      ? introductions[path]?.[0] || titles[path]
-      : undefined,
-  };
+  return pageMetadata("/" + path);
 }
 export default async function Page({
   params,

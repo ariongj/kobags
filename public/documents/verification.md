@@ -2,6 +2,15 @@
 
 Updated 30 September 2026. Tests ran against the compiled local Worker at `http://localhost:8787` with synthetic data. No live Kobags forms, customer records or production systems were used.
 
+## SEO revision — 30 September
+
+- Replaced blanket noindex/crawl blocking with indexable public marketing routes. English keeps its existing URLs; Albanian now has server-rendered `/sq` URLs and a crawlable language switch. Quote/inquiry forms, demo workspaces, policies, handoff and source downloads remain excluded from search; API/session isolation is unchanged.
+- `qa/seo_checks.py` passed 46 sitemap addresses (23 EN/SQ pairs): meaningful crawler HTML without JavaScript, single H1/title, unique titles/descriptions, absolute canonicals, reciprocal hreflang and matching sitemap alternatives, valid social images, source-backed JSON-LD, private/404 exclusions, query canonicalization, localized redirects and protected server language selection. The check also preserved the design through a mobile language switch and quote navigation, with no captured JavaScript errors or failed assets.
+- Organization/WebSite, Product, ItemList, BlogPosting and BreadcrumbList data use existing source content. No fictional offers, ratings, publication dates or authors were added. This verifies syntax and source consistency; it does not assert product rich-result eligibility without real commercial/review data.
+- The hero uses responsive copies of the original photograph. The tested 390px/2x browser selected the 960px WebP (76,222 bytes versus the original 246,220); the displayed 344px PNG logo is 8,537 bytes versus the original 104,458. Original source media is retained. Mobile visual review passed.
+- `qa/completion_checks.py` and mobile `qa/guest_journey.py` passed again after URL-language changes: both buyer/order flows, approvals, visitor isolation, draft preservation and recovery. `qa/presentation_copy_checks.py` passed all 48 EN/SQ presentation routes, copy/media checks and downloads. TypeScript, compiled build and whitespace checks passed.
+- Canonicals currently name `https://kobags.itdks.tech`. Search Console ownership, actual index inclusion/rankings and real-user Core Web Vitals have not been verified. The handoff documents the final-domain change, sitemap submission and post-launch monitoring; no ranking or field-performance guarantee is made.
+
 ## Final completion — 30 September buyer presentation
 
 - Buyer specifications, quotations, artwork revisions, approval states and order timelines now follow EN/SQ. Known system text is translated; stored designs, custom terms and buyer notes are preserved. Privacy, terms, browser-storage controls, certificate dates, the skip link and missing-page recovery also follow the selected language.

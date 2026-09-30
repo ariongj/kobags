@@ -1,5 +1,6 @@
 import DemoWorkspace from "@/components/demo-workspace";
-export const metadata = { title: "Customer demonstration" };
+import { pageMetadata } from "@/lib/seo";
+export const generateMetadata = () => pageMetadata("/demo/customer");
 export default function Page() {
   return <DemoWorkspace role="customer" />;
 }
