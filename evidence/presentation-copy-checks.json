@@ -1,0 +1,324 @@
+{
+  "status": "passed",
+  "pages": [
+    {
+      "path": "/",
+      "language": "en",
+      "title": "Manufacturing bags.\nBuilding brands.",
+      "mediaFiles": 9
+    },
+    {
+      "path": "/manufacturing",
+      "language": "en",
+      "title": "From raw material to finished bags.",
+      "mediaFiles": 4
+    },
+    {
+      "path": "/sustainability",
+      "language": "en",
+      "title": "Better questions. Clearer choices.",
+      "mediaFiles": 1
+    },
+    {
+      "path": "/certifications",
+      "language": "en",
+      "title": "Evidence you can look closer at.",
+      "mediaFiles": 2
+    },
+    {
+      "path": "/industries",
+      "language": "en",
+      "title": "The right bag for your kind of business.",
+      "mediaFiles": 1
+    },
+    {
+      "path": "/industries/retail",
+      "language": "en",
+      "title": "Packaging that fits your merchandise.",
+      "mediaFiles": 1
+    },
+    {
+      "path": "/products",
+      "language": "en",
+      "title": "Five shapes.\nYour signature.",
+      "mediaFiles": 5
+    },
+    {
+      "path": "/products/d-cut-bag",
+      "language": "en",
+      "title": "D-Cut Bag",
+      "mediaFiles": 4
+    },
+    {
+      "path": "/products/handle-bag",
+      "language": "en",
+      "title": "Handle Bag",
+      "mediaFiles": 4
+    },
+    {
+      "path": "/products/box-bag",
+      "language": "en",
+      "title": "Box Bag",
+      "mediaFiles": 4
+    },
+    {
+      "path": "/products/t-shirt-bag",
+      "language": "en",
+      "title": "T-Shirt Bag",
+      "mediaFiles": 4
+    },
+    {
+      "path": "/products/string-bag",
+      "language": "en",
+      "title": "String Bag",
+      "mediaFiles": 4
+    },
+    {
+      "path": "/samples",
+      "language": "en",
+      "title": "See it. Feel it. Then decide.",
+      "mediaFiles": 1
+    },
+    {
+      "path": "/partners",
+      "language": "en",
+      "title": "Bring Kobags to your market.",
+      "mediaFiles": 1
+    },
+    {
+      "path": "/partners/apply",
+      "language": "en",
+      "title": "A partnership starts with a conversation.",
+      "mediaFiles": 0
+    },
+    {
+      "path": "/contact",
+      "language": "en",
+      "title": "Talk to the Kobags team.",
+      "mediaFiles": 0
+    },
+    {
+      "path": "/resources",
+      "language": "en",
+      "title": "Prepare a better bag brief.",
+      "mediaFiles": 1
+    },
+    {
+      "path": "/blog",
+      "language": "en",
+      "title": "Good ideas, ready to carry.",
+      "mediaFiles": 6
+    },
+    {
+      "path": "/blog/kobagsjourney",
+      "language": "en",
+      "title": "Inside Kobags: from brief to production.",
+      "mediaFiles": 1
+    },
+    {
+      "path": "/blog/whyswitchtokobags",
+      "language": "en",
+      "title": "Is a reusable bag the right fit for your business?",
+      "mediaFiles": 1
+    },
+    {
+      "path": "/blog/kobagsmission",
+      "language": "en",
+      "title": "Make your packaging feel like your brand.",
+      "mediaFiles": 1
+    },
+    {
+      "path": "/blog/sciencebehindkobags",
+      "language": "en",
+      "title": "Non-woven PP, explained clearly.",
+      "mediaFiles": 1
+    },
+    {
+      "path": "/blog/benefitsofkobags",
+      "language": "en",
+      "title": "Five details to settle before ordering branded bags.",
+      "mediaFiles": 1
+    },
+    {
+      "path": "/blog/helpingbusinesseskobags",
+      "language": "en",
+      "title": "Introduce a new bag without the guesswork.",
+      "mediaFiles": 1
+    },
+    {
+      "path": "/",
+      "language": "sq",
+      "title": "Prodhojmë çanta.\nNdërtojmë marka.",
+      "mediaFiles": 9
+    },
+    {
+      "path": "/manufacturing",
+      "language": "sq",
+      "title": "Nga materiali te çanta e përfunduar.",
+      "mediaFiles": 4
+    },
+    {
+      "path": "/sustainability",
+      "language": "sq",
+      "title": "Pyetje më të mira. Zgjedhje më të qarta.",
+      "mediaFiles": 1
+    },
+    {
+      "path": "/certifications",
+      "language": "sq",
+      "title": "Dëshmi që mund t'i shihni nga afër.",
+      "mediaFiles": 2
+    },
+    {
+      "path": "/industries",
+      "language": "sq",
+      "title": "Çanta e duhur për biznesin tuaj.",
+      "mediaFiles": 1
+    },
+    {
+      "path": "/industries/retail",
+      "language": "sq",
+      "title": "Paketim që i përshtatet produktit tuaj.",
+      "mediaFiles": 1
+    },
+    {
+      "path": "/products",
+      "language": "sq",
+      "title": "Pesë forma.\nIdentiteti juaj.",
+      "mediaFiles": 5
+    },
+    {
+      "path": "/products/d-cut-bag",
+      "language": "sq",
+      "title": "D-Cut Bag",
+      "mediaFiles": 4
+    },
+    {
+      "path": "/products/handle-bag",
+      "language": "sq",
+      "title": "Handle Bag",
+      "mediaFiles": 4
+    },
+    {
+      "path": "/products/box-bag",
+      "language": "sq",
+      "title": "Box Bag",
+      "mediaFiles": 4
+    },
+    {
+      "path": "/products/t-shirt-bag",
+      "language": "sq",
+      "title": "T-Shirt Bag",
+      "mediaFiles": 4
+    },
+    {
+      "path": "/products/string-bag",
+      "language": "sq",
+      "title": "String Bag",
+      "mediaFiles": 4
+    },
+    {
+      "path": "/samples",
+      "language": "sq",
+      "title": "Shikojeni. Prekeni. Pastaj vendosni.",
+      "mediaFiles": 1
+    },
+    {
+      "path": "/partners",
+      "language": "sq",
+      "title": "Sillni Kobags në tregun tuaj.",
+      "mediaFiles": 1
+    },
+    {
+      "path": "/partners/apply",
+      "language": "sq",
+      "title": "Partneriteti fillon me një bisedë.",
+      "mediaFiles": 0
+    },
+    {
+      "path": "/contact",
+      "language": "sq",
+      "title": "Kontaktoni ekipin Kobags.",
+      "mediaFiles": 0
+    },
+    {
+      "path": "/resources",
+      "language": "sq",
+      "title": "Përgatitni një kërkesë të plotë.",
+      "mediaFiles": 1
+    },
+    {
+      "path": "/blog",
+      "language": "sq",
+      "title": "Ide të mira, gati për t'u bartur.",
+      "mediaFiles": 6
+    },
+    {
+      "path": "/blog/kobagsjourney",
+      "language": "sq",
+      "title": "Brenda Kobags: nga kërkesa te prodhimi.",
+      "mediaFiles": 1
+    },
+    {
+      "path": "/blog/whyswitchtokobags",
+      "language": "sq",
+      "title": "A është çanta për ripërdorim zgjedhja e duhur për biznesin tuaj?",
+      "mediaFiles": 1
+    },
+    {
+      "path": "/blog/kobagsmission",
+      "language": "sq",
+      "title": "Bëjeni paketimin pjesë të identitetit të markës suaj.",
+      "mediaFiles": 1
+    },
+    {
+      "path": "/blog/sciencebehindkobags",
+      "language": "sq",
+      "title": "PP jo i endur, i shpjeguar qartë.",
+      "mediaFiles": 1
+    },
+    {
+      "path": "/blog/benefitsofkobags",
+      "language": "sq",
+      "title": "Pesë hollësi që duhen sqaruar para porosisë së çantave me markë.",
+      "mediaFiles": 1
+    },
+    {
+      "path": "/blog/helpingbusinesseskobags",
+      "language": "sq",
+      "title": "Prezantoni një çantë të re pa hamendësime.",
+      "mediaFiles": 1
+    }
+  ],
+  "metadataDescriptions": {
+    "/": "Discover Kobags Group manufacturing in Kosova: non-woven materials, custom printing and branded bags. Explore the factory, design your bag and request a wholesale quote.",
+    "/manufacturing": "See bag forming, finishing and the specifications agreed before manufacturing in Kosova.",
+    "/sustainability": "Useful material information starts with precise claims and the evidence behind them.",
+    "/certifications": "Inspect the published ISO 9001 and ISO 14001 scans, certificate details and issuer references.",
+    "/industries": "Start with what you carry, where it goes and how your brand should feel.",
+    "/industries/retail": "Choose dimensions and handles around your customers’ purchases, then plan the print and quantity.",
+    "/products": "Non-woven bag manufacturing in Kosova. Explore the factory, customize a bag in the interactive 3D studio and plan your next wholesale order.",
+    "/products/d-cut-bag": "A clean, lightweight shape with an integrated grip. A practical canvas for your next promotion.",
+    "/products/handle-bag": "An everyday carry bag with comfortable handles and room for your brand to stand out.",
+    "/products/box-bag": "A structured profile with a generous base for packaging that needs a little more room.",
+    "/products/t-shirt-bag": "A familiar shopping shape with integrated handles for convenient everyday carrying.",
+    "/products/string-bag": "A drawstring closure and simple profile for events, promotions and brand giveaways.",
+    "/samples": "Explore a sample inquiry before committing to a wholesale order.",
+    "/partners": "Three ways to introduce Kobags to the right buyers.",
+    "/partners/apply": "Introduce your market, experience and preferred partnership model.",
+    "/contact": "Ask about products, production or partnerships. Use the quote form for quantities, artwork and delivery requirements.",
+    "/resources": "Practical guidance for choosing, designing and ordering your bags.",
+    "/blog": "Practical guidance for choosing, branding and ordering reusable bags.",
+    "/blog/kobagsjourney": "How your product choices become a specification the factory can work with.",
+    "/blog/whyswitchtokobags": "Make the decision around your products, your customers and the details you can verify.",
+    "/blog/kobagsmission": "A clear logo, a considered color and the right shape can make a simple bag feel intentional.",
+    "/blog/sciencebehindkobags": "Material composition, recycled content and recyclability answer different questions.",
+    "/blog/benefitsofkobags": "A short checklist makes your quote request easier to understand and compare.",
+    "/blog/helpingbusinesseskobags": "Use a sample, a shared brief and a review process to make the change easier for your team."
+  },
+  "duplicateEditorialBlocks": [],
+  "resourceTranslations": true,
+  "localizedChecklist": true,
+  "publishedRevisionPreserved": true,
+  "browserErrors": []
+}

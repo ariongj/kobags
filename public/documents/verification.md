@@ -1,6 +1,22 @@
 # Kobags website — verification record
 
-Updated 16 September 2026. This record supersedes the earlier incomplete v1 check. Tests ran against the compiled local Worker at `http://localhost:8787` with synthetic data. No live Kobags forms, customer records or production systems were used.
+Updated 30 September 2026. Tests ran against the compiled local Worker at `http://localhost:8787` with synthetic data. No live Kobags forms, customer records or production systems were used.
+
+## Latest revision — 30 September client presentation
+
+- Repeated factory/origin wording and generic brand-moment headlines were tightened across the homepage, collection, journal and supporting pages. Each marketing page has a distinct H1 and metadata description. Standard specifications, navigation labels and shared actions remain consistent.
+- `qa/presentation_copy_checks.py` passed 48 EN/SQ marketing route checks with no duplicate visible editorial blocks within a page. Photos and video sources resolved; both resource checklist downloads and default Albanian resource cards passed. Published editorial overrides stayed intact. Product dispatch guidance and showroom control labels passed Albanian checks.
+- `qa/site_checks.py` passed all 32 routes, 44 internal links and 11 legacy redirects, catalog controls, inquiries, isolation, and the full fictional quotation/artwork/order release gates. `qa/mobile_site_checks.py` passed 54 route/width checks, touch rotation, menu and forms. No browser JavaScript errors were captured.
+- Desktop (1440px) and mobile (390px/320px) home captures received visual review. Build, TypeScript and whitespace checks passed. Current handoff documents and the reusable source bundle were refreshed. Code/images and unchanged factory videos are delivered as two companion ZIPs, both below the 25 MiB hosting limit; mobile links and both downloads passed.
+- This establishes readiness for a client demonstration, not production integration or physical-device certification. Existing external messaging, real payment/order and approved manufacturing-template requirements remain as documented.
+
+## Latest revision — 29 September technical audit closure
+
+- The 60-character brand-text limit is enforced by the textarea, editor change handler, persisted browser draft and server schema. Overlong saved drafts are trimmed on load. The visible limit and correction notice remain readable on mobile.
+- Studio and quote size/color/material labels, the 3D canvas instruction and exported concept-sheet copy follow the selected Albanian or English language.
+- `qa/technical_audit_2026_09_29.py` passed at 390px: 59/60/61/80-character cases, old overlong drafts, separate front/back text, Albanian labels, readable 1600 × 1820 single-face and 2000 × 1400 two-face PNGs, distinct front/back content, valid PNG/JPG/WebP logos, rejected SVG and over-5MB files, export after logo upload and design carry-through to the quote.
+- `qa/guest_journey.py` passed with `KOBAGS_MOBILE_FIRST=1`: saved request, customer and sales views, fictional quotation, artwork approval, simulated order, reorder and visitor isolation. `qa/studio_3d_checks.py` passed across five bag models and 320–1440px widths. `qa/mobile_site_checks.py` passed 54 route/width checks, touch rotation and menu behavior.
+- TypeScript and the compiled build passed. These are browser and functional checks, not a security, performance, physical-device or real-order integration certification. The demo still does not send a real order or email.
 
 ## Latest revision — direct 3D artwork placement and lime wordmark
 

@@ -35,8 +35,8 @@ export default function HomePage() {
         <div className="industrial-hero-copy">
           <p className="eyebrow">
             {t(
-              "NON-WOVEN BAG MANUFACTURING / KOSOVA",
-              "PRODHIMI I ÇANTAVE JO TË ENDURA / KOSOVË",
+              "NON-WOVEN BAG MANUFACTURING",
+              "PRODHIMI I ÇANTAVE JO TË ENDURA",
             )}
           </p>
           <h1>
@@ -46,8 +46,8 @@ export default function HomePage() {
           </h1>
           <p className="industrial-lead">
             {t(
-              "From material and printing to the finished bag. Kobags brings production in Kosova together with custom packaging for your business.",
-              "Nga materiali dhe shtypi deri te çanta e përfunduar. Kobags bashkon prodhimin në Kosovë me paketimin e personalizuar për biznesin tuaj.",
+              "Custom non-woven bags for retail, events and everyday carry. Choose your specification, add your branding and plan your wholesale order.",
+              "Çanta jo të endura për dyqane, evente dhe përdorim të përditshëm. Zgjidhni specifikimet, shtoni markën tuaj dhe planifikoni porosinë me shumicë.",
             )}
           </p>
           <div className="actions">
@@ -79,14 +79,14 @@ export default function HomePage() {
           <Factory size={23} />
           <span>
             {t("FROM THE FACTORY FLOOR", "NGA LINJA E PRODHIMIT")}
-            <strong>{t("Made in Kosova.", "Prodhuar në Kosovë.")}</strong>
+            <strong>{t("Custom bag production.", "Prodhim i personalizuar.")}</strong>
           </span>
         </div>
         <div className="industrial-location">
           <span>01 / KOBAGS GROUP</span>
           <p>
-            {t("Inside our production facility", "Brenda fabrikës sonë")}
-            <strong> Kosova</strong>
+            {t("Inside Kobags", "Brenda Kobags")}
+            <strong>{t("Material rolls & machinery", "Rula materiali dhe makineri")}</strong>
           </p>
         </div>
       </section>
@@ -116,17 +116,17 @@ export default function HomePage() {
       >
         <div className="home-production-copy">
           <p className="eyebrow">
-            {t("THE PRODUCTION BEHIND THE PRODUCT", "PRODHIMI PAS PRODUKTIT")}
+            {t("HOW WE MAKE IT", "SI I PRODHOJMË")}
           </p>
           <h2 id="production-heading">
-            {t("It starts on", "Fillon në")}
+            {t("Material. Print.", "Material. Shtyp.")}
             <br />
-            {t("the factory floor.", "linjën e prodhimit.")}
+            {t("Finished to your brief.", "Sipas kërkesës suaj.")}
           </h2>
           <p>
             {t(
-              "The bag is the finished result. Behind it are the material, the machinery and the print process that bring your brief to life.",
-              "Çanta është rezultati përfundimtar. Pas saj janë materiali, makineritë dhe procesi i shtypit që realizojnë kërkesën tuaj.",
+              "Follow the three decisions that shape your bag: its construction, its print and its finished specification.",
+              "Tri vendime përcaktojnë çantën tuaj: mënyra e punimit, shtypi dhe specifikimet përfundimtare.",
             )}
           </p>
           <ol className="production-stages">
@@ -169,8 +169,8 @@ export default function HomePage() {
         </div>
         <figure className="home-production-film">
           <div className="production-film-heading">
-            <span>{t("ON THE PRODUCTION LINE", "NË LINJËN E PRODHIMIT")}</span>
-            <span>MADE IN KOSOVA</span>
+            <span>{t("FLEXOGRAPHIC PRINTING", "SHTYP FLEKSOGRAFIK")}</span>
+            <span>{t("FACTORY FILM", "VIDEO NGA FABRIKA")}</span>
           </div>
           <video
             controls
@@ -194,12 +194,12 @@ export default function HomePage() {
             <Paintbrush size={20} />
             <div>
               <strong>
-                {t("See the process in motion.", "Shihni procesin në lëvizje.")}
+                {t("Your artwork, on the material.", "Dizajni juaj, mbi material.")}
               </strong>
               <p>
                 {t(
-                  "A closer look at printing inside Kobags.",
-                  "Një vështrim më i afërt i shtypit në Kobags.",
+                  "Watch the material move through the printing equipment.",
+                  "Shikoni si kalon materiali nëpër makineritë e shtypit.",
                 )}
               </p>
             </div>
@@ -211,12 +211,12 @@ export default function HomePage() {
         <div className="section-heading">
           <div>
             <p className="eyebrow">
-              {t("FROM OUR PRODUCTION LINE", "NGA LINJA JONË E PRODHIMIT")}
+              {t("FIND YOUR FORMAT", "ZGJIDHNI FORMËN")}
             </p>
             <h2>
               {t("Five bag families.", "Pesë lloje çantash.")}
               <br />
-              {t("Made for your business.", "Për biznesin tuaj.")}
+              {t("Different ways to carry.", "Mënyra të ndryshme bartjeje.")}
             </h2>
           </div>
           <Link href="/products" className="text-button">
@@ -233,7 +233,7 @@ export default function HomePage() {
             >
               <div>
                 <span>
-                  0{i + 1} / {p.handle.toUpperCase()}
+                  0{i + 1} / {t(p.handle, productCopySq[p.slug]?.handle).toUpperCase()}
                 </span>
                 <img
                   src={productMedia[p.slug]?.home ?? p.image}
@@ -262,14 +262,14 @@ export default function HomePage() {
           <div>
             <p className="eyebrow">
               {t(
-                "FROM YOUR IDEA TO EVERYDAY USE",
-                "NGA IDEJA NË PËRDORIM TË PËRDITSHËM",
+                "THE ORDERING PROCESS",
+                "PROCESI I POROSISË",
               )}
             </p>
             <h2>
               {t(
-                "A clear path to your next bag.",
-                "Një rrugë e qartë drejt çantës suaj.",
+                "From design to dispatch.",
+                "Nga dizajni te dërgimi.",
               )}
             </h2>
           </div>
@@ -316,7 +316,7 @@ export default function HomePage() {
       <section className="home-section home-buyer-grid">
         <article>
           <p className="eyebrow">
-            {t("MADE FOR YOUR BUSINESS", "PËR BIZNESIN TUAJ")}
+            {t("USES & INDUSTRIES", "PËRDORIME DHE SEKTORË")}
           </p>
           <h2>{t("A bag for what you do.", "Një çantë për punën tuaj.")}</h2>
           <p>
@@ -356,12 +356,12 @@ export default function HomePage() {
       <section className="faq-section">
         <div>
           <p className="eyebrow">
-            {t("A FEW THINGS TO KNOW", "DISA GJËRA QË DUHET TË DINI")}
+            {t("BUYER QUESTIONS", "PYETJE NGA BLERËSIT")}
           </p>
           <h2>
-            {t("Before we", "Para se ta")}
+            {t("Ordering", "Detajet")}
             <br />
-            {t("make it yours.", "personalizojmë.")}
+            {t("essentials.", "e porosisë.")}
           </h2>
           <Link href="/resources" className="text-button">
             {t("Buying guides", "Udhëzues për blerësit")}{" "}

@@ -105,14 +105,14 @@ export function Footer() {
         <div>
           <p className="eyebrow">
             {t(
-              "MADE HERE. CARRIED EVERYWHERE.",
-              "PRODHUAR KËTU. MBAJTUR KUDO.",
+              "START WITH YOUR DESIGN",
+              "FILLONI ME DIZAJNIN TUAJ",
             )}
           </p>
           <h2>
-            {t("Let’s make your", "Le ta krijojmë")}
+            {t("Put your brand", "Vendosni markën tuaj")}
             <br />
-            <em>{t("next brand moment.", "momentin tuaj të ardhshëm.")}</em>
+            <em>{t("on the bag.", "mbi çantë.")}</em>
           </h2>
         </div>
         <Link
@@ -135,7 +135,7 @@ export function Footer() {
             alt="Kobags Group"
           />
           <p>
-            {t("Your brand, carried further.", "Marka juaj, më larg.")}
+            {t("Non-woven bag manufacturing.", "Prodhimi i çantave jo të endura.")}
             <br />
             Kosova
           </p>

@@ -44,9 +44,9 @@ export default function Handoff() {
             [
               Code2,
               "Code & setup",
-              "Source, setup guide, data flow and verification.",
+              "Source, images, setup and verification. Extract both ZIPs into the same folder.",
               "/documents/kobags-source.zip",
-              "Download complete source",
+              "Download code & images",
             ],
           ].map(([Icon, title, desc, href, label]) => {
             const I = Icon as typeof Map;
@@ -67,6 +67,11 @@ export default function Handoff() {
                     <Download size={16} />
                   )}
                 </a>
+                {href === "/documents/kobags-source.zip" && (
+                  <a className="text-button" href="/documents/kobags-media.zip" download>
+                    Download factory videos <Download size={16} />
+                  </a>
+                )}
               </article>
             );
           })}

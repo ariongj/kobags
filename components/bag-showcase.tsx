@@ -95,13 +95,13 @@ export default function BagShowcase() {
           )}
         </span>
         <span>
-          {t("FROM AN IDEA. TO SOMETHING REAL.", "NGA IDEJA. NË REALITET.")}
+          {t("ROTATE. PERSONALIZE. PREVIEW.", "RROTULLONI. PERSONALIZONI. SHIKONI.")}
         </span>
       </div>
       <div className="showcase-layout">
         <div className="showcase-copy">
           <p className="eyebrow">
-            {t("MEET YOUR NEXT BAG", "NJOHUNI ME ÇANTËN TUAJ TË ARDHSHME")}
+            {t("TRY IT IN 3D", "PROVOJENI NË 3D")}
           </p>
           <h2 id="showcase-heading">
             {t("Imagine it.", "Imagjinojeni.")}
@@ -110,8 +110,8 @@ export default function BagShowcase() {
           </h2>
           <p>
             {t(
-              "An idea you can turn around. Explore the details, find your color and put your name on it. Then let our production bring it to life.",
-              "Një ide që mund ta shihni nga çdo anë. Eksploroni detajet, zgjidhni ngjyrën dhe vendosni emrin tuaj. Pastaj ia besoni prodhimit tonë.",
+              "Turn the bag to inspect its shape. Try a color and brand name here, then open the studio to place your logo on either side.",
+              "Rrotullojeni çantën për të parë formën. Provoni ngjyrën dhe emrin e markës këtu, pastaj hapni studion për të vendosur logon në secilën anë.",
             )}
           </p>
           <div className="showcase-personalize">
@@ -137,7 +137,7 @@ export default function BagShowcase() {
               {colors.map((c) => (
                 <button
                   key={c.name}
-                  aria-label={c.name + " 3D bag"}
+                  aria-label={t(c.name + " 3D bag", "Çantë 3D " + c.sq.toLowerCase())}
                   aria-pressed={c.name === color}
                   style={{ background: c.hex }}
                   onClick={() => setColor(c.name)}
@@ -257,14 +257,14 @@ export default function BagShowcase() {
               "Tërhiqeni për ta parë nga çdo kënd",
             )}
           </div>
-          <div className="showcase-view-controls" aria-label="3D view controls">
+          <div className="showcase-view-controls" aria-label={t("3D view controls", "Kontrollet e pamjes 3D")}>
             <button
               disabled={status !== "ready"}
               onClick={() => {
                 pause();
                 scene.current?.rotate(-1);
               }}
-              aria-label="Rotate bag left"
+              aria-label={t("Rotate bag left", "Rrotullo çantën majtas")}
             >
               <ArrowLeft size={17} />
             </button>
@@ -292,7 +292,7 @@ export default function BagShowcase() {
                 pause();
                 scene.current?.rotate(1);
               }}
-              aria-label="Rotate bag right"
+              aria-label={t("Rotate bag right", "Rrotullo çantën djathtas")}
             >
               <ArrowRight size={17} />
             </button>
@@ -303,14 +303,14 @@ export default function BagShowcase() {
                 pause();
                 scene.current?.view("angle");
               }}
-              aria-label="Reset 3D view"
+              aria-label={t("Reset 3D view", "Rivendos pamjen 3D")}
             >
               <RotateCcw size={17} />
             </button>
             <button
               disabled={status !== "ready"}
               aria-label={
-                playing ? "Pause bag animation" : "Play bag animation"
+                playing ? t("Pause bag animation", "Ndalo animacionin e çantës") : t("Play bag animation", "Luaj animacionin e çantës")
               }
               aria-pressed={playing}
               onClick={() => {
@@ -330,7 +330,7 @@ export default function BagShowcase() {
         <span>{t("OUR CRAFT", "PUNA JONË")}</span>
         <i />
         <span>
-          {t("YOUR NEXT BRAND MOMENT", "MOMENTI I ARDHSHËM I MARKËS SUAJ")}
+          {t("A SHARED PRODUCTION BRIEF", "KËRKESA JUAJ PËR PRODHIM")}
         </span>
       </div>
     </section>

@@ -35,8 +35,8 @@ export function ProductCatalog() {
       <div className="page-heading catalog-heading-v5">
         <p className="eyebrow">
           {t(
-            "FIVE SHAPES. ENDLESS POSSIBILITIES.",
-            "PESË FORMA. SHUMË MUNDËSI.",
+            "THE BAG COLLECTION",
+            "KOLEKSIONI I ÇANTAVE",
           )}
         </p>
         <h1>
@@ -46,8 +46,8 @@ export function ProductCatalog() {
         </h1>
         <p className="intro">
           {t(
-            "Choose the shape that works for your business. We’ll help make it unmistakably yours.",
-            "Zgjidhni formën për biznesin tuaj. Ne do ta personalizojmë për ju.",
+            "Compare handle styles, dimensions and fabric weights. Select a bag to inspect the photos or start a design.",
+            "Krahasoni dorezat, përmasat dhe peshën e materialit. Zgjidhni një çantë për të parë fotografitë ose për të filluar dizajnin.",
           )}
         </p>
         <div className="catalog-heading-bags" aria-hidden="true">
@@ -389,7 +389,7 @@ export function ProductDetail({ product: original }: { product: Product }) {
         <div className="section-card">
           <h3>{t("Plan your production", "Planifikoni prodhimin")}</h3>
           <p>
-            {state?.settings.leadTime ||
+            {(lang === "en" ? state?.settings.leadTime : undefined) ||
               t("Indicative dispatch 2–4 weeks after artwork approval, subject to production confirmation.", "Dërgesa orientuese 2–4 javë pas miratimit të dizajnit, sipas konfirmimit të prodhimit.")}{" "}
             {t("Transport time depends on your destination. Custom dimensions are reviewed for feasibility.", "Koha e transportit varet nga destinacioni. Përmasat e veçanta vlerësohen për realizueshmëri.")}
           </p>

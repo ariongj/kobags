@@ -1,12 +1,16 @@
 # Kobags Group — code and setup handoff
 
-Revision: 29 September 2026. This is a public demonstration with a persistent, visitor-isolated data flow. It is not connected to Kobags production systems.
+Revision: 30 September 2026. This is a public demonstration with a persistent, visitor-isolated data flow. It is not connected to Kobags production systems.
 
 The 29 September technical audit follow-up centralizes the 60-character brand-text limit in `lib/catalog.ts`. `components/bag-studio.tsx` constrains even scripted overlength input, and `components/kobags-context.tsx` trims older local drafts and all design updates before persistence. `lib/demo-domain.ts` enforces the same limit at the API boundary. Studio/quote display labels and concept-sheet text follow EN/SQ without changing stored catalog values. The 3D canvas updates its accessible instruction when the language changes. `qa/technical_audit_2026_09_29.py` checks these boundaries, image formats, readable PNG exports and quote carry-through on a compiled local Worker.
+
+The 30 September presentation pass adds `qa/presentation_copy_checks.py`: 48 rendered EN/SQ marketing-route checks, unique page headings and metadata descriptions, repeated editorial-block detection, media resolution, localized resources and downloads, published-copy override preservation and mobile captures. Supporting page metadata now uses its own introduction. Default resource translations apply only while the text matches its source record, preserving separately published edits. Product dispatch guidance and homepage 3D control labels also follow the selected language.
 
 ## Quick start
 
 Requires Node 22.13+ and npm. The included lockfile preserves the installed package versions.
+
+Download `kobags-source.zip` and its companion `kobags-media.zip` from `/handoff`. Extract both into the same parent folder, merging the shared `kobags-website` directory. The companion contains the three unchanged factory videos; this keeps each public download within the host’s 25 MiB asset limit.
 
 ```sh
 npm ci
@@ -23,7 +27,7 @@ To change the schema, edit `db/schema.ts`, run `npm run db:generate`, inspect th
 
 The downloadable ZIP deliberately contains `.openai/hosting.json` with logical `DB` only and **no existing project ID**. Start in a new folder and repository. Replace brand content/assets and register a new Site only when you intend to publish the new project. The original working checkout remains linked to the existing Kobags public demo Site; it should continue updating that Site, not create duplicates.
 
-Existing demo records, credentials, provider configuration, Git history, installed dependencies and compiled output are excluded from the ZIP. Lossless PNG test captures and generated concept-download PNGs are omitted to keep the source download compact; the included checks regenerate them. Latest JPEG review images and all result manifests are included. The source bundle contains a small `SOURCE-MANIFEST.json` describing these omissions. Proprietary brand assets are not licensed for unrelated projects.
+Existing demo records, credentials, provider configuration, Git history, installed dependencies and compiled output are excluded from the ZIP. Older test captures and generated concept PNGs are omitted to keep the source download compact; the included checks regenerate them. Current presentation JPEGs and all result manifests are included. The source bundle contains a small `SOURCE-MANIFEST.json` describing these omissions. Proprietary brand assets are not licensed for unrelated projects.
 
 ## Stack and source map
 

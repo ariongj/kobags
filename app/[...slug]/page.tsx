@@ -6,47 +6,58 @@ import {
   Layers,
   Paintbrush,
   PackageCheck,
-  Download,
 } from "lucide-react";
-import { LocalizedCopy as L, LocalizedPageHeading } from "@/components/localized-copy";
+import { LocalizedCopy as L, LocalizedPageHeading, BuyerChecklistDownload } from "@/components/localized-copy";
 import InquiryForm from "@/components/inquiry-form";
 import ResourceContent from "@/components/resource-content";
 import CookieControls from "@/components/cookie-controls";
 const titles: Record<string, string> = {
-  manufacturing: "Made in Kosova. Carried everywhere.",
+  manufacturing: "From raw material to finished bags.",
   sustainability: "Better questions. Clearer choices.",
   certifications: "Evidence you can look closer at.",
-  partners: "Let’s build the next connection.",
+  partners: "Bring Kobags to your market.",
   "partners/apply": "A partnership starts with a conversation.",
-  resources: "A little knowledge goes a long way.",
+  resources: "Prepare a better bag brief.",
   industries: "The right bag for your kind of business.",
-  "industries/retail": "Turn every purchase into a brand moment.",
+  "industries/retail": "Packaging that fits your merchandise.",
   samples: "See it. Feel it. Then decide.",
-  contact: "Let’s talk about your next bag.",
+  contact: "Talk to the Kobags team.",
   privacy: "Privacy in this demonstration.",
   terms: "Clear expectations, from the start.",
   cookies: "Your privacy preferences.",
 };
 const albanianTitles: Record<string, string> = {
-  manufacturing: "Prodhuar në Kosovë. Bartur kudo.",
+  manufacturing: "Nga materiali te çanta e përfunduar.",
   sustainability: "Pyetje më të mira. Zgjedhje më të qarta.",
   certifications: "Dëshmi që mund t'i shihni nga afër.",
-  partners: "Ta ndërtojmë bashkë lidhjen e radhës.",
+  partners: "Sillni Kobags në tregun tuaj.",
   "partners/apply": "Partneriteti fillon me një bisedë.",
-  resources: "Njohuritë e duhura ju çojnë më larg.",
+  resources: "Përgatitni një kërkesë të plotë.",
   industries: "Çanta e duhur për biznesin tuaj.",
-  "industries/retail": "Çdo blerje, një moment për markën tuaj.",
+  "industries/retail": "Paketim që i përshtatet produktit tuaj.",
   samples: "Shikojeni. Prekeni. Pastaj vendosni.",
-  contact: "Le të flasim për çantën tuaj të radhës.",
+  contact: "Kontaktoni ekipin Kobags.",
 };
 const introductions: Record<string, [string, string]> = {
   manufacturing: [
-    "A closer look at the people, material and process behind your bags.",
-    "Njihuni më afër me njerëzit, materialet dhe procesin pas çantave tuaja.",
+    "See bag forming, finishing and the specifications agreed before manufacturing in Kosova.",
+    "Shikoni formimin, përfundimin dhe specifikimet që dakordohen para prodhimit në Kosovë.",
   ],
   sustainability: [
     "Useful material information starts with precise claims and the evidence behind them.",
     "Informacioni i dobishëm për materialet mbështetet në fakte të sakta dhe dëshmi.",
+  ],
+  certifications: [
+    "Inspect the published ISO 9001 and ISO 14001 scans, certificate details and issuer references.",
+    "Shqyrtoni skanimet e publikuara ISO 9001 dhe ISO 14001, detajet e certifikatave dhe referencat e lëshuesit.",
+  ],
+  "partners/apply": [
+    "Introduce your market, experience and preferred partnership model.",
+    "Prezantoni tregun, përvojën dhe modelin e partneritetit që preferoni.",
+  ],
+  "industries/retail": [
+    "Choose dimensions and handles around your customers’ purchases, then plan the print and quantity.",
+    "Zgjidhni përmasat dhe dorezat sipas blerjeve të klientëve, pastaj planifikoni shtypin dhe sasinë.",
   ],
   partners: [
     "Three ways to introduce Kobags to the right buyers.",
@@ -65,8 +76,8 @@ const introductions: Record<string, [string, string]> = {
     "Kërkoni një mostër para se të vendosni për porosinë me shumicë.",
   ],
   contact: [
-    "General questions have their own place. For a bag quotation, start with your design.",
-    "Për pyetje të përgjithshme na kontaktoni këtu. Për ofertë, filloni me dizajnin tuaj.",
+    "Ask about products, production or partnerships. Use the quote form for quantities, artwork and delivery requirements.",
+    "Pyesni për produktet, prodhimin ose partneritetet. Përdorni formularin e ofertës për sasinë, dizajnin dhe kërkesat e dërgesës.",
   ],
 };
 const albanianEyebrows: Record<string, string> = {
@@ -88,7 +99,7 @@ export async function generateMetadata({
   return {
     title: titles[path] || "Page not found",
     description: titles[path]
-      ? titles[path] + " Explore Kobags Group products, production and ordering information."
+      ? introductions[path]?.[0] || titles[path]
       : undefined,
   };
 }
@@ -165,7 +176,7 @@ export default async function Page({
             <section className="factory-reels" aria-labelledby="factory-reels-title">
               <div className="factory-reels-intro">
                 <p className="eyebrow"><L en="FACTORY MOTION / KOSOVA" sq="LINJA E PRODHIMIT / KOSOVË" /></p>
-                <h2 id="factory-reels-title"><L en="A closer look at the line." sq="Shihni linjën nga afër." /></h2>
+                <h2 id="factory-reels-title"><L en="Forming and finishing, in motion." sq="Formimi dhe përfundimi në lëvizje." /></h2>
                 <p><L en="Watch bag forming and stacking on our production floor. Each clip shows a different step in making your order." sq="Shihni formimin dhe vendosjen e çantave në linjën tonë. Secila video paraqet një hap të ndryshëm të prodhimit." /></p>
               </div>
               <figure className="factory-reel">
@@ -327,8 +338,8 @@ export default async function Page({
                 <L en="Tell us the bag styles and material details you would like to review." sq="Na tregoni cilat forma çantash dhe cilat detaje të materialit doni të shqyrtoni." />
               </p>
               <ul>
-                <li><L en="Sample availability requires confirmation." sq="Disponueshmëria e mostrave duhet të konfirmohet." /></li>
-                <li><L en="Sample and shipping costs are not yet specified." sq="Kostoja e mostrës dhe e dërgesës nuk janë përcaktuar ende." /></li>
+                <li><L en="Ask which styles and materials are available." sq="Pyesni cilat forma dhe materiale janë të disponueshme." /></li>
+                <li><L en="Request sample and shipping costs with your inquiry." sq="Kërkoni kostot e mostrës dhe transportit në kërkesën tuaj." /></li>
                 <li>
                   <L en="Samples are separate from the 5,000-bag wholesale minimum." sq="Mostrat nuk përfshihen në minimumin prej 5,000 çantash për porosi me shumicë." />
                 </li>
@@ -348,7 +359,6 @@ export default async function Page({
                 <br />
                 <L en="in Kosova." sq="në Kosovë." />
               </h2>
-              <p><L en="Made in Kosova" sq="Prodhuar në Kosovë" /></p>
               <p>
                 <L en="Email or call us:" sq="Na shkruani ose na telefononi:" />
                 <br />
@@ -467,14 +477,7 @@ export default async function Page({
                   <L en="A practical list of the details to prepare before requesting a quotation." sq="Një listë praktike e detajeve që duhen përgatitur para kërkesës për ofertë." />
                 </p>
               </div>
-              <a
-                href="/documents/buyer-checklist.txt"
-                className="button secondary"
-                download
-              >
-                <Download size={16} />
-                <L en="Download checklist" sq="Shkarkoni listën" />
-              </a>
+              <BuyerChecklistDownload />
             </div>
             <ResourceContent />
             <Link className="text-button" href="/blog">

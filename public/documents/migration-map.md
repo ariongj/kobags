@@ -28,7 +28,7 @@ Five supported product slugs: `d-cut-bag`, `handle-bag`, `box-bag`, `t-shirt-bag
 
 | Original slug | Proposed new title |
 | --- | --- |
-| `kobagsjourney` | From Lipjan to your next brand moment. |
+| `kobagsjourney` | Inside Kobags: from brief to production. |
 | `whyswitchtokobags` | Is a reusable bag the right fit for your business? |
 | `kobagsmission` | Make your packaging feel like your brand. |
 | `sciencebehindkobags` | Non-woven PP, explained clearly. |
@@ -47,6 +47,6 @@ Original identity and business scope remain visible: collection, manufacturing, 
 
 ## Indexing
 
-This is a private demo. Metadata, response headers and `robots.txt` deliberately block indexing. No public XML sitemap or production canonical domain has been asserted. Before a real launch, implement canonical metadata, XML sitemap, approved redirects and monitoring on the actual domain, then remove demo restrictions deliberately.
+This public presentation demo is intentionally excluded from search indexing. Metadata, response headers and `robots.txt` deliberately block indexing. No public XML sitemap or production canonical domain has been asserted. Before a real launch, implement canonical metadata, XML sitemap, approved redirects and monitoring on the actual domain, then remove demo restrictions deliberately.
 
 Sources: [Original website](https://kobags-group.com/), [catalog](https://kobags-group.com/products), [public article index](https://api.kobags-group.com/blogs), supplied audit, `docs/source-catalog.json` and `docs/asset-sources.json`.

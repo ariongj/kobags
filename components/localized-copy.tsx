@@ -2,6 +2,21 @@
 
 import { useKobags } from "./kobags-context";
 import { PageHeading } from "./site-shell";
+import { Download } from "lucide-react";
+
+export function BuyerChecklistDownload() {
+  const { lang, t } = useKobags();
+  return (
+    <a
+      href={`/documents/buyer-checklist${lang === "sq" ? "-sq" : ""}.txt`}
+      className="button secondary"
+      download
+    >
+      <Download size={16} />
+      {t("Download checklist", "Shkarkoni listën")}
+    </a>
+  );
+}
 
 export function LocalizedCopy({ en, sq }: { en: string; sq: string }) {
   const { t } = useKobags();

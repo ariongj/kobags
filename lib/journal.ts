@@ -10,9 +10,9 @@ export const articles: Article[] = [
   {
     slug: "kobagsjourney",
     category: "Inside Kobags",
-    title: "Made in Kosova. Carried into your next brand moment.",
+    title: "Inside Kobags: from brief to production.",
     intro:
-      "A closer look at the bag, the brief and the production conversation that brings them together.",
+      "How your product choices become a specification the factory can work with.",
     sections: [
       {
         title: "Start with the product",

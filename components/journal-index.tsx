@@ -49,8 +49,8 @@ export default function JournalIndex() {
         title={t("Good ideas, ready to carry.", "Ide të mira, gati për t'u bartur.")}
       >
         {t(
-          "Useful questions, thoughtful details and a clearer path to your next bag.",
-          "Pyetje të dobishme, hollësi të menduara dhe një rrugë më e qartë drejt çantës suaj të radhës.",
+          "Six guides covering material, branding, specifications and wholesale planning.",
+          "Gjashtë udhëzues për materialin, markën, specifikimet dhe planifikimin e porosive me shumicë.",
         )}
       </PageHeading>
       <div className="content-width">

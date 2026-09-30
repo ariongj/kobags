@@ -1,6 +1,14 @@
 # Kobags website — verification record
 
-Updated 29 September 2026. Tests ran against the compiled local Worker at `http://localhost:8787` with synthetic data. No live Kobags forms, customer records or production systems were used.
+Updated 30 September 2026. Tests ran against the compiled local Worker at `http://localhost:8787` with synthetic data. No live Kobags forms, customer records or production systems were used.
+
+## Latest revision — 30 September client presentation
+
+- Repeated factory/origin wording and generic brand-moment headlines were tightened across the homepage, collection, journal and supporting pages. Each marketing page has a distinct H1 and metadata description. Standard specifications, navigation labels and shared actions remain consistent.
+- `qa/presentation_copy_checks.py` passed 48 EN/SQ marketing route checks with no duplicate visible editorial blocks within a page. Photos and video sources resolved; both resource checklist downloads and default Albanian resource cards passed. Published editorial overrides stayed intact. Product dispatch guidance and showroom control labels passed Albanian checks.
+- `qa/site_checks.py` passed all 32 routes, 44 internal links and 11 legacy redirects, catalog controls, inquiries, isolation, and the full fictional quotation/artwork/order release gates. `qa/mobile_site_checks.py` passed 54 route/width checks, touch rotation, menu and forms. No browser JavaScript errors were captured.
+- Desktop (1440px) and mobile (390px/320px) home captures received visual review. Build, TypeScript and whitespace checks passed. Current handoff documents and the reusable source bundle were refreshed. Code/images and unchanged factory videos are delivered as two companion ZIPs, both below the 25 MiB hosting limit; mobile links and both downloads passed.
+- This establishes readiness for a client demonstration, not production integration or physical-device certification. Existing external messaging, real payment/order and approved manufacturing-template requirements remain as documented.
 
 ## Latest revision — 29 September technical audit closure
 

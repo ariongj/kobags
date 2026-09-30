@@ -5,8 +5,8 @@ type JournalTranslation = Omit<Article, "slug">;
 const translations: Record<string, JournalTranslation> = {
   kobagsjourney: {
     category: "Brenda Kobags",
-    title: "Prodhuar në Kosovë. Me markën tuaj, kudo.",
-    intro: "Njihuni me çantën, kërkesën tuaj dhe bisedën për prodhimin që i lidh ato.",
+    title: "Brenda Kobags: nga kërkesa te prodhimi.",
+    intro: "Si kthehen zgjedhjet tuaja në specifikime për fabrikën.",
     sections: [
       {
         title: "Filloni me produktin",
