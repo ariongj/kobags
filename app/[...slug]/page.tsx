@@ -3,9 +3,13 @@ import Link from "@/components/site-link";
 import { notFound } from "next/navigation";
 import {
   ArrowUpRight,
+  Droplets,
   Layers,
+  Leaf,
   Paintbrush,
   PackageCheck,
+  Recycle,
+  Sprout,
 } from "lucide-react";
 import { LocalizedCopy as L, LocalizedPageHeading, BuyerChecklistDownload } from "@/components/localized-copy";
 import InquiryForm from "@/components/inquiry-form";
@@ -113,15 +117,36 @@ export default async function Page({
   const path = (await params).slug.join("/");
   if (!titles[path]) notFound();
   return (
-    <main>
-      <LocalizedPageHeading
+    <main className={path === "sustainability" ? "responsibility-page" : undefined}>
+      {path === "sustainability" ? (
+        <header className="responsibility-hero">
+          <div className="responsibility-hero-inner content-width">
+            <div className="responsibility-hero-copy">
+              <p className="responsibility-label"><Leaf size={16} aria-hidden="true" /><L en="OUR RESPONSIBILITY" sq="PËRGJEGJËSIA JONË" /></p>
+              <h1><L en="Better questions." sq="Pyetje më të mira." />{" "}<span><L en="Clearer choices." sq="Zgjedhje më të qarta." /></span></h1>
+              <p className="intro"><L en="A bag’s story continues after the first trip. Understand the material, care for it and make reuse part of the everyday." sq="Historia e çantës vazhdon pas përdorimit të parë. Njihni materialin, kujdesuni për të dhe bëjeni ripërdorimin pjesë të përditshmërisë." /></p>
+              <p className="responsibility-origin"><span aria-hidden="true" /><L en="MADE IN KOSOVA · CARRIED EVERY DAY" sq="PRODHUAR NË KOSOVË · PËR ÇDO DITË" /></p>
+            </div>
+            <div className="responsibility-tag-scene">
+              <Leaf className="responsibility-leaf responsibility-leaf-one" size={88} strokeWidth={1} aria-hidden="true" />
+              <Sprout className="responsibility-leaf responsibility-leaf-two" size={100} strokeWidth={1} aria-hidden="true" />
+              <div className="responsibility-tag">
+                <span className="responsibility-tag-hole" aria-hidden="true" />
+                <Leaf size={44} strokeWidth={1.4} aria-hidden="true" />
+                <p><span><L en="USE." sq="PËRDOR." /></span><span><L en="REUSE." sq="RIPËRDOR." /></span><span><L en="REPEAT." sq="PËRSËRIT." /></span></p>
+                <span className="responsibility-tag-caption"><L en="A SIMPLE EVERYDAY HABIT" sq="NJË ZAKON I PËRDITSHËM" /></span>
+              </div>
+            </div>
+          </div>
+        </header>
+      ) : <LocalizedPageHeading
         eyebrow={"KOBAGS / " + path.split("/")[0].toUpperCase()}
         eyebrowSq={albanianEyebrows[path.split("/")[0]]}
         title={titles[path]}
         titleSq={albanianTitles[path]}
         intro={introductions[path]?.[0]}
         introSq={introductions[path]?.[1]}
-      />
+      />}
       <div className="content-width">
         {path === "manufacturing" && (
           <>
@@ -228,34 +253,39 @@ export default async function Page({
                 </p>
               </div>
             </div>
-            <div className="manufacturing-grid">
+            <div className="manufacturing-grid responsibility-principles">
               {[
                 {
                   title: "What is it made of?",
+                  icon: Layers,
                   titleSq: "Nga çfarë përbëhet?",
                   body: "Our non-woven bag range uses polypropylene (PP). For a specific bag, ask us to confirm its full composition and any recycled content.",
                   bodySq: "Çantat tona jo të endura përdorin polipropilen (PP). Për një çantë të caktuar, kërkoni konfirmim për përbërjen e plotë dhe përmbajtjen eventuale të ricikluar.",
                 },
                 {
                   title: "Can it be recycled?",
+                  icon: Recycle,
                   titleSq: "A mund të riciklohet?",
                   body: "Collection and processing options depend on your destination. Check local acceptance for the actual finished bag, including print and other components.",
                   bodySq: "Mundësitë e grumbullimit dhe përpunimit varen nga vendi ku përdoret. Kontrolloni nëse pranohet lokalisht çanta e përfunduar, përfshirë shtypin dhe pjesët e tjera.",
                 },
                 {
                   title: "How should I care for it?",
+                  icon: Droplets,
                   titleSq: "Si duhet të kujdesem për të?",
                   body: "Wipe it with a damp cloth or wash it gently by hand. Avoid machine washing and high heat. We can confirm care for your selected print and finish.",
                   bodySq: "Pastrojeni me leckë të lagur ose lajeni lehtë me dorë. Shmangni lavatriçen dhe temperaturat e larta. Udhëzimet për shtypin dhe përfundimin e zgjedhur i konfirmojmë veçmas.",
                 },
-              ].map(({ title, titleSq, body, bodySq }) => (
+              ].map(({ icon: Icon, title, titleSq, body, bodySq }, index) => (
                 <article className="section-card" key={title}>
+                  <div className="responsibility-card-top"><Icon size={24} strokeWidth={1.6} aria-hidden="true" /><span>0{index + 1}</span></div>
                   <h3><L en={title} sq={titleSq} /></h3>
                   <p><L en={body} sq={bodySq} /></p>
                 </article>
               ))}
             </div>
-            <section className="prose">
+            <section className="prose responsibility-evidence">
+              <p className="eyebrow"><Sprout size={16} aria-hidden="true" /><L en="THOUGHTFUL CHOICES. CLEAR FACTS." sq="ZGJEDHJE TË MENDUARA. FAKTE TË QARTA." /></p>
               <h2><L en="Evidence before broad claims." sq="Dëshmitë para pretendimeve të gjera." /></h2>
               <p>
                 <L en="Figures for environmental impact, product lifetime, recycled percentage and food contact require product-specific evidence and clear scope. Ask for the relevant evidence for your bag." sq="Të dhënat për ndikimin mjedisor, jetëgjatësinë, përqindjen e materialit të ricikluar dhe kontaktin me ushqimin kërkojnë dëshmi për produktin konkret dhe fushë të qartë zbatimi. Kërkoni dëshmitë për çantën tuaj." />

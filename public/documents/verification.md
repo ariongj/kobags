@@ -2,6 +2,12 @@
 
 Updated 30 September 2026. Tests ran against the compiled local Worker at `http://localhost:8787` with synthetic data. No live Kobags forms, customer records or production systems were used.
 
+## Responsibility visual revision — 30 September
+
+- The page now has a forest-green hero, localized lime reuse tag, decorative leaf motion, mint material panels and numbered material/recycling/care cards. Existing source material information and certificate guidance stay intact; the tag is editorial, not a certification.
+- Local Chromium checks passed EN/SQ at 320, 390, 600, 768 and 1440px: no horizontal overflow or clipped content, visible compact tag, loaded original photograph, one H1, existing canonicals and localized certificate navigation. Reduced motion disables leaf animation. The manufacturing page retains its original three cards. No JavaScript errors or failed media/script/style/font requests were captured. This is responsive browser evidence, not a physical-device test.
+- `responsibility-checks.json` records the focused checks; `presentation-responsibility-*.jpg` shows desktop/mobile layouts. TypeScript, compiled build and whitespace checks passed.
+
 ## Delivery and mobile performance completion — 30 September
 
 - A read-only live header check found that Sites did not apply `public/_headers` or Wrangler's worker-first setting: image cache rules and download noindex were missing, and WebP files arrived as generic binary content. `scripts/route-static-assets.mjs` moves generated static trees beneath unlinked storage keys after the framework build; `build/worker.ts` resolves the unchanged public URLs and applies the policy to the final asset response. It preserves conditional requests, HEAD and hosting responses; missing files remain uncached 404s. Hashed JS/CSS cache for one year, mutable images for one day, and documents revalidate with noindex. The source media tree and page/session/API behavior remain separate.

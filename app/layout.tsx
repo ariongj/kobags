@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import "./brand-refresh.css";
 import "./compact.css";
+import "./responsibility.css";
 import { KobagsProvider } from "@/components/kobags-context";
 import { LocalizedCopy } from "@/components/localized-copy";
 import { Header, Footer } from "@/components/site-shell";

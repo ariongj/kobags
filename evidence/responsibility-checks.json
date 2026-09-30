@@ -1,0 +1,70 @@
+{
+  "scope": "Local Chromium visual/responsive check of responsibility page; not physical device verification",
+  "checks": [
+    {
+      "language": "en",
+      "width": 1440,
+      "overflow": false,
+      "tagVisible": true
+    },
+    {
+      "language": "en",
+      "width": 768,
+      "overflow": false,
+      "tagVisible": true
+    },
+    {
+      "language": "en",
+      "width": 600,
+      "overflow": false,
+      "tagVisible": true
+    },
+    {
+      "language": "en",
+      "width": 390,
+      "overflow": false,
+      "tagVisible": true
+    },
+    {
+      "language": "en",
+      "width": 320,
+      "overflow": false,
+      "tagVisible": true
+    },
+    {
+      "language": "sq",
+      "width": 1440,
+      "overflow": false,
+      "tagVisible": true
+    },
+    {
+      "language": "sq",
+      "width": 768,
+      "overflow": false,
+      "tagVisible": true
+    },
+    {
+      "language": "sq",
+      "width": 600,
+      "overflow": false,
+      "tagVisible": true
+    },
+    {
+      "language": "sq",
+      "width": 390,
+      "overflow": false,
+      "tagVisible": true
+    },
+    {
+      "language": "sq",
+      "width": 320,
+      "overflow": false,
+      "tagVisible": true
+    }
+  ],
+  "localizedCertificateNavigation": true,
+  "reducedMotion": true,
+  "manufacturingUnchanged": true,
+  "pageErrors": [],
+  "failedAssets": []
+}

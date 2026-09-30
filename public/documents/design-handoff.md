@@ -14,13 +14,15 @@ The final delivery pass keeps the same layouts and source photography, with resp
 
 ## 1. Creative direction
 
+The responsibility page has a dedicated forest-green opening, lime textile-style tag reading “Use. Reuse. Repeat.” (localized in Albanian), lightly drifting leaf outlines and mint material/care panels. The tag expresses an everyday reuse habit, not a certification or a quantified environmental claim. The original material-roll photograph and evidence guidance remain. Small-screen tags become a compact horizontal format; leaf motion stops when reduced motion is preferred.
+
 **Manufacturing bags. Building brands.** The homepage leads with Kobags as a manufacturer: real equipment, material and production footage. The collection shows what the factory produces, and **Your brand. Your bag.** introduces the new customization experience. Preserve the original identity, navy/green palette and factory evidence. The dedicated `/design` page still opens directly into the working designer.
 
 The original logo is retained. This is an extension of Kobags' navy/green identity, not a replacement brand. No new logo, fictional client endorsement or production certification is implied.
 
 ## 2. Design tokens
 
-The base is `app/globals.css`; `app/brand-refresh.css` defines the brand direction and `app/compact.css` is the final responsive layer, imported last. Keep new visual refinements scoped to their component and place final responsive overrides in `app/compact.css`.
+The base is `app/globals.css`; `app/brand-refresh.css` defines the brand direction and `app/compact.css` defines the shared compact/responsive layer. `app/responsibility.css` follows it and stays scoped to the responsibility page. Keep visual refinements scoped to their component; shared responsive refinements belong in `app/compact.css`.
 
 | Token / role | Value | Use |
 | --- | --- | --- |
