@@ -3,6 +3,7 @@ import "./globals.css";
 import "./brand-refresh.css";
 import "./compact.css";
 import { KobagsProvider } from "@/components/kobags-context";
+import { LocalizedCopy } from "@/components/localized-copy";
 import { Header, Footer } from "@/components/site-shell";
 export const metadata: Metadata = {
   title: {
@@ -24,7 +25,7 @@ export default function RootLayout({
       <body className="kobags-v5">
         <KobagsProvider>
           <a href="#main-content" className="skip-link">
-            Skip to content
+            <LocalizedCopy en="Skip to content" sq="Kalo te përmbajtja" />
           </a>
           <Header />
           <div id="main-content">{children}</div>

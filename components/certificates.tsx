@@ -197,11 +197,11 @@ export default function Certificates() {
                     "Regjistrimi / lëshimi i fundit",
                   )}
                 </dt>
-                <dd>27 January 2026</dd>
+                <dd>{t("27 January 2026", "27 janar 2026")}</dd>
               </div>
               <div>
                 <dt>{t("Expiry field", "Afati i skadimit")}</dt>
-                <dd>26 January 2029</dd>
+                <dd>{t("26 January 2029", "26 janar 2029")}</dd>
               </div>
               <div className="wide certificate-validity">
                 <dt>

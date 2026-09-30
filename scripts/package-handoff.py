@@ -15,7 +15,7 @@ with zipfile.ZipFile(PUBLIC/'kobags-media.zip','w',zipfile.ZIP_DEFLATED) as z:
 with zipfile.ZipFile(PUBLIC/'kobags-source.zip','w',zipfile.ZIP_DEFLATED) as z:
  for p in sorted(set(paths)):
   relative=p.relative_to(ROOT)
-  if relative.parts[0]=='evidence' and p.suffix.lower() in ['.png','.jpg','.jpeg'] and not p.name.startswith('presentation-'):continue
+  if relative.parts[0]=='evidence' and p.suffix.lower() in ['.png','.jpg','.jpeg'] and not p.name.startswith(('presentation-','completion-')):continue
   if p in videos:continue
   if p.suffix in ['.zip','.pyc'] or '__pycache__' in p.parts or any(part.startswith('.env') for part in relative.parts):continue
   z.write(p,'kobags-website/'+str(relative))

@@ -2,6 +2,14 @@
 
 Updated 30 September 2026. Tests ran against the compiled local Worker at `http://localhost:8787` with synthetic data. No live Kobags forms, customer records or production systems were used.
 
+## Final completion — 30 September buyer presentation
+
+- Buyer specifications, quotations, artwork revisions, approval states and order timelines now follow EN/SQ. Known system text is translated; stored designs, custom terms and buyer notes are preserved. Privacy, terms, browser-storage controls, certificate dates, the skip link and missing-page recovery also follow the selected language.
+- `qa/completion_checks.py` passed the Albanian quotation → artwork approval → simulated order journey at 390px. It checked default terms, quote download, retained stored designs/custom terms, Albanian timeline dates even without browser locale support, draft reset without deleting submitted requests, certificate dates, and HTTP 404 links. Customer/policy/recovery pages passed 320/390/768px checks without horizontal overflow or captured JavaScript errors.
+- `qa/guest_journey.py` passed again with `KOBAGS_MOBILE_FIRST=1`: English design → saved request → quotation → artwork approval → simulated order → reorder, failed-save recovery, inquiry saves, visitor/account isolation and approval gates. The subsequent date-format fix changes only Albanian display; the Albanian journey was rerun after that change.
+- `qa/premium_polish.py` passed product-photo inspection and dialog focus return, Albanian journal navigation, and 320px designer/photo controls. TypeScript, compiled build and whitespace checks passed. Handoff documents and companion source/media downloads include the final revision.
+- This is a complete client demo with simulated ordering. Real email, payment, manufacturing integration and client approval of commercial/legal content remain production work; no real order was placed during testing.
+
 ## Latest revision — 30 September client presentation
 
 - Repeated factory/origin wording and generic brand-moment headlines were tightened across the homepage, collection, journal and supporting pages. Each marketing page has a distinct H1 and metadata description. Standard specifications, navigation labels and shared actions remain consistent.

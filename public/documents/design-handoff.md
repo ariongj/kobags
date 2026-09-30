@@ -6,6 +6,8 @@ The 29 September technical audit follow-up keeps the 60-character brand-text lim
 
 The 30 September presentation pass gives production, collection, 3D exploration and ordering distinct copy. Origin is stated once in the first-screen proof strip on desktop and mobile. Repeated brand-moment slogans and generic page descriptions were replaced with page-specific guidance. Resource downloads follow the chosen language, and the reusable source bundle includes this revision.
 
+The completion pass carries EN/SQ through the buyer's specifications, quotation, artwork approval and order timeline, including known system statuses and certificate dates. Privacy, terms, browser-storage controls and missing-page recovery now follow the selected language. Custom commercial terms and buyer notes retain their original wording.
+
 ## 1. Creative direction
 
 **Manufacturing bags. Building brands.** The homepage leads with Kobags as a manufacturer: real equipment, material and production footage. The collection shows what the factory produces, and **Your brand. Your bag.** introduces the new customization experience. Preserve the original identity, navy/green palette and factory evidence. The dedicated `/design` page still opens directly into the working designer.
@@ -140,7 +142,7 @@ Visitors need no sign-in to try the complete demo. The quote form can fill ficti
 - Use 5,000 as the published starting MOQ, subject to confirmed scope. Sample inquiries are separate.
 - Express dispatch timing as conditional and separate it from delivery arrival.
 - Use clear language around fictional prices, no outgoing messages and isolated demo records.
-- EN/SQ covers the homepage, catalog/product details, studio, quote journey, shared shell, journal index and six journal articles, and main supporting-page headings/copy. Default resource guides and the downloadable buyer checklist now follow EN/SQ. Separately edited resource entries, legal pages and much of the sales workspace remain English; human Albanian review and full locale coverage remain outstanding.
+- EN/SQ covers the homepage, catalog/product details, studio, quote journey, shared shell, journal index and six journal articles, main supporting-page copy, footer policies and buyer quotation/artwork/order views. Default resource guides and the downloadable buyer checklist follow EN/SQ. Buyer notes and separately edited resource entries or commercial terms retain their author's language. Technical downloads and internal sales editors remain primarily English; human Albanian review remains outstanding.
 - Avoid unsupported recycled-content, plastic-free, carbon-impact, food-contact or durability claims.
 
 ## 8. Next design deliverables

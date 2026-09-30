@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useKobags } from "./kobags-context";
 import { initialDesign } from "@/lib/catalog";
 export default function CookieControls() {
-  const { update } = useKobags();
+  const { update, t } = useKobags();
   const [done, setDone] = useState(false);
   return (
     <div>
@@ -15,12 +15,11 @@ export default function CookieControls() {
           setDone(true);
         }}
       >
-        Clear this browser’s design draft
+        {t("Clear this browser’s design draft", "Pastroni dizajnin në këtë shfletues")}
       </button>
       {done && (
         <p role="status">
-          The local design draft has been cleared. Submitted demo records remain
-          in your demo workspace.
+          {t("The local design draft has been cleared. Submitted demo records remain in your demo workspace.", "Dizajni i shfletuesit u pastrua. Kërkesat e dërguara mbeten në hapësirën tuaj të demonstrimit.")}
         </p>
       )}
     </div>

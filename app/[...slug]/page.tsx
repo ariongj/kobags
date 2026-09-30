@@ -10,7 +10,7 @@ import {
 import { LocalizedCopy as L, LocalizedPageHeading, BuyerChecklistDownload } from "@/components/localized-copy";
 import InquiryForm from "@/components/inquiry-form";
 import ResourceContent from "@/components/resource-content";
-import CookieControls from "@/components/cookie-controls";
+import PolicyContent from "@/components/policy-content";
 const titles: Record<string, string> = {
   manufacturing: "From raw material to finished bags.",
   sustainability: "Better questions. Clearer choices.",
@@ -22,9 +22,9 @@ const titles: Record<string, string> = {
   "industries/retail": "Packaging that fits your merchandise.",
   samples: "See it. Feel it. Then decide.",
   contact: "Talk to the Kobags team.",
-  privacy: "Privacy in this demonstration.",
+  privacy: "Privacy & your data.",
   terms: "Clear expectations, from the start.",
-  cookies: "Your privacy preferences.",
+  cookies: "Cookies & browser storage.",
 };
 const albanianTitles: Record<string, string> = {
   manufacturing: "Nga materiali te çanta e përfunduar.",
@@ -37,6 +37,9 @@ const albanianTitles: Record<string, string> = {
   "industries/retail": "Paketim që i përshtatet produktit tuaj.",
   samples: "Shikojeni. Prekeni. Pastaj vendosni.",
   contact: "Kontaktoni ekipin Kobags.",
+  privacy: "Privatësia dhe të dhënat tuaja.",
+  terms: "Kushte të qarta, që nga fillimi.",
+  cookies: "Cookies dhe ruajtja në shfletues.",
 };
 const introductions: Record<string, [string, string]> = {
   manufacturing: [
@@ -89,6 +92,9 @@ const albanianEyebrows: Record<string, string> = {
   industries: "KOBAGS / SEKTORËT",
   samples: "KOBAGS / MOSTRAT",
   contact: "KOBAGS / KONTAKTI",
+  privacy: "KOBAGS / PRIVATËSIA",
+  terms: "KOBAGS / KUSHTET",
+  cookies: "KOBAGS / COOKIES",
 };
 export async function generateMetadata({
   params,
@@ -505,102 +511,8 @@ export default async function Page({
             </div>
           </>
         )}
-        {path === "privacy" && (
-          <article className="prose">
-            <p>
-              This is a public website demonstration, independent of Kobags’
-              production systems. Use fictional company and contact details.
-            </p>
-            <h2>What this demonstration stores</h2>
-            <p>
-              Your draft design and language preference are stored in your
-              browser. When you submit, your demo workspace stores your
-              configuration, normalized logo preview, contact fields and consent
-              acknowledgment. Original full-resolution logo files are not
-              retained by this demo.
-            </p>
-            <p>
-              Demo requests, quotations, artwork revisions and recorded
-              approvals and simulated orders persist in a separate workspace for
-              your demo session. An essential cookie keeps anonymous visitors in
-              their own workspace for up to seven days. Signed-in visitors use
-              their own account workspace. This is not a production customer
-              account system.
-            </p>
-            <h2>How the information is used</h2>
-            <p>
-              Records support the demonstration of quotation and approval
-              workflows. No real email, marketing message, payment or
-              manufacturing order is sent. No advertising analytics or
-              third-party tracking tags are installed in this implementation.
-            </p>
-            <h2>Controls and limits</h2>
-            <p>
-              You can clear the browser draft on the cookies page. The sales
-              demo provides export and reset actions for its synthetic records.
-              Reset removes the active demo records; provider-level backup
-              retention must be confirmed before collecting real data.
-            </p>
-            <h2>Before commercial launch</h2>
-            <p>
-              The client must approve the legal entity, data controller,
-              retention periods, processors, international transfers and contact
-              process. This page describes the demonstration; it is not an
-              approved production privacy policy.
-            </p>
-          </article>
-        )}
-        {path === "terms" && (
-          <article className="prose">
-            <h2>A demonstration, not an offer</h2>
-            <p>
-              Studio previews are indicative. Neither a preview nor a demo
-              quotation is a binding Kobags offer. Prices in the customer and
-              sales workspaces are explicitly fictional, and no payment is
-              collected.
-            </p>
-            <h2>Production requires confirmation</h2>
-            <p>
-              Material availability, dimensional drawings, printable area, print
-              method, quantity rules, sample terms, prices, shipping, tax,
-              payment and delivery commitments require client approval and a
-              formal commercial agreement.
-            </p>
-            <h2>Artwork and branding</h2>
-            <p>
-              Use artwork you are entitled to use. A final artwork approval must
-              identify a specific revision and approved production template. The
-              demo illustrates this process without authorizing manufacturing.
-            </p>
-            <h2>Before launch</h2>
-            <p>
-              The legal owner must approve production terms, entity details,
-              jurisdiction, order acceptance, shipment and claims procedures. No
-              legal registration or contractual terms are invented for this
-              demonstration.
-            </p>
-          </article>
-        )}
-        {path === "cookies" && (
-          <article className="prose">
-            <h2>Only what the demo needs</h2>
-            <p>
-              This implementation keeps a design draft, quote step and language
-              preference in browser storage. An essential, seven-day session
-              cookie connects anonymous visitors to their own saved demo
-              records. Clearing it or changing browsers starts a new demo
-              workspace; cookie expiry does not erase server records. Hosting
-              may also use sign-in cookies for signed-in visitors. The site does
-              not install advertising or analytics tags.
-            </p>
-            <h2>Clear your design draft</h2>
-            <p>
-              This clears your local bag configuration. It does not delete
-              already submitted requests. Use the sales demo’s reset action for
-              synthetic server records.
-            </p>
-            <CookieControls />
-          </article>
+        {(path === "privacy" || path === "terms" || path === "cookies") && (
+          <PolicyContent kind={path} />
         )}
       </div>
     </main>

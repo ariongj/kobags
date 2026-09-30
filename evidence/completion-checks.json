@@ -1,0 +1,15 @@
+{
+  "status": "passed",
+  "checks": [
+    "full Albanian customer quotation/artwork/order journey at 390px",
+    "translated specifications, statuses, dates, quote download and timeline",
+    "stored design and custom terms unchanged",
+    "EN/SQ footer policies and cookie reset retain submitted records",
+    "Albanian certificate dates",
+    "localized 404 with correct destinations",
+    "320/390/768px presentation without horizontal overflow",
+    "all requested styles, scripts, images and fonts resolve"
+  ],
+  "browserErrors": [],
+  "failedAssets": []
+}

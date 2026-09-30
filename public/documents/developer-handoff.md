@@ -6,6 +6,8 @@ The 29 September technical audit follow-up centralizes the 60-character brand-te
 
 The 30 September presentation pass adds `qa/presentation_copy_checks.py`: 48 rendered EN/SQ marketing-route checks, unique page headings and metadata descriptions, repeated editorial-block detection, media resolution, localized resources and downloads, published-copy override preservation and mobile captures. Supporting page metadata now uses its own introduction. Default resource translations apply only while the text matches its source record, preserving separately published edits. Product dispatch guidance and homepage 3D control labels also follow the selected language.
 
+The final completion pass adds EN/SQ footer policies in `components/policy-content.tsx` and buyer display translations in `lib/workspace-copy.ts`. Translations map known catalog values, system events and default quotation terms; custom terms, names and notes remain intact. Canonical stored values and API payloads are unchanged. Albanian timeline dates use explicit month names to remain readable in browsers without Albanian locale data. Browser-draft reset leaves submitted records untouched. The 404 links now lead to their correctly labelled destinations.
+
 ## Quick start
 
 Requires Node 22.13+ and npm. The included lockfile preserves the installed package versions.
@@ -51,9 +53,11 @@ lib/demo-domain.ts       Validation, state transitions, seed content
 lib/site-outline.ts      Canonical clickable page outline
 lib/journal.ts           Six proposed articles retaining original slugs
 lib/journal-sq.ts        Albanian article translations, keyed by those slugs
+lib/workspace-copy.ts    Known system labels/events; preserves authored copy
 app/api/demo/route.ts     Owner lookup, persistence, concurrency, errors
 components/demo-store.tsx Client read/write hook and translated core errors
 components/kobags-context.tsx Browser draft, locale, optional WebMCP
+components/policy-content.tsx EN/SQ demo privacy, terms and browser storage
 app/globals.css          Base design tokens and component styling
 app/brand-refresh.css    Edition 05 site-wide visual system
 components/bag-showcase.tsx 3D showroom UI and designer handoff
@@ -196,7 +200,7 @@ python3 -m venv .venv
 
 For browser checks, run `npm run start -- --port 8787` after the build and local migration. This serves the compiled Worker at `http://localhost:8787`. The development server supplies mock sign-in identity; use the compiled Worker for real anonymous-session and synthetic-account isolation checks. The tests reject non-loopback URLs and require an empty synthetic owner before any writes. `KOBAGS_BASE_URL` changes the compiled local preview port. `CHROME_PATH` can point to an existing Chromium binary. `CHROME_LIBS` and `FONTCONFIG_FILE` are optional environment-specific overrides. Use `CHROME_NO_SANDBOX=1` only when your local container requires it. `CHROME_SOFTWARE_GL=1` enables the software WebGL renderer for headless 3D checks in a trusted local container. This is a testing option, not a hosted runtime setting or physical-device performance benchmark. Tests create random isolated demo owners; do not run against customer records.
 
-`qa/guest_journey.py` exercises an anonymous browser from design through quote, artwork approval, simulated order and reorder, plus guest isolation and inquiry saves. `qa/browser_journey.py` exercises the full buyer/sales/approval/reorder journey. `qa/site_checks.py` verifies forms, comparison, all pages/downloads, original redirects, owner isolation, concurrent edits, additional release gates and mobile layouts. `qa/studio_checks.py` verifies all five new models, separate artwork styles, numeric entry, pointer movement, upload sharpness, clean exports, mobile layouts and server persistence of the new fields. `qa/showcase_checks.py` covers lazy loading, real rotation, construction mode, branding handoff, offscreen pause, reduced motion, the no-WebGL fallback and representative desktop/mobile page layouts. `qa/premium_polish.py` checks detail photo inspection, Albanian journal navigation and 320px designer controls. Result manifests and screenshots are in `evidence/`. Read `evidence/VERIFICATION.md` for the actual completed checks and remaining limits.
+`qa/guest_journey.py` exercises an anonymous browser from design through quote, artwork approval, simulated order and reorder, plus guest isolation and inquiry saves. `qa/browser_journey.py` exercises the full buyer/sales/approval/reorder journey. `qa/site_checks.py` verifies forms, comparison, all pages/downloads, original redirects, owner isolation, concurrent edits, additional release gates and mobile layouts. `qa/studio_checks.py` verifies all five new models, separate artwork styles, numeric entry, pointer movement, upload sharpness, clean exports, mobile layouts and server persistence of the new fields. `qa/showcase_checks.py` covers lazy loading, real rotation, construction mode, branding handoff, offscreen pause, reduced motion, the no-WebGL fallback and representative desktop/mobile page layouts. `qa/premium_polish.py` checks detail photo inspection, Albanian journal navigation and 320px designer controls. `qa/completion_checks.py` covers the complete Albanian buyer journey, unmodified stored designs/custom terms, footer policies, draft reset, certificate dates and real HTTP 404 recovery at 320/390/768px. Result manifests and screenshots are in `evidence/`. Read `evidence/VERIFICATION.md` for the actual completed checks and remaining limits.
 
 ## How to extend
 

@@ -23,7 +23,7 @@ export function Header() {
   return (
     <>
       <header className="header">
-        <Link href="/" className="brand" aria-label="Kobags Group home">
+        <Link href="/" className="brand" aria-label={t("Kobags Group home", "Ballina e Kobags Group")}>
           <span className="brand-wordmark">
             <img
               src="/assets/logo.png"
@@ -36,7 +36,7 @@ export function Header() {
         <nav
           id="site-navigation"
           className={open ? "nav open" : "nav"}
-          aria-label="Main navigation"
+          aria-label={t("Main navigation", "Navigimi kryesor")}
         >
           {[
             ["/", "Home", "Ballina"],

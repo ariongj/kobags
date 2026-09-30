@@ -37,15 +37,21 @@ import { Choice, BagPreview } from "./bag-studio";
 import { Request, DemoState } from "@/lib/demo-domain";
 import { DemoJourney } from "./demo-journey";
 import { initialDesign } from "@/lib/catalog";
-const money = (n: number) =>
-  new Intl.NumberFormat("en", { style: "currency", currency: "EUR" }).format(
+import { workspaceLabel, workspaceEvent } from "@/lib/workspace-copy";
+const formatMoney = (n: number, lang: "en" | "sq") =>
+  new Intl.NumberFormat(lang === "sq" ? "sq-AL" : "en", { style: "currency", currency: "EUR" }).format(
     n / 100,
   );
-const date = (s: string) =>
-  new Date(s).toLocaleString("en-GB", {
-    dateStyle: "medium",
-    timeStyle: "short",
-  });
+const albanianMonths = ["janar", "shkurt", "mars", "prill", "maj", "qershor", "korrik", "gusht", "shtator", "tetor", "nëntor", "dhjetor"];
+const formatDate = (s: string, lang: "en" | "sq") => {
+  const value = new Date(s);
+  // Some browsers ship no Albanian locale data. Keep dates Albanian there too.
+  if (lang === "sq") {
+    const time = `${String(value.getHours()).padStart(2, "0")}:${String(value.getMinutes()).padStart(2, "0")}`;
+    return `${value.getDate()} ${albanianMonths[value.getMonth()]} ${value.getFullYear()}, ${time}`;
+  }
+  return value.toLocaleString("en-GB", { dateStyle: "medium", timeStyle: "short" });
+};
 function download(name: string, data: unknown) {
   const blob = new Blob(
     [typeof data === "string" ? data : JSON.stringify(data, null, 2)],
@@ -82,6 +88,9 @@ export default function DemoWorkspace({
   role: "admin" | "customer";
 }) {
   const { t, lang, update } = useKobags();
+  const money = (n: number) => formatMoney(n, lang);
+  const date = (value: string) => formatDate(value, lang);
+  const label = (value: string) => workspaceLabel(value, lang);
   const { state, error, busy, act, refresh } = useDemo();
   const [selected, setSelected] = useState("");
   const [filter, setFilter] = useState("all");
@@ -136,7 +145,7 @@ export default function DemoWorkspace({
   }, [state, product]);
   const run = async (
     a: Record<string, unknown>,
-    message = "Saved in the demo.",
+    message = t("Saved in the demo.", "U ruajt në demonstrim."),
   ) => {
     try {
       const id = await act(a);
@@ -199,7 +208,7 @@ export default function DemoWorkspace({
           text: "MIRA\nMARKET",
         },
       },
-      "Fictional example created.",
+      t("Fictional example created.", "Shembulli fiktiv u krijua."),
     );
     if (id) setSelected(id);
   };
@@ -235,8 +244,8 @@ export default function DemoWorkspace({
         <div>
           <p className="eyebrow">
             {role === "admin"
-              ? "KOBAGS SALES & CONTENT"
-              : "YOUR KOBAGS WORKSPACE"}
+              ? t("KOBAGS SALES & CONTENT", "KOBAGS / SHITJET DHE PËRMBAJTJA")
+              : t("YOUR KOBAGS WORKSPACE", "HAPËSIRA JUAJ KOBAGS")}
           </p>
           <h1>
             {role === "admin"
@@ -245,16 +254,16 @@ export default function DemoWorkspace({
           </h1>
           <p>
             {role === "admin"
-              ? "The same design. A clear next step."
-              : "Review quotations, approve artwork and start your next order."}
+              ? t("The same design. A clear next step.", "I njëjti dizajn. Hapi i radhës, i qartë.")
+              : t("Review quotations, approve artwork and start your next order.", "Shqyrtoni ofertat, miratoni dizajnin dhe vazhdoni me porosinë tuaj.")}
           </p>
         </div>
         <div className="actions">
           <button className="button secondary small" onClick={() => refresh()}>
-            Refresh
+            {t("Refresh", "Rifresko")}
           </button>
           <Link className="button small" href="/design">
-            Open bag studio <ArrowUpRight size={15} />
+            {t("Open bag studio", "Hap studion e çantave")} <ArrowUpRight size={15} />
           </Link>
         </div>
       </div>
@@ -262,7 +271,7 @@ export default function DemoWorkspace({
         <div className="error" role="alert">
           {(errors[error] || errors.SAVE_FAILED)[lang === "sq" ? 1 : 0]}{" "}
           <button className="text-button" onClick={() => refresh()}>
-            Retry
+            {t("Retry", "Provo përsëri")}
           </button>
         </div>
       )}
@@ -273,7 +282,7 @@ export default function DemoWorkspace({
         </div>
       )}
       {!state && !error && (
-        <div className="loading">Loading your demonstration…</div>
+        <div className="loading">{t("Loading your demonstration…", "Po hapet demonstrimi juaj…")}</div>
       )}
       {state && (
         <Tabs value={tab} onValueChange={setTab}>
@@ -296,15 +305,15 @@ export default function DemoWorkspace({
               <div className="search-field">
                 <Search size={17} />
                 <input
-                  aria-label="Search requests"
-                  placeholder="Search company or request…"
+                  aria-label={t("Search requests", "Kërko kërkesat")}
+                  placeholder={t("Search company or request…", "Kërko kompaninë ose kërkesën…")}
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                 />
               </div>
               <Choice
                 id="inbox-filter"
-                label="Status"
+                label={t("Status", "Statusi")}
                 value={filter}
                 onChange={setFilter}
                 options={[
@@ -320,31 +329,30 @@ export default function DemoWorkspace({
                   value: s,
                   label:
                     s === "all"
-                      ? "All requests"
+                      ? t("All requests", "Të gjitha kërkesat")
                       : s === "overdue"
-                        ? "Overdue (business hours)"
-                        : s,
+                        ? t("Overdue (business hours)", "Me vonesë (orë pune)")
+                        : label(s),
                 }))}
               />
             </div>
             {!state.requests.length ? (
               <div className="empty">
                 <Inbox size={32} />
-                <h3>Your first design starts here.</h3>
+                <h3>{t("Your first design starts here.", "Dizajni juaj i parë fillon këtu.")}</h3>
                 <p>
-                  Submit a bag from the studio, or create a fictional example to
-                  explore the approval journey.
+                  {t("Submit a bag from the studio, or create a fictional example to explore the approval journey.", "Ruani një çantë nga studioja ose krijoni një shembull fiktiv për të provuar procesin e miratimit.")}
                 </p>
                 <div className="actions">
                   <Link href="/design" className="button">
-                    Design a bag
+                    {t("Design a bag", "Dizajnoni një çantë")}
                   </Link>
                   <button
                     className="button secondary"
                     disabled={busy}
                     onClick={example}
                   >
-                    Create fictional example
+                    {t("Create fictional example", "Krijo shembull fiktiv")}
                   </button>
                 </div>
               </div>
@@ -367,19 +375,19 @@ export default function DemoWorkspace({
                       >
                         <div>
                           <span className="request-id">{item.id}</span>
-                          <span className="status">{item.stage}</span>
+                          <span className="status">{label(item.stage)}</span>
                         </div>
                         <strong>{item.snapshot.company}</strong>
                         <span>
                           {item.snapshot.productName} ·{" "}
-                          {item.snapshot.quantity.toLocaleString()} bags
+                          {item.snapshot.quantity.toLocaleString()} {t("bags", "çanta")}
                         </span>
                         <small>{date(item.createdAt)}</small>
                       </button>
                     ))
                   ) : (
                     <div className="empty">
-                      <p>No requests match this filter.</p>
+                      <p>{t("No requests match this filter.", "Asnjë kërkesë nuk përputhet me këtë filtër.")}</p>
                       <button
                         className="text-button"
                         onClick={() => {
@@ -387,7 +395,7 @@ export default function DemoWorkspace({
                           setFilter("all");
                         }}
                       >
-                        Clear filters
+                        {t("Clear filters", "Pastro filtrat")}
                       </button>
                     </div>
                   )}
@@ -404,7 +412,7 @@ export default function DemoWorkspace({
                       </div>
                       <button
                         className="icon-button"
-                        aria-label="Download request specification"
+                        aria-label={t("Download request specification", "Shkarko specifikimet e kërkesës")}
                         onClick={() => download(r.id + "-specification.txt", r)}
                       >
                         <Download size={18} />
@@ -467,40 +475,39 @@ export default function DemoWorkspace({
                           <BagPreview design={r.snapshot} compact />
                           <dl>
                             {[
-                              ["Bag", r.snapshot.productName],
+                              [t("Bag", "Çanta"), r.snapshot.productName],
                               [
-                                "Size",
-                                r.snapshot.size + " · " + r.snapshot.dimensions,
+                                t("Size", "Madhësia"),
+                                label(r.snapshot.size) + " · " + r.snapshot.dimensions,
                               ],
                               [
-                                "Material",
-                                "Non-woven PP · " + r.snapshot.gsm + " GSM",
+                                t("Material", "Materiali"),
+                                t("Non-woven PP", "PP jo i endur") + " · " + r.snapshot.gsm + " GSM",
                               ],
-                              ["Color", r.snapshot.color],
+                              [t("Color", "Ngjyra"), label(r.snapshot.color)],
                               [
-                                "Print",
-                                r.snapshot.printColors +
-                                  " color(s), flexographic",
+                                t("Print", "Shtypi"),
+                                r.snapshot.printColors + t(" color(s), flexographic", " ngjyrë(a), fleksografik"),
                               ],
                               [
-                                "Quantity",
+                                t("Quantity", "Sasia"),
                                 r.snapshot.quantity.toLocaleString(),
                               ],
                               [
-                                "Destination",
+                                t("Destination", "Destinacioni"),
                                 r.snapshot.city + ", " + r.snapshot.country,
                               ],
                               [
-                                "Requested date",
-                                r.snapshot.date || "To discuss",
+                                t("Requested date", "Data e kërkuar"),
+                                r.snapshot.date || t("To discuss", "Për diskutim"),
                               ],
                               [
-                                "Artwork",
+                                t("Artwork", "Dizajni"),
                                 r.snapshot.logoName ||
                                   r.snapshot.text ||
-                                  "Not provided",
+                                  t("Not provided", "Nuk është dhënë"),
                               ],
-                              ["Source", r.source],
+                              [t("Source", "Burimi"), workspaceEvent(label(r.source), lang)],
                             ].map(([k, v]) => (
                               <div key={k}>
                                 <dt>{k}</dt>
@@ -511,7 +518,7 @@ export default function DemoWorkspace({
                         </div>
                         {r.snapshot.note && (
                           <div className="notice">
-                            Buyer note: {r.snapshot.note}
+                            {t("Buyer note", "Shënimi i blerësit")}: {r.snapshot.note}
                           </div>
                         )}
                         {role === "admin" && (
@@ -592,23 +599,22 @@ export default function DemoWorkspace({
                             {t("Commercial quotation", "Oferta tregtare")}
                           </h3>
                           <p>
-                            Every amount below is fictional demo data, not a
-                            Kobags offer.
+                            {t("Every amount below is fictional demo data, not a Kobags offer.", "Çdo shumë më poshtë është fiktive për demonstrim, jo ofertë e Kobags.")}
                           </p>
                         </div>
                         {q ? (
                           <div className="quote-document">
                             <div className="document-top">
-                              <strong>DEMO QUOTATION · V{q.version}</strong>
-                              <span className="status">{q.status}</span>
+                              <strong>{t("DEMO QUOTATION", "OFERTË DEMO")} · V{q.version}</strong>
+                              <span className="status">{label(q.status)}</span>
                             </div>
-                            <p>Valid through {q.validUntil} · Currency EUR</p>
+                            <p>{t("Valid through", "E vlefshme deri më")} {q.validUntil} · {t("Currency", "Valuta")} EUR</p>
                             <Table>
                               <TableHeader>
                                 <TableRow>
-                                  <TableHead>Item</TableHead>
+                                  <TableHead>{t("Item", "Artikulli")}</TableHead>
                                   <TableHead className="text-right">
-                                    Demo amount
+                                    {t("Demo amount", "Shuma demo")}
                                   </TableHead>
                                 </TableRow>
                               </TableHeader>
@@ -618,7 +624,7 @@ export default function DemoWorkspace({
                                     {r.snapshot.quantity.toLocaleString()} ×{" "}
                                     {r.snapshot.productName}
                                     <small className="block">
-                                      {money(q.unitCents)} per bag
+                                      {money(q.unitCents)} {t("per bag", "për çantë")}
                                     </small>
                                   </TableCell>
                                   <TableCell className="text-right">
@@ -626,14 +632,14 @@ export default function DemoWorkspace({
                                   </TableCell>
                                 </TableRow>
                                 <TableRow>
-                                  <TableCell>Fictional setup</TableCell>
+                                  <TableCell>{t("Fictional setup", "Përgatitje fiktive")}</TableCell>
                                   <TableCell className="text-right">
                                     {money(q.setupCents)}
                                   </TableCell>
                                 </TableRow>
                                 <TableRow>
                                   <TableCell>
-                                    <strong>Demo subtotal</strong>
+                                    <strong>{t("Demo subtotal", "Nëntotali demo")}</strong>
                                   </TableCell>
                                   <TableCell className="text-right">
                                     <strong>
@@ -646,11 +652,11 @@ export default function DemoWorkspace({
                                 </TableRow>
                               </TableBody>
                             </Table>
-                            <p className="document-terms">{q.terms}</p>
-                            <p>Demo payment condition: {q.payment}</p>
+                            <p className="document-terms">{label(q.terms)}</p>
+                            <p>{t("Demo payment condition", "Kushti i pagesës demo")}: {label(q.payment)}</p>
                             {q.change && (
                               <div className="notice">
-                                Requested change: {q.change}
+                                {t("Requested change", "Ndryshimi i kërkuar")}: {q.change}
                               </div>
                             )}
                             <div className="actions">
@@ -664,7 +670,7 @@ export default function DemoWorkspace({
                                 }
                               >
                                 <Download size={14} />
-                                Download demo quote
+                                {t("Download demo quote", "Shkarko ofertën demo")}
                               </button>
                               {role === "customer" && !r.order && (
                                 <>
@@ -706,7 +712,7 @@ export default function DemoWorkspace({
                             </div>
                             {r.quotes.length > 1 && (
                               <details>
-                                <summary>Previous quotation versions</summary>
+                                <summary>{t("Previous quotation versions", "Versionet e mëparshme të ofertës")}</summary>
                                 {r.quotes.slice(0, -1).map((old) => (
                                   <p key={old.version}>
                                     v{old.version} ·{" "}
@@ -714,7 +720,7 @@ export default function DemoWorkspace({
                                       old.unitCents * r.snapshot.quantity +
                                         old.setupCents,
                                     )}{" "}
-                                    · {old.status} ·{" "}
+                                    · {label(old.status)} ·{" "}
                                     <button
                                       className="text-button"
                                       onClick={() =>
@@ -727,7 +733,7 @@ export default function DemoWorkspace({
                                         )
                                       }
                                     >
-                                      Download
+                                      {t("Download", "Shkarko")}
                                     </button>
                                   </p>
                                 ))}
@@ -737,7 +743,7 @@ export default function DemoWorkspace({
                         ) : (
                           <div className="empty">
                             <FileText size={28} />
-                            <p>No quotation has been issued yet.</p>
+                            <p>{t("No quotation has been issued yet.", "Ende nuk është lëshuar ofertë.")}</p>
                           </div>
                         )}
                         {role === "admin" && !r.order && (
@@ -773,33 +779,30 @@ export default function DemoWorkspace({
                             )}
                           </h3>
                           <p>
-                            Approve a specific revision. A new proof requires a
-                            new approval.
+                            {t("Approve a specific revision. A new proof requires a new approval.", "Miratoni një version të caktuar. Prova e re kërkon miratim të ri.")}
                           </p>
                         </div>
                         {art ? (
                           <>
                             <div className="proof-preview">
                               <div className="document-top">
-                                <strong>ARTWORK PROOF · V{art.version}</strong>
-                                <span className="status">{art.status}</span>
+                                <strong>{t("ARTWORK PROOF", "PROVA E DIZAJNIT")} · V{art.version}</strong>
+                                <span className="status">{label(art.status)}</span>
                               </div>
                               <BagPreview design={art.design} />
                               <p className="micro">
-                                Illustrative demo proof. Production dielines,
-                                print area and final colors require client
-                                approval.
+                                {t("Illustrative demo proof. Production dielines, print area and final colors require client approval.", "Provë ilustruese demo. Modelet teknike, zona e shtypit dhe ngjyrat përfundimtare kërkojnë miratim nga klienti.")}
                               </p>
                             </div>
                             {art.comment && (
                               <p className="notice">
-                                Correction requested: {art.comment}
+                                {t("Correction requested", "Korrigjimi i kërkuar")}: {art.comment}
                               </p>
                             )}
                             {art.approvedAt && (
                               <p className="approval-note">
                                 <CheckCircle2 size={16} />
-                                Approved by {art.approver} ·{" "}
+                                {t("Approved by", "Miratuar nga")} {art.approver} ·{" "}
                                 {date(art.approvedAt)}
                               </p>
                             )}
@@ -843,13 +846,13 @@ export default function DemoWorkspace({
                             )}
                             {r.artworks.length > 1 && (
                               <details>
-                                <summary>Artwork revision history</summary>
+                                <summary>{t("Artwork revision history", "Historiku i versioneve të dizajnit")}</summary>
                                 {r.artworks.map((a) => (
                                   <p key={a.version}>
-                                    v{a.version} · issued {date(a.issuedAt)} ·{" "}
-                                    {a.status}
+                                    v{a.version} · {t("issued", "lëshuar")} {date(a.issuedAt)} ·{" "}
+                                    {label(a.status)}
                                     {a.approvedAt
-                                      ? " · approval recorded " +
+                                      ? t(" · approval recorded ", " · miratimi u regjistrua ") +
                                         date(a.approvedAt)
                                       : ""}
                                   </p>
@@ -860,8 +863,7 @@ export default function DemoWorkspace({
                         ) : (
                           <div className="empty">
                             <p>
-                              Your artwork proof will appear here when the sales
-                              team issues it.
+                              {t("Your artwork proof will appear here when the sales team issues it.", "Prova e dizajnit shfaqet këtu kur ekipi i shitjeve e lëshon.")}
                             </p>
                           </div>
                         )}
@@ -897,15 +899,15 @@ export default function DemoWorkspace({
                             {[
                               [
                                 q?.status === "accepted",
-                                "Latest quotation accepted",
+                                t("Latest quotation accepted", "Oferta e fundit u pranua"),
                               ],
                               [
                                 art?.status === "approved",
-                                "Latest artwork revision approved",
+                                t("Latest artwork revision approved", "Versioni i fundit i dizajnit u miratua"),
                               ],
                               [
                                 q && q.payment !== "pending",
-                                "Payment condition satisfied or not required",
+                                t("Payment condition satisfied or not required", "Kushti i pagesës u plotësua ose nuk kërkohet"),
                               ],
                             ].map(([ok, label]) => (
                               <li
@@ -926,10 +928,10 @@ export default function DemoWorkspace({
                               <div className="notice">
                                 <strong>{r.order.id}</strong>
                                 <br />
-                                Quote v{r.order.quoteVersion} · Artwork v
+                                {t("Quote", "Oferta")} v{r.order.quoteVersion} · {t("Artwork", "Dizajni")} v
                                 {r.order.artworkVersion}
                                 <br />
-                                Status: {r.order.status} · Demonstration only
+                                {t("Status", "Statusi")}: {label(r.order.status)} · {t("Demonstration only", "Vetëm për demonstrim")}
                               </div>
                               {role === "customer" && (
                                 <button
@@ -1018,9 +1020,9 @@ export default function DemoWorkspace({
                             <li key={i}>
                               <span />
                               <div>
-                                <p>{e.message}</p>
+                                <p>{workspaceEvent(e.message, lang)}</p>
                                 <small>
-                                  {e.actor} · {date(e.at)}
+                                  {label(e.actor)} · {date(e.at)}
                                 </small>
                               </div>
                             </li>
@@ -1368,9 +1370,9 @@ export default function DemoWorkspace({
                       <li key={i}>
                         <span />
                         <div>
-                          <p>{e.message}</p>
+                          <p>{workspaceEvent(e.message, lang)}</p>
                           <small>
-                            {e.actor} · {date(e.at)}
+                            {label(e.actor)} · {date(e.at)}
                           </small>
                         </div>
                       </li>
