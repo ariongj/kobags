@@ -1,6 +1,20 @@
 # Kobags Group — code and setup handoff
 
-Revision: 30 September 2026. This is a public demonstration with a persistent, visitor-isolated data flow. It is not connected to Kobags production systems.
+Revision: 3 October 2026. This is a public demonstration with a persistent, visitor-isolated data flow. It is not connected to Kobags production systems.
+
+## Final audit fixes — 3 October
+
+Quote submission preserves the selected bag inside the native form, validates real calendar dates, aligns browser/server field limits and supports Enter to continue. A successful save rotates the browser draft key. The API returns an existing request only when its normalized design is identical; a changed design with an old key returns `REQUEST_KEY_CONFLICT`. The quote flow generates a new key and retries once only for that confirmed conflict. Network failures retain the original key, preventing duplicate records after a lost response. Contact, sample and partner inquiries apply the same unchanged-retry/edited-retry rule. Success URLs verify that the current visitor owns the referenced request and preserve `/sq`.
+
+`lib/draft-storage.ts` merges ordinary edits with the latest local draft, synchronizes other tabs and falls back to session storage when local storage is full. A visible status explains that the fallback lasts only for the current tab. If both stores fail, the page warns before leaving so the user can retain or download the design. Reorders and browser-draft resets replace the whole draft: optional font, layer and back-side fields from an unrelated bag cannot leak into it. Reorders use the exact artwork version attached to the simulated order.
+
+Artwork approval offers both front and back views. Quotes requiring changes cannot be accepted until a new version is issued. Uploaded artwork must finish processing before the studio quote action becomes available. Explicit ink choices survive reload, language changes and quote navigation. A paused flat-canvas drag remains one undo gesture; fullscreen and unavailable-WebGL views retain editing.
+
+`lib/studio-projection.ts` shares family proportions with the 3D scene and registers its canonical artwork coordinates onto the front panel of each photographed mockup. The flat renderer and PNG export place each layer at its registered center with a uniform scale and panel tilt, preserving logo/text proportions. They share shaped-face clipping; pointer hit testing uses the inverse transform and respects CSS letterboxing. Saved coordinates and the legacy atlas remain unchanged. The panel registration is illustrative, not a measured print template. Replacing a photograph requires recalibrating its panel points and rerunning edge/export tests.
+
+The compact layout accommodates enlarged text, wrapping selections, narrow quote summaries and long Albanian labels. Preview-mode and side controls are labelled button groups; actual editor tabs retain associated panels. The slider's focusable thumb carries its accessible label. Shared muted text is darker. React lifecycle and history bookkeeping pass repository lint error checks without suppressing them. Sales description/settings drafts no longer reset merely because a background refresh arrives.
+
+Current acceptance results and practical limits are in `evidence/VERIFICATION.md`. New repeatable checks cover request collisions/recovery, studio interaction, accessibility and enlarged text under `qa/`.
 
 The 29 September technical audit follow-up centralizes the 60-character brand-text limit in `lib/catalog.ts`. `components/bag-studio.tsx` constrains even scripted overlength input, and `components/kobags-context.tsx` trims older local drafts and all design updates before persistence. `lib/demo-domain.ts` enforces the same limit at the API boundary. Studio/quote display labels and concept-sheet text follow EN/SQ without changing stored catalog values. The 3D canvas updates its accessible instruction when the language changes. `qa/technical_audit_2026_09_29.py` checks these boundaries, image formats, readable PNG exports and quote carry-through on a compiled local Worker.
 
@@ -216,12 +230,19 @@ Feature-detected WebMCP draft tools are implemented in the context provider. Sta
 npx tsc --noEmit
 npm run build
 python3 -m venv .venv
-.venv/bin/pip install playwright
+.venv/bin/pip install playwright pillow
 .venv/bin/python -m playwright install chromium
 .venv/bin/python qa/browser_journey.py
 .venv/bin/python qa/site_checks.py
 .venv/bin/python qa/studio_checks.py
 .venv/bin/python qa/showcase_checks.py
+.venv/bin/python qa/final_buyer_regressions.py
+.venv/bin/python qa/final_buyer_edge_checks.py
+.venv/bin/python qa/inquiry_retry_checks.py
+.venv/bin/python qa/final_studio_regressions.py
+.venv/bin/python qa/studio_aspect_checks.py
+.venv/bin/python qa/accessibility_checks.py
+.venv/bin/python qa/text_resize_checks.py
 ```
 
 For browser checks, run `npm run start -- --port 8787` after the build and local migration. This serves the compiled Worker at `http://localhost:8787`. The development server supplies mock sign-in identity; use the compiled Worker for real anonymous-session and synthetic-account isolation checks. The tests reject non-loopback URLs and require an empty synthetic owner before any writes. `KOBAGS_BASE_URL` changes the compiled local preview port. `CHROME_PATH` can point to an existing Chromium binary. `CHROME_LIBS` and `FONTCONFIG_FILE` are optional environment-specific overrides. Use `CHROME_NO_SANDBOX=1` only when your local container requires it. `CHROME_SOFTWARE_GL=1` enables the software WebGL renderer for headless 3D checks in a trusted local container. This is a testing option, not a hosted runtime setting or physical-device performance benchmark. Tests create random isolated demo owners; do not run against customer records.

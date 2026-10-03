@@ -1,6 +1,8 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { products, colors, Design, getProduct } from "@/lib/catalog";
+import { useKobags } from "./kobags-context";
+import { logicalFace, fitPhotoPanel, mapFromPhoto, photoArtworkTransform, clipCanonicalFace } from "@/lib/studio-projection";
 import {
   artworkFonts,
   placementPatch,
@@ -158,6 +160,7 @@ async function paintArtwork(
   ctx: CanvasRenderingContext2D,
   design: Design,
   composite: GlobalCompositeOperation = "source-over",
+  onlyLayer?: ArtworkLayer,
 ) {
   const primary = sideArtwork(design);
   const logo = primary.logo ? await loadImage(primary.logo) : null;
@@ -170,6 +173,7 @@ async function paintArtwork(
       ? ["text"]
       : [];
   for (const layer of layers) {
+    if (onlyLayer && layer !== onlyLayer) continue;
     const art = sideArtwork(design, layer);
     let width = 0,
       height = 0;
@@ -279,17 +283,22 @@ export async function renderBagDesign(
   const work = document.createElement("canvas");
   work.width = resolution;
   work.height = resolution;
-  const ctx = work.getContext("2d")!;
-  ctx.scale(resolution / LOGICAL, resolution / LOGICAL);
-  ctx.imageSmoothingEnabled = true;
-  ctx.imageSmoothingQuality = "high";
-  ctx.drawImage(base, 0, 0, LOGICAL, LOGICAL);
-  const boxes = await paintArtwork(ctx, design, "source-atop");
+  const output = work.getContext("2d")!;
+  output.scale(resolution / LOGICAL, resolution / LOGICAL);
+  output.imageSmoothingEnabled = true;
+  output.imageSmoothingQuality = "high";
+  output.drawImage(base, 0, 0, LOGICAL, LOGICAL);
+  const registered = design.previewVersion === "v4";
+  const artwork = document.createElement("canvas");
+  artwork.width = artwork.height = resolution;
+  const ctx = registered ? artwork.getContext("2d")! : output;
+  if (registered) ctx.scale(resolution / LOGICAL, resolution / LOGICAL);
+  const boxes = await paintArtwork(ctx, design, registered ? "source-over" : "source-atop");
   const defaultLayer = sideArtwork(design).logo ? "logo" : "text";
   const guideBox = boxes.find(
     (box) => box.layer === (activeLayer || defaultLayer),
   );
-  if (guides && guideBox) {
+  const drawGuides = (ctx: CanvasRenderingContext2D, guideBox: ArtworkBounds) => {
     const art = sideArtwork(design, guideBox.layer),
       { width, height } = guideBox;
 
@@ -319,14 +328,42 @@ export async function renderBagDesign(
       ctx.stroke();
       ctx.restore();
     }
-  }
+  };
+  let displayedBoxes = boxes;
+  if (registered && boxes.length) {
+    const product = getProduct(design.product).slug;
+    const face = logicalFace(product), panel = fitPhotoPanel(product, studioBounds[product]);
+    displayedBoxes = [];
+    for (const box of boxes) {
+      ctx.clearRect(0, 0, LOGICAL, LOGICAL);
+      ctx.save();
+      clipCanonicalFace(ctx, product);
+      await paintArtwork(ctx, design, "source-over", box.layer);
+      if (guides && box === guideBox) drawGuides(ctx, box);
+      ctx.restore();
+      const transform = photoArtworkTransform(box, face, panel);
+      output.save();
+      output.beginPath();
+      panel.forEach((point, index) => index ? output.lineTo(point.x, point.y) : output.moveTo(point.x, point.y));
+      output.closePath();
+      output.clip();
+      output.globalCompositeOperation = "source-atop";
+      output.translate(transform.center.x, transform.center.y);
+      output.rotate(transform.angle);
+      output.scale(transform.scale, transform.scale);
+      output.translate(-box.x, -box.y);
+      output.drawImage(artwork, 0, 0, LOGICAL, LOGICAL);
+      output.restore();
+      displayedBoxes.push({ ...box, x: transform.center.x, y: transform.center.y, width: box.width * transform.scale, height: box.height * transform.scale, rotation: box.rotation + transform.angle * 180 / Math.PI });
+    }
+  } else if (guides && guideBox) drawGuides(output, guideBox);
   target.width = resolution;
   target.height = resolution;
   target.getContext("2d")!.drawImage(work, 0, 0);
-  const selected = boxes.find((b) => b.layer === activeLayer) || boxes[0];
+  const selected = displayedBoxes.find((b) => b.layer === activeLayer) || displayedBoxes[0];
   return {
     ...(selected || { x: 400, y: 448, width: 0, height: 0, rotation: 0 }),
-    layers: boxes,
+    layers: displayedBoxes,
   };
 }
 export function BagPreview({
@@ -338,6 +375,7 @@ export function BagPreview({
   onReady,
   activeLayer,
   onSelectLayer,
+  onDragChange,
 }: {
   design: Design;
   onChange?: (p: Partial<Design>) => void;
@@ -347,7 +385,9 @@ export function BagPreview({
   onReady?: (ready: boolean) => void;
   activeLayer?: ArtworkLayer;
   onSelectLayer?: (layer: ArtworkLayer) => void;
+  onDragChange?: (active: boolean) => void;
 }) {
+  const { t } = useKobags();
   const ownRef = useRef<HTMLCanvasElement>(null);
   const ref = canvasRef || ownRef;
   const [failed, setFailed] = useState(false);
@@ -357,6 +397,9 @@ export function BagPreview({
   const drag = useRef<{ dx: number; dy: number; layer: ArtworkLayer } | null>(
     null,
   );
+  const dragCallback = useRef(onDragChange);
+  useLayoutEffect(() => { dragCallback.current = onDragChange; }, [onDragChange]);
+  useEffect(() => () => { if (drag.current) dragCallback.current?.(false); }, []);
   const art = sideArtwork(design, activeLayer);
   const p = getProduct(design.product);
   const interactive = Boolean(onChange);
@@ -377,6 +420,7 @@ export function BagPreview({
         ref.current.height = buffer.height;
         ref.current.getContext("2d")!.drawImage(buffer, 0, 0);
         ref.current.dataset.ready = "true";
+        ref.current.dataset.artworkTargets = JSON.stringify(box.layers.map(({ layer, x, y }) => ({ layer, x, y })));
         bounds.current = box;
         onReady?.(true);
       })
@@ -389,13 +433,17 @@ export function BagPreview({
     return () => {
       current = false;
     };
-  }, [design, guides, compact, ref, interactive, onReady, activeLayer]);
+  }, [design, guides, compact, ref, interactive, onReady, activeLayer, p.slug]);
   const position = (event: React.PointerEvent<HTMLCanvasElement>) => {
     const rect = event.currentTarget.getBoundingClientRect();
-    return {
-      x: ((event.clientX - rect.left) / rect.width) * 800,
-      y: ((event.clientY - rect.top) / rect.height) * 800,
+    const contain = getComputedStyle(event.currentTarget).objectFit === "contain";
+    const width = contain ? Math.min(rect.width, rect.height) : rect.width;
+    const height = contain ? width : rect.height;
+    const point = {
+      x: ((event.clientX - rect.left - (rect.width - width) / 2) / width) * 800,
+      y: ((event.clientY - rect.top - (rect.height - height) / 2) / height) * 800,
     };
+    return point;
   };
   const change = (
     x: number,
@@ -408,11 +456,18 @@ export function BagPreview({
         y: Math.max(33, Math.min(80, y)),
       }),
     );
+  const endDrag = (event: React.PointerEvent<HTMLCanvasElement>) => {
+    if (!drag.current) return;
+    drag.current = null;
+    dragCallback.current?.(false);
+    event.currentTarget.style.cursor = "grab";
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
+  };
   return (
     <>
       {failed ? (
         <div className="preview-load-error" role="status">
-          Preview unavailable. Your design is saved; reload to try again.
+          {t("Preview unavailable. Your design is saved; reload to try again.", "Parapamja nuk është e disponueshme. Dizajni është ruajtur; rifreskoni faqen për të provuar sërish.")}
         </div>
       ) : null}
       <canvas
@@ -421,16 +476,16 @@ export function BagPreview({
         height={compact ? 320 : 1600}
         className={"bag-canvas " + (compact ? "compact" : "")}
         role="img"
-        aria-label={`${p.name}, ${design.color}, ${art.back ? "back" : "front"} branding preview. Illustrative concept.`}
+        aria-label={t(`${p.name}, ${design.color}, ${art.back ? "back" : "front"} branding preview. Illustrative concept.`, `${p.name}, ${colors.find((color) => color.name === design.color)?.sq || design.color}, parapamje ${art.back ? "prapa" : "përpara"}. Koncept ilustrues.`)}
         tabIndex={onChange ? 0 : undefined}
         style={{
           cursor: onChange ? "grab" : "default",
           touchAction: onChange ? "none" : "auto",
         }}
         onPointerDown={(e) => {
-          if (!onChange || !bounds.current || (!art.logo && !art.text)) return;
+          if (!onChange || !bounds.current || (!art.logo && !art.text) || e.button !== 0) return;
           const pos = position(e);
-          const b = [...bounds.current.layers].reverse().find((box) => {
+          const b = [...bounds.current.layers].reverse().sort((a, b) => Number(b.layer === activeLayer) - Number(a.layer === activeLayer)).find((box) => {
             const angle = (-box.rotation * Math.PI) / 180,
               dx = pos.x - box.x,
               dy = pos.y - box.y;
@@ -444,25 +499,25 @@ export function BagPreview({
           if (!b?.layer) return;
           onSelectLayer?.(b.layer);
           drag.current = { dx: pos.x - b.x, dy: pos.y - b.y, layer: b.layer };
+          dragCallback.current?.(true);
+          e.currentTarget.focus({ preventScroll: true });
           e.currentTarget.setPointerCapture(e.pointerId);
           e.currentTarget.style.cursor = "grabbing";
         }}
         onPointerMove={(e) => {
           if (!drag.current) return;
           const pos = position(e);
+          const anchor = { x: pos.x - drag.current.dx, y: pos.y - drag.current.dy };
+          const canonical = design.previewVersion === "v4" ? mapFromPhoto(anchor, logicalFace(p.slug), fitPhotoPanel(p.slug, studioBounds[p.slug])) : anchor;
           change(
-            (pos.x - drag.current.dx) / 8,
-            (pos.y - drag.current.dy) / 8,
+            canonical.x / 8,
+            canonical.y / 8,
             drag.current.layer,
           );
         }}
-        onPointerUp={(e) => {
-          drag.current = null;
-          e.currentTarget.style.cursor = "grab";
-        }}
-        onPointerCancel={() => {
-          drag.current = null;
-        }}
+        onPointerUp={endDrag}
+        onPointerCancel={endDrag}
+        onLostPointerCapture={endDrag}
         onKeyDown={(e) => {
           if (!onChange) return;
           const amount = e.shiftKey ? 5 : 1;

@@ -1,11 +1,10 @@
 import { z } from "zod";
 import { enableLayers } from "./studio-artwork";
+import { isCalendarDate, requestFieldLimits } from "./design-validation";
 import {
   products,
-  initialDesign,
   Design,
   Product,
-  getProduct,
   MAX_BRAND_TEXT_LENGTH,
 } from "./catalog";
 export type Event = { at: string; message: string; actor: string };
@@ -223,15 +222,15 @@ export const designSchema = z.object({
   backScale: z.number().min(10).max(55),
   backRotation: z.number().min(-45).max(45),
   quantity: z.number().int().min(1).max(10000000),
-  country: z.string().trim().min(2).max(100),
-  city: z.string().trim().min(2).max(100),
+  country: z.string().trim().min(2).max(requestFieldLimits.country),
+  city: z.string().trim().min(2).max(requestFieldLimits.city),
   date: z.string().max(10),
-  company: z.string().trim().min(2).max(150),
-  contact: z.string().trim().min(2).max(100),
-  email: z.string().email().max(150),
-  phone: z.string().max(40),
-  note: z.string().max(3000),
-  customDimensions: z.string().max(100),
+  company: z.string().trim().min(2).max(requestFieldLimits.company),
+  contact: z.string().trim().min(2).max(requestFieldLimits.contact),
+  email: z.string().trim().email().max(requestFieldLimits.email),
+  phone: z.string().max(requestFieldLimits.phone),
+  note: z.string().max(requestFieldLimits.note),
+  customDimensions: z.string().max(requestFieldLimits.customDimensions),
   purpose: z.string().max(150),
   consent: z.literal(true),
   key: z.string().min(10).max(80),
@@ -272,7 +271,13 @@ export function applyAction(
   if (a.type === "submit") {
     const d = designSchema.parse(a.design);
     const duplicate = s.requests.find((r) => r.key === d.key);
-    if (duplicate) return { state: original, id: duplicate.id };
+    if (duplicate) {
+      // A retry must carry the same request. Older browser drafts and other
+      // tabs can reuse a key after the design has changed.
+      if (JSON.stringify(designSchema.parse(duplicate.snapshot)) !== JSON.stringify(d))
+        throw Error("REQUEST_KEY_CONFLICT");
+      return { state: original, id: duplicate.id };
+    }
     if (s.requests.length >= 12) throw Error("DEMO_LIMIT");
     const p = s.catalog.find((p) => p.slug === d.product)!;
     const v = p.variants.find((v) => v.name === d.size);
@@ -292,7 +297,7 @@ export function applyAction(
     if (d.quantity < s.settings.moq) throw Error("MINIMUM");
     if (
       d.date &&
-      (!/^\d{4}-\d{2}-\d{2}$/.test(d.date) || d.date < now.slice(0, 10))
+      (!isCalendarDate(d.date) || d.date < now.slice(0, 10))
     )
       throw Error("DATE");
     for (const image of [d.logo, d.backLogo]) {
@@ -341,10 +346,10 @@ export function applyAction(
     const d = z
       .object({
         kind: z.enum(["sample", "partner", "contact"]),
-        company: z.string().min(2).max(150),
-        contact: z.string().min(2).max(100),
-        email: z.string().email().max(150),
-        country: z.string().min(2).max(100),
+        company: z.string().trim().min(2).max(requestFieldLimits.company),
+        contact: z.string().trim().min(2).max(requestFieldLimits.contact),
+        email: z.string().trim().email().max(requestFieldLimits.email),
+        country: z.string().trim().min(2).max(requestFieldLimits.country),
         message: z.string().min(5).max(3000),
         model: z.string().max(100),
         key: z.string().min(10).max(80),
@@ -359,7 +364,11 @@ export function applyAction(
     )
       throw Error("PARTNER_MODEL");
     const existing = s.inquiries.find((i) => i.id === d.key);
-    if (existing) return { state: original, id: existing.id };
+    if (existing) {
+      if ((["kind", "company", "contact", "email", "country", "message", "model"] as const)
+        .some((field) => existing[field] !== d[field])) throw Error("REQUEST_KEY_CONFLICT");
+      return { state: original, id: existing.id };
+    }
     if (s.inquiries.length >= 30) throw Error("DEMO_LIMIT");
     id = d.key;
     s.inquiries.unshift({
@@ -495,7 +504,7 @@ export function applyAction(
         payment: z.enum(["not-required", "pending"]).parse(a.payment),
         status: "issued",
       };
-      if (quote.validUntil < now.slice(0, 10)) throw Error("DATE");
+      if (!isCalendarDate(quote.validUntil) || quote.validUntil < now.slice(0, 10)) throw Error("DATE");
       r.quotes.push(quote);
       r.stage = "quoted";
       r.events.push(event("Issued fictional quotation v" + quote.version));
@@ -506,7 +515,7 @@ export function applyAction(
         "Fictional prices for demonstration. Not a Kobags offer. Review in the customer demo.",
       );
     } else if (a.type === "accept-quote") {
-      if (!q || q.version !== a.version || q.validUntil < now.slice(0, 10))
+      if (!q || q.status === "changes-requested" || q.version !== a.version || q.validUntil < now.slice(0, 10))
         throw Error("STALE_QUOTE");
       q.status = "accepted";
       q.acceptedAt = now;

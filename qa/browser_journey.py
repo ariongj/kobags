@@ -23,7 +23,7 @@ async def main():
   await page.get_by_role('button',name='D-Cut',exact=True).click()
   await page.locator('#bag-size').click();await page.get_by_role('option',name=re.compile('Large')).click()
   await page.get_by_role('button',name='Navy blue',exact=True).click()
-  await page.get_by_role('tab',name='Photo + artwork',exact=True).click()
+  await page.get_by_role('button',name='Photo + artwork',exact=True).click()
   await page.get_by_role('tab',name='02 Your design').click()
   await page.get_by_label('Brand name or message').fill('MIRA\nMARKET')
   canvas=page.locator('.preview-stage canvas');await canvas.focus();await page.keyboard.press('ArrowRight')

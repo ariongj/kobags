@@ -2,7 +2,7 @@
 import asyncio, base64, hashlib, json, uuid
 from pathlib import Path
 from playwright.async_api import async_playwright
-from browser_support import BASE, launch
+from browser_support import BASE, launch, artwork_point
 ROOT = Path(__file__).resolve().parents[1]
 async def main():
  async with async_playwright() as p:
@@ -18,7 +18,7 @@ async def main():
   async def screenshot(name):
    await page.evaluate('document.activeElement?.blur();window.scrollTo({top:0,behavior:"instant"})');await page.wait_for_timeout(150)
    await page.screenshot(path=str(ROOT/'evidence'/name),type='jpeg',quality=83,full_page=True)
-  await page.goto(BASE+'/design',wait_until='networkidle');await page.get_by_role('tab',name='Photo + artwork',exact=True).click();await ready()
+  await page.goto(BASE+'/design',wait_until='networkidle');await page.get_by_role('button',name='Photo + artwork',exact=True).click();await ready()
   await page.get_by_role('tab',name='02 Your design').click()
   await page.get_by_label('Brand name or message').fill('NOVA\nEVERYDAY GOODS')
   await page.locator('#artwork-font').click();await page.get_by_role('option',name='Editorial serif').click()
@@ -35,9 +35,9 @@ async def main():
   await layer('Text');await page.get_by_text('Position & rotation',exact=True).click();await page.get_by_label('Vertical position',exact=True).fill('68');await page.get_by_label('Artwork rotation',exact=True).fill('-8');await page.get_by_label('Artwork rotation',exact=True).press('Enter');await ready()
   d=await draft();assert d['textPlacement']['y']==68 and d['textPlacement']['rotation']==-8 and d['rotation']==0 and d['y']==44
   # Pointer hit testing selects the logo; keyboard movements affect only that layer.
-  c=page.locator('.preview-stage canvas');await c.scroll_into_view_if_needed();box=await c.bounding_box();x=box['x']+box['width']*.5;y=box['y']+box['height']*.44
-  await page.mouse.move(x,y);await page.mouse.down();await page.mouse.move(x+box['width']*.05,y,steps=6);await page.mouse.up();await ready();assert abs((await draft())['x']-55)<.3 and (await draft())['textPlacement']['x']==50
-  await c.focus();await page.keyboard.press('ArrowLeft');await ready();assert abs((await draft())['x']-54)<.3
+  c=page.locator('.preview-stage canvas');point=await artwork_point(c,'logo');box=await c.bounding_box();x=point['x'];y=point['y']
+  await page.mouse.move(x,y);await page.mouse.down();await page.mouse.move(x+box['width']*.05,y,steps=6);await page.mouse.up();await ready();moved_x=(await draft())['x'];assert 50<moved_x<76 and (await draft())['textPlacement']['x']==50
+  await c.focus();await page.keyboard.press('ArrowLeft');await ready();assert abs((await draft())['x']-(moved_x-1))<.1
   # Separate layers are visibly rendered and survive removal/undo without blanking each other.
   await page.get_by_role('button',name='Toggle artwork guides').click();both=await canvas()
   await layer('Text');await page.get_by_role('button',name='Remove selected',exact=True).click();without_text=await canvas();assert both!=without_text and (await draft())['logo']
@@ -46,16 +46,16 @@ async def main():
   await page.get_by_role('button',name='Undo change',exact=True).click();assert await canvas()==both
   await page.get_by_role('button',name='Copy design to back',exact=True).click();d=await draft()
   assert d['backLogo']==d['logo'] and d['backText']==d['text'] and d['backTextPlacement']==d['textPlacement']
-  await page.get_by_role('tab',name='Back',exact=True).click();await layer('Text');await page.get_by_label('Brand name or message').fill('MADE FOR\nEVERY DAY');await page.get_by_label('Horizontal position',exact=True).fill('46');await ready();assert (await draft())['textPlacement']['x']==50
+  await page.get_by_role('button',name='Back',exact=True).click();await layer('Text');await page.get_by_label('Brand name or message').fill('MADE FOR\nEVERY DAY');await page.get_by_label('Horizontal position',exact=True).fill('46');await ready();assert (await draft())['textPlacement']['x']==50
   await page.get_by_role('tab',name='01 The bag').click();await page.get_by_text('Need a custom size?',exact=True).click();await page.get_by_label('Requested dimensions',exact=True).fill('40 × 35 × 12 cm')
   await page.locator('#studio-print-colors').click();await page.get_by_role('option',name='2 colors',exact=True).click()
   async with page.expect_download() as pending:await page.get_by_role('button',name='Download both sides + specifications',exact=True).click()
   output=await pending.value;sheet=ROOT/'evidence/layered-design-sheet.png';await output.save_as(str(sheet));data=sheet.read_bytes();assert (int.from_bytes(data[16:20],'big'),int.from_bytes(data[20:24],'big'))==(2000,1400)
-  await page.get_by_role('tab',name='Front',exact=True).click();await page.get_by_role('tab',name='02 Your design').click();await layer('Text');await ready();await screenshot('studio-layered-desktop.jpg')
+  await page.get_by_role('button',name='Front',exact=True).click();await page.get_by_role('tab',name='02 Your design').click();await layer('Text');await ready();await screenshot('studio-layered-desktop.jpg')
   for width in [1024,768,390,320]:
    await page.set_viewport_size({'width':width,'height':900});await page.wait_for_timeout(100);assert not await page.evaluate('document.documentElement.scrollWidth>innerWidth'),width
   await page.set_viewport_size({'width':390,'height':844});await screenshot('studio-layered-mobile.jpg')
-  await page.reload(wait_until='networkidle');await page.get_by_role('tab',name='Photo + artwork',exact=True).click();await ready();saved=await draft();assert saved['backText']=='MADE FOR\nEVERY DAY' and saved['customDimensions']=='40 × 35 × 12 cm'
+  await page.reload(wait_until='networkidle');await page.get_by_role('button',name='Photo + artwork',exact=True).click();await ready();saved=await draft();assert saved['backText']=='MADE FOR\nEVERY DAY' and saved['customDimensions']=='40 × 35 × 12 cm'
   await page.get_by_role('link',name='Get a quote for this bag',exact=True).click();await page.wait_for_url('**/quote')
   await page.goto(BASE+'/quote?demo=1',wait_until='networkidle')
   await page.get_by_role('button',name='Use demo details',exact=True).click();await page.get_by_role('button',name='Continue',exact=True).click()

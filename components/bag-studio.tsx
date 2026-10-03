@@ -1,13 +1,12 @@
 "use client";
 import Studio3D from "./studio-3d";
-import { useRef, useState } from "react";
+import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import Link from "@/components/site-link";
 import {
   ArrowRight,
   ArrowUpRight,
   Check,
   Download,
-  Upload,
   Move,
   RotateCcw,
   Maximize2,
@@ -85,7 +84,10 @@ export function Choice({
   return (
     <div className="field">
       <label htmlFor={id}>{label}</label>
-      <Select value={value} onValueChange={onChange}>
+      <Select value={value} onValueChange={(next) => {
+        // Form integration may emit an empty initialization value. Only a real option changes the draft.
+        if (options.some((option) => option.value === next)) onChange(next);
+      }}>
         <SelectTrigger id={id} className="choice">
           <SelectValue />
         </SelectTrigger>
@@ -169,13 +171,13 @@ export default function BagStudio() {
     key: string;
     time: number;
   }>({ past: [], future: [], key: "", time: 0 });
-  const [, refreshHistory] = useState(0);
+  const [historyAvailable, setHistoryAvailable] = useState({ undo: false, redo: false });
   const currentDesign = useRef(design);
-  currentDesign.current = design;
+  useLayoutEffect(() => { currentDesign.current = design; }, [design]);
   const draggingArtwork = useRef(false);
   const [selectionKey, setSelectionKey] = useState(0);
   const [activeLayer, setActiveLayer] = useState<ArtworkLayer>("text");
-  const update = (patch: Partial<Design>) => {
+  const update = useCallback((patch: Partial<Design>) => {
     const current = currentDesign.current;
     if (
       Object.entries(patch).every(
@@ -197,8 +199,8 @@ export default function BagStudio() {
     }
     currentDesign.current = { ...current, ...patch };
     saveDesign(patch);
-    refreshHistory((n) => n + 1);
-  };
+    setHistoryAvailable({ undo: !!history.current.past.length, redo: !!history.current.future.length });
+  }, [activeLayer, saveDesign]);
   const travel = (direction: "past" | "future") => {
     const h = history.current,
       next = h[direction].pop();
@@ -214,7 +216,7 @@ export default function BagStudio() {
     } as Design;
     currentDesign.current = restored;
     saveDesign(restored);
-    refreshHistory((n) => n + 1);
+    setHistoryAvailable({ undo: !!h.past.length, redo: !!h.future.length });
   };
   const p = getProduct(design.product);
   const v = p.variants.find((v) => v.name === design.size) || p.variants[0];
@@ -269,8 +271,7 @@ export default function BagStudio() {
     source: string;
     message: "unchanged" | "empty";
   } | null>(null);
-  const latestDesign = useRef(design);
-  latestDesign.current = design;
+  const latestDesign = currentDesign;
   const backgroundEdit = backgroundEdits[design.side];
   const canRestoreBackground =
     backgroundEdit?.cleaned === art.logo && !!art.logo;
@@ -542,7 +543,7 @@ export default function BagStudio() {
           1860,
         );
       ctx.fillText(
-        t("Illustrative concept. The mockup uses the selected catalogue size.", "Koncept orientues. Pamja përdor madhësinë e zgjedhur nga katalogu."),
+        t("Illustrative shape preview. Selected dimensions are listed above.", "Parapamje ilustruese e formës. Përmasat e zgjedhura janë shënuar më sipër."),
         70,
         1300,
       );
@@ -611,26 +612,24 @@ export default function BagStudio() {
             ))}
           </div>
           <div className="studio-history">
-            <Tabs value={viewMode} onValueChange={setViewMode}>
-              <TabsList
+              <div role="group"
                 className="view-mode-tabs"
                 aria-label={t("Preview mode", "Pamja e parapamjes")}
               >
-                <TabsTrigger value="3d">
+                <button type="button" aria-pressed={viewMode === "3d"} data-state={viewMode === "3d" ? "active" : "inactive"} onClick={() => setViewMode("3d")}>
                   <Box size={15} />
                   {t("3D view", "Pamja 3D")}
-                </TabsTrigger>
-                <TabsTrigger value="edit">
+                </button>
+                <button type="button" aria-pressed={viewMode === "edit"} data-state={viewMode === "edit" ? "active" : "inactive"} onClick={() => setViewMode("edit")}>
                   <Move size={15} />
                   {t("Photo + artwork", "Foto + dizajn")}
-                </TabsTrigger>
-              </TabsList>
-            </Tabs>
+                </button>
+              </div>
             <div>
               <button
                 type="button"
                 disabled={
-                  !history.current.past.length || uploading || backgroundBusy
+                  !historyAvailable.undo || uploading || backgroundBusy
                 }
                 onClick={() => travel("past")}
                 aria-label={t("Undo change", "Zhbëj ndryshimin")}
@@ -641,7 +640,7 @@ export default function BagStudio() {
               <button
                 type="button"
                 disabled={
-                  !history.current.future.length || uploading || backgroundBusy
+                  !historyAvailable.redo || uploading || backgroundBusy
                 }
                 onClick={() => travel("future")}
                 aria-label={t("Redo change", "Ribëj ndryshimin")}
@@ -667,6 +666,7 @@ export default function BagStudio() {
             </div>
             {viewMode === "3d" ? (
               <Studio3D
+                key={design.product}
                 design={design}
                 onReady={setPreviewReady}
                 {...studioEditing}
@@ -677,34 +677,27 @@ export default function BagStudio() {
                 onChange={update}
                 activeLayer={activeLayer}
                 onSelectLayer={selectArtwork}
+                onDragChange={artworkDrag}
                 canvasRef={canvas}
                 guides={guides && tab === "artwork"}
                 onReady={setPreviewReady}
               />
             )}
             <div className="stage-bottom">
-              <Tabs
-                value={design.side}
-                onValueChange={(s) => {
-                  setTextLimitNotice(false);
-                  update({ side: s as "front" | "back" });
-                }}
-              >
-                <TabsList className="side-switch">
-                  <TabsTrigger value="front">
+                <div role="group" className="side-switch" aria-label={t("Bag side", "Ana e çantës")}>
+                  <button type="button" aria-pressed={design.side === "front"} data-state={design.side === "front" ? "active" : "inactive"} onClick={() => { setTextLimitNotice(false); update({ side: "front" }); }}>
                     {t("Front", "Përpara")}
                     {sides.includes("front") && (
                       <Check size={13} aria-hidden="true" />
                     )}
-                  </TabsTrigger>
-                  <TabsTrigger value="back">
+                  </button>
+                  <button type="button" aria-pressed={design.side === "back"} data-state={design.side === "back" ? "active" : "inactive"} onClick={() => { setTextLimitNotice(false); update({ side: "back" }); }}>
                     {t("Back", "Prapa")}
                     {sides.includes("back") && (
                       <Check size={13} aria-hidden="true" />
                     )}
-                  </TabsTrigger>
-                </TabsList>
-              </Tabs>
+                  </button>
+                </div>
               <span className="drag-tip">
                 <Move size={14} />
                 {t(
@@ -751,7 +744,7 @@ export default function BagStudio() {
               <span>{t("See material, stitching and shape", "Shihni materialin, qepjet dhe formën")}</span>
             </div>
             <div className="studio-real-samples-images">
-              {[p.image, productMedia[p.slug].home, productMedia[p.slug].detail].map((src, index) => (
+              {[p.image, productMedia[p.slug].home, ...(p.slug === "d-cut-bag" ? [] : [productMedia[p.slug].detail])].map((src, index) => (
                 <button
                   type="button"
                   key={src}
@@ -790,7 +783,7 @@ export default function BagStudio() {
             <ArrowUpRight size={15} />
           </button>
         </div>
-        <aside className="studio-controls">
+        <section className="studio-controls" aria-label={t("Customize your bag", "Personalizoni çantën")}>
           <Tabs value={tab} onValueChange={setTab}>
             <TabsList className="editor-tabs">
               <TabsTrigger value="bag">
@@ -914,8 +907,8 @@ export default function BagStudio() {
                 />
                 <p>
                   {t(
-                    "We’ll review feasibility with your quote. The preview uses the selected catalogue size.",
-                    "Realizueshmëria shqyrtohet me ofertën. Parapamja përdor madhësinë e katalogut.",
+                    "We’ll review feasibility with your quote. The preview illustrates the bag shape; selected dimensions are listed below it.",
+                    "Realizueshmëria shqyrtohet me ofertën. Parapamja ilustron formën e çantës; përmasat e zgjedhura shënohen poshtë saj.",
                   )}
                 </p>
               </details>
@@ -1185,7 +1178,7 @@ export default function BagStudio() {
                       ).map(([align, Icon]) => (
                         <button
                           key={align}
-                          aria-label={"Align text " + align}
+                          aria-label={t("Align text " + align, "Rreshto tekstin " + ({ left: "majtas", center: "në qendër", right: "djathtas" } as const)[align])}
                           aria-pressed={art.align === align}
                           onClick={() =>
                             update(
@@ -1219,11 +1212,11 @@ export default function BagStudio() {
               )}
               <div className="artwork-transform">
                 <div className="transform-heading">
-                  <h3>
+                  <h2>
                     {activeLayer === "logo"
                       ? t("Logo placement", "Pozicioni i logos")
                       : t("Text placement", "Pozicioni i tekstit")}
-                  </h3>
+                  </h2>
                   <button
                     className="text-button"
                     onClick={() => transform({ x: 50, y: 56, rotation: 0 })}
@@ -1380,10 +1373,10 @@ export default function BagStudio() {
                   t(" bags", " çanta")}
               </strong>
             </div>
-            <Link href="/quote" className="button">
+            {uploading || backgroundBusy ? <button className="button" disabled aria-busy="true">{t("Preparing artwork…", "Duke përgatitur dizajnin…")}</button> : <Link href="/quote" className="button">
               {t("Get a quote for this bag", "Kërkoni ofertë për këtë çantë")}{" "}
               <ArrowUpRight size={18} />
-            </Link>
+            </Link>}
             <p>
               {t(
                 "No payment now. Your design goes with your request.",
@@ -1391,7 +1384,7 @@ export default function BagStudio() {
               )}
             </p>
           </div>
-        </aside>
+        </section>
       </div>
       <div className="studio-footnote">
         <span>
@@ -1425,9 +1418,9 @@ export default function BagStudio() {
           </DialogDescription>
           <div className="fullscreen-studio-view">
             {viewMode === "3d" ? (
-              <Studio3D design={design} {...studioEditing} />
+              <Studio3D key={design.product} design={design} {...studioEditing} />
             ) : (
-              <BagPreview design={design} />
+              <BagPreview design={design} onChange={update} activeLayer={activeLayer} onSelectLayer={selectArtwork} onDragChange={artworkDrag} guides={guides && tab === "artwork"} />
             )}
           </div>
           <button

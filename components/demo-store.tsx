@@ -2,6 +2,10 @@
 import { useEffect, useState, useCallback } from "react";
 import { DemoState } from "@/lib/demo-domain";
 export const errors: Record<string, [string, string]> = {
+  REQUEST_KEY_CONFLICT: [
+    "An earlier version of this request is already saved. Please retry to save your updated design separately.",
+    "Një version i mëparshëm i kërkesës është ruajtur. Provoni përsëri për ta ruajtur veçmas dizajnin e përditësuar.",
+  ],
   MINIMUM: [
     "This quantity is below the wholesale minimum. Please request samples or an exception.",
     "Sasia është nën minimumin. Kërkoni mostra ose përjashtim.",
@@ -74,11 +78,17 @@ export function useDemo() {
     }
   }, []);
   useEffect(() => {
-    refresh();
+    let mounted = true;
+    loadDemo().then((value) => {
+      if (mounted) { setState(value); setError(""); }
+    }).catch((cause) => {
+      if (mounted) setError(cause instanceof Error ? cause.message : "STORAGE_UNAVAILABLE");
+    });
     const f = () => refresh();
     window.addEventListener("focus", f);
     window.addEventListener("kobags-change", f);
     return () => {
+      mounted = false;
       window.removeEventListener("focus", f);
       window.removeEventListener("kobags-change", f);
     };

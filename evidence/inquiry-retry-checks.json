@@ -1,0 +1,42 @@
+{
+  "status": "passed",
+  "cases": [
+    {
+      "route": "/contact",
+      "editedRetry": false,
+      "savedCount": 1,
+      "status": "passed"
+    },
+    {
+      "route": "/contact",
+      "editedRetry": true,
+      "savedCount": 2,
+      "status": "passed"
+    },
+    {
+      "route": "/samples",
+      "editedRetry": false,
+      "savedCount": 1,
+      "status": "passed"
+    },
+    {
+      "route": "/samples",
+      "editedRetry": true,
+      "savedCount": 2,
+      "status": "passed"
+    },
+    {
+      "route": "/partners/apply",
+      "editedRetry": false,
+      "savedCount": 1,
+      "status": "passed"
+    },
+    {
+      "route": "/partners/apply",
+      "editedRetry": true,
+      "savedCount": 2,
+      "status": "passed"
+    }
+  ],
+  "browserErrors": []
+}

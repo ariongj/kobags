@@ -120,6 +120,7 @@ export async function POST(req: Request) {
       "EVIDENCE_REVIEW",
       "DEMO_LIMIT",
       "INVALID_REORDER",
+      "REQUEST_KEY_CONFLICT",
       "STATUS_SEQUENCE",
     ];
     return json(

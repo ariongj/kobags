@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import {
   ArrowLeft,
   ArrowRight,
@@ -40,7 +40,7 @@ export default function Studio3D({
   const host = useRef<HTMLDivElement>(null);
   const scene = useRef<StudioScene | null>(null);
   const latest = useRef(design);
-  latest.current = design;
+  useLayoutEffect(() => { latest.current = design; }, [design]);
   const [selected, setSelected] = useState(editing);
   const skipSideView = useRef<Design["side"] | null>(null);
   const settings = useRef({
@@ -51,17 +51,15 @@ export default function Studio3D({
     onSelectLayer,
     onDragChange,
   });
-  settings.current = {
-    selected,
-    activeLayer,
-    guides,
-    onChange,
-    onSelectLayer,
-    onDragChange,
-  };
-  useEffect(() => {
+  useLayoutEffect(() => {
+    settings.current = { selected, activeLayer, guides, onChange, onSelectLayer, onDragChange };
+  }, [selected, activeLayer, guides, onChange, onSelectLayer, onDragChange]);
+  const selectionContext = `${editing}:${activeLayer}:${design.side}:${selectionKey}`;
+  const [previousSelectionContext, setPreviousSelectionContext] = useState(selectionContext);
+  if (previousSelectionContext !== selectionContext) {
+    setPreviousSelectionContext(selectionContext);
     setSelected(editing);
-  }, [editing, activeLayer, design.side, selectionKey]);
+  }
   const generation = useRef(0);
   const [status, setStatus] = useState<"loading" | "ready" | "fallback">(
     "loading",
@@ -74,6 +72,11 @@ export default function Studio3D({
     host.current?.querySelector("canvas")?.setAttribute("aria-label", canvasInstructions);
   }, [canvasInstructions, status]);
   const [spinning, setSpinning] = useState(false);
+  const [previousView, setPreviousView] = useState({ side: design.side, editing });
+  if (previousView.side !== design.side || previousView.editing !== editing) {
+    setPreviousView({ side: design.side, editing });
+    setSpinning(false);
+  }
   const autoplayed = useRef(false);
   const [reduced, setReduced] = useState(false);
   const sync = useRef<(d: Design) => void>(() => {});
@@ -82,8 +85,6 @@ export default function Studio3D({
     let disposed = false;
     let unavailable = false;
     autoplayed.current = false;
-    setStatus("loading");
-    setSpinning(false);
     onReady?.(false);
     const motion = matchMedia("(prefers-reduced-motion: reduce)");
     const motionChange = () => {
@@ -193,7 +194,6 @@ export default function Studio3D({
       .catch(fail);
     return () => {
       disposed = true;
-      ++generation.current;
       observer.disconnect();
       motion.removeEventListener("change", motionChange);
       element.removeEventListener("webglcontextlost", fail, true);
@@ -205,18 +205,14 @@ export default function Studio3D({
     sync.current(design);
   }, [design, selected, activeLayer, guides]);
   useEffect(() => {
-    if (editing && spinning) {
-      scene.current?.spin(false);
-      setSpinning(false);
-    }
-  }, [editing, spinning]);
+    scene.current?.spin(spinning && !editing && !reduced);
+  }, [editing, spinning, reduced]);
   useEffect(() => {
     if (skipSideView.current === design.side) {
       skipSideView.current = null;
       return;
     }
     scene.current?.view(design.side);
-    setSpinning(false);
     scene.current?.spin(false);
   }, [design.side]);
   const action = (fn: (s: StudioScene) => void) => {
@@ -247,6 +243,7 @@ export default function Studio3D({
             onChange={onChange}
             activeLayer={activeLayer}
             onSelectLayer={(layer) => onSelectLayer?.(layer, design.side)}
+            onDragChange={onDragChange}
             guides={guides && editing}
           />
           <p className="studio-3d-fallback" role="status">

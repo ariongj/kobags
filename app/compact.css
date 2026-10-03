@@ -1,4 +1,35 @@
 /* Compact site rhythm: reduce repeated space, preserve reading and touch targets. */
+.kobags-v5 .quote-grid > *,
+.kobags-v5 .form-grid > * {
+  min-width: 0;
+}
+.kobags-v5 .quote-form .choice,
+.kobags-v5 .inquiry-form .choice {
+  height: auto;
+  min-height: 44px;
+  white-space: normal;
+  text-align: left;
+}
+.kobags-v5 .quote-form .choice [data-slot="select-value"],
+.kobags-v5 .inquiry-form .choice [data-slot="select-value"] {
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  display: block;
+  overflow: visible;
+  -webkit-line-clamp: unset;
+}
+.kobags-v5 .proof-side-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0;
+}
+.kobags-v5 .proof-side-controls button[aria-pressed="true"] {
+  color: white;
+  background: #123442;
+  border-color: #123442;
+}
 .kobags-v5 {
   --section-space: 56px;
   --card-space: 22px;
@@ -1313,4 +1344,133 @@ body.kobags-v5:has(.studio-compact) .footer-top p {
   .kobags-v5 .factory-reel {
     width: 100%;
   }
+}
+
+/* Keep the working controls reachable when the visitor enlarges text. */
+.kobags-v5 .studio-history {
+  height: auto;
+  flex-wrap: wrap;
+  row-gap: 8px;
+}
+.kobags-v5 .studio-history > div {
+  min-width: 0;
+  max-width: 100%;
+  flex-wrap: wrap;
+}
+.kobags-v5 .studio-history .view-mode-tabs {
+  height: auto;
+  flex-wrap: wrap;
+}
+.kobags-v5 .quote-form .field input,
+.kobags-v5 .quote-form .field textarea {
+  max-width: 100%;
+  min-width: 0;
+}
+.kobags-v5 .quote-form .wizard-actions,
+.kobags-v5 .quote-form .quantity-options {
+  flex-wrap: wrap;
+}
+.kobags-v5 .studio-compact .view-mode-tabs,
+.kobags-v5 .studio-compact .editor-tabs,
+.kobags-v5 .studio-compact .stage-bottom .side-switch {
+  height: auto !important;
+  min-height: 36px;
+}
+.kobags-v5 .studio-compact .view-mode-tabs button,
+.kobags-v5 .studio-compact .editor-tabs button,
+.kobags-v5 .studio-compact .side-switch button {
+  white-space: normal;
+  height: auto;
+  line-height: 1.3;
+}
+.kobags-v5 .studio-compact .view-mode-tabs { max-width: 100%; }
+.kobags-v5 .studio-compact .bag-pick { height: auto; min-height: 74px; }
+.kobags-v5 .studio-compact .choice {
+  min-width: 0;
+  height: auto !important;
+  min-height: 40px;
+  white-space: normal;
+  text-align: left;
+}
+.kobags-v5 .quote-summary dl > div { min-width: 0; }
+.kobags-v5 .quote-summary dt,
+.kobags-v5 .product-detail dt,
+.kobags-v5 .check-label,
+.kobags-v5 .quote-progress .done,
+.kobags-v5 .quote-summary dd { min-width: 0; overflow-wrap: anywhere; }
+.kobags-v5 .quote-summary dt,
+.kobags-v5 .product-detail dt,
+.kobags-v5 .check-label > span,
+.kobags-v5 .quote-progress .done,
+.kobags-v5 .inquiry-aside p,
+.kobags-v5 .inquiry-aside li,
+.kobags-v5 .studio-compact .editor-tabs button,
+.kobags-v5 .studio-compact .side-switch button:not([aria-pressed="true"]),
+.kobags-v5 .studio-compact .text-field-help,
+.kobags-v5 .studio-compact .field small,
+.kobags-v5 .studio-compact .spec-mini span,
+.kobags-v5 .studio-compact .studio-quote > div > span,
+.kobags-v5 .studio-compact .studio-quote > p,
+.kobags-v5 .certificate-record-details dt,
+.kobags-v5 .certificate-validity dd,
+.kobags-v5 .certificate-record-details h2 > span { color: #526775; }
+.kobags-v5 .draft-storage-notice {
+  margin: 0;
+  padding: 10px max(16px, calc((100vw - 1344px) / 2));
+  background: #fff4d9;
+  color: #684500;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.kobags-v5 .studio-compact .view-mode-tabs,
+.kobags-v5 .studio-compact .side-switch { display: inline-flex; align-items: stretch; padding: 3px; border-radius: 7px; }
+.kobags-v5 .studio-compact .view-mode-tabs button,
+.kobags-v5 .studio-compact .side-switch button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border-radius: 5px; padding: 5px 10px; }
+.kobags-v5 .studio-compact .side-switch button[aria-pressed="true"] { color: #fff; background: #123643; }
+.kobags-v5 .studio-compact .transform-heading h2 { margin: 0; font-size: 14px; font-weight: 600; }
+.kobags-v5 .product-notes h2 { margin: 0 0 12px; font-size: 20px; }
+@media (max-width: 600px) {
+  .kobags-v5 main :is(div, section, article, aside, a, dl, dt, dd) { min-width: 0; }
+  .kobags-v5 main :is(h1, h2, h3, h4, p, li, dt, dd, a, label) { overflow-wrap: anywhere; }
+  .kobags-v5 main :is(.button, .text-button, .detail-thumbnails button, .hero-showroom-link) { white-space: normal; max-width: 100%; }
+  .kobags-v5 main :is(.partner-grid, .journal-grid, .resource-download, .material-feature) { grid-template-columns: minmax(0, 1fr); }
+  .kobags-v5 .detail-thumbnails { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .kobags-v5 .certificate-record { grid-template-columns: minmax(0, 1fr); }
+  .kobags-v5 .showcase-view-controls { max-width: calc(100% - 20px); flex-wrap: wrap; justify-content: center; }
+  .kobags-v5 .showcase-view-controls button { white-space: normal; padding-inline: 7px; }
+  .kobags-v5 .footer-v5 :is(div, p, a, span) { min-width: 0; overflow-wrap: anywhere; }
+  .kobags-v5 .footer-bottom > div { flex-wrap: wrap; }
+}
+.kobags-v5 .studio-compact .choice [data-slot="select-value"] {
+  display: block;
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  overflow: visible;
+  -webkit-line-clamp: unset;
+}
+@media (max-width: 600px) {
+  .kobags-v5 .studio-compact .bag-pick { min-height: 65px; }
+  .kobags-v5 .studio-compact .preview-stage { display: block; height: auto; }
+  .kobags-v5 .studio-compact .preview-stage > .studio-3d {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: clamp(210px, 30svh, 270px);
+  }
+  .kobags-v5 .studio-compact .preview-stage .studio-3d-host { inset: 26px 0 48px; }
+  .kobags-v5 .studio-compact .preview-stage .studio-3d-tools { bottom: 4px; }
+  .kobags-v5 .studio-compact .preview-stage > .bag-canvas {
+    width: 100%;
+    height: clamp(210px, 30svh, 270px);
+    margin: 0;
+  }
+  .kobags-v5 .studio-compact .stage-bottom {
+    position: relative;
+    inset: auto;
+    padding: 6px 10px 8px;
+    flex-wrap: wrap;
+  }
+  .kobags-v5 .studio-compact .stage-bottom .studio-download { max-width: 100%; white-space: normal; }
+  .kobags-v5 .studio-compact .stage-bottom > div { min-width: 0; max-width: 100%; }
 }

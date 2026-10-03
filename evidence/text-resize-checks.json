@@ -1,0 +1,86 @@
+[
+  {
+    "route": "/",
+    "width": 320,
+    "documentWidth": 320,
+    "overflows": []
+  },
+  {
+    "route": "/sq",
+    "width": 320,
+    "documentWidth": 320,
+    "overflows": []
+  },
+  {
+    "route": "/products",
+    "width": 320,
+    "documentWidth": 320,
+    "overflows": []
+  },
+  {
+    "route": "/products/handle-bag",
+    "width": 320,
+    "documentWidth": 320,
+    "overflows": []
+  },
+  {
+    "route": "/manufacturing",
+    "width": 320,
+    "documentWidth": 320,
+    "overflows": []
+  },
+  {
+    "route": "/sustainability",
+    "width": 320,
+    "documentWidth": 320,
+    "overflows": []
+  },
+  {
+    "route": "/sq/sustainability",
+    "width": 320,
+    "documentWidth": 320,
+    "overflows": []
+  },
+  {
+    "route": "/certifications",
+    "width": 320,
+    "documentWidth": 320,
+    "overflows": []
+  },
+  {
+    "route": "/partners",
+    "width": 320,
+    "documentWidth": 320,
+    "overflows": []
+  },
+  {
+    "route": "/contact",
+    "width": 320,
+    "documentWidth": 320,
+    "overflows": []
+  },
+  {
+    "route": "/resources",
+    "width": 320,
+    "documentWidth": 320,
+    "overflows": []
+  },
+  {
+    "route": "/blog",
+    "width": 320,
+    "documentWidth": 320,
+    "overflows": []
+  },
+  {
+    "route": "/blog/kobagsjourney",
+    "width": 320,
+    "documentWidth": 320,
+    "overflows": []
+  },
+  {
+    "route": "/privacy",
+    "width": 320,
+    "documentWidth": 320,
+    "overflows": []
+  }
+]

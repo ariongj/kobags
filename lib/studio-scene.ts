@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { colors, type Design } from "./catalog";
+import { studioFamilies } from "./studio-projection";
 import {
   sideArtwork,
   type ArtworkBounds,
@@ -33,28 +34,6 @@ export type StudioScene = {
   dispose: () => void;
 };
 // Family proportions are illustrative, not a dimensional drawing or approved print zone.
-const families: Record<
-  string,
-  {
-    width: number;
-    bottom: number;
-    top: number;
-    depth: number;
-    handles?: boolean;
-  }
-> = {
-  "handle-bag": {
-    width: 2.5,
-    bottom: -1.25,
-    top: 1.05,
-    depth: 0.55,
-    handles: true,
-  },
-  "box-bag": { width: 2.8, bottom: -1.2, top: 0.95, depth: 1.0, handles: true },
-  "d-cut-bag": { width: 2.45, bottom: -1.4, top: 1.6, depth: 0.3 },
-  "t-shirt-bag": { width: 2.1, bottom: -1.4, top: 1.8, depth: 0.34 },
-  "string-bag": { width: 2.35, bottom: -1.4, top: 1.55, depth: 0.45 },
-};
 export function createStudioScene(
   host: HTMLDivElement,
   product: string,
@@ -154,7 +133,7 @@ export function createStudioScene(
     side: THREE.DoubleSide,
   });
   materials.add(innerMat);
-  const spec = families[product] || families["handle-bag"];
+  const spec = studioFamilies[product as keyof typeof studioFamilies] || studioFamilies["handle-bag"];
   const { width, bottom, top, depth } = spec;
   const half = width / 2;
   function xAt(x: number, y: number) {

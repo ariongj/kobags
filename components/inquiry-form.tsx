@@ -6,6 +6,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useKobags } from "./kobags-context";
 import { Choice } from "./bag-studio";
 import { useDemo, errors } from "./demo-store";
+import { requestFieldLimits } from "@/lib/design-validation";
 export default function InquiryForm({
   kind,
 }: {
@@ -14,7 +15,7 @@ export default function InquiryForm({
   const { t, lang, design } = useKobags();
   const { act, busy, error } = useDemo();
   const [done, setDone] = useState("");
-  const [key] = useState(() =>
+  const [key, setKey] = useState(() =>
     typeof crypto !== "undefined" ? crypto.randomUUID() : "",
   );
   const [consent, setConsent] = useState(false);
@@ -42,7 +43,7 @@ export default function InquiryForm({
     }
     setInvalid("");
     try {
-      const id = await act({
+      const action = {
         type: "inquiry",
         data: {
           kind,
@@ -64,7 +65,16 @@ export default function InquiryForm({
             data.message,
           consent,
         },
-      });
+      };
+      let id: string | undefined;
+      try {
+        id = await act(action);
+      } catch (cause) {
+        if (!(cause instanceof Error) || cause.message !== "REQUEST_KEY_CONFLICT") throw cause;
+        const nextKey = crypto.randomUUID();
+        setKey(nextKey);
+        id = await act({ ...action, data: { ...action.data, key: nextKey } });
+      }
       if (id) setDone(id);
     } catch {}
   };
@@ -111,7 +121,7 @@ export default function InquiryForm({
               type={type}
               required
               minLength={2}
-              maxLength={150}
+              maxLength={requestFieldLimits[k] || 150}
               value={data[k as keyof typeof data]}
               onChange={(e) => set(k, e.target.value)}
             />
@@ -121,17 +131,17 @@ export default function InquiryForm({
           <>
             <Choice
               id="partner-model"
-              label="Partner model"
+              label={t("Partner model", "Modeli i partneritetit")}
               value={model}
               onChange={setModel}
               options={[
                 "Country representative",
                 "Sales partner",
                 "Affiliate",
-              ].map((s) => ({ value: s, label: s }))}
+              ].map((s) => ({ value: s, label: t(s, ({ "Country representative": "Përfaqësues për një vend", "Sales partner": "Partner shitjesh", Affiliate: "Partner referimi" } as Record<string, string>)[s]) }))}
             />
             <div className="field">
-              <label htmlFor="website">Website (optional)</label>
+              <label htmlFor="website">{t("Website (optional)", "Faqja e internetit (opsionale)")}</label>
               <input
                 id="website"
                 type="url"

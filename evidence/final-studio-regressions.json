@@ -1,0 +1,16 @@
+{
+  "status": "passed",
+  "checks": [
+    "Custom text ink survives reload",
+    "Custom text ink survives studio-to-quote navigation",
+    "Custom text ink survives Albanian route navigation",
+    "Undo restores fabric and explicit ink together",
+    "A flat drag with a 950 ms pause is one undo gesture",
+    "Selected overlapping logo moves alone in photo mode",
+    "Fullscreen photo artwork is editable and keeps one undo per gesture",
+    "Mobile touch drags the selected photo layer without horizontal overflow",
+    "Quote CTA waits for upload storage, then carries the completed logo",
+    "No-WebGL mobile fallback remains editable with atomic drag undo"
+  ],
+  "browserErrors": []
+}

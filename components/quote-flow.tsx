@@ -16,9 +16,11 @@ import { useDemo, errors } from "./demo-store";
 import { products, getProduct, Design, colors } from "@/lib/catalog";
 import { sideArtwork } from "@/lib/studio-artwork";
 import { artworkSides } from "@/lib/studio-checks";
+import { languageHref } from "@/lib/site-locale";
+import { isCalendarDate, requestFieldLimits } from "@/lib/design-validation";
 export default function QuoteFlow() {
   const { t, lang, design, update, ready } = useKobags();
-  const { state, error, busy, act } = useDemo();
+  const { state, error, busy, act, refresh } = useDemo();
   const [step, setStep] = useState(0);
   const [validation, setValidation] = useState("");
   const [submitted, setSubmitted] = useState("");
@@ -72,18 +74,18 @@ export default function QuoteFlow() {
   const set = (key: keyof Design, value: unknown) => update({ [key]: value });
   const validate = () => {
     if (step === 2) {
-      if (!Number.isInteger(design.quantity) || design.quantity < minimum)
+      if (!Number.isInteger(design.quantity) || design.quantity < minimum || design.quantity > 10000000)
         return "quantity";
       if (!design.country.trim()) return "country";
       if (design.city.trim().length < 2) return "city";
-      if (design.date && design.date < new Date().toISOString().slice(0, 10))
+      if (design.date && (!isCalendarDate(design.date) || design.date < new Date().toISOString().slice(0, 10)))
         return "date";
     }
     if (step === 3) {
       if (
         design.company.trim().length < 2 ||
         design.contact.trim().length < 2 ||
-        !/^\S+@\S+\.\S+$/.test(design.email)
+        !/^\S+@\S+\.\S+$/.test(design.email.trim())
       )
         return "company";
       if (!design.consent) return "consent";
@@ -123,15 +125,44 @@ export default function QuoteFlow() {
       return;
     }
     try {
-      const id = await act({ type: "submit", design });
+      let id: string | undefined;
+      try {
+        id = await act({ type: "submit", design });
+      } catch (cause) {
+        if (!(cause instanceof Error) || cause.message !== "REQUEST_KEY_CONFLICT") throw cause;
+        // Only a confirmed key collision gets a fresh key; an uncertain network
+        // result retains the original key so retrying cannot duplicate a save.
+        const nextDesign = { ...design, key: crypto.randomUUID() };
+        update({ key: nextDesign.key });
+        id = await act({ type: "submit", design: nextDesign });
+      }
       if (id) {
         setSubmitted(id);
-        history.replaceState(null, "", "/quote?submitted=" + id);
-        localStorage.setItem("kobags-quote-step", "0");
+        update({ key: crypto.randomUUID(), consent: false });
+        history.replaceState(null, "", languageHref("/quote?submitted=" + encodeURIComponent(id), lang));
+        try { localStorage.setItem("kobags-quote-step", "0"); } catch {}
         window.scrollTo(0, 0);
       }
     } catch {}
   };
+  if (submitted && !state?.requests.some((request) => request.id === submitted))
+    return (
+      <main className="success-page content-width">
+        <h1>{!state && !error
+          ? t("Checking your saved request…", "Duke kontrolluar kërkesën e ruajtur…")
+          : t("We couldn’t open this request.", "Nuk mund ta hapnim këtë kërkesë.")}</h1>
+        <p role="status">{!state && !error
+          ? t("Please wait while we confirm the saved reference.", "Ju lutemi prisni derisa të konfirmojmë referencën e ruajtur.")
+          : error
+            ? (errors[error] || errors.STORAGE_UNAVAILABLE)[lang === "sq" ? 1 : 0]
+            : t("This reference is not available in this browser’s workspace. Your current design is still available.", "Kjo referencë nuk gjendet në hapësirën e këtij shfletuesi. Dizajni juaj aktual është ende i disponueshëm.")}</p>
+        <div className="actions">
+          {error && <button className="button secondary" onClick={refresh}>{t("Try again", "Provoni përsëri")}</button>}
+          <Link href="/quote" className="button">{t("Return to your request", "Kthehuni te kërkesa juaj")}</Link>
+          <Link href="/demo/customer" className="text-button">{t("View saved requests", "Shihni kërkesat e ruajtura")}</Link>
+        </div>
+      </main>
+    );
   if (submitted)
     return (
       <main className="success-page content-width">
@@ -167,7 +198,7 @@ export default function QuoteFlow() {
             setSubmitted("");
             setStep(0);
             update({ key: crypto.randomUUID() });
-            history.replaceState(null, "", "/quote");
+            history.replaceState(null, "", languageHref("/quote", lang));
           }}
         >
           {t("Start another request", "Filloni kërkesë tjetër")}
@@ -191,7 +222,8 @@ export default function QuoteFlow() {
         required={required}
         value={String(design[key] ?? "")}
         onChange={(e) => set(key, e.target.value)}
-        maxLength={key === "note" ? 3000 : 150}
+        maxLength={requestFieldLimits[key] || 150}
+        min={type === "date" ? new Date().toISOString().slice(0, 10) : undefined}
       />
     </div>
   );
@@ -261,7 +293,7 @@ export default function QuoteFlow() {
           ))}
         </div>
         <div className="quote-grid">
-          <section className="section-card quote-form">
+          <form className="section-card quote-form" noValidate onSubmit={(event) => { event.preventDefault(); if (!busy && ready) void next(); }}>
             <div className="step-caption">
               {t("STEP", "HAPI")} {step + 1} / 4
             </div>
@@ -421,6 +453,7 @@ export default function QuoteFlow() {
                       .map((n) => (
                         <button
                           key={n}
+                          type="button"
                           className={design.quantity === n ? "selected" : ""}
                           onClick={() => update({ quantity: n })}
                         >
@@ -460,7 +493,7 @@ export default function QuoteFlow() {
                     "North Macedonia",
                     "United Kingdom",
                     "Other / to discuss",
-                  ].map((s) => ({ value: s, label: s }))}
+                  ].map((s) => ({ value: s, label: t(s, ({ Kosovo: "Kosovë", Albania: "Shqipëri", Germany: "Gjermani", Austria: "Austri", Switzerland: "Zvicër", "North Macedonia": "Maqedoni e Veriut", "United Kingdom": "Mbretëri e Bashkuar", "Other / to discuss": "Tjetër / për diskutim" } as Record<string, string>)[s]) }))}
                 />
                 {fields("city", t("City", "Qyteti"), "text", true)}
                 {fields(
@@ -544,6 +577,7 @@ export default function QuoteFlow() {
             <div className="wizard-actions">
               <button
                 className="text-button"
+                type="button"
                 onClick={() => {
                   setStep(Math.max(0, step - 1));
                   setValidation("");
@@ -555,7 +589,7 @@ export default function QuoteFlow() {
               </button>
               <button
                 className="button"
-                onClick={next}
+                type="submit"
                 disabled={busy || !ready}
               >
                 {busy
@@ -566,7 +600,7 @@ export default function QuoteFlow() {
                 <ArrowRight size={16} />
               </button>
             </div>
-          </section>
+          </form>
           <aside className="quote-summary">
             <div className="summary-top">
               <h3>{t("Your bag, so far.", "Çanta juaj deri tani.")}</h3>

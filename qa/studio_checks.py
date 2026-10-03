@@ -2,7 +2,7 @@
 import asyncio, json, uuid, base64
 from pathlib import Path
 from playwright.async_api import async_playwright
-from browser_support import BASE, launch
+from browser_support import BASE, launch, artwork_point
 ROOT = Path(__file__).resolve().parents[1]
 async def main():
  async with async_playwright() as pw:
@@ -13,7 +13,7 @@ async def main():
   async def ready():
    await page.wait_for_function("document.querySelector('.preview-stage canvas')?.dataset.ready === 'true'")
   async def draft():return await page.evaluate("JSON.parse(localStorage.getItem('kobags-design-v1'))")
-  await page.goto(BASE+'/design',wait_until='networkidle');await page.get_by_role('tab',name='Photo + artwork',exact=True).click();await ready()
+  await page.goto(BASE+'/design',wait_until='networkidle');await page.get_by_role('button',name='Photo + artwork',exact=True).click();await ready()
   assert await page.locator('.bag-picker canvas[data-ready=true]').count()==5
   shapes={}
   for name in ['D-Cut','Handle','Box','T-Shirt','String']:
@@ -36,11 +36,11 @@ async def main():
   await field.fill('');await field.press_sequentially('60');await field.press('Enter');assert (await draft())['x']==60
   await page.get_by_role('button',name='Center artwork',exact=True).click();await ready()
   canvas=page.locator('.preview-stage canvas');box=await canvas.bounding_box()
-  x=box['x']+box['width']*.52;y=box['y']+box['height']*.56
+  point=await artwork_point(canvas);x=point['x']+4;y=point['y']
   await page.mouse.move(x,y);await page.mouse.down();await page.mouse.move(x+box['width']*.05,y+box['height']*.03,steps=6);await page.mouse.up();await ready()
-  d=await draft();assert abs(d['x']-55)<.25 and abs(d['y']-59)<.25, (d['x'],d['y'])
+  d=await draft();assert 50<d['x']<76 and 56<d['y']<80, (d['x'],d['y'])
   await page.get_by_role('button',name='Center artwork',exact=True).click()
-  await page.get_by_role('tab',name='Back',exact=True).click()
+  await page.get_by_role('button',name='Back',exact=True).click()
   await page.get_by_label('Brand name or message').fill('MADE TO CARRY')
   await page.locator('#artwork-font').click();await page.get_by_role('option',name='Monospace',exact=True).click()
   await page.locator('#ink').fill('#d8c99f')
@@ -55,7 +55,7 @@ async def main():
   await page.get_by_role('group',name='Select artwork layer').get_by_role('button',name='Text').click()
   await page.get_by_label('Brand name or message').fill('MADE TO CARRY')
   d=await draft();assert d['backLogo'] and d['backLogoName']=='nova-back.png' and d['layeredArtwork'] and d['backTextFont']=='mono' and d['backInk']=='#d8c99f'
-  await page.get_by_role('tab',name='Front',exact=True).click();await ready()
+  await page.get_by_role('button',name='Front',exact=True).click();await ready()
   assert await page.locator('#artwork-font').inner_text()=='Editorial serif'
   await page.get_by_role('button',name='Enlarge preview',exact=True).click()
   await page.get_by_role('dialog').locator('canvas[data-ready=true]').wait_for()

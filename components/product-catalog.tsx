@@ -386,7 +386,7 @@ export function ProductDetail({ product: original }: { product: Product }) {
       </div>
       <div className="grid-two product-notes">
         <div className="section-card">
-          <h3>{t("Plan your production", "Planifikoni prodhimin")}</h3>
+          <h2>{t("Plan your production", "Planifikoni prodhimin")}</h2>
           <p>
             {(lang === "en" ? state?.settings.leadTime : undefined) ||
               t("Indicative dispatch 2–4 weeks after artwork approval, subject to production confirmation.", "Dërgesa orientuese 2–4 javë pas miratimit të dizajnit, sipas konfirmimit të prodhimit.")}{" "}
@@ -394,7 +394,7 @@ export function ProductDetail({ product: original }: { product: Product }) {
           </p>
         </div>
         <div className="section-card">
-          <h3>{t("Material, care & artwork", "Materiali dhe dizajni")}</h3>
+          <h2>{t("Material, care & artwork", "Materiali dhe dizajni")}</h2>
           <p>
             {t("PP is a plastic material; composition does not establish recycled content. Ask for product-specific declarations and local collection guidance. Final print area and dimension drawings require production approval.", "PP është material plastik; përbërja nuk dëshmon përmbajtje të ricikluar. Kërkoni deklarata për produktin dhe udhëzime lokale për grumbullimin. Zona përfundimtare e shtypit dhe vizatimet e përmasave kërkojnë miratim nga prodhimi.")}
           </p>

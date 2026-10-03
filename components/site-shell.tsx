@@ -6,12 +6,14 @@ import { ArrowUpRight, Menu, Globe2, X } from "lucide-react";
 import { useKobags } from "./kobags-context";
 import { contentPath, languageHref } from "@/lib/site-locale";
 export function Header() {
-  const { t, lang, setLang } = useKobags();
+  const { t, lang, setLang, storageStatus } = useKobags();
   const [open, setOpen] = useState(false);
   const path = contentPath(usePathname());
   const menuButton = useRef<HTMLButtonElement>(null);
+  const navigation = useRef<HTMLElement>(null);
   useEffect(() => {
     if (!open) return;
+    const frame = requestAnimationFrame(() => navigation.current?.querySelector<HTMLAnchorElement>("a")?.focus({ preventScroll: true }));
     const close = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setOpen(false);
@@ -19,7 +21,7 @@ export function Header() {
       }
     };
     document.addEventListener("keydown", close);
-    return () => document.removeEventListener("keydown", close);
+    return () => { cancelAnimationFrame(frame); document.removeEventListener("keydown", close); };
   }, [open]);
   return (
     <>
@@ -35,9 +37,11 @@ export function Header() {
           </span>
         </Link>
         <nav
+          ref={navigation}
           id="site-navigation"
           className={open ? "nav open" : "nav"}
           aria-label={t("Main navigation", "Navigimi kryesor")}
+          onBlur={(event) => { if (open && event.relatedTarget && !event.currentTarget.contains(event.relatedTarget as Node) && event.relatedTarget !== menuButton.current) setOpen(false); }}
         >
           {[
             ["/", "Home", "Ballina"],
@@ -97,6 +101,11 @@ export function Header() {
           </button>
         </div>
       </header>
+      {storageStatus !== "persistent" && (
+        <p className="draft-storage-notice" role="status">{storageStatus === "session"
+          ? t("Your design is saved for this tab only. Keep this tab open until you send your request.", "Dizajni ruhet vetëm në këtë skedë. Mbajeni të hapur derisa ta dërgoni kërkesën.")
+          : t("Your browser cannot save this design. Download a preview before leaving, or allow browser storage to continue safely.", "Shfletuesi nuk mund ta ruajë dizajnin. Shkarkoni parapamjen para se të largoheni, ose lejoni ruajtjen në shfletues.")}</p>
+      )}
     </>
   );
 }

@@ -1,0 +1,66 @@
+[
+  {
+    "case": "predeployment draft key collision",
+    "status": 200,
+    "originalId": "KBG-95D214BE",
+    "returnedId": "KBG-B65E9362",
+    "savedTexts": [
+      "LEGACY NEW DESIGN",
+      "LEGACY ORIGINAL"
+    ],
+    "draftRequestedText": "LEGACY NEW DESIGN",
+    "bug": false
+  },
+  {
+    "case": "lost response identical retry",
+    "savedDespiteLostResponse": true,
+    "keyPreserved": true,
+    "retrySameId": true,
+    "savedCount": 1,
+    "bug": false
+  },
+  {
+    "case": "lost response then edit artwork",
+    "status": 200,
+    "savedTexts": [
+      "LOST ACK SECOND",
+      "LOST ACK FIRST"
+    ],
+    "bug": false
+  },
+  {
+    "case": "multitab unrelated field preservation",
+    "dimensionsAfterTab1": "44 x 55 cm",
+    "dimensionsAfterTab2": "44 x 55 cm",
+    "purposeAfterTab2": "Gift packaging",
+    "bug": false
+  },
+  {
+    "case": "browser storage full",
+    "enteredText": "STORAGE UNSAVED BRAND",
+    "reviewText": "Front\n\nSTORAGE UNSAVED BRAND\n\nBack\n\nNo artwork \u00b7 blank side\n\nEdit design in the studio",
+    "bug": false,
+    "warningText": ""
+  },
+  {
+    "case": "both browser stores unavailable",
+    "warningVisible": true,
+    "leaveWarningShown": true,
+    "dismissPreservesEdits": true,
+    "bug": false
+  },
+  {
+    "case": "corrupt upload preserves existing draft",
+    "existingTextPreserved": true,
+    "logoPreserved": true,
+    "quoteReady": true,
+    "bug": false
+  },
+  {
+    "case": "server storage outage then retry",
+    "draftPreserved": true,
+    "retryStatus": 200,
+    "savedText": "RETAIN AFTER 503",
+    "bug": false
+  }
+]

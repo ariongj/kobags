@@ -34,7 +34,7 @@ async def main():
    png=base64.b64encode(await canvas.screenshot()).decode()
    bright=await page.evaluate("""async ({png,x,y})=>{const im=new Image();im.src='data:image/png;base64,'+png;await im.decode();const c=document.createElement('canvas');c.width=im.width;c.height=im.height;const ctx=c.getContext('2d');ctx.drawImage(im,0,0);const pixels=ctx.getImageData(Math.round(x*c.width)-20,Math.round(y*c.height)-10,40,20).data;let n=0;for(let i=0;i<pixels.length;i+=4)if(pixels[i]>130&&pixels[i+1]>130&&pixels[i+2]>85)n++;return n;}""",{'png':png,'x':point['x'],'y':point['y']})
    assert bright>12, {'layer':layer,'side':side,'visiblePixels':bright}
-  await page.goto(BASE+'/design',wait_until='networkidle');await page.get_by_role('tab',name='3D view',exact=True).click();await ready()
+  await page.goto(BASE+'/design',wait_until='networkidle');await page.get_by_role('button',name='3D view',exact=True).click();await ready()
   await visible_artwork('logo');await visible_artwork('text')
   a=await angle();initial=await draft();await drag('logo',35,15,pause=True);moved=await draft()
   assert moved['x']>initial['x']+2 and moved['y']>initial['y']+1,(initial['x'],moved['x'],initial['y'],moved['y'])
@@ -64,14 +64,14 @@ async def main():
    async with page.expect_download() as pending: await page.get_by_role('button',name='Download design preview',exact=True).click()
    path=await (await pending.value).path();return Path(path).read_bytes()
   clean=await download();await page.get_by_role('button',name='Toggle artwork guides',exact=True).click();await ready();assert await download()==clean
-  assert await page.get_by_role('tab',name='3D view',exact=True).get_attribute('data-state')=='active'
+  assert await page.get_by_role('button',name='3D view',exact=True).get_attribute('data-state')=='active'
   await page.get_by_role('button',name='Toggle artwork guides',exact=True).click()
   # Fullscreen uses the same editable draft.
   await page.get_by_role('button',name='Enlarge preview',exact=True).click();dialog=page.get_by_role('dialog');await dialog.locator('.studio-3d[data-status=ready]').wait_for();dh=dialog.locator('.studio-3d-host')
   await page.wait_for_function("document.querySelector('[role=dialog] .studio-3d-host')?.dataset.artworkTargets")
   before=await draft();await drag('text',22,0,'back',where=dh);assert (await draft())['backTextPlacement']['x']!=before['backTextPlacement']['x']
   await page.keyboard.press('Escape');await page.keyboard.press('Escape');await dialog.wait_for(state='hidden')
-  await page.get_by_role('tab',name='Front',exact=True).click();await ready();await page.wait_for_function("Math.abs(Number(document.querySelector('.preview-stage .studio-3d-host').dataset.angle))<.01");await visible_artwork('logo');await visible_artwork('text')
+  await page.get_by_role('button',name='Front',exact=True).click();await ready();await page.wait_for_function("Math.abs(Number(document.querySelector('.preview-stage .studio-3d-host').dataset.angle))<.01");await visible_artwork('logo');await visible_artwork('text')
   await page.evaluate('window.scrollTo({top:0,behavior:"instant"})');await page.screenshot(path=str(ROOT/'evidence/studio-direct-drag-desktop.jpg'),type='jpeg',quality=85,full_page=True)
   # Mobile touch: artwork moves while the camera and other layers remain fixed.
   await page.set_viewport_size({'width':390,'height':844});await canvas.scroll_into_view_if_needed();await ready();cdp=await context.new_cdp_session(page)

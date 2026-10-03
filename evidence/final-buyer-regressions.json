@@ -1,0 +1,19 @@
+{
+  "status": "passed",
+  "checks": [
+    "consecutive UI submissions preserve two different front/back designs",
+    "invalid and foreign success references cannot claim saved requests",
+    "Albanian success URL, refresh and saved reference remain Albanian",
+    "impossible calendar dates are rejected without creating requests",
+    "pending-change and stale quote acceptance blocked; revised quote accepted",
+    "both faces are reviewable before approving revised artwork v2",
+    "reorder preserves ordered artwork v2 and needs fresh approvals"
+  ],
+  "browserErrors": [],
+  "requests": [
+    "KBG-8785DFBE",
+    "KBG-4621D690",
+    "KBG-EB9DD38D",
+    "KBG-E2045D5D"
+  ]
+}

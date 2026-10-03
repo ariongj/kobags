@@ -1,21 +1,25 @@
 # Studio image provenance
 
-## Current designer mockups
+## Current photo-based designer
 
-Five individual blank bag illustrations were generated with the built-in `image_gen` tool in September 2026, one output per shape: D-cut, Handle, Box, T-shirt and String. The original Kobags product photographs informed the geometry brief; the tool generated new assets from written descriptions after local reference-file transport failed before generation. There was no quality-retry generation loop.
+The current `studio-real-*` blank mockups are derived from the client's supplied product photographs in `CoBag-20260928T203801Z-1-001.zip`. Image generation removed printed artwork while retaining a photographic reference for each bag family. The T-Shirt Natural variant recolors that blank fabric to a warm natural shade. These are edited illustrative previews, not untouched photos of a finished order.
 
-Each original is a 1254 × 1254 RGBA PNG with genuine transparency. The application serves optimized WebP versions at quality 94 with full alpha quality from `public/assets/studio-v4/`. Together these assets are about 1.58 MB. Runtime silhouette bounds normalize spacing, low-alpha fringe pixels are omitted, and canvas tinting preserves fabric shading. Tiny generated edge irregularities remain; these are illustrative mockups rather than production templates.
+[studio-real-photo-sources.json](studio-real-photo-sources.json) maps each source photograph to its shipped blank asset. `lib/studio-artwork.ts` selects the current assets and their alpha bounds. Natural Handle, Box and T-Shirt keep their supplied blank-asset colors; other colors use a luminance-preserving canvas tint. Unedited production photographs appear separately in the catalog and studio reference gallery.
 
-Exact prompts, original generated paths and shipped asset paths are in [studio-v4-prompts.json](studio-v4-prompts.json). The mode was built-in image generation, not an external API. The requested image size was 1536px or best available; the actual output size was 1254px.
+The five Three.js models use volumetric front/back panels, gussets, bases, handles or closures. Front fabric comes from the corresponding edited photograph. No clean rear photograph was supplied, so the back is reconstructed from an unprinted fabric crop. This is not a photogrammetry scan or approved production CAD.
 
-The interface renders at 1600 × 1600; downloadable concept sheets are 1600 × 1820 with a specification footer. Enlarging the render does not create additional source-photo detail. Both sides reuse the same illustrative silhouette. Size selection updates specifications, not the physical shape of the mockup.
+`lib/studio-projection.ts` registers the canonical 3D artwork coordinates onto each photographed front-panel quadrilateral. The same projection drives the flat editor and PNG export; the inverse drives pointer placement. It excludes the photographed side gusset and clips shaped handle openings. Registration points must be reviewed if a source asset changes. They describe an illustrative surface, not an approved print area or measurement.
 
-## Earlier mockup
+Single-face exports are 1600 × 1820 pixels with a specification footer; two-sided sheets are 2000 × 1400. Render dimensions do not add source-photo detail. Size selection changes the quoted specification; geometry is illustrative by family. Production still requires approved dimensions, colors, materials and print placement.
 
-`public/assets/studio-bag-atlas.png` is the original generated 1983 × 793 atlas. Saved design snapshots without `previewVersion: "v4"` continue using its bag geometry. Current drafts use the individual mockups. Keep the atlas while historic artwork snapshots can reference it.
+## Retained earlier assets
+
+`public/assets/studio-v4/` contains five previously generated blank illustrations (1254 × 1254 transparent source PNGs and optimized WebP copies). The original Kobags photos informed their written geometry brief; they were generated without attached reference files after local reference transport failed. Exact prompts and provenance remain in [studio-v4-prompts.json](studio-v4-prompts.json). These assets are retained for reuse/history and are not the current designer's selected mockups.
+
+`public/assets/studio-bag-atlas.png` is the earlier generated 1983 × 793 atlas. Saved snapshots without `previewVersion: "v4"` retain the original atlas renderer and identity artwork mapping. Keep the atlas while historic snapshots can reference it.
 
 ## Original brand evidence
 
-Original Kobags product photos retain their existing printed branding and appear in the catalog. Factory images, original product photographs, certificate scans and manufacturing video come from Kobags' public site; see `asset-sources.json`.
+The original client product photographs, factory images/videos and certificate scans retain their source content. See `asset-sources.json`, `studio-real-photo-sources.json` and the supplied-media manifests. An edited studio mockup must not be relabelled as an untouched photograph of production or a verified manufacturing proof.
 
-The studio does not present generated illustrations as photographs of manufactured samples. The interface and exported preview require approval of actual shape, material, color and print placement. These assets are not exact dielines, 3D models, material samples or a guarantee of printable area.
+The 3 October registration places artwork centers on the photographed panel with a uniform scale and local tilt. Logos retain their aspect ratio; the projection does not stretch an entire artwork plane to the photo. `qa/studio_aspect_checks.py` verifies center/edge exports for all five families, rotated artwork and visible-pixel dragging. Panel coordinates are illustrative and must be recalibrated when replacing a mockup.

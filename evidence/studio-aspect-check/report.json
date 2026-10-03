@@ -1,0 +1,212 @@
+{
+  "cases": [
+    {
+      "family": "Handle",
+      "position": "center",
+      "count": 8727,
+      "center": [
+        786.7888163171766,
+        822.8368282342157
+      ],
+      "size": [
+        1600,
+        1820
+      ],
+      "bbox": [
+        740,
+        776,
+        834,
+        870
+      ],
+      "covarianceAspect": 1.0003497009019764
+    },
+    {
+      "family": "Handle",
+      "position": "right",
+      "count": 8725,
+      "center": [
+        1031.0945558739254,
+        817.1804011461318
+      ],
+      "size": [
+        1600,
+        1820
+      ],
+      "bbox": [
+        984,
+        770,
+        1078,
+        864
+      ],
+      "covarianceAspect": 1.0007764277146902
+    },
+    {
+      "family": "Box",
+      "position": "center",
+      "count": 8831,
+      "center": [
+        891.776242781112,
+        821.6522477635602
+      ],
+      "size": [
+        1600,
+        1820
+      ],
+      "bbox": [
+        843,
+        773,
+        940,
+        870
+      ],
+      "covarianceAspect": 1.000450072055155
+    },
+    {
+      "family": "Box",
+      "position": "right",
+      "count": 8831,
+      "center": [
+        1137.2243234061827,
+        810.2297588042125
+      ],
+      "size": [
+        1600,
+        1820
+      ],
+      "bbox": [
+        1089,
+        762,
+        1186,
+        859
+      ],
+      "covarianceAspect": 1.0000326667112176
+    },
+    {
+      "family": "D-Cut",
+      "position": "center",
+      "count": 25598,
+      "center": [
+        794.5,
+        889.4937885772326
+      ],
+      "size": [
+        1600,
+        1820
+      ],
+      "bbox": [
+        715,
+        810,
+        874,
+        969
+      ],
+      "covarianceAspect": 1.0000000090443433
+    },
+    {
+      "family": "D-Cut",
+      "position": "right",
+      "count": 25598,
+      "center": [
+        1210.5062114227674,
+        889.5
+      ],
+      "size": [
+        1600,
+        1820
+      ],
+      "bbox": [
+        1131,
+        810,
+        1290,
+        969
+      ],
+      "covarianceAspect": 1.0000000090443433
+    },
+    {
+      "family": "T-Shirt",
+      "position": "center",
+      "count": 8683,
+      "center": [
+        914.4780605781411,
+        872.5766440170448
+      ],
+      "size": [
+        1600,
+        1820
+      ],
+      "bbox": [
+        866,
+        824,
+        963,
+        921
+      ],
+      "covarianceAspect": 1.0001854804888093
+    },
+    {
+      "family": "T-Shirt",
+      "position": "right",
+      "count": 6265,
+      "center": [
+        1144.7490822027135,
+        859.0702314445331
+      ],
+      "size": [
+        1600,
+        1820
+      ],
+      "bbox": [
+        1109,
+        811,
+        1180,
+        907
+      ],
+      "covarianceAspect": 1.3845656486022762
+    },
+    {
+      "family": "String",
+      "position": "center",
+      "count": 19381,
+      "center": [
+        828.9360198132191,
+        993.0003611784738
+      ],
+      "size": [
+        1600,
+        1820
+      ],
+      "bbox": [
+        758,
+        922,
+        900,
+        1064
+      ],
+      "covarianceAspect": 1.0001137733834915
+    },
+    {
+      "family": "String",
+      "position": "right",
+      "count": 19381,
+      "center": [
+        1192.496929982973,
+        1003.2898199267323
+      ],
+      "size": [
+        1600,
+        1820
+      ],
+      "bbox": [
+        1121,
+        932,
+        1264,
+        1074
+      ],
+      "covarianceAspect": 1.0009998006061325
+    }
+  ],
+  "checks": [
+    "Rotated square keeps original aspect ratio",
+    "Photo projected pixels drag and paused gesture Undo restores original",
+    "Fullscreen actual-pixel logo drag and Undo",
+    "390 px mobile touch targets preserve compact layout"
+  ],
+  "errors": [],
+  "status": "passed"
+}

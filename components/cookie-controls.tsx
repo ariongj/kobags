@@ -2,16 +2,18 @@
 import { useState } from "react";
 import { useKobags } from "./kobags-context";
 import { initialDesign } from "@/lib/catalog";
+import { clearStoredDraft } from "@/lib/draft-storage";
 export default function CookieControls() {
-  const { update, t } = useKobags();
+  const { replace, t } = useKobags();
   const [done, setDone] = useState(false);
   return (
     <div>
       <button
         className="button secondary"
         onClick={() => {
-          update({ ...initialDesign, key: crypto.randomUUID() });
-          localStorage.removeItem("kobags-quote-step");
+          clearStoredDraft();
+          replace({ ...initialDesign, key: crypto.randomUUID() });
+          try { localStorage.removeItem("kobags-quote-step"); } catch {}
           setDone(true);
         }}
       >

@@ -34,7 +34,6 @@ import {
 import { useKobags } from "./kobags-context";
 import { useDemo, errors } from "./demo-store";
 import { Choice, BagPreview } from "./bag-studio";
-import { Request, DemoState } from "@/lib/demo-domain";
 import { DemoJourney } from "./demo-journey";
 import { initialDesign } from "@/lib/catalog";
 import { workspaceLabel, workspaceEvent } from "@/lib/workspace-copy";
@@ -88,7 +87,7 @@ export default function DemoWorkspace({
 }: {
   role: "admin" | "customer";
 }) {
-  const { t, lang, update } = useKobags();
+  const { t, lang, replace } = useKobags();
   const money = (n: number) => formatMoney(n, lang);
   const date = (value: string) => formatDate(value, lang);
   const label = (value: string) => workspaceLabel(value, lang);
@@ -98,6 +97,7 @@ export default function DemoWorkspace({
   const [search, setSearch] = useState("");
   const [tab, setTab] = useState("requests");
   const [detailTab, setDetailTab] = useState("overview");
+  const [proofSide, setProofSide] = useState<"front" | "back">("front");
   const [note, setNote] = useState("");
   const [owner, setOwner] = useState("Demo sales team");
   const [quoteOpen, setQuoteOpen] = useState(false);
@@ -106,7 +106,7 @@ export default function DemoWorkspace({
   const [unit, setUnit] = useState("45");
   const [setup, setSetup] = useState("12000");
   const [valid, setValid] = useState(
-    new Date(Date.now() + 14 * 86400000).toISOString().slice(0, 10),
+    () => new Date(Date.now() + 14 * 86400000).toISOString().slice(0, 10),
   );
   const [terms, setTerms] = useState(
     "FICTIONAL DEMO QUOTATION. Shipping and tax excluded; to be confirmed. This is not a Kobags offer. No payment is collected.",
@@ -123,27 +123,22 @@ export default function DemoWorkspace({
   const [contentOwner, setContentOwner] = useState("");
   const [review, setReview] = useState("");
   const [product, setProduct] = useState("handle-bag");
-  const [description, setDescription] = useState("");
-  const [moq, setMoq] = useState("5000");
-  const [lead, setLead] = useState("");
-  const [responseHours, setResponseHours] = useState("48");
+  const [descriptionEdit, setDescriptionEdit] = useState<{ product: string; value: string } | null>(null);
+  const description = descriptionEdit?.product === product ? descriptionEdit.value : state?.drafts[product] ?? state?.catalog.find((entry) => entry.slug === product)?.description ?? "";
+  const setDescription = (value: string) => setDescriptionEdit({ product, value });
+  const [moqEdit, setMoq] = useState<string | null>(null);
+  const [leadEdit, setLead] = useState<string | null>(null);
+  const [responseHoursEdit, setResponseHours] = useState<string | null>(null);
+  const moq = moqEdit ?? String(state?.settings.moq ?? 5000);
+  const lead = leadEdit ?? state?.settings.leadTime ?? "";
+  const responseHours = responseHoursEdit ?? String(state?.settings.responseHours ?? 48);
   useEffect(() => {
-    const id = new URLSearchParams(location.search).get("id");
-    if (id) setSelected(id);
+    const frame = requestAnimationFrame(() => {
+      const id = new URLSearchParams(location.search).get("id");
+      if (id) setSelected(id);
+    });
+    return () => cancelAnimationFrame(frame);
   }, []);
-  useEffect(() => {
-    if (state && !selected && state.requests.length)
-      setSelected(state.requests[0].id);
-  }, [state, selected]);
-  useEffect(() => {
-    if (state) {
-      const p = state.catalog.find((p) => p.slug === product);
-      setDescription(state.drafts[product] || p?.description || "");
-      setMoq(String(state.settings.moq));
-      setLead(state.settings.leadTime);
-      setResponseHours(String(state.settings.responseHours));
-    }
-  }, [state, product]);
   const run = async (
     a: Record<string, unknown>,
     message = t("Saved in the demo.", "U ruajt në demonstrim."),
@@ -156,7 +151,7 @@ export default function DemoWorkspace({
       return undefined;
     }
   };
-  const r = state?.requests.find((r) => r.id === selected);
+  const r = selected ? state?.requests.find((r) => r.id === selected) : state?.requests[0];
   const q = r?.quotes.at(-1);
   const art = r?.artworks.at(-1);
   const releaseReady = !!(
@@ -180,8 +175,10 @@ export default function DemoWorkspace({
   const repeat = () => {
     if (!r?.order) return;
     const { productName, dimensions, gsm, description, ...d } = r.snapshot;
-    update({
+    const orderedArtwork = r.artworks.find((artwork) => artwork.version === r.order!.artworkVersion);
+    replace({
       ...d,
+      ...orderedArtwork?.design,
       key: crypto.randomUUID(),
       reorderOf: r.id,
       date: "",
@@ -677,7 +674,7 @@ export default function DemoWorkspace({
                                 <>
                                   <button
                                     className="button small"
-                                    disabled={busy || q.status === "accepted"}
+                                    disabled={busy || q.status !== "issued" || q.validUntil < new Date().toISOString().slice(0, 10)}
                                     onClick={() =>
                                       run(
                                         {
@@ -694,7 +691,7 @@ export default function DemoWorkspace({
                                   >
                                     {q.status === "accepted"
                                       ? t("Accepted", "Pranuar")
-                                      : t(
+                                      : q.status === "changes-requested" ? t("Awaiting revised quote", "Në pritje të ofertës së rishikuar") : t(
                                           "Accept demo quotation",
                                           "Prano ofertën demo",
                                         )}
@@ -790,7 +787,15 @@ export default function DemoWorkspace({
                                 <strong>{t("ARTWORK PROOF", "PROVA E DIZAJNIT")} · V{art.version}</strong>
                                 <span className="status">{label(art.status)}</span>
                               </div>
-                              <BagPreview design={art.design} />
+                              <div className="proof-side-controls" role="group" aria-label={t("Artwork proof side", "Ana e provës së dizajnit")}>
+                                {(["front", "back"] as const).map((side) => (
+                                  <button type="button" key={side} className="button secondary small" aria-pressed={proofSide === side} onClick={() => setProofSide(side)}>
+                                    {t(side === "front" ? "Front" : "Back", side === "front" ? "Përpara" : "Prapa")}
+                                  </button>
+                                ))}
+                              </div>
+                              <BagPreview design={{ ...art.design, side: proofSide }} />
+                              <p className="micro">{t("Review both sides before approving this revision.", "Shqyrtoni të dyja anët para se të miratoni këtë version.")}</p>
                               <p className="micro">
                                 {t("Illustrative demo proof. Production dielines, print area and final colors require client approval.", "Provë ilustruese demo. Modelet teknike, zona e shtypit dhe ngjyrat përfundimtare kërkojnë miratim nga klienti.")}
                               </p>
@@ -1659,6 +1664,10 @@ export default function DemoWorkspace({
                 try {
                   await act({ type: "reset" });
                   setSelected("");
+                  setDescriptionEdit(null);
+                  setMoq(null);
+                  setLead(null);
+                  setResponseHours(null);
                   setResetOpen(false);
                   setFeedback("Synthetic demonstration reset.");
                 } catch {}

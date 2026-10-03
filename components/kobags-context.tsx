@@ -11,6 +11,7 @@ import {
 import { Design, initialDesign, products, colors, MAX_BRAND_TEXT_LENGTH } from "@/lib/catalog";
 import { inkContrast, readableInk } from "@/lib/studio-checks";
 import { languageHref, type SiteLanguage } from "@/lib/site-locale";
+import { draftStorageKey, readStoredDraft, writeStoredDraft, type DraftStorageStatus } from "@/lib/draft-storage";
 function limitDesignText(design: Design): Design {
   return {
     ...design,
@@ -34,7 +35,9 @@ type Context = {
   t: (en: string, sq?: string) => string;
   design: Design;
   update: (v: Partial<Design>) => void;
+  replace: (v: Design) => void;
   ready: boolean;
+  storageStatus: DraftStorageStatus;
 };
 const C = createContext<Context>(null!);
 export function KobagsProvider({ children, initialLanguage = "en" }: { children: ReactNode; initialLanguage?: SiteLanguage }) {
@@ -46,38 +49,61 @@ export function KobagsProvider({ children, initialLanguage = "en" }: { children:
   };
   const [design, setDesign] = useState<Design>(initialDesign);
   const [ready, setReady] = useState(false);
+  const [storageStatus, setStorageStatus] = useState<DraftStorageStatus>("persistent");
   const draftRef = useRef<Design>(initialDesign);
+  const replaceDraft = (draft: Design) => {
+    const next = limitDesignText(draft);
+    draftRef.current = next;
+    setStorageStatus(writeStoredDraft(next));
+    setDesign(next);
+  };
   const updateDraft = (patch: Partial<Design>) => {
-    const merged = limitDesignText({ ...draftRef.current, ...patch });
-    const next = patch.color && patch.color !== draftRef.current.color
+    // Merge into the latest stored draft so another open tab's unrelated edits
+    // survive even when its storage event has not been delivered yet.
+    const base = { ...draftRef.current, ...readStoredDraft() };
+    const merged = limitDesignText({ ...base, ...patch });
+    const next = patch.color && patch.color !== draftRef.current.color && patch.ink === undefined && patch.backInk === undefined
       ? readableTextForBag(merged)
       : merged;
     draftRef.current = next;
     // Product and reorder buttons navigate immediately after this call.
-    try {
-      localStorage.setItem("kobags-design-v1", JSON.stringify(next));
-    } catch {}
+    setStorageStatus(writeStoredDraft(next));
     setDesign(next);
   };
   useEffect(() => {
     try {
-      const d = localStorage.getItem("kobags-design-v1");
-      if (d) {
-        draftRef.current = readableTextForBag(limitDesignText({ ...initialDesign, ...JSON.parse(d) }));
-        setDesign(draftRef.current);
-      }
+      const d = readStoredDraft();
+      draftRef.current = limitDesignText({ ...initialDesign, ...d, previewVersion: d ? d.previewVersion : initialDesign.previewVersion });
+      setDesign(draftRef.current);
+      setStorageStatus(writeStoredDraft(draftRef.current));
     } catch {}
     setReady(true);
+    const syncDraft = (event: StorageEvent) => {
+      if (event.key !== draftStorageKey) return;
+      try {
+        const next = readStoredDraft() || initialDesign;
+        if (!next || typeof next !== "object" || Array.isArray(next)) return;
+        draftRef.current = limitDesignText({ ...initialDesign, ...next, previewVersion: next.previewVersion });
+        setDesign(draftRef.current);
+      } catch {}
+    };
+    window.addEventListener("storage", syncDraft);
+    return () => window.removeEventListener("storage", syncDraft);
   }, []);
   useEffect(() => {
     if (ready) {
       try {
-        localStorage.setItem("kobags-design-v1", JSON.stringify(design));
         localStorage.setItem("kobags-language", lang);
       } catch {}
     }
     document.documentElement.lang = lang;
   }, [design, lang, ready]);
+  useEffect(() => {
+    if (storageStatus !== "unavailable") return;
+    const warn = (event: BeforeUnloadEvent) => { event.preventDefault(); event.returnValue = ""; };
+    window.addEventListener("beforeunload", warn);
+    return () => window.removeEventListener("beforeunload", warn);
+  }, [storageStatus]);
   useEffect(() => {
     const context = (
       document as Document & {
@@ -183,7 +209,9 @@ export function KobagsProvider({ children, initialLanguage = "en" }: { children:
         t: (en, sq) => (lang === "sq" ? sq || en : en),
         design,
         update: updateDraft,
+        replace: replaceDraft,
         ready,
+        storageStatus,
       }}
     >
       {children}

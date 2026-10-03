@@ -394,9 +394,9 @@ export default async function Page({
               <p>
                 <L en="Email or call us:" sq="Na shkruani ose na telefononi:" />
                 <br />
-                info@kobags-group.com
+                <a href="mailto:info@kobags-group.com">info@kobags-group.com</a>
                 <br />
-                +383 43 877 753
+                <a href="tel:+38343877753">+383 43 877 753</a>
               </p>
               <Link href="/quote" className="text-button">
                 <L en="Looking for a quotation? Start here" sq="Kërkoni ofertë? Filloni këtu" /> ↗
