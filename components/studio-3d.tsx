@@ -23,6 +23,7 @@ export default function Studio3D({
   activeLayer = "text",
   editing = false,
   selectionKey = 0,
+  viewKey = 0,
   guides = true,
   onDragChange,
 }: {
@@ -33,6 +34,7 @@ export default function Studio3D({
   activeLayer?: ArtworkLayer;
   editing?: boolean;
   selectionKey?: number;
+  viewKey?: number;
   guides?: boolean;
   onDragChange?: (active: boolean) => void;
 }) {
@@ -72,9 +74,9 @@ export default function Studio3D({
     host.current?.querySelector("canvas")?.setAttribute("aria-label", canvasInstructions);
   }, [canvasInstructions, status]);
   const [spinning, setSpinning] = useState(false);
-  const [previousView, setPreviousView] = useState({ side: design.side, editing });
-  if (previousView.side !== design.side || previousView.editing !== editing) {
-    setPreviousView({ side: design.side, editing });
+  const [previousView, setPreviousView] = useState({ side: design.side, editing, viewKey });
+  if (previousView.side !== design.side || previousView.editing !== editing || previousView.viewKey !== viewKey) {
+    setPreviousView({ side: design.side, editing, viewKey });
     setSpinning(false);
   }
   const autoplayed = useRef(false);
@@ -205,8 +207,8 @@ export default function Studio3D({
     sync.current(design);
   }, [design, selected, activeLayer, guides]);
   useEffect(() => {
-    scene.current?.spin(spinning && !editing && !reduced);
-  }, [editing, spinning, reduced]);
+    scene.current?.spin(spinning && !reduced);
+  }, [spinning, reduced]);
   useEffect(() => {
     if (skipSideView.current === design.side) {
       skipSideView.current = null;
@@ -214,7 +216,7 @@ export default function Studio3D({
     }
     scene.current?.view(design.side);
     scene.current?.spin(false);
-  }, [design.side]);
+  }, [design.side, viewKey]);
   const action = (fn: (s: StudioScene) => void) => {
     setSpinning(false);
     scene.current?.spin(false);

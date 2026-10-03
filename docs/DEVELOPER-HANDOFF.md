@@ -2,6 +2,16 @@
 
 Revision: 3 October 2026. This is a public demonstration with a persistent, visitor-isolated data flow. It is not connected to Kobags production systems.
 
+## 3D interaction and material refinement — 3 October
+
+Explicit front/back controls increment a separate `viewKey`, so reselecting a face resets the camera even when the edited side has not changed. This signal is separate from layer selection: selecting visible back artwork through raycasting still preserves the camera angle. Explicit auto-rotation now works while the artwork editor is open; switching faces or starting a drag pauses it and synchronizes the button state.
+
+The Handle and Box interiors extend to the bag base. The D-Cut neck compresses toward its punched handle. Printed artwork uses a rough, lit material with the shared fine fabric bump, following the surrounding panel's lighting. Artwork coordinates, proportions, source mockups and flat/export contracts are unchanged.
+
+Rendering is demand-driven: a static visible bag draws on changes, while orbit damping and requested rotation continue drawing. Hidden/offscreen canvases pause. Drag completion is shared by pointer release, lost pointer capture, visibility loss, context loss and disposal. A WebGL interruption retains the draft, ends the undo transaction and exposes the editable photo fallback; reopening 3D creates a new canvas.
+
+`qa/studio_view_recovery_checks.py` covers face reselection across all five families, motion/button agreement, idle/offscreen rendering and actual `WEBGL_lose_context` during a gesture with undo and reopening. The existing five-family and direct-drag suites cover rotation, artwork, fullscreen, touch, export and fallback. `evidence/presentation-3d-multi-view.jpg` records front, angle, side and rear visual review. These are Chromium/software-WebGL checks; the meshes remain illustrative rather than approved CAD or variant-specific physical models.
+
 ## Final audit fixes — 3 October
 
 Quote submission preserves the selected bag inside the native form, validates real calendar dates, aligns browser/server field limits and supports Enter to continue. A successful save rotates the browser draft key. The API returns an existing request only when its normalized design is identical; a changed design with an old key returns `REQUEST_KEY_CONFLICT`. The quote flow generates a new key and retries once only for that confirmed conflict. Network failures retain the original key, preventing duplicate records after a lost response. Contact, sample and partner inquiries apply the same unchanged-retry/edited-retry rule. Success URLs verify that the current visitor owns the referenced request and preserve `/sq`.

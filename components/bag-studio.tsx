@@ -176,6 +176,7 @@ export default function BagStudio() {
   useLayoutEffect(() => { currentDesign.current = design; }, [design]);
   const draggingArtwork = useRef(false);
   const [selectionKey, setSelectionKey] = useState(0);
+  const [viewKey, setViewKey] = useState(0);
   const [activeLayer, setActiveLayer] = useState<ArtworkLayer>("text");
   const update = useCallback((patch: Partial<Design>) => {
     const current = currentDesign.current;
@@ -256,6 +257,7 @@ export default function BagStudio() {
     activeLayer,
     editing: tab === "artwork",
     selectionKey,
+    viewKey,
     guides,
     onDragChange: artworkDrag,
   };
@@ -685,13 +687,13 @@ export default function BagStudio() {
             )}
             <div className="stage-bottom">
                 <div role="group" className="side-switch" aria-label={t("Bag side", "Ana e çantës")}>
-                  <button type="button" aria-pressed={design.side === "front"} data-state={design.side === "front" ? "active" : "inactive"} onClick={() => { setTextLimitNotice(false); update({ side: "front" }); }}>
+                  <button type="button" aria-pressed={design.side === "front"} data-state={design.side === "front" ? "active" : "inactive"} onClick={() => { setTextLimitNotice(false); update({ side: "front" }); setViewKey((key) => key + 1); }}>
                     {t("Front", "Përpara")}
                     {sides.includes("front") && (
                       <Check size={13} aria-hidden="true" />
                     )}
                   </button>
-                  <button type="button" aria-pressed={design.side === "back"} data-state={design.side === "back" ? "active" : "inactive"} onClick={() => { setTextLimitNotice(false); update({ side: "back" }); }}>
+                  <button type="button" aria-pressed={design.side === "back"} data-state={design.side === "back" ? "active" : "inactive"} onClick={() => { setTextLimitNotice(false); update({ side: "back" }); setViewKey((key) => key + 1); }}>
                     {t("Back", "Prapa")}
                     {sides.includes("back") && (
                       <Check size={13} aria-hidden="true" />

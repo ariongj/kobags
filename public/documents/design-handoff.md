@@ -166,3 +166,7 @@ The studio also exports a two-sided design sheet with specifications. The certif
 ### Header wordmark color — 16 September 2026
 
 The client requested the headline lime (`#c6eb9d`) on the header logo’s KO/bag symbol and GROUP. BAGS stays navy. `components/site-shell.tsx` and `app/compact.css` apply a clipped CSS mask using the original transparent logo, preserving its exact shapes and typography at every screen size. The original asset is unchanged; the footer retains its white treatment.
+
+## 3D refinement — 3 October
+
+The explicit front/back controls now reset the view on every selection. Buyers can enable or pause rotation from the design panel; camera actions and artwork gestures keep the motion state synchronized. Handle/Box interiors extend to their base, the D-Cut grip has a compressed fabric profile, and printing follows the scene lighting. Static and offscreen models stop rendering. An interrupted WebGL context retains the design and provides an editable photo view. The four-angle family review is recorded in `evidence/presentation-3d-multi-view.jpg`; physical production templates and variant geometry remain separate inputs.

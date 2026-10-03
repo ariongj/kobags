@@ -143,12 +143,12 @@ export function createStudioScene(
       : x * (1 + 0.012 * (t - 0.5));
   }
   function depthAt(y: number) {
-    if (product !== "string-bag" && product !== "t-shirt-bag") return depth;
+    if (product !== "string-bag" && product !== "t-shirt-bag" && product !== "d-cut-bag") return depth;
     // Gather the drawstring neck and bring the T-shirt handles together. Both
     // retain their full body depth; thin handle material should not become
     // two free-standing spikes when seen edge-on.
-    const start = product === "t-shirt-bag" ? 0.54 : 0.35;
-    const compression = product === "t-shirt-bag" ? 0.82 : 0.66;
+    const start = product === "t-shirt-bag" ? 0.54 : product === "d-cut-bag" ? top - 0.85 : 0.35;
+    const compression = product === "t-shirt-bag" ? 0.82 : product === "d-cut-bag" ? 0.78 : 0.66;
     const t = THREE.MathUtils.clamp((y - start) / (top - start), 0, 1);
     const gathered = t * t * (3 - 2 * t);
     return depth * (1 - compression * gathered);
@@ -300,26 +300,28 @@ export function createStudioScene(
     // that fold instead of showing as dark squares on the outside.
     const openingWidth = width - 0.42;
     const openingDepth = depth - 0.14;
+    const innerBottom = bottom + 0.055;
+    const innerHeight = top - innerBottom;
     const cavity = add(
       new THREE.BoxGeometry(openingWidth, 0.012, openingDepth),
       innerMat,
     );
-    cavity.position.y = top - 0.27;
+    cavity.position.y = innerBottom;
     for (const face of [-1, 1]) {
       const wall = add(
-        new THREE.BoxGeometry(openingWidth, 0.27, 0.014),
+        new THREE.BoxGeometry(openingWidth, innerHeight, 0.014),
         innerMat,
       );
-      wall.position.set(0, top - 0.135, face * openingDepth / 2);
+      wall.position.set(0, innerBottom + innerHeight / 2, face * openingDepth / 2);
       const lip = add(new THREE.BoxGeometry(width, 0.025, 0.052));
       lip.position.set(0, top - 0.006, face * (depth / 2 - 0.026));
     }
     for (const side of [-1, 1]) {
       const wall = add(
-        new THREE.BoxGeometry(0.014, 0.27, openingDepth),
+        new THREE.BoxGeometry(0.014, innerHeight, openingDepth),
         innerMat,
       );
-      wall.position.set(side * openingWidth / 2, top - 0.135, 0);
+      wall.position.set(side * openingWidth / 2, innerBottom + innerHeight / 2, 0);
       const lip = add(new THREE.BoxGeometry(0.052, 0.025, depth));
       lip.position.set(side * (half - 0.026), top - 0.006, 0);
     }
@@ -424,12 +426,15 @@ export function createStudioScene(
     texture.anisotropy = Math.min(4, renderer.capabilities.getMaxAnisotropy());
     textures.add(texture);
     printTextures.push(texture);
-    const ink = new THREE.MeshBasicMaterial({
+    const ink = new THREE.MeshStandardMaterial({
       map: texture,
+      bumpMap: bump,
+      bumpScale: 0.012,
+      roughness: 0.92,
+      metalness: 0,
       transparent: true,
       alphaTest: 0.01,
       depthWrite: false,
-      toneMapped: false,
       side: THREE.FrontSide,
       polygonOffset: true,
       polygonOffsetFactor: -2,
@@ -786,14 +791,13 @@ export function createStudioScene(
     visible = true,
     raf = 0,
     drawing = false,
-    settling = 0,
     frame = 0;
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
   function draw() {
     raf = 0;
     if (!alive || !visible || document.hidden) return;
     drawing = true;
-    controls.update();
+    const cameraChanged = controls.update();
     renderer.render(scene, camera);
     publishArtworkTargets();
     drawing = false;
@@ -802,12 +806,13 @@ export function createStudioScene(
     host.dataset.distance = camera.position
       .distanceTo(controls.target)
       .toFixed(2);
-    if (controls.autoRotate || settling-- > 0)
+    // Text/color edits need one new frame. Keep rendering only while the
+    // camera is actually damping or the buyer explicitly enabled rotation.
+    if (controls.autoRotate || cameraChanged)
       raf = requestAnimationFrame(draw);
   }
   function wake() {
     if (drawing) return;
-    settling = 20;
     if (alive && visible && !document.hidden && !raf)
       raf = requestAnimationFrame(draw);
   }
@@ -1028,12 +1033,17 @@ export function createStudioScene(
     if (!drag || event.pointerId !== drag.pointer) return;
     event.preventDefault();
     event.stopImmediatePropagation();
+    finishDrag();
+  }
+  function finishDrag() {
+    if (!drag) return;
+    const pointerId = drag.pointer;
     drag = null;
     controls.enabled = true;
     canvas.style.cursor = "move";
     host.dataset.dragging = "false";
-    if (canvas.hasPointerCapture(event.pointerId))
-      canvas.releasePointerCapture(event.pointerId);
+    if (canvas.hasPointerCapture(pointerId))
+      canvas.releasePointerCapture(pointerId);
     editing?.drag(false);
     wake();
   }
@@ -1125,6 +1135,7 @@ export function createStudioScene(
   reduced.addEventListener("change", motion);
   const lost = (e: Event) => {
     e.preventDefault();
+    finishDrag();
     cancelAnimationFrame(raf);
     raf = 0;
     host.dataset.ready = "fallback";
@@ -1359,6 +1370,7 @@ export function createStudioScene(
       visible = value;
       if (value) wake();
       else {
+        finishDrag();
         cancelAnimationFrame(raf);
         raf = 0;
       }
@@ -1378,7 +1390,7 @@ export function createStudioScene(
       canvas.removeEventListener("pointerup", pointerUp, true);
       canvas.removeEventListener("pointercancel", pointerUp, true);
       canvas.removeEventListener("lostpointercapture", pointerUp, true);
-      if (drag) editing?.drag(false);
+      finishDrag();
       controls.dispose();
       geometries.forEach((g) => g.dispose());
       materials.forEach((m) => m.dispose());

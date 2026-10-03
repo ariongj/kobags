@@ -2,6 +2,15 @@
 
 Updated 3 October 2026. Tests ran against the compiled local Worker at `http://localhost:8787` with synthetic data. No live Kobags forms, customer records or production systems were used.
 
+## 3D controls, material and recovery refinement — 3 October
+
+- Fixed repeated front/back selection: the camera resets even when that editing side is already active. Explicit rotation works while the design panel is open, and selecting a face or starting an artwork gesture synchronizes the paused state.
+- Handle/Box cavity walls and floor now extend to the base. The D-Cut grip compresses toward its top, giving the folded material a slimmer side profile. Printed artwork uses the same rough, lit fabric treatment as its surrounding panel. Original client-derived mockups, saved placement coordinates and clean flat exports stay compatible.
+- Static visible scenes draw on demand; camera damping and requested rotation continue drawing. Hidden/offscreen scenes pause. Drag transactions finish on pointer release/cancel, capture loss, visibility loss, WebGL loss and disposal, preserving undo and draft recovery.
+- `qa/studio_view_recovery_checks.py` passed **11 focused checks**: both face resets across five families, rotation in the editor, correct button state, visible-idle/offscreen rendering, actual `WEBGL_lose_context` during a drag, undo/editing in the fallback and reopening 3D. The direct 3D drag suite passed mouse/touch selection, independent layers/faces, paused undo/redo, keyboard controls, back-face selection without camera snap, clean exports, fullscreen and narrow layouts.
+- The full five-family 3D suite passed again: rotation/zoom, live front/back artwork, clean export, fullscreen, quote carry-through, 320/390/768/1024/1440px layouts, reduced motion and unavailable-WebGL recovery. No captured browser JavaScript errors in these suites. TypeScript, build and whitespace checks passed; lint has zero errors and 34 existing advisory warnings.
+- `presentation-3d-multi-view.jpg` records front, angled, side and rear review of all five Natural models. `studio-view-recovery-checks.json`, `studio-direct-drag.json` and `studio-3d-checks.json` retain the functional results. Checks use local Chromium with software WebGL; they do not establish physical-device GPU performance or Safari compatibility. Meshes remain family illustrations, with reconstructed rear fabric; approved CAD and per-size physical models are separate inputs.
+
 ## Final functional and accessibility audit — 3 October
 
 - Buyer fixes cover consecutive requests with changed designs, retries after a lost save response, invalid/foreign success references, real calendar dates, front/back proof review, quote change/version gates and reorders using the exact approved artwork. Unrelated optional draft layers are replaced on reorder. Browser/server input limits now agree, and Enter continues the quote form without clearing its selected bag.

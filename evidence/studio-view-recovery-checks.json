@@ -1,0 +1,17 @@
+{
+  "status": "passed",
+  "checks": [
+    "Handle: reselecting either face snaps the camera correctly",
+    "Box: reselecting either face snaps the camera correctly",
+    "D-Cut: reselecting either face snaps the camera correctly",
+    "T-Shirt: reselecting either face snaps the camera correctly",
+    "String: reselecting either face snaps the camera correctly",
+    "Explicit auto-rotation and pause work in the artwork editor",
+    "Explicit face selection stops rotation and keeps its button state honest",
+    "A still, visible bag stops rendering until another edit or camera action",
+    "The offscreen 3D editor stops rendering",
+    "Actual WebGL loss during dragging preserves the draft, ends the gesture and allows undo/editing",
+    "Reopening 3D recovers a new canvas without losing artwork"
+  ],
+  "browserErrors": []
+}
