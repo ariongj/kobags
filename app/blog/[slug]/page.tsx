@@ -1,3 +1,5 @@
+import { publicContent } from "@/lib/cms/public";
+import CmsPublicPage from "@/components/cms/public-page";
 import JournalArticle, { type JournalPhoto } from "@/components/journal-article";
 import { notFound } from "next/navigation";
 import { articles } from "@/lib/journal";
@@ -51,6 +53,8 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  const cms=await publicContent("/blog/"+slug);
+  if(cms) return pageMetadata("/blog/"+slug);
   const a = articles.find((a) => a.slug === slug);
   if (!a) notFound();
   const lang = await requestLanguage();
@@ -63,6 +67,8 @@ export default async function Article({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  const cms=await publicContent("/blog/"+slug);
+  if(cms) return <CmsPublicPage content={cms}/>;
   const a = articles.find((a) => a.slug === slug);
   if (!a) notFound();
   const photo = articlePhotos[a.slug];

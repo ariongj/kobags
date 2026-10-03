@@ -1,4 +1,5 @@
 "use client";
+import { useCms } from "./cms/public-context";
 import { CertificateShowcase } from "./certificate-showcase";
 import Link from "@/components/site-link";
 import {
@@ -16,8 +17,9 @@ import BagShowcase from "./bag-showcase";
 
 export default function HomePage() {
   const { t } = useKobags();
+  const cms=useCms();
   const { state } = useDemo();
-  const minimum = state?.settings.moq || 5000;
+  const minimum = cms.settings?.moq || state?.settings.moq || 5000;
   return (
     <main className="brand-home brand-home-v5">
       <section className="industrial-hero">
@@ -402,7 +404,7 @@ export default function HomePage() {
             [
               t("How long does production take?", "Sa zgjat prodhimi?"),
               t(
-                state?.settings.leadTime ||
+                cms.settings?.leadTime || state?.settings.leadTime ||
                   "Published guidance indicates dispatch 2–4 weeks after artwork approval, subject to production confirmation. Transport time is additional.",
                 "Udhëzimi tregon dërgimin 2–4 javë pas miratimit, sipas konfirmimit të prodhimit. Transporti kërkon kohë shtesë.",
               ),

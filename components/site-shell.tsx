@@ -1,4 +1,5 @@
 "use client";
+import { CmsContact } from "./cms/public-extras";
 import Link from "@/components/site-link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, ReactNode } from "react";
@@ -170,8 +171,8 @@ export function Footer() {
         </div>
         <div>
           <h3>{t("Let’s talk bags", "Le të flasim për çantat")}</h3>
-          <a href="mailto:info@kobags-group.com">info@kobags-group.com</a>
-          <a href="tel:+38343877753">+383 43 877 753</a>
+          <CmsContact part="email"/>
+          <CmsContact part="phone"/>
           <Link href="/contact">
             {t("General inquiries", "Pyetje të përgjithshme")} <ArrowUpRight size={14} />
           </Link>

@@ -1,0 +1,5 @@
+import { publicPaths,seoPages } from '@/lib/seo-config';
+import { publishedRecords } from './records';
+import { db } from './core';
+export async function searchablePaths(){const records=await publishedRecords();const activeProducts=records.filter(r=>r.kind==='product').map(r=>'/products/'+r.slug);const managed=records.some(r=>r.kind==='settings');const paths=publicPaths().filter(path=>!managed||!path.startsWith('/products/')||activeProducts.includes(path));for(const r of records){const path=r.published?.path;if(path&&['page','article','guide'].includes(r.kind)&&seoPages[path]?.index!==false)paths.push(path);}const redirects=await db().prepare('SELECT path FROM cms_redirects').all<{path:string}>().catch(()=>({results:[]}));return [...new Set(paths)].filter(p=>!redirects.results.some(r=>r.path===p));}
+export async function redirectedPath(path:string){try{return (await db().prepare('SELECT destination FROM cms_redirects WHERE path=?').bind(path).first<{destination:string}>())?.destination||null;}catch{return null;}}

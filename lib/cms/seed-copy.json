@@ -1,0 +1,1107 @@
+[
+  {
+    "en": "Inside the Kobags production facility: machinery and rolls of non-woven material",
+    "sq": "Brenda fabrikës Kobags: makineri dhe rula materiali jo të endur",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "NON-WOVEN BAG MANUFACTURING",
+    "sq": "PRODHIMI I ÇANTAVE JO TË ENDURA",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Manufacturing bags.",
+    "sq": "Prodhojmë çanta.",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Building brands.",
+    "sq": "Ndërtojmë marka.",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Custom non-woven bags for retail, events and everyday carry. Choose your specification, add your branding and plan your wholesale order.",
+    "sq": "Çanta jo të endura për dyqane, evente dhe përdorim të përditshëm. Zgjidhni specifikimet, shtoni markën tuaj dhe planifikoni porosinë me shumicë.",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Explore our production",
+    "sq": "Eksploroni prodhimin",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Design your bag",
+    "sq": "Dizajnoni çantën tuaj",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Explore your bag in 3D",
+    "sq": "Eksploroni çantën në 3D",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Planning your next wholesale order?",
+    "sq": "Po planifikoni porosinë e radhës?",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Talk to us",
+    "sq": "Na kontaktoni",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "FROM THE FACTORY FLOOR",
+    "sq": "NGA LINJA E PRODHIMIT",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Custom bag production.",
+    "sq": "Prodhim i personalizuar.",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Inside Kobags",
+    "sq": "Brenda Kobags",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Material rolls & machinery",
+    "sq": "Rula materiali dhe makineri",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Made in Kosova",
+    "sq": "Prodhuar në Kosovë",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Custom flexographic printing",
+    "sq": "Shtyp fleksografik i personalizuar",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Wholesale from",
+    "sq": "Me shumicë nga",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "bags",
+    "sq": "çanta",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "HOW WE MAKE IT",
+    "sq": "SI I PRODHOJMË",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Material. Print.",
+    "sq": "Material. Shtyp.",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Finished to your brief.",
+    "sq": "Sipas kërkesës suaj.",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Follow the three decisions that shape your bag: its construction, its print and its finished specification.",
+    "sq": "Tri vendime përcaktojnë çantën tuaj: mënyra e punimit, shtypi dhe specifikimet përfundimtare.",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Material & specification",
+    "sq": "Materiali dhe specifikimet",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Non-woven PP, in the shape, size and fabric weight your application needs.",
+    "sq": "PP jo i endur, me formën, madhësinë dhe peshën e materialit që ju nevojitet.",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Your identity, in print",
+    "sq": "Identiteti juaj në shtyp",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Custom flexographic printing, with artwork reviewed before production.",
+    "sq": "Shtyp fleksografik i personalizuar, me dizajn të miratuar para prodhimit.",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "From production to dispatch",
+    "sq": "Nga prodhimi te dërgimi",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Confirm the finished specification, production timing and destination with our team.",
+    "sq": "Konfirmoni specifikimet përfundimtare, afatin e prodhimit dhe destinacionin me ekipin tonë.",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Get to know our manufacturing",
+    "sq": "Njihuni me prodhimin tonë",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "FLEXOGRAPHIC PRINTING",
+    "sq": "SHTYP FLEKSOGRAFIK",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "FACTORY FILM",
+    "sq": "VIDEO NGA FABRIKA",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Watch the Kobags printing process",
+    "sq": "Shikoni procesin e shtypit në Kobags",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Your browser does not support video playback.",
+    "sq": "Shfletuesi juaj nuk e mbështet videon.",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Your artwork, on the material.",
+    "sq": "Dizajni juaj, mbi material.",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Watch the material move through the printing equipment.",
+    "sq": "Shikoni si kalon materiali nëpër makineritë e shtypit.",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "FIND YOUR FORMAT",
+    "sq": "ZGJIDHNI FORMËN",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Five bag families.",
+    "sq": "Pesë lloje çantash.",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Different ways to carry.",
+    "sq": "Mënyra të ndryshme bartjeje.",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "View the whole collection",
+    "sq": "Shikoni të gjithë koleksionin",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "sizes",
+    "sq": "madhësi",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "THE ORDERING PROCESS",
+    "sq": "PROCESI I POROSISË",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "From design to dispatch.",
+    "sq": "Nga dizajni te dërgimi.",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Choose & design",
+    "sq": "Zgjidhni dhe dizajnoni",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Find the right shape, color and branding for your business.",
+    "sq": "Gjeni formën, ngjyrën dhe markimin për biznesin tuaj.",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Review the quotation",
+    "sq": "Shqyrtoni ofertën",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Confirm quantity, destination, price and commercial details.",
+    "sq": "Konfirmoni sasinë, destinacionin, çmimin dhe kushtet.",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Approve your artwork",
+    "sq": "Miratoni dizajnin",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Review the specific proof before production is released.",
+    "sq": "Shqyrtoni versionin e caktuar para fillimit të prodhimit.",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Production & dispatch",
+    "sq": "Prodhimi dhe dërgimi",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Production follows approval. Dispatch and delivery are confirmed separately.",
+    "sq": "Prodhimi vijon pas miratimit. Dërgimi dhe dorëzimi konfirmohen veçmas.",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "USES & INDUSTRIES",
+    "sq": "PËRDORIME DHE SEKTORË",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "A bag for what you do.",
+    "sq": "Një çantë për punën tuaj.",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Retail, events or everyday shopping: start with what your customer carries.",
+    "sq": "Shitje me pakicë, evente apo blerje të përditshme: filloni me nevojat e klientit.",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Explore uses & industries",
+    "sq": "Eksploroni përdorimet",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "MATERIALS & RESPONSIBILITY",
+    "sq": "MATERIALET DHE PËRGJEGJËSIA",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Clear facts. Better choices.",
+    "sq": "Fakte të qarta. Zgjedhje më të mira.",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Understand non-woven PP, care and reuse. Check the evidence behind product and environmental claims.",
+    "sq": "Kuptoni PP-në jo të endur, kujdesin dhe ripërdorimin. Kontrolloni provat pas pretendimeve.",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Know your material",
+    "sq": "Njihni materialin",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "FOR BUSINESSES ACROSS KOSOVO",
+    "sq": "PËR BIZNESE NË TËRË KOSOVËN",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Local production. Nationwide possibilities.",
+    "sq": "Prodhim vendor. Mundësi në tërë vendin.",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Branded bags for shops, supermarkets and events, from Prishtina and Lipjan to Prizren, Peja, Gjilan, Ferizaj and beyond.",
+    "sq": "Qese dhe çanta me logo për dyqane, supermarkete dhe evente, nga Prishtina e Lipjani në Prizren, Pejë, Gjilan, Ferizaj dhe më gjerë.",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Explore all municipalities",
+    "sq": "Shikoni të gjitha komunat",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "BUYER QUESTIONS",
+    "sq": "PYETJE NGA BLERËSIT",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Ordering",
+    "sq": "Detajet",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "essentials.",
+    "sq": "e porosisë.",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Buying guides",
+    "sq": "Udhëzues për blerësit",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "What is the minimum wholesale order?",
+    "sq": "Cila është porosia minimale?",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Can I add my own logo?",
+    "sq": "A mund të shtoj logon time?",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Yes. Use the design studio to upload a PNG, JPG or WebP, then place, resize and rotate it. The preview is a concept; production artwork still needs approval.",
+    "sq": "Po. Ngarkoni PNG, JPG ose WebP në studio, pastaj vendoseni, ndryshoni madhësinë dhe rrotullojeni. Dizajni për prodhim kërkon miratim.",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "How long does production take?",
+    "sq": "Sa zgjat prodhimi?",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Can I request samples first?",
+    "sq": "A mund të kërkoj fillimisht mostra?",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Yes. Samples have a separate inquiry route. Availability, sample costs and shipping terms require confirmation.",
+    "sq": "Po. Mostrat kanë kërkesë të veçantë. Disponueshmëria, kostot dhe transporti kërkojnë konfirmim.",
+    "source": "components/home-page.tsx"
+  },
+  {
+    "en": "Kobags Group home",
+    "sq": "Ballina e Kobags Group",
+    "source": "components/site-shell.tsx"
+  },
+  {
+    "en": "Main navigation",
+    "sq": "Navigimi kryesor",
+    "source": "components/site-shell.tsx"
+  },
+  {
+    "en": "Request a quote",
+    "sq": "Kërko ofertë",
+    "source": "components/site-shell.tsx"
+  },
+  {
+    "en": "Toggle menu",
+    "sq": "Hap ose mbyll menynë",
+    "source": "components/site-shell.tsx"
+  },
+  {
+    "en": "Your design is saved for this tab only. Keep this tab open until you send your request.",
+    "sq": "Dizajni ruhet vetëm në këtë skedë. Mbajeni të hapur derisa ta dërgoni kërkesën.",
+    "source": "components/site-shell.tsx"
+  },
+  {
+    "en": "Your browser cannot save this design. Download a preview before leaving, or allow browser storage to continue safely.",
+    "sq": "Shfletuesi nuk mund ta ruajë dizajnin. Shkarkoni parapamjen para se të largoheni, ose lejoni ruajtjen në shfletues.",
+    "source": "components/site-shell.tsx"
+  },
+  {
+    "en": "START WITH YOUR DESIGN",
+    "sq": "FILLONI ME DIZAJNIN TUAJ",
+    "source": "components/site-shell.tsx"
+  },
+  {
+    "en": "Put your brand",
+    "sq": "Vendosni markën tuaj",
+    "source": "components/site-shell.tsx"
+  },
+  {
+    "en": "on the bag.",
+    "sq": "mbi çantë.",
+    "source": "components/site-shell.tsx"
+  },
+  {
+    "en": "Design your next bag",
+    "sq": "Dizajnoni çantën tuaj të ardhshme",
+    "source": "components/site-shell.tsx"
+  },
+  {
+    "en": "Non-woven bag manufacturing.",
+    "sq": "Prodhimi i çantave jo të endura.",
+    "source": "components/site-shell.tsx"
+  },
+  {
+    "en": "Explore",
+    "sq": "Eksploro",
+    "source": "components/site-shell.tsx"
+  },
+  {
+    "en": "Our bags",
+    "sq": "Çantat tona",
+    "source": "components/site-shell.tsx"
+  },
+  {
+    "en": "Design studio",
+    "sq": "Studioja",
+    "source": "components/site-shell.tsx"
+  },
+  {
+    "en": "Industries",
+    "sq": "Industritë",
+    "source": "components/site-shell.tsx"
+  },
+  {
+    "en": "Manufacturing",
+    "sq": "Prodhimi",
+    "source": "components/site-shell.tsx"
+  },
+  {
+    "en": "Good to know",
+    "sq": "Informacione",
+    "source": "components/site-shell.tsx"
+  },
+  {
+    "en": "Bags across Kosovo",
+    "sq": "Çanta në tërë Kosovën",
+    "source": "components/site-shell.tsx"
+  },
+  {
+    "en": "Buyer resources",
+    "sq": "Burime për blerësit",
+    "source": "components/site-shell.tsx"
+  },
+  {
+    "en": "Journal & guides",
+    "sq": "Artikuj dhe udhëzues",
+    "source": "components/site-shell.tsx"
+  },
+  {
+    "en": "Certifications",
+    "sq": "Certifikimet",
+    "source": "components/site-shell.tsx"
+  },
+  {
+    "en": "Request samples",
+    "sq": "Kërkoni mostra",
+    "source": "components/site-shell.tsx"
+  },
+  {
+    "en": "Let’s talk bags",
+    "sq": "Le të flasim për çantat",
+    "source": "components/site-shell.tsx"
+  },
+  {
+    "en": "General inquiries",
+    "sq": "Pyetje të përgjithshme",
+    "source": "components/site-shell.tsx"
+  },
+  {
+    "en": "Privacy",
+    "sq": "Privatësia",
+    "source": "components/site-shell.tsx"
+  },
+  {
+    "en": "Terms",
+    "sq": "Kushtet",
+    "source": "components/site-shell.tsx"
+  },
+  {
+    "en": "Cookies",
+    "sq": "Cookies",
+    "source": "components/site-shell.tsx"
+  },
+  {
+    "en": "OUR RESPONSIBILITY",
+    "sq": "PËRGJEGJËSIA JONË",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Better questions.",
+    "sq": "Pyetje më të mira.",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Clearer choices.",
+    "sq": "Zgjedhje më të qarta.",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "A bag’s story continues after the first trip. Understand the material, care for it and make reuse part of the everyday.",
+    "sq": "Historia e çantës vazhdon pas përdorimit të parë. Njihni materialin, kujdesuni për të dhe bëjeni ripërdorimin pjesë të përditshmërisë.",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "MADE IN KOSOVA · CARRIED EVERY DAY",
+    "sq": "PRODHUAR NË KOSOVË · PËR ÇDO DITË",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "USE.",
+    "sq": "PËRDOR.",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "REUSE.",
+    "sq": "RIPËRDOR.",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "REPEAT.",
+    "sq": "PËRSËRIT.",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "A SIMPLE EVERYDAY HABIT",
+    "sq": "NJË ZAKON I PËRDITSHËM",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "MADE IN KOSOVA",
+    "sq": "PRODHUAR NË KOSOVË",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Where your bag",
+    "sq": "Këtu merr formë",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "takes shape.",
+    "sq": "çanta juaj.",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "FACTORY MOTION / KOSOVA",
+    "sq": "LINJA E PRODHIMIT / KOSOVË",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Forming and finishing, in motion.",
+    "sq": "Formimi dhe përfundimi në lëvizje.",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Watch bag forming and stacking on our production floor. Each clip shows a different step in making your order.",
+    "sq": "Shihni formimin dhe vendosjen e çantave në linjën tonë. Secila video paraqet një hap të ndryshëm të prodhimit.",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "01 / FORMING",
+    "sq": "01 / FORMIMI",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "On the production line",
+    "sq": "Në linjën e prodhimit",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "02 / FINISHING",
+    "sq": "02 / PËRFUNDIMI",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Into the finishing stack",
+    "sq": "Vendosja në stivë",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "01 / Material",
+    "sq": "01 / Materiali",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "02 / Print",
+    "sq": "02 / Shtypi",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "03 / Finished bags",
+    "sq": "03 / Çantat e përfunduara",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "KNOW YOUR MATERIAL",
+    "sq": "NJIHNI MATERIALIN",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Reusable starts with",
+    "sq": "Ripërdorimi fillon nga",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "how you use it.",
+    "sq": "mënyra si e përdorni.",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Non-woven polypropylene is a plastic material. It can be designed for repeated use, but recycled content, recyclability and reuse are different questions.",
+    "sq": "Polipropileni jo i endur është material plastik. Çanta mund të projektohet për përdorim të përsëritur, por përmbajtja e ricikluar, riciklueshmëria dhe ripërdorimi janë çështje të ndryshme.",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "THOUGHTFUL CHOICES. CLEAR FACTS.",
+    "sq": "ZGJEDHJE TË MENDUARA. FAKTE TË QARTA.",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Evidence before broad claims.",
+    "sq": "Dëshmitë para pretendimeve të gjera.",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Figures for environmental impact, product lifetime, recycled percentage and food contact require product-specific evidence and clear scope. Ask for the relevant evidence for your bag.",
+    "sq": "Të dhënat për ndikimin mjedisor, jetëgjatësinë, përqindjen e materialit të ricikluar dhe kontaktin me ushqimin kërkojnë dëshmi për produktin konkret dhe fushë të qartë zbatimi. Kërkoni dëshmitë për çantën tuaj.",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Management-system certificates describe the certified organization and scope. They do not by themselves establish a bag’s environmental performance.",
+    "sq": "Certifikatat e sistemeve të menaxhimit përshkruajnë organizatën dhe fushën e certifikuar. Ato nuk provojnë vetë performancën mjedisore të një çante.",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Review the certificate references",
+    "sq": "Shikoni certifikatat",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Partnership starts with a real production team.",
+    "sq": "Partneriteti fillon me një ekip të vërtetë prodhimi.",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Apply as a partner",
+    "sq": "Aplikoni si partner",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "A useful introduction.",
+    "sq": "Një prezantim i vlefshëm.",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Tell us which partner model fits, the country you work in and the buyers you can support.",
+    "sq": "Na tregoni cili model partneriteti ju përshtatet, në cilin vend veproni dhe cilët blerës mund të mbështesni.",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Review partner models",
+    "sq": "Shikoni modelet e partneritetit",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Get a feel",
+    "sq": "Njihni nga afër",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "for the details.",
+    "sq": "detajet.",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Tell us the bag styles and material details you would like to review.",
+    "sq": "Na tregoni cilat forma çantash dhe cilat detaje të materialit doni të shqyrtoni.",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Ask which styles and materials are available.",
+    "sq": "Pyesni cilat forma dhe materiale janë të disponueshme.",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Request sample and shipping costs with your inquiry.",
+    "sq": "Kërkoni kostot e mostrës dhe transportit në kërkesën tuaj.",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Samples are separate from the 5,000-bag wholesale minimum.",
+    "sq": "Mostrat nuk përfshihen në minimumin prej 5,000 çantash për porosi me shumicë.",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Explore the five bag families",
+    "sq": "Shikoni pesë llojet e çantave",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Find Kobags",
+    "sq": "Gjeni Kobags",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "in Kosova.",
+    "sq": "në Kosovë.",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Kosovo · Inquiries from every municipality",
+    "sq": "Kosovë · Kërkesa nga çdo komunë",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Email or call us:",
+    "sq": "Na shkruani ose na telefononi:",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Bags for your city",
+    "sq": "Çanta për qytetin tuaj",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Looking for a quotation? Start here",
+    "sq": "Kërkoni ofertë? Filloni këtu",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "RETAIL & BOUTIQUES",
+    "sq": "SHITJE ME PAKICË DHE BUTIQE",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Let your packaging",
+    "sq": "Le të flasë paketimi",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "do the talking.",
+    "sq": "për markën tuaj.",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Choose a shape for your merchandise, give your brand room to breathe and plan the quantity you need.",
+    "sq": "Zgjidhni formën për produktet tuaja, jepini hapësirë markës dhe planifikoni sasinë që ju nevojitet.",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Explore retail bags",
+    "sq": "Shikoni çantat për shitje",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Events & promotions",
+    "sq": "Evente dhe promovime",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Explore lightweight D-Cut and String bags for printed giveaways and event materials.",
+    "sq": "Shikoni çantat e lehta D-Cut dhe String për dhurata promocionale dhe materiale eventesh.",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "View D-Cut specifications",
+    "sq": "Shikoni specifikimet D-Cut",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Grocery & everyday carry",
+    "sq": "Ushqimore dhe përdorim i përditshëm",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Compare the Box and T-Shirt profiles against the size and weight of the items your customers carry.",
+    "sq": "Krahasoni format Box dhe T-Shirt me madhësinë dhe peshën e artikujve që mbajnë klientët tuaj.",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "View Box Bag specifications",
+    "sq": "Shikoni specifikimet Box",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "PACKAGING FOR RETAIL",
+    "sq": "PAKETIM PËR SHITJE ME PAKICË",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "A good fit for",
+    "sq": "Përshtatje e mirë",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "what’s inside.",
+    "sq": "për atë që mbart.",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Start with your largest typical purchase, how customers carry it and how much room your logo needs. Review dimensions and a material sample before committing to production.",
+    "sq": "Filloni nga blerja më e madhe tipike, mënyra si e bart klienti dhe hapësira që i duhet logos suaj. Shqyrtoni përmasat dhe një mostër materiali para prodhimit.",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Design your retail bag",
+    "sq": "Dizajnoni çantën tuaj",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "D-Cut: a compact choice",
+    "sq": "D-Cut: zgjedhje kompakte",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Sizes include Small at 30 × 31 × 5 cm / 60 GSM and Large at 50 × 47.5 × 12 cm / 80 GSM.",
+    "sq": "Madhësitë përfshijnë të voglën 30 × 31 × 5 cm / 60 GSM dhe të madhen 50 × 47.5 × 12 cm / 80 GSM.",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Review D-Cut",
+    "sq": "Shikoni D-Cut",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Handle: a familiar carry",
+    "sq": "Handle: dorezë e njohur",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "The Small variant is 30 × 30 × 5 cm / 60 GSM, with short handles.",
+    "sq": "Varianti i vogël është 30 × 30 × 5 cm / 60 GSM, me doreza të shkurtra.",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Review Handle Bag",
+    "sq": "Shikoni çantën Handle",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Wholesale planning: confirm quantity per design, material color, final print artwork, destination and desired date. All timing and pricing require quotation.",
+    "sq": "Për porosi me shumicë, konfirmoni sasinë për secilin dizajn, ngjyrën e materialit, dizajnin final për shtyp, destinacionin dhe datën e dëshiruar. Afatet dhe çmimet përcaktohen në ofertë.",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Your bag specification checklist.",
+    "sq": "Lista e specifikimeve të çantës suaj.",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "A practical list of the details to prepare before requesting a quotation.",
+    "sq": "Një listë praktike e detajeve që duhen përgatitur para kërkesës për ofertë.",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Explore the journal & buying guides",
+    "sq": "Shikoni artikujt dhe udhëzuesit",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "From concept to approved artwork",
+    "sq": "Nga ideja te dizajni i miratuar",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Use the studio to explore placement. Production still needs approved printable dimensions, a color reference and a specific artwork revision before release.",
+    "sq": "Përdorni studion për të provuar vendosjen e dizajnit. Para prodhimit duhen përmasat e miratuara të shtypit, referenca e ngjyrës dhe versioni i caktuar i dizajnit.",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Try the bag studio",
+    "sq": "Provoni studion e çantave",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Dispatch and delivery are different",
+    "sq": "Nisja dhe dorëzimi nuk janë e njëjta gjë",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Dispatch is when finished bags leave the production location. Arrival depends on transport, destination and any applicable customs process. Request a date; confirm it with the quotation.",
+    "sq": "Nisja ndodh kur çantat e përfunduara largohen nga vendi i prodhimit. Mbërritja varet nga transporti, destinacioni dhe procedurat doganore, nëse zbatohen. Kërkoni një datë dhe konfirmojeni në ofertë.",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "Prepare a quotation request",
+    "sq": "Përgatitni kërkesën për ofertë",
+    "source": "app/[...slug]/page.tsx"
+  },
+  {
+    "en": "DOCUMENTED STANDARDS",
+    "sq": "STANDARDE TË DOKUMENTUARA",
+    "source": "components/certificate-showcase.tsx"
+  },
+  {
+    "en": "Confidence,",
+    "sq": "Besim,",
+    "source": "components/certificate-showcase.tsx"
+  },
+  {
+    "en": "in the details.",
+    "sq": "në çdo detaj.",
+    "source": "components/certificate-showcase.tsx"
+  },
+  {
+    "en": "Get closer to the standards behind the operation. Explore the published quality and environmental management certificates, with readable details and original documents.",
+    "sq": "Shqyrtoni standardet e veprimtarisë. Certifikatat e publikuara për cilësinë dhe menaxhimin mjedisor, me detaje të lexueshme dhe dokumentet origjinale.",
+    "source": "components/certificate-showcase.tsx"
+  },
+  {
+    "en": "Explore our certificates",
+    "sq": "Shqyrtoni certifikatat",
+    "source": "components/certificate-showcase.tsx"
+  },
+  {
+    "en": "Published management-system records. Current status is subject to issuer verification.",
+    "sq": "Dokumente të publikuara të sistemit të menaxhimit. Statusi aktual kërkon verifikim nga lëshuesi.",
+    "source": "components/certificate-showcase.tsx"
+  },
+  {
+    "en": "CERTIFICATE",
+    "sq": "CERTIFIKATË",
+    "source": "components/certificate-showcase.tsx"
+  },
+  {
+    "en": "published certificate scan",
+    "sq": "certifikatë e publikuar",
+    "source": "components/certificate-showcase.tsx"
+  },
+  {
+    "en": "THE DOCUMENT LIBRARY",
+    "sq": "BIBLIOTEKA E DOKUMENTEVE",
+    "source": "components/certificates.tsx"
+  },
+  {
+    "en": "Original records. Every detail in view.",
+    "sq": "Dokumente origjinale. Çdo detaj i dukshëm.",
+    "source": "components/certificates.tsx"
+  },
+  {
+    "en": "Search certificates",
+    "sq": "Kërko certifikatat",
+    "source": "components/certificates.tsx"
+  },
+  {
+    "en": "Search standard or certificate…",
+    "sq": "Kërko standardin ose certifikatën…",
+    "source": "components/certificates.tsx"
+  },
+  {
+    "en": "certificates found",
+    "sq": "certifikata të gjetura",
+    "source": "components/certificates.tsx"
+  },
+  {
+    "en": "PUBLISHED DOCUMENT",
+    "sq": "DOKUMENT I PUBLIKUAR",
+    "source": "components/certificates.tsx"
+  },
+  {
+    "en": "Inspect",
+    "sq": "Shqyrto",
+    "source": "components/certificates.tsx"
+  },
+  {
+    "en": "original scan",
+    "sq": "skanimi origjinal",
+    "source": "components/certificates.tsx"
+  },
+  {
+    "en": "Inspect document",
+    "sq": "Shqyrto dokumentin",
+    "source": "components/certificates.tsx"
+  },
+  {
+    "en": "Certified entity",
+    "sq": "Subjekti i certifikuar",
+    "source": "components/certificates.tsx"
+  },
+  {
+    "en": "Certification body",
+    "sq": "Organi certifikues",
+    "source": "components/certificates.tsx"
+  },
+  {
+    "en": "Certificate number",
+    "sq": "Numri i certifikatës",
+    "source": "components/certificates.tsx"
+  },
+  {
+    "en": "Published scope",
+    "sq": "Fusha e publikuar",
+    "source": "components/certificates.tsx"
+  },
+  {
+    "en": "Production and sale of PP bags, described as “eco-friendly” in the certificate.",
+    "sq": "Prodhimi dhe shitja e çantave PP, të përshkruara si “eco-friendly” në certifikatë.",
+    "source": "components/certificates.tsx"
+  },
+  {
+    "en": "Registered / latest issue",
+    "sq": "Regjistrimi / lëshimi i fundit",
+    "source": "components/certificates.tsx"
+  },
+  {
+    "en": "27 January 2026",
+    "sq": "27 janar 2026",
+    "source": "components/certificates.tsx"
+  },
+  {
+    "en": "Expiry field",
+    "sq": "Afati i skadimit",
+    "source": "components/certificates.tsx"
+  },
+  {
+    "en": "26 January 2029",
+    "sq": "26 janar 2029",
+    "source": "components/certificates.tsx"
+  },
+  {
+    "en": "Additional validity condition",
+    "sq": "Kushti shtesë i vlefshmërisë",
+    "source": "components/certificates.tsx"
+  },
+  {
+    "en": "The scan also states 26 January 2027, subject to successful continuing assessment and annual fees. Confirm current status with the issuer.",
+    "sq": "Skanimi shënon gjithashtu 26 janar 2027, me kusht vlerësimin e vazhdueshëm dhe tarifat vjetore. Konfirmoni statusin aktual me lëshuesin.",
+    "source": "components/certificates.tsx"
+  },
+  {
+    "en": "Download original",
+    "sq": "Shkarko origjinalin",
+    "source": "components/certificates.tsx"
+  },
+  {
+    "en": "View source",
+    "sq": "Shiko burimin",
+    "source": "components/certificates.tsx"
+  },
+  {
+    "en": "No matching certificates",
+    "sq": "Nuk u gjetën certifikata",
+    "source": "components/certificates.tsx"
+  },
+  {
+    "en": "Try “9001”, “14001” or “quality”.",
+    "sq": "Provoni “9001”, “14001” ose “cilësi”.",
+    "source": "components/certificates.tsx"
+  },
+  {
+    "en": "Show all certificates",
+    "sq": "Shfaq të gjitha certifikatat",
+    "source": "components/certificates.tsx"
+  },
+  {
+    "en": "Know what you’re verifying.",
+    "sq": "Dijeni çfarë po verifikoni.",
+    "source": "components/certificates.tsx"
+  },
+  {
+    "en": "Details above are transcribed from the scans published by Kobags. These are management-system certificates, not product environmental certifications. ISO develops standards; certification bodies issue certificates. The current status and relationship of the named entity to Kobags require confirmation before procurement.",
+    "sq": "Detajet janë transkriptuar nga skanimet e publikuara nga Kobags. Janë certifikata të sistemit të menaxhimit, jo certifikata mjedisore të produktit. ISO harton standardet; organet certifikuese lëshojnë certifikatat. Konfirmoni statusin aktual dhe lidhjen e subjektit me Kobags para prokurimit.",
+    "source": "components/certificates.tsx"
+  },
+  {
+    "en": "Request verification details",
+    "sq": "Kërkoni detajet e verifikimit",
+    "source": "components/certificates.tsx"
+  },
+  {
+    "en": "ISO certification guidance",
+    "sq": "Udhëzime nga ISO",
+    "source": "components/certificates.tsx"
+  },
+  {
+    "en": "Original document",
+    "sq": "Dokumenti origjinal",
+    "source": "components/certificates.tsx"
+  },
+  {
+    "en": "Fit document",
+    "sq": "Përshtat dokumentin",
+    "source": "components/certificates.tsx"
+  },
+  {
+    "en": "Zoom in",
+    "sq": "Zmadho",
+    "source": "components/certificates.tsx"
+  },
+  {
+    "en": "Certificate document; scroll to inspect",
+    "sq": "Dokumenti i certifikatës; lëvizni për ta shqyrtuar",
+    "source": "components/certificates.tsx"
+  }
+]

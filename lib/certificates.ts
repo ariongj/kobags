@@ -17,4 +17,4 @@ export const certificates = [
     source: "https://kobags-group.com/images/licenses/Certifikimi%202.png",
   },
 ] as const;
-export type Certificate = (typeof certificates)[number];
+export type Certificate = {id:string;standard:string;title:string;titleSq:string;number:string;source:string;image?:string;issued?:string;expires?:string};

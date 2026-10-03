@@ -1,4 +1,5 @@
 "use client";
+import { usePublishedCertificates } from "./cms/public-context";
 import { useRef, useState } from "react";
 import Link from "./site-link";
 import {
@@ -16,10 +17,11 @@ import {
   DialogTitle,
   DialogDescription,
 } from "./ui/dialog";
-import { certificates, type Certificate } from "@/lib/certificates";
+import { type Certificate } from "@/lib/certificates";
 import { useKobags } from "./kobags-context";
 export default function Certificates() {
   const { t } = useKobags();
+  const certificates=usePublishedCertificates();
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<Certificate | null>(null);
   const [zoom, setZoom] = useState(false);
@@ -78,7 +80,7 @@ export default function Certificates() {
               }}
             >
               <img
-                src={`/assets/certificate-iso${c.id}.webp`}
+                src={c.image || `/assets/certificate-iso${c.id}.webp`}
                 alt={`${c.standard}, ${c.number}, Eco Bag Solution L.L.C. — ${t("original scan", "skanimi origjinal")}`}
                 width={770}
                 height={1087}
@@ -136,11 +138,11 @@ export default function Certificates() {
                     "Regjistrimi / lëshimi i fundit",
                   )}
                 </dt>
-                <dd>{t("27 January 2026", "27 janar 2026")}</dd>
+                <dd>{c.issued || t("27 January 2026", "27 janar 2026")}</dd>
               </div>
               <div>
                 <dt>{t("Expiry field", "Afati i skadimit")}</dt>
-                <dd>{t("26 January 2029", "26 janar 2029")}</dd>
+                <dd>{c.expires || t("26 January 2029", "26 janar 2029")}</dd>
               </div>
               <div className="wide certificate-validity">
                 <dt>
@@ -160,7 +162,7 @@ export default function Certificates() {
             <div className="certificate-actions">
               <a
                 className="button"
-                href={`/documents/iso-${c.id}-original.png`}
+                href={c.image || `/documents/iso-${c.id}-original.png`}
                 download
               >
                 <Download size={17} />
@@ -272,7 +274,7 @@ export default function Certificates() {
           >
             {selected && (
               <img
-                src={`/documents/iso-${selected.id}-original.png`}
+                src={selected.image || `/documents/iso-${selected.id}-original.png`}
                 alt={`${selected.standard} certificate ${selected.number}`}
               />
             )}

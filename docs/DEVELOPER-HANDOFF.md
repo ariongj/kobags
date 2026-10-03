@@ -1,4 +1,12 @@
 # Kobags Group — code and setup handoff
+## Shared CMS release — 3 October 2026
+
+The new authenticated `/cms` is separate from the original isolated `/demo` workflows described below. See [CMS operations](CMS-OPERATIONS.md) for the authoritative current setup, permissions, publishing model, inquiry/quote/artwork/production flow, email status and backup/recovery instructions. `lib/cms`, `components/cms`, `/api/cms`, `/api/inquiries`, `/api/portal` and `/api/media` implement the shared backend. Drizzle migrations 0001–0002 add explicit tables and indexes; the existing demo table is retained. Logical bindings are now `DB` and `BUCKET`.
+
+Published product variants, colors, MOQ and bilingual copy feed the catalogue and studio, while historical inquiry snapshots are immutable. The old description-only demo editor remains limited to its isolated records. Staff/customer identities and private artwork are not included in the downloadable source. Full authenticated backups include uploaded bytes separately. The source ZIP has no existing project ID, but now declares both logical bindings.
+
+Real inquiry handling is initially off. Administrator bootstrap is configured for `info@itdks.tech`; that person must sign in to claim access. Email sending requires a verified Resend sender/key; automatic delivery, malware scanning, scheduled backups and client-approved policy content are not configured. The original demo restrictions below apply to `/demo`, not the new CMS.
+
 
 Revision: 3 October 2026. This is a public demonstration with a persistent, visitor-isolated data flow. It is not connected to Kobags production systems.
 

@@ -1,0 +1,546 @@
+[
+  {
+    "id": "source-5f1beca3ae025d47a3e6",
+    "path": "/assets/client-2026-09/bag-forming-poster.jpg",
+    "filename": "bag-forming-poster.jpg",
+    "type": "image/jpeg",
+    "size": 66998,
+    "hash": "e1f05bbfb555014526548acd6cb35c1cb2fa9340d28cae258d1cf4ff4a36c7a4"
+  },
+  {
+    "id": "source-4b1ad48bafd1510a4873",
+    "path": "/assets/client-2026-09/bag-forming-reel.mp4",
+    "filename": "bag-forming-reel.mp4",
+    "type": "video/mp4",
+    "size": 2497424,
+    "hash": "b5194baa5b804ca24937f7a3b296dc0909cfac87639d49f54057c184c1ebaa23"
+  },
+  {
+    "id": "source-17a4d3b8cd85c582f03b",
+    "path": "/assets/client-2026-09/bag-stacking-poster.jpg",
+    "filename": "bag-stacking-poster.jpg",
+    "type": "image/jpeg",
+    "size": 87469,
+    "hash": "def7a9d78188efc68abd0563a42103b04ef34015b6b68baa04dc84eb685a0456"
+  },
+  {
+    "id": "source-39fd8ee852b00af67d14",
+    "path": "/assets/client-2026-09/bag-stacking-reel.mp4",
+    "filename": "bag-stacking-reel.mp4",
+    "type": "video/mp4",
+    "size": 1823580,
+    "hash": "2950fef18b6c3f329d2a5bc8486cc7708147d670234441416791fac40496ff1d"
+  },
+  {
+    "id": "source-a376075674757dfd49f2",
+    "path": "/assets/client-2026-09/box-bag.jpg",
+    "filename": "box-bag.jpg",
+    "type": "image/jpeg",
+    "size": 170096,
+    "hash": "8661a5bd6c044e1892a58a038c0e5182dba0277942ab309b49a591eb74db9a4a"
+  },
+  {
+    "id": "source-91ef1a8181ed7b398507",
+    "path": "/assets/client-2026-09/d-cut-bag.jpg",
+    "filename": "d-cut-bag.jpg",
+    "type": "image/jpeg",
+    "size": 250360,
+    "hash": "74c6afdc44144fc04ef1ea3c30017612e331c1479d4233b40734c7fefa9d2bd1"
+  },
+  {
+    "id": "source-80dea81510122a473bde",
+    "path": "/assets/client-2026-09/detail-box.jpg",
+    "filename": "detail-box.jpg",
+    "type": "image/jpeg",
+    "size": 128886,
+    "hash": "71fff1d5d91eb2e95e5ddbfe5a7b5169e93a56859fa33420ebb28ead00c7f5fc"
+  },
+  {
+    "id": "source-f85d156fd2bce6a9cd17",
+    "path": "/assets/client-2026-09/detail-d-cut.jpg",
+    "filename": "detail-d-cut.jpg",
+    "type": "image/jpeg",
+    "size": 179566,
+    "hash": "aa46a2c0f91ee655c5c7a5948339ce5bb92e9fc62323152e22181a07686e5475"
+  },
+  {
+    "id": "source-ad9bb83bc3b8100fffe7",
+    "path": "/assets/client-2026-09/detail-handle.jpg",
+    "filename": "detail-handle.jpg",
+    "type": "image/jpeg",
+    "size": 262142,
+    "hash": "3eaad25bb2f211d065e9cf2614e4a07410ae158f99eed33747ad131e29159d5c"
+  },
+  {
+    "id": "source-2768a1cf033db4aa8307",
+    "path": "/assets/client-2026-09/detail-string.jpg",
+    "filename": "detail-string.jpg",
+    "type": "image/jpeg",
+    "size": 80393,
+    "hash": "9c9c4cdd32a4ff24226dabb8b4827a10c394e33dbe7094d9b3950de3db66ee03"
+  },
+  {
+    "id": "source-9fdeecf602cfd7a055e2",
+    "path": "/assets/client-2026-09/detail-t-shirt.jpg",
+    "filename": "detail-t-shirt.jpg",
+    "type": "image/jpeg",
+    "size": 171407,
+    "hash": "c4b9b09988739e1c1b2693f1fd17c25965424caf91e7baaaa23dad7e3c0fe87d"
+  },
+  {
+    "id": "source-6cbd86b3b8e317292975",
+    "path": "/assets/client-2026-09/factory-line-1600.webp",
+    "filename": "factory-line-1600.webp",
+    "type": "image/webp",
+    "size": 149748,
+    "hash": "b9f07c4c357caf24699431e0ca09355ae7a59ba8b35523b2348024f7446eac82"
+  },
+  {
+    "id": "source-27330f6a037e59c3dbc6",
+    "path": "/assets/client-2026-09/factory-line-640.webp",
+    "filename": "factory-line-640.webp",
+    "type": "image/webp",
+    "size": 44996,
+    "hash": "559fa25f91196c5f7358d76fc43749c058fd3c30c47e2cca069d244257223f7d"
+  },
+  {
+    "id": "source-44da342c3985fc1cce20",
+    "path": "/assets/client-2026-09/factory-line-960.webp",
+    "filename": "factory-line-960.webp",
+    "type": "image/webp",
+    "size": 76222,
+    "hash": "2e6079a8ee0b597baa4c4d3150480e6cc62362c750f5516614d98232b65113e3"
+  },
+  {
+    "id": "source-e35638bf2aed153cfe41",
+    "path": "/assets/client-2026-09/factory-line.jpg",
+    "filename": "factory-line.jpg",
+    "type": "image/jpeg",
+    "size": 246220,
+    "hash": "ff9de718debe319f57b5111ee299830754b2bda79ebad692b88a5d311171d3a2"
+  },
+  {
+    "id": "source-73d0071b720aa27182e4",
+    "path": "/assets/client-2026-09/factory-partners.jpg",
+    "filename": "factory-partners.jpg",
+    "type": "image/jpeg",
+    "size": 209913,
+    "hash": "c1a7a6fd206959d30f36851a7ae22c3bc0f2c33aa70c10d9d1752bfd6e80ac9a"
+  },
+  {
+    "id": "source-e983eabf25b87e11787f",
+    "path": "/assets/client-2026-09/factory-sign.jpg",
+    "filename": "factory-sign.jpg",
+    "type": "image/jpeg",
+    "size": 134897,
+    "hash": "eed061aa4f79efb2c709a31f42264047e3c264932701d719fea7ccea65085bf9"
+  },
+  {
+    "id": "source-955b4ef67b1cb1f62ec3",
+    "path": "/assets/client-2026-09/finished-stack-rail.jpg",
+    "filename": "finished-stack-rail.jpg",
+    "type": "image/jpeg",
+    "size": 263329,
+    "hash": "f88ad4a5a3602d987c4bb51389a2af530cacbf5e72e1f56cdee530cf7fc481ac"
+  },
+  {
+    "id": "source-da085077ba7d43ceb97d",
+    "path": "/assets/client-2026-09/handle-bag.jpg",
+    "filename": "handle-bag.jpg",
+    "type": "image/jpeg",
+    "size": 196199,
+    "hash": "78443301accf251b3ab88558a4b8a95ce6fc5c84739aa5da87b266b5d979c4fc"
+  },
+  {
+    "id": "source-9ce8bbbc6f19d4338bca",
+    "path": "/assets/client-2026-09/home-box-320.webp",
+    "filename": "home-box-320.webp",
+    "type": "image/webp",
+    "size": 5318,
+    "hash": "b46ae26263c0e9d656a4378d977fa02e6f7cee95bbd72981fdc04c37145419aa"
+  },
+  {
+    "id": "source-818e89ef0a361b4e7be3",
+    "path": "/assets/client-2026-09/home-box-640.webp",
+    "filename": "home-box-640.webp",
+    "type": "image/webp",
+    "size": 17086,
+    "hash": "053e45cdb9261527ec9d7ca0a032b2dd705a083eae3992e31693c56effe38f76"
+  },
+  {
+    "id": "source-d90a9a3c67b3268d4976",
+    "path": "/assets/client-2026-09/home-box.jpg",
+    "filename": "home-box.jpg",
+    "type": "image/jpeg",
+    "size": 147521,
+    "hash": "5105d8ca9a962ef42b59e0035a1ce0df1f5852444b020cf2e0b810b6a26be72c"
+  },
+  {
+    "id": "source-e0d5f80f9b71c15741fc",
+    "path": "/assets/client-2026-09/home-d-cut-320.webp",
+    "filename": "home-d-cut-320.webp",
+    "type": "image/webp",
+    "size": 5034,
+    "hash": "ff80e2057f1fb374ab60dad3e719e2b493218922da01fa03362dd2bac1883352"
+  },
+  {
+    "id": "source-4b90f966c5800a422e78",
+    "path": "/assets/client-2026-09/home-d-cut-640.webp",
+    "filename": "home-d-cut-640.webp",
+    "type": "image/webp",
+    "size": 22230,
+    "hash": "5a570d27dc34c1d74a3a7c9691291014754fab8b1eb2b3e20a1e7adffe4fa1aa"
+  },
+  {
+    "id": "source-25f6decfe4a19643e859",
+    "path": "/assets/client-2026-09/home-d-cut.jpg",
+    "filename": "home-d-cut.jpg",
+    "type": "image/jpeg",
+    "size": 163402,
+    "hash": "f1666917fce8e34daee6963b14a38d1a5e40614a14b8a0a17ffa15a1dedd5ec9"
+  },
+  {
+    "id": "source-5806b2002a5e605e847c",
+    "path": "/assets/client-2026-09/home-film-poster-640.webp",
+    "filename": "home-film-poster-640.webp",
+    "type": "image/webp",
+    "size": 63746,
+    "hash": "3f5a135e0b0af42388bc880f5be14e198423fe087d9f9130ff07d413fc70d368"
+  },
+  {
+    "id": "source-1c2f4ea1d77238311104",
+    "path": "/assets/client-2026-09/home-film-poster.jpg",
+    "filename": "home-film-poster.jpg",
+    "type": "image/jpeg",
+    "size": 259508,
+    "hash": "0c9785f2625a9644535f6dd9ee70be45eca4803e347ebdd45abd15834a659eb2"
+  },
+  {
+    "id": "source-b58c9c794e22a5c66645",
+    "path": "/assets/client-2026-09/home-handle-320.webp",
+    "filename": "home-handle-320.webp",
+    "type": "image/webp",
+    "size": 5640,
+    "hash": "56b566b15d1d40e4056831864f090f7360900fc667fae1e93fd213b9e0b019b6"
+  },
+  {
+    "id": "source-073d3f8884b8f1140c2c",
+    "path": "/assets/client-2026-09/home-handle-640.webp",
+    "filename": "home-handle-640.webp",
+    "type": "image/webp",
+    "size": 13948,
+    "hash": "cf86ba68405577fcf648aea599eea98b7d144828027efc2287a0020f0dc8a7a9"
+  },
+  {
+    "id": "source-7c1a278e16a9401b5a98",
+    "path": "/assets/client-2026-09/home-handle.jpg",
+    "filename": "home-handle.jpg",
+    "type": "image/jpeg",
+    "size": 114398,
+    "hash": "de9e4c103bcb71ec8678184cd0a14ac521927a2da4865c146d0ecabdc46f30f0"
+  },
+  {
+    "id": "source-63b6c78450d438be8322",
+    "path": "/assets/client-2026-09/home-string-320.webp",
+    "filename": "home-string-320.webp",
+    "type": "image/webp",
+    "size": 4182,
+    "hash": "80ba07ff44b8724a7b84da3bec919751c93025d50230fbce41ae1797db675917"
+  },
+  {
+    "id": "source-82585174a2c63bdbd6e2",
+    "path": "/assets/client-2026-09/home-string-640.webp",
+    "filename": "home-string-640.webp",
+    "type": "image/webp",
+    "size": 18874,
+    "hash": "ff4ad711eefdf244e7fcacc40aeadaa838e606475811e21a4bfdfbb9224ba02b"
+  },
+  {
+    "id": "source-65cc8298e7dd6e96474a",
+    "path": "/assets/client-2026-09/home-string.jpg",
+    "filename": "home-string.jpg",
+    "type": "image/jpeg",
+    "size": 149512,
+    "hash": "68d1decf5808811c8d4b562c6ef5c153f8ba1285201a36d977f9b5871724ee28"
+  },
+  {
+    "id": "source-531a868d4f602a83eca0",
+    "path": "/assets/client-2026-09/home-t-shirt-320.webp",
+    "filename": "home-t-shirt-320.webp",
+    "type": "image/webp",
+    "size": 4750,
+    "hash": "c64579fee02a6f5d3a6060bf583352c80f8826ef0e0fa1aab94875d7712c4661"
+  },
+  {
+    "id": "source-24559a99168799184ed3",
+    "path": "/assets/client-2026-09/home-t-shirt-640.webp",
+    "filename": "home-t-shirt-640.webp",
+    "type": "image/webp",
+    "size": 18034,
+    "hash": "2c6734e3a3853f5c71bd3a392b269869c80e2c0d9c7565b820ca8a04921b53ee"
+  },
+  {
+    "id": "source-6cb7639ea4528c5551b8",
+    "path": "/assets/client-2026-09/home-t-shirt.jpg",
+    "filename": "home-t-shirt.jpg",
+    "type": "image/jpeg",
+    "size": 133326,
+    "hash": "23306c45f3656b3961f5c88bc7f31ea3aaca7a165a346f259638b56459cfa3f5"
+  },
+  {
+    "id": "source-f5dca10db7375bc4e6b8",
+    "path": "/assets/client-2026-09/industry-bag.jpg",
+    "filename": "industry-bag.jpg",
+    "type": "image/jpeg",
+    "size": 144289,
+    "hash": "eb16aa535bf0b93a92d551102b98d9755d61e8f49f5646bd2c5465c1a102c928"
+  },
+  {
+    "id": "source-31dde3b5fb54a8d08a5e",
+    "path": "/assets/client-2026-09/journal-article-benefitsofkobags.webp",
+    "filename": "journal-article-benefitsofkobags.webp",
+    "type": "image/webp",
+    "size": 169348,
+    "hash": "0f79070ba4e610474b2184f399837a1245bdb640aeb2a3d1c569e699b1fd48e5"
+  },
+  {
+    "id": "source-6ccf18e6579e001a5fe0",
+    "path": "/assets/client-2026-09/journal-article-helpingbusinesseskobags.webp",
+    "filename": "journal-article-helpingbusinesseskobags.webp",
+    "type": "image/webp",
+    "size": 180734,
+    "hash": "ead5c72d8b3df9003b726f58193f2a266200370b9123f972480a8b7e77245b51"
+  },
+  {
+    "id": "source-d29ef5db01bebef533bf",
+    "path": "/assets/client-2026-09/journal-article-kobagsjourney.webp",
+    "filename": "journal-article-kobagsjourney.webp",
+    "type": "image/webp",
+    "size": 108514,
+    "hash": "4c2d7332c9f2ed25d2dfc5b42ba3a9645a5e70adfc56dcb196adb7e3eba356aa"
+  },
+  {
+    "id": "source-43fe74cc40cff80217f5",
+    "path": "/assets/client-2026-09/journal-article-kobagsmission.webp",
+    "filename": "journal-article-kobagsmission.webp",
+    "type": "image/webp",
+    "size": 150752,
+    "hash": "cc6ad383ab1485fef9a270b4703b9ba628359157ead9eba51e849628fc62eaf3"
+  },
+  {
+    "id": "source-2b29dc6b8c6957758265",
+    "path": "/assets/client-2026-09/journal-article-sciencebehindkobags.webp",
+    "filename": "journal-article-sciencebehindkobags.webp",
+    "type": "image/webp",
+    "size": 96292,
+    "hash": "0279288daf69a4d29e682915ecd5bac949c4e93b459dea6f20e907ee701f3a9a"
+  },
+  {
+    "id": "source-000140489de1787df956",
+    "path": "/assets/client-2026-09/journal-article-whyswitchtokobags.webp",
+    "filename": "journal-article-whyswitchtokobags.webp",
+    "type": "image/webp",
+    "size": 81432,
+    "hash": "ce1863b5bfd5fe2d6c797a29b4a4a07597f37d69be100941d7b3cda0db709ac6"
+  },
+  {
+    "id": "source-a0b70fc4a130bcfe4ee4",
+    "path": "/assets/client-2026-09/journal-brand-red-print.webp",
+    "filename": "journal-brand-red-print.webp",
+    "type": "image/webp",
+    "size": 39492,
+    "hash": "dd1461561c5230f155b702ed49ae7c1168eb95f12a4ce87337db9835f1535cf2"
+  },
+  {
+    "id": "source-a960044878ea6373744e",
+    "path": "/assets/client-2026-09/journal-brand.jpg",
+    "filename": "journal-brand.jpg",
+    "type": "image/jpeg",
+    "size": 187891,
+    "hash": "2ca5e79ac1bd56e7ba6c35aa11bcb3ffbc1019b64050351d34560cc18d64b375"
+  },
+  {
+    "id": "source-09cd17b95859618f21f8",
+    "path": "/assets/client-2026-09/journal-checklist-production.webp",
+    "filename": "journal-checklist-production.webp",
+    "type": "image/webp",
+    "size": 73474,
+    "hash": "2765401c93422b767db462f350c759e07d405bd70e8d875ea3135351f3ebe2b6"
+  },
+  {
+    "id": "source-d916951edd9b197a90a7",
+    "path": "/assets/client-2026-09/journal-checklist.jpg",
+    "filename": "journal-checklist.jpg",
+    "type": "image/jpeg",
+    "size": 417821,
+    "hash": "436138ccebfa2eee7cb089787613847e1116ceea35b2f25d02ad1be17bcb71ef"
+  },
+  {
+    "id": "source-2d8629810667763ebc97",
+    "path": "/assets/client-2026-09/journal-factory.jpg",
+    "filename": "journal-factory.jpg",
+    "type": "image/jpeg",
+    "size": 151226,
+    "hash": "d43d0ad22f916451a166ef0e2c8f797282fed2b2d12d9b604f62c18544bd5e42"
+  },
+  {
+    "id": "source-cc55ad50aba57fd6f99b",
+    "path": "/assets/client-2026-09/journal-material.jpg",
+    "filename": "journal-material.jpg",
+    "type": "image/jpeg",
+    "size": 162415,
+    "hash": "e0cfeb2f43a50a9434eb2ff47b4ec9d7d3f1c74697c2600e522aecd716793344"
+  },
+  {
+    "id": "source-8e8c516ad809f6765081",
+    "path": "/assets/client-2026-09/journal-order.jpg",
+    "filename": "journal-order.jpg",
+    "type": "image/jpeg",
+    "size": 165612,
+    "hash": "0d94b0f358f884692af67d10ff154dae4a2e86f3226a091df35f8193da51c66b"
+  },
+  {
+    "id": "source-07b75cbb93e8a09883b9",
+    "path": "/assets/client-2026-09/journal-orders-ready.webp",
+    "filename": "journal-orders-ready.webp",
+    "type": "image/webp",
+    "size": 124074,
+    "hash": "05929e82c8aea215f87c3df18cfeaed6f2a34f0fa06c868bfdd969671fbf0a99"
+  },
+  {
+    "id": "source-c82f4d6a047fe3cd9443",
+    "path": "/assets/client-2026-09/journal-reuse.jpg",
+    "filename": "journal-reuse.jpg",
+    "type": "image/jpeg",
+    "size": 410972,
+    "hash": "310fb5c657c253d30ef787434f2a9428fc74468d1b5b4ad5ce711b6bde32cdcb"
+  },
+  {
+    "id": "source-40d795bb516e6081a5b9",
+    "path": "/assets/client-2026-09/manufacturing-bag-forming.webp",
+    "filename": "manufacturing-bag-forming.webp",
+    "type": "image/webp",
+    "size": 96408,
+    "hash": "376768fa5793d4a32488195f73940139b487952c9e46971dbceb090e9c191b93"
+  },
+  {
+    "id": "source-92e4a4f8da8fdb458fad",
+    "path": "/assets/client-2026-09/material-equipment.jpg",
+    "filename": "material-equipment.jpg",
+    "type": "image/jpeg",
+    "size": 188356,
+    "hash": "c1beb10e79b1cd6487acd35456cca31c9e05e7c2555bd33ec046b32efd86737b"
+  },
+  {
+    "id": "source-ad44439ea255bf82a110",
+    "path": "/assets/client-2026-09/material-printed-rolls.webp",
+    "filename": "material-printed-rolls.webp",
+    "type": "image/webp",
+    "size": 35206,
+    "hash": "f6fc1d24eac0a4f67c14360a3186df7afe0faf7885b5e9647d38782a8730e69f"
+  },
+  {
+    "id": "source-755cb94cab8ca64de98a",
+    "path": "/assets/client-2026-09/material-rolls.jpg",
+    "filename": "material-rolls.jpg",
+    "type": "image/jpeg",
+    "size": 232351,
+    "hash": "d6e78f9eeeec8ba8020ab46d434db107e7045d1dccfa692a4c786b54d6a51a47"
+  },
+  {
+    "id": "source-0a6c374c521f80eeed6b",
+    "path": "/assets/client-2026-09/printing-rollers.jpg",
+    "filename": "printing-rollers.jpg",
+    "type": "image/jpeg",
+    "size": 168644,
+    "hash": "88f13846de7022d1c534b00580b9aa65cdcb45373faf1fce064fd4c2b6dd92ec"
+  },
+  {
+    "id": "source-2a8c09dfeef80589e8a1",
+    "path": "/assets/client-2026-09/resource-bag-stacks.jpg",
+    "filename": "resource-bag-stacks.jpg",
+    "type": "image/jpeg",
+    "size": 315163,
+    "hash": "f5bc6a0a69f0d4662f191f65ffd2eceb30d3a3b2801edf03f0cc42fafbf779ea"
+  },
+  {
+    "id": "source-7cdae8676abd15de835a",
+    "path": "/assets/client-2026-09/retail-bag.jpg",
+    "filename": "retail-bag.jpg",
+    "type": "image/jpeg",
+    "size": 127724,
+    "hash": "bb81aaa3cd26baea7b8f830fef83f9a63a07399946a5c0401b9b7396e3d0af58"
+  },
+  {
+    "id": "source-befcd5947b4719079dd2",
+    "path": "/assets/client-2026-09/sample-bag.jpg",
+    "filename": "sample-bag.jpg",
+    "type": "image/jpeg",
+    "size": 249175,
+    "hash": "d488a5c5eee1a27bdfeda4d335487d49e5deb17488128c3fda267147fae88ec1"
+  },
+  {
+    "id": "source-ea5e58b27b8db905eb7e",
+    "path": "/assets/client-2026-09/string-bag.jpg",
+    "filename": "string-bag.jpg",
+    "type": "image/jpeg",
+    "size": 229456,
+    "hash": "093eb451cc6da6d7187bbc2eae3d06b6f58e60b2eabc9d4ffdfcba1dd5f0fde8"
+  },
+  {
+    "id": "source-7ab3c4aeb0a34966f9cb",
+    "path": "/assets/client-2026-09/t-shirt-bag.jpg",
+    "filename": "t-shirt-bag.jpg",
+    "type": "image/jpeg",
+    "size": 101106,
+    "hash": "d725f4a436bf5a7b44985410cea41f11fccae07e3a7a880424f9eb2222502a9b"
+  },
+  {
+    "id": "source-a3e39ce015dba13f61a7",
+    "path": "/assets/studio-v4/box.webp",
+    "filename": "box.webp",
+    "type": "image/webp",
+    "size": 292536,
+    "hash": "7cb0b4173ca9106c9526bed6baca11f9878a35070aeb8e373a88ec347e4ab8b0"
+  },
+  {
+    "id": "source-d2cdf52cb8e5d03b5c9b",
+    "path": "/assets/studio-v4/d-cut.webp",
+    "filename": "d-cut.webp",
+    "type": "image/webp",
+    "size": 282158,
+    "hash": "efbb5dd6ef3f5c9e3418eb5705ee5e06eff7e739f55e41e4129734afef4a6d6a"
+  },
+  {
+    "id": "source-288bea26ef9def086d03",
+    "path": "/assets/studio-v4/handle-showcase.webp",
+    "filename": "handle-showcase.webp",
+    "type": "image/webp",
+    "size": 37038,
+    "hash": "fed93e7cc46d688dac33b9ea65732f587b8cd1913e694acbed6b96ab33502af7"
+  },
+  {
+    "id": "source-6b8bee6e2fb3a4c211ce",
+    "path": "/assets/studio-v4/handle.webp",
+    "filename": "handle.webp",
+    "type": "image/webp",
+    "size": 322578,
+    "hash": "015d803f2ad30b384c972025440b60312de49b5cb4ea4aaed6ff5ad610169c0f"
+  },
+  {
+    "id": "source-3dfa92d77288c6f59ad2",
+    "path": "/assets/studio-v4/string.webp",
+    "filename": "string.webp",
+    "type": "image/webp",
+    "size": 378792,
+    "hash": "ba3348a4bfeba84fe5af6e0cf62851e68d53b8c2d4d9e7f04416a9e026545107"
+  },
+  {
+    "id": "source-33de0889386527cbac46",
+    "path": "/assets/studio-v4/t-shirt.webp",
+    "filename": "t-shirt.webp",
+    "type": "image/webp",
+    "size": 304018,
+    "hash": "62791942e0a588af1dafaebf3c5286436f859e8b96301bbddde1a1054560f2e6"
+  }
+]

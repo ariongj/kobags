@@ -1,4 +1,5 @@
 "use client";
+import { useCms } from "./cms/public-context";
 import { enableLayers } from "@/lib/studio-artwork";
 import {
   createContext,
@@ -41,6 +42,8 @@ type Context = {
 };
 const C = createContext<Context>(null!);
 export function KobagsProvider({ children, initialLanguage = "en" }: { children: ReactNode; initialLanguage?: SiteLanguage }) {
+  const cms=useCms();
+  const wording=new Map(cms.records.filter(r=>r.kind==='copy').flatMap(r=>r.content.sections.filter(s=>s.visible&&s.original).map(s=>[s.original!.en,s.body] as const)));
   // The URL determines the rendered language, including the first crawler response.
   const [lang] = useState<SiteLanguage>(initialLanguage);
   const setLang = (value: SiteLanguage) => {
@@ -206,7 +209,7 @@ export function KobagsProvider({ children, initialLanguage = "en" }: { children:
       value={{
         lang,
         setLang,
-        t: (en, sq) => (lang === "sq" ? sq || en : en),
+        t: (en, sq) => wording.get(en)?.[lang] || (lang === "sq" ? sq || en : en),
         design,
         update: updateDraft,
         replace: replaceDraft,

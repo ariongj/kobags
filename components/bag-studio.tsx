@@ -1,4 +1,5 @@
 "use client";
+import { useCms } from "./cms/public-context";
 import Studio3D from "./studio-3d";
 import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import Link from "@/components/site-link";
@@ -62,7 +63,6 @@ import {
   products,
   colors,
   Design,
-  getProduct,
   initialDesign,
   productMedia,
   MAX_BRAND_TEXT_LENGTH,
@@ -219,7 +219,9 @@ export default function BagStudio() {
     saveDesign(restored);
     setHistoryAvailable({ undo: !!h.past.length, redo: !!h.future.length });
   };
-  const p = getProduct(design.product);
+  const cms = useCms();
+  const p = cms.getProduct(design.product);
+  const available = cms.options(design.product);
   const v = p.variants.find((v) => v.name === design.size) || p.variants[0];
   const sizeSq: Record<string, string> = { Small: "E vogël", Medium: "Mesatare", Large: "E madhe" };
   const displaySize = t(design.size, sizeSq[design.size]);
@@ -278,7 +280,7 @@ export default function BagStudio() {
   const canRestoreBackground =
     backgroundEdit?.cleaned === art.logo && !!art.logo;
   const { state } = useDemo();
-  const minimum = state?.settings.moq || 5000;
+  const minimum = available?.moq || cms.settings?.moq || state?.settings.moq || 5000;
   const setArtworkPosition = (axis: "x" | "y", value: number) => {
     if (!Number.isFinite(value)) return;
     const clamped = Math.max(
@@ -594,15 +596,16 @@ export default function BagStudio() {
           </span>
         </div>
       </div>
+      {!cms.products.some(p=>p.slug===design.product)&&<p role="status" className="notice">{t("This bag is currently unavailable. Choose another shape below; your artwork is kept.","Kjo çantë aktualisht nuk është e disponueshme. Zgjidhni një formë tjetër; dizajni juaj ruhet.")}</p>}
       <div className="studio">
         <div className="preview-column">
           <div className="bag-picker">
-            {products.map((b) => (
+            {cms.products.map((b) => (
               <button
                 key={b.slug}
                 className={b.slug === p.slug ? "bag-pick selected" : "bag-pick"}
                 onClick={() =>
-                  update({ product: b.slug, size: b.variants[0].name })
+                  update({ product: b.slug, size: cms.options(b.slug)?.activeSizes?.[0] || b.variants[0].name, color: cms.options(b.slug)?.colors?.[0] || design.color, printColors: Math.min(design.printColors, cms.options(b.slug)?.printColors || 4) })
                 }
                 aria-pressed={b.slug === p.slug}
                 aria-label={b.name.replace(" Bag", "")}
@@ -801,7 +804,7 @@ export default function BagStudio() {
                 label={t("Bag size", "Madhësia e çantës")}
                 value={design.size}
                 onChange={(size) => update({ size })}
-                options={p.variants.map((v) => ({
+                options={p.variants.filter(v=>!available?.activeSizes||available.activeSizes.includes(v.name)).map((v) => ({
                   value: v.name,
                   label: `${t(v.name, sizeSq[v.name])} · ${v.dimensions}`,
                 }))}
@@ -821,7 +824,7 @@ export default function BagStudio() {
                   role="group"
                   aria-label={t("Bag color", "Ngjyra e çantës")}
                 >
-                  {colors.map((c) => (
+                  {colors.filter(c=>!available?.colors||available.colors.includes(c.name)).map((c) => (
                     <button
                       key={c.name}
                       className={
@@ -878,7 +881,7 @@ export default function BagStudio() {
                   )}
                   value={String(design.printColors)}
                   onChange={(value) => update({ printColors: Number(value) })}
-                  options={[1, 2, 3, 4].map((count) => ({
+                  options={[1, 2, 3, 4].filter(n => n <= (available?.printColors || 4)).map((count) => ({
                     value: String(count),
                     label: `${count} ${t(count === 1 ? "color" : "colors", count === 1 ? "ngjyrë" : "ngjyra")}`,
                   }))}

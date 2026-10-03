@@ -1,10 +1,12 @@
 "use client";
+import { usePublishedCertificates } from "./cms/public-context";
 import Link from "./site-link";
 import { ArrowUpRight, ShieldCheck } from "lucide-react";
-import { certificates } from "@/lib/certificates";
+
 import { useKobags } from "./kobags-context";
 export function CertificateShowcase() {
   const { t } = useKobags();
+  const certificates=usePublishedCertificates();
   return (
     <section className="certificate-showcase">
       <div className="certificate-intro">
@@ -49,7 +51,7 @@ export function CertificateShowcase() {
             </div>
             <div className="certificate-mini-paper">
               <img
-                src={`/assets/certificate-iso${c.id}.webp`}
+                src={c.image || `/assets/certificate-iso${c.id}.webp`}
                 width={390}
                 height={550}
                 alt={`${c.standard} — ${t("published certificate scan", "certifikatë e publikuar")}`}

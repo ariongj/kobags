@@ -1,4 +1,5 @@
 "use client";
+import { useCms } from "./cms/public-context";
 
 import Link from "@/components/site-link";
 import { ArrowUpRight } from "lucide-react";
@@ -42,6 +43,8 @@ const journalPhotos: Record<string, { src: string; alt: string; altSq: string }>
 
 export default function JournalIndex() {
   const { lang, t } = useKobags();
+  const cms=useCms();
+  const managed=cms.records.filter(r=>r.kind==='article'&&r.content.path);
   return (
     <main>
       <PageHeading
@@ -55,7 +58,8 @@ export default function JournalIndex() {
       </PageHeading>
       <div className="content-width">
         <div className="journal-grid">
-          {articles.map((source, index) => {
+          {managed.map(({id,content:c})=><Link href={c.path} className="journal-card" key={id}>{c.image&&<img className="journal-photo" src={c.image} alt={c.title[lang]} width="600" height="400" loading="lazy"/>}<p className="eyebrow">{t("BUYER GUIDE","UDHËZUES PËR BLERËSIT")}</p><h2>{c.title[lang]}</h2><p>{c.description[lang]}</p><span className="text-button">{t("Read the guide","Lexoni udhëzuesin")}</span></Link>)}
+          {articles.filter(a=>!managed.some(r=>r.content.path==='/blog/'+a.slug)).map((source, index) => {
             const article = localizeArticle(source, lang);
             const photo = journalPhotos[source.slug];
             return (

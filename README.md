@@ -2,6 +2,10 @@
 
 A public B2B website demo with the original Kobags identity, cinematic manufacturing homepage, interactive 3D showroom, detailed bag designer, all five product families / 15 sizes, inquiries and connected customer/sales workspaces. Visitors can try the complete quote, artwork approval and simulated order journey without signing in.
 
+## Shared business CMS — 3 October 2026
+
+`/cms` adds authenticated staff roles, bilingual content/catalogue publishing, a shared inquiry inbox, quotation/artwork revisions, private customer review, production handoff, media, reporting and tested backups. Read `docs/CMS-OPERATIONS.md` for setup, permissions and the exact operational boundaries. First administrator: sign in as `info@itdks.tech`. Real inquiries remain disabled until the administrator reviews policies and enables them; email delivery needs a verified provider. Visitor demonstration workspaces remain separate.
+
 ## Start here
 
 - `docs/SITE-OUTLINE.md` — complete structure and pages.
@@ -14,10 +18,12 @@ A public B2B website demo with the original Kobags identity, cinematic manufactu
 
 ## Run locally
 
-Requires Node 22.13+. Run `npm ci`, then `npm run build`. For a fresh local database, apply the included migration once:
+Requires Node 22.13+. Run `npm ci`, then `npm run build`. For a fresh local database, apply the included migrations in order, once each:
 
 ```sh
 node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0000_burly_prodigy.sql
+node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0001_dashing_jazinda.sql
+node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0002_small_thaddeus_ross.sql
 npm run dev
 ```
 

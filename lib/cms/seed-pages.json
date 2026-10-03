@@ -1,0 +1,1580 @@
+{
+  "/": {
+    "title": {
+      "en": "Manufacturing bags.Building brands.",
+      "sq": "Prodhojmë çanta.Ndërtojmë marka."
+    },
+    "sections": [
+      {
+        "id": "section-1",
+        "title": {
+          "en": "Material. Print.Finished to your brief.",
+          "sq": "Material. Shtyp.Sipas kërkesës suaj."
+        },
+        "body": {
+          "en": "Follow the three decisions that shape your bag: its construction, its print and its finished specification.",
+          "sq": "Tri vendime përcaktojnë çantën tuaj: mënyra e punimit, shtypi dhe specifikimet përfundimtare."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-2",
+        "title": {
+          "en": "Material & specification",
+          "sq": "Materiali dhe specifikimet"
+        },
+        "body": {
+          "en": "Non-woven PP, in the shape, size and fabric weight your application needs.",
+          "sq": "PP jo i endur, me formën, madhësinë dhe peshën e materialit që ju nevojitet."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-3",
+        "title": {
+          "en": "Your identity, in print",
+          "sq": "Identiteti juaj në shtyp"
+        },
+        "body": {
+          "en": "Custom flexographic printing, with artwork reviewed before production.",
+          "sq": "Shtyp fleksografik i personalizuar, me dizajn të miratuar para prodhimit."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-4",
+        "title": {
+          "en": "From production to dispatch",
+          "sq": "Nga prodhimi te dërgimi"
+        },
+        "body": {
+          "en": "Confirm the finished specification, production timing and destination with our team.\n\nWatch the material move through the printing equipment.",
+          "sq": "Konfirmoni specifikimet përfundimtare, afatin e prodhimit dhe destinacionin me ekipin tonë.\n\nShikoni si kalon materiali nëpër makineritë e shtypit."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-5",
+        "title": {
+          "en": "Imagine it.Make it yours.",
+          "sq": "Imagjinojeni.Personalizojeni."
+        },
+        "body": {
+          "en": "Turn the bag to inspect its shape. Try a color and brand name here, then open the studio to place your logo on either side.\n\nAdd your logo. Explore all five shapes. Request your quote.",
+          "sq": "Rrotullojeni çantën për të parë formën. Provoni ngjyrën dhe emrin e markës këtu, pastaj hapni studion për të vendosur logon në secilën anë.\n\nShtoni logon. Eksploroni pesë format. Kërkoni ofertën."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-6",
+        "title": {
+          "en": "Five bag families.Different ways to carry.",
+          "sq": "Pesë lloje çantash.Mënyra të ndryshme bartjeje."
+        },
+        "body": {
+          "en": "",
+          "sq": ""
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-7",
+        "title": {
+          "en": "D-Cut Bag",
+          "sq": "D-Cut Bag"
+        },
+        "body": {
+          "en": "Retail & events3 sizes",
+          "sq": "Shitje me pakicë & evente3 madhësi"
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-8",
+        "title": {
+          "en": "Handle Bag",
+          "sq": "Handle Bag"
+        },
+        "body": {
+          "en": "Shops & boutiques3 sizes",
+          "sq": "Dyqane & butiqe3 madhësi"
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-9",
+        "title": {
+          "en": "Box Bag",
+          "sq": "Box Bag"
+        },
+        "body": {
+          "en": "Grocery & gifting3 sizes",
+          "sq": "Ushqimore & dhurata3 madhësi"
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-10",
+        "title": {
+          "en": "T-Shirt Bag",
+          "sq": "T-Shirt Bag"
+        },
+        "body": {
+          "en": "Grocery & retail3 sizes",
+          "sq": "Ushqimore & pakicë3 madhësi"
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-11",
+        "title": {
+          "en": "String Bag",
+          "sq": "String Bag"
+        },
+        "body": {
+          "en": "Events & promotions3 sizes",
+          "sq": "Evente & promovime3 madhësi"
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-12",
+        "title": {
+          "en": "From design to dispatch.",
+          "sq": "Nga dizajni te dërgimi."
+        },
+        "body": {
+          "en": "",
+          "sq": ""
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-13",
+        "title": {
+          "en": "Choose & design",
+          "sq": "Zgjidhni dhe dizajnoni"
+        },
+        "body": {
+          "en": "Find the right shape, color and branding for your business.",
+          "sq": "Gjeni formën, ngjyrën dhe markimin për biznesin tuaj."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-14",
+        "title": {
+          "en": "Review the quotation",
+          "sq": "Shqyrtoni ofertën"
+        },
+        "body": {
+          "en": "Confirm quantity, destination, price and commercial details.",
+          "sq": "Konfirmoni sasinë, destinacionin, çmimin dhe kushtet."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-15",
+        "title": {
+          "en": "Approve your artwork",
+          "sq": "Miratoni dizajnin"
+        },
+        "body": {
+          "en": "Review the specific proof before production is released.",
+          "sq": "Shqyrtoni versionin e caktuar para fillimit të prodhimit."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-16",
+        "title": {
+          "en": "Production & dispatch",
+          "sq": "Prodhimi dhe dërgimi"
+        },
+        "body": {
+          "en": "Production follows approval. Dispatch and delivery are confirmed separately.",
+          "sq": "Prodhimi vijon pas miratimit. Dërgimi dhe dorëzimi konfirmohen veçmas."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-17",
+        "title": {
+          "en": "A bag for what you do.",
+          "sq": "Një çantë për punën tuaj."
+        },
+        "body": {
+          "en": "Retail, events or everyday shopping: start with what your customer carries.",
+          "sq": "Shitje me pakicë, evente apo blerje të përditshme: filloni me nevojat e klientit."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-18",
+        "title": {
+          "en": "Clear facts. Better choices.",
+          "sq": "Fakte të qarta. Zgjedhje më të mira."
+        },
+        "body": {
+          "en": "Understand non-woven PP, care and reuse. Check the evidence behind product and environmental claims.",
+          "sq": "Kuptoni PP-në jo të endur, kujdesin dhe ripërdorimin. Kontrolloni provat pas pretendimeve."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-19",
+        "title": {
+          "en": "Local production. Nationwide possibilities.",
+          "sq": "Prodhim vendor. Mundësi në tërë vendin."
+        },
+        "body": {
+          "en": "Branded bags for shops, supermarkets and events, from Prishtina and Lipjan to Prizren, Peja, Gjilan, Ferizaj and beyond.",
+          "sq": "Qese dhe çanta me logo për dyqane, supermarkete dhe evente, nga Prishtina e Lipjani në Prizren, Pejë, Gjilan, Ferizaj dhe më gjerë."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-20",
+        "title": {
+          "en": "Confidence,in the details.",
+          "sq": "Besim,në çdo detaj."
+        },
+        "body": {
+          "en": "Get closer to the standards behind the operation. Explore the published quality and environmental management certificates, with readable details and original documents.",
+          "sq": "Shqyrtoni standardet e veprimtarisë. Certifikatat e publikuara për cilësinë dhe menaxhimin mjedisor, me detaje të lexueshme dhe dokumentet origjinale."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-21",
+        "title": {
+          "en": "ISO 9001:2015",
+          "sq": "ISO 9001:2015"
+        },
+        "body": {
+          "en": "Quality management",
+          "sq": "Menaxhimi i cilësisë"
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-22",
+        "title": {
+          "en": "ISO 14001:2015",
+          "sq": "ISO 14001:2015"
+        },
+        "body": {
+          "en": "Environmental management",
+          "sq": "Menaxhimi mjedisor"
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-23",
+        "title": {
+          "en": "Orderingessentials.",
+          "sq": "Detajete porosisë."
+        },
+        "body": {
+          "en": "The published minimum is 5,000 bags. Its application across designs, sizes and colors is confirmed with your quote.\n\nYes. Use the design studio to upload a PNG, JPG or WebP, then place, resize and rotate it. The preview is a concept; production artwork still needs approval.\n\nPublished guidance indicates dispatch 2–4 weeks after artwork approval, subject to production confirmation. Transport time is additional.\n\nYes. Samples have a separate inquiry route. Availability, sample costs and shipping terms require confirmation.",
+          "sq": "Minimumi është 5,000 çanta. Zbatimi sipas dizajnit, madhësisë dhe ngjyrës konfirmohet me ofertën.\n\nPo. Ngarkoni PNG, JPG ose WebP në studio, pastaj vendoseni, ndryshoni madhësinë dhe rrotullojeni. Dizajni për prodhim kërkon miratim.\n\nUdhëzimi tregon dërgimin 2–4 javë pas miratimit, sipas konfirmimit të prodhimit. Transporti kërkon kohë shtesë.\n\nPo. Mostrat kanë kërkesë të veçantë. Disponueshmëria, kostot dhe transporti kërkojnë konfirmim."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      }
+    ]
+  },
+  "/manufacturing": {
+    "title": {
+      "en": "From raw material to finished bags.",
+      "sq": "Nga materiali te çanta e përfunduar."
+    },
+    "sections": [
+      {
+        "id": "section-1",
+        "title": {
+          "en": "Where your bagtakes shape.",
+          "sq": "Këtu merr formëçanta juaj."
+        },
+        "body": {
+          "en": "",
+          "sq": ""
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-2",
+        "title": {
+          "en": "01 / Material",
+          "sq": "01 / Materiali"
+        },
+        "body": {
+          "en": "Define the non-woven PP material, GSM, bag shape and color for your application.",
+          "sq": "Përcaktoni materialin PP jo të endur, peshën në GSM, formën dhe ngjyrën e çantës sipas nevojës suaj."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-3",
+        "title": {
+          "en": "02 / Printing",
+          "sq": "02 / Shtypi"
+        },
+        "body": {
+          "en": "Choose up to four print colors and share your artwork. We’ll confirm the print method and usable area for your selected bag.",
+          "sq": "Zgjidhni deri në katër ngjyra shtypi dhe na dërgoni dizajnin tuaj. Metodën e shtypit dhe sipërfaqen e përdorshme i konfirmojmë për çantën e zgjedhur."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-4",
+        "title": {
+          "en": "03 / Approval & dispatch",
+          "sq": "03 / Miratimi dhe dërgimi"
+        },
+        "body": {
+          "en": "Review the quotation and artwork proof before production. Confirm dispatch timing and destination-dependent transport.",
+          "sq": "Shqyrtoni ofertën dhe provën e dizajnit para prodhimit. Konfirmoni afatin e nisjes dhe transportin sipas destinacionit."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-5",
+        "title": {
+          "en": "Forming and finishing, in motion.",
+          "sq": "Formimi dhe përfundimi në lëvizje."
+        },
+        "body": {
+          "en": "Watch bag forming and stacking on our production floor. Each clip shows a different step in making your order.",
+          "sq": "Shihni formimin dhe vendosjen e çantave në linjën tonë. Secila video paraqet një hap të ndryshëm të prodhimit."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      }
+    ]
+  },
+  "/sustainability": {
+    "title": {
+      "en": "Better questions. Clearer choices.",
+      "sq": "Pyetje më të mira. Zgjedhje më të qarta."
+    },
+    "sections": [
+      {
+        "id": "section-1",
+        "title": {
+          "en": "Reusable starts withhow you use it.",
+          "sq": "Ripërdorimi fillon ngamënyra si e përdorni."
+        },
+        "body": {
+          "en": "Non-woven polypropylene is a plastic material. It can be designed for repeated use, but recycled content, recyclability and reuse are different questions.",
+          "sq": "Polipropileni jo i endur është material plastik. Çanta mund të projektohet për përdorim të përsëritur, por përmbajtja e ricikluar, riciklueshmëria dhe ripërdorimi janë çështje të ndryshme."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-2",
+        "title": {
+          "en": "What is it made of?",
+          "sq": "Nga çfarë përbëhet?"
+        },
+        "body": {
+          "en": "Our non-woven bag range uses polypropylene (PP). For a specific bag, ask us to confirm its full composition and any recycled content.",
+          "sq": "Çantat tona jo të endura përdorin polipropilen (PP). Për një çantë të caktuar, kërkoni konfirmim për përbërjen e plotë dhe përmbajtjen eventuale të ricikluar."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-3",
+        "title": {
+          "en": "Can it be recycled?",
+          "sq": "A mund të riciklohet?"
+        },
+        "body": {
+          "en": "Collection and processing options depend on your destination. Check local acceptance for the actual finished bag, including print and other components.",
+          "sq": "Mundësitë e grumbullimit dhe përpunimit varen nga vendi ku përdoret. Kontrolloni nëse pranohet lokalisht çanta e përfunduar, përfshirë shtypin dhe pjesët e tjera."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-4",
+        "title": {
+          "en": "How should I care for it?",
+          "sq": "Si duhet të kujdesem për të?"
+        },
+        "body": {
+          "en": "Wipe it with a damp cloth or wash it gently by hand. Avoid machine washing and high heat. We can confirm care for your selected print and finish.",
+          "sq": "Pastrojeni me leckë të lagur ose lajeni lehtë me dorë. Shmangni lavatriçen dhe temperaturat e larta. Udhëzimet për shtypin dhe përfundimin e zgjedhur i konfirmojmë veçmas."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-5",
+        "title": {
+          "en": "Evidence before broad claims.",
+          "sq": "Dëshmitë para pretendimeve të gjera."
+        },
+        "body": {
+          "en": "Figures for environmental impact, product lifetime, recycled percentage and food contact require product-specific evidence and clear scope. Ask for the relevant evidence for your bag.\n\nManagement-system certificates describe the certified organization and scope. They do not by themselves establish a bag’s environmental performance.",
+          "sq": "Të dhënat për ndikimin mjedisor, jetëgjatësinë, përqindjen e materialit të ricikluar dhe kontaktin me ushqimin kërkojnë dëshmi për produktin konkret dhe fushë të qartë zbatimi. Kërkoni dëshmitë për çantën tuaj.\n\nCertifikatat e sistemeve të menaxhimit përshkruajnë organizatën dhe fushën e certifikuar. Ato nuk provojnë vetë performancën mjedisore të një çante."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      }
+    ]
+  },
+  "/certifications": {
+    "title": {
+      "en": "Evidence you can look closer at.",
+      "sq": "Dëshmi që mund t'i shihni nga afër."
+    },
+    "sections": [
+      {
+        "id": "section-1",
+        "title": {
+          "en": "ISO 9001:2015",
+          "sq": "ISO 9001:2015"
+        },
+        "body": {
+          "en": "A framework for consistent quality.",
+          "sq": "Një kuadër për cilësi të qëndrueshme."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-2",
+        "title": {
+          "en": "ISO 14001:2015",
+          "sq": "ISO 14001:2015"
+        },
+        "body": {
+          "en": "A framework for environmental management.",
+          "sq": "Një kuadër për menaxhimin mjedisor."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-3",
+        "title": {
+          "en": "Know what you’re verifying.",
+          "sq": "Dijeni çfarë po verifikoni."
+        },
+        "body": {
+          "en": "Details above are transcribed from the scans published by Kobags. These are management-system certificates, not product environmental certifications. ISO develops standards; certification bodies issue certificates. The current status and relationship of the named entity to Kobags require confirmation before procurement.",
+          "sq": "Detajet janë transkriptuar nga skanimet e publikuara nga Kobags. Janë certifikata të sistemit të menaxhimit, jo certifikata mjedisore të produktit. ISO harton standardet; organet certifikuese lëshojnë certifikatat. Konfirmoni statusin aktual dhe lidhjen e subjektit me Kobags para prokurimit."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      }
+    ]
+  },
+  "/partners": {
+    "title": {
+      "en": "Bring Kobags to your market.",
+      "sq": "Sillni Kobags në tregun tuaj."
+    },
+    "sections": [
+      {
+        "id": "section-1",
+        "title": {
+          "en": "Partnership starts with a real production team.",
+          "sq": "Partneriteti fillon me një ekip të vërtetë prodhimi."
+        },
+        "body": {
+          "en": "",
+          "sq": ""
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-2",
+        "title": {
+          "en": "Country representative",
+          "sq": "Përfaqësues për një vend"
+        },
+        "body": {
+          "en": "Develop a market and introduce suitable wholesale customers. Territory, responsibilities and exclusivity require an agreed partner arrangement.",
+          "sq": "Zhvilloni një treg dhe prezantoni blerës të përshtatshëm me shumicë. Territori, përgjegjësitë dhe ekskluziviteti kërkojnë marrëveshje të veçantë partneriteti."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-3",
+        "title": {
+          "en": "Sales partner",
+          "sq": "Partner shitjesh"
+        },
+        "body": {
+          "en": "Bring relevant customer requirements into a structured quote process. Sales responsibilities and commercial terms are agreed directly.",
+          "sq": "Sillni kërkesat e klientëve në një proces të qartë ofertimi. Përgjegjësitë e shitjes dhe kushtet tregtare dakordohen drejtpërdrejt."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-4",
+        "title": {
+          "en": "Affiliate",
+          "sq": "Partner referimi"
+        },
+        "body": {
+          "en": "Introduce potential buyers through an agreed referral model. Eligibility, attribution and commission terms need confirmation.",
+          "sq": "Prezantoni blerës të mundshëm përmes një modeli referimi të dakorduar. Kushtet e pjesëmarrjes, atribuimit dhe komisionit duhet të konfirmohen."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      }
+    ]
+  },
+  "/resources": {
+    "title": {
+      "en": "Prepare a better bag brief.",
+      "sq": "Përgatitni një kërkesë të plotë."
+    },
+    "sections": [
+      {
+        "id": "section-1",
+        "title": {
+          "en": "Your bag specification checklist.",
+          "sq": "Lista e specifikimeve të çantës suaj."
+        },
+        "body": {
+          "en": "A practical list of the details to prepare before requesting a quotation.",
+          "sq": "Një listë praktike e detajeve që duhen përgatitur para kërkesës për ofertë."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-2",
+        "title": {
+          "en": "From concept to approved artwork",
+          "sq": "Nga ideja te dizajni i miratuar"
+        },
+        "body": {
+          "en": "Use the studio to explore placement. Production still needs approved printable dimensions, a color reference and a specific artwork revision before release.",
+          "sq": "Përdorni studion për të provuar vendosjen e dizajnit. Para prodhimit duhen përmasat e miratuara të shtypit, referenca e ngjyrës dhe versioni i caktuar i dizajnit."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-3",
+        "title": {
+          "en": "Dispatch and delivery are different",
+          "sq": "Nisja dhe dorëzimi nuk janë e njëjta gjë"
+        },
+        "body": {
+          "en": "Dispatch is when finished bags leave the production location. Arrival depends on transport, destination and any applicable customs process. Request a date; confirm it with the quotation.",
+          "sq": "Nisja ndodh kur çantat e përfunduara largohen nga vendi i prodhimit. Mbërritja varet nga transporti, destinacioni dhe procedurat doganore, nëse zbatohen. Kërkoni një datë dhe konfirmojeni në ofertë."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      }
+    ]
+  },
+  "/industries": {
+    "title": {
+      "en": "The right bag for your kind of business.",
+      "sq": "Çanta e duhur për biznesin tuaj."
+    },
+    "sections": [
+      {
+        "id": "section-1",
+        "title": {
+          "en": "Let your packagingdo the talking.",
+          "sq": "Le të flasë paketimipër markën tuaj."
+        },
+        "body": {
+          "en": "Choose a shape for your merchandise, give your brand room to breathe and plan the quantity you need.",
+          "sq": "Zgjidhni formën për produktet tuaja, jepini hapësirë markës dhe planifikoni sasinë që ju nevojitet."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-2",
+        "title": {
+          "en": "Events & promotions",
+          "sq": "Evente dhe promovime"
+        },
+        "body": {
+          "en": "Explore lightweight D-Cut and String bags for printed giveaways and event materials.",
+          "sq": "Shikoni çantat e lehta D-Cut dhe String për dhurata promocionale dhe materiale eventesh."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-3",
+        "title": {
+          "en": "Grocery & everyday carry",
+          "sq": "Ushqimore dhe përdorim i përditshëm"
+        },
+        "body": {
+          "en": "Compare the Box and T-Shirt profiles against the size and weight of the items your customers carry.",
+          "sq": "Krahasoni format Box dhe T-Shirt me madhësinë dhe peshën e artikujve që mbajnë klientët tuaj."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      }
+    ]
+  },
+  "/industries/retail": {
+    "title": {
+      "en": "Packaging that fits your merchandise.",
+      "sq": "Paketim që i përshtatet produktit tuaj."
+    },
+    "sections": [
+      {
+        "id": "section-1",
+        "title": {
+          "en": "A good fit forwhat’s inside.",
+          "sq": "Përshtatje e mirëpër atë që mbart."
+        },
+        "body": {
+          "en": "Start with your largest typical purchase, how customers carry it and how much room your logo needs. Review dimensions and a material sample before committing to production.",
+          "sq": "Filloni nga blerja më e madhe tipike, mënyra si e bart klienti dhe hapësira që i duhet logos suaj. Shqyrtoni përmasat dhe një mostër materiali para prodhimit."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-2",
+        "title": {
+          "en": "D-Cut: a compact choice",
+          "sq": "D-Cut: zgjedhje kompakte"
+        },
+        "body": {
+          "en": "Sizes include Small at 30 × 31 × 5 cm / 60 GSM and Large at 50 × 47.5 × 12 cm / 80 GSM.",
+          "sq": "Madhësitë përfshijnë të voglën 30 × 31 × 5 cm / 60 GSM dhe të madhen 50 × 47.5 × 12 cm / 80 GSM."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-3",
+        "title": {
+          "en": "Handle: a familiar carry",
+          "sq": "Handle: dorezë e njohur"
+        },
+        "body": {
+          "en": "The Small variant is 30 × 30 × 5 cm / 60 GSM, with short handles.",
+          "sq": "Varianti i vogël është 30 × 30 × 5 cm / 60 GSM, me doreza të shkurtra."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      }
+    ]
+  },
+  "/bags-kosovo": {
+    "title": {
+      "en": "Your business. Your city. Your bag.",
+      "sq": "Biznesi juaj. Qyteti juaj. Çanta juaj."
+    },
+    "sections": [
+      {
+        "id": "section-1",
+        "title": {
+          "en": "Wholesale bags, close to your business.",
+          "sq": "Qese me logo, pranë biznesit tuaj."
+        },
+        "body": {
+          "en": "From a boutique in Prishtina to a supermarket in Lipjan or an event in Prizren, the starting point is what your bag needs to carry. Kobags produces non-woven polypropylene bags with custom printing for retail, grocery, promotions and distribution.",
+          "sq": "Nga një butik në Prishtinë te një supermarket në Lipjan apo një event në Prizren, gjithçka fillon nga produkti që do të bartë çanta. Kobags prodhon qese dhe çanta nga polipropileni jo i endur, me shtyp të personalizuar për dyqane, ushqimore, promovime dhe shpërndarje."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-2",
+        "title": {
+          "en": "Speak with the manufacturer",
+          "sq": "Flisni me prodhuesin"
+        },
+        "body": {
+          "en": "",
+          "sq": ""
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-3",
+        "title": {
+          "en": "Every city. All 38 municipalities.",
+          "sq": "Çdo qytet. Të 38 komunat."
+        },
+        "body": {
+          "en": "We welcome wholesale inquiries from businesses across Kosovo, including towns and villages within each municipality. Include your exact delivery address so transport options, cost and timing can be confirmed in your quotation.",
+          "sq": "Mirëpresim kërkesa me shumicë nga bizneset në tërë Kosovën, përfshirë qytetet dhe fshatrat e çdo komune. Shënoni adresën e saktë të dorëzimit që mundësitë e transportit, kostoja dhe afati të konfirmohen në ofertë."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-4",
+        "title": {
+          "en": "What to prepare for your local order",
+          "sq": "Çfarë të përgatitni për porosinë tuaj"
+        },
+        "body": {
+          "en": "",
+          "sq": ""
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-5",
+        "title": {
+          "en": "Choose the format",
+          "sq": "Zgjidhni formën"
+        },
+        "body": {
+          "en": "Compare D-Cut, Handle, Box, T-Shirt and String bags by dimensions and fabric weight. Match the format to the products your customers carry.",
+          "sq": "Krahasoni çantat D-Cut, Handle, Box, T-Shirt dhe String sipas përmasave dhe peshës së materialit. Përshtateni formën me produktet që bartin klientët tuaj."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-6",
+        "title": {
+          "en": "Plan quantity and print",
+          "sq": "Planifikoni sasinë dhe shtypin"
+        },
+        "body": {
+          "en": "Prepare your logo, bag color and quantity per design. Wholesale starts from 5,000 bags; confirm how the minimum applies across sizes, colors and artwork with the team.",
+          "sq": "Përgatitni logon, ngjyrën e çantës dhe sasinë për secilin dizajn. Porositë me shumicë fillojnë nga 5,000 çanta; konfirmoni me ekipin si zbatohet minimumi sipas madhësive, ngjyrave dhe dizajnit."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-7",
+        "title": {
+          "en": "Tell us where and when",
+          "sq": "Na tregoni ku dhe kur"
+        },
+        "body": {
+          "en": "Share your municipality, full delivery address and preferred date. Production and transport are planned separately, with final terms agreed in the quotation.",
+          "sq": "Shënoni komunën, adresën e plotë të dorëzimit dhe datën e dëshiruar. Prodhimi dhe transporti planifikohen veçmas, ndërsa kushtet përfundimtare dakordohen në ofertë."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      }
+    ]
+  },
+  "/contact": {
+    "title": {
+      "en": "Talk to the Kobags team.",
+      "sq": "Kontaktoni ekipin Kobags."
+    },
+    "sections": [
+      {
+        "id": "section-1",
+        "title": {
+          "en": "Find Kobagsin Kosova.",
+          "sq": "Gjeni Kobagsnë Kosovë."
+        },
+        "body": {
+          "en": "Magjistrale Prishtinë–FerizajKosovo · Inquiries from every municipalityEmail or call us:info@kobags-group.com+383 43 877 753",
+          "sq": "Magjistrale Prishtinë–FerizajKosovë · Kërkesa nga çdo komunëNa shkruani ose na telefononi:info@kobags-group.com+383 43 877 753"
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      }
+    ]
+  },
+  "/privacy": {
+    "title": {
+      "en": "Privacy & your data.",
+      "sq": "Privatësia dhe të dhënat tuaja."
+    },
+    "sections": [
+      {
+        "id": "section-1",
+        "title": {
+          "en": "What is stored",
+          "sq": "Çfarë ruhet"
+        },
+        "body": {
+          "en": "Your design draft and language preference are stored in your browser. Submitted requests store the bag configuration, normalized logo preview, contact fields and consent acknowledgment in your demonstration workspace. Original full-resolution logo files are not retained.\n\nRequests, quotations, artwork revisions, approvals and simulated orders persist in a separate workspace for your session. An essential cookie connects anonymous visitors to their workspace for up to seven days. Signed-in visitors use their own account workspace. This is not a production customer-account system.",
+          "sq": "Dizajni i papërfunduar dhe gjuha e zgjedhur ruhen në shfletues. Kërkesat e dërguara ruajnë konfigurimin e çantës, pamjen e përpunuar të logos, të dhënat e kontaktit dhe konfirmimin e pëlqimit në hapësirën tuaj të demonstrimit. Skedarët origjinalë të logos me rezolucion të plotë nuk ruhen.\n\nKërkesat, ofertat, versionet e dizajnit, miratimet dhe porositë e simuluara ruhen në një hapësirë të veçantë për sesionin tuaj. Një cookie e domosdoshme lidh vizitorët anonimë me këtë hapësirë për deri në shtatë ditë. Vizitorët e identifikuar përdorin hapësirën e llogarisë së tyre. Ky nuk është sistem llogarish për klientët e prodhimit."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-2",
+        "title": {
+          "en": "How records are used",
+          "sq": "Si përdoren të dhënat"
+        },
+        "body": {
+          "en": "Records demonstrate the quotation and approval process. No real email, marketing message, payment or manufacturing order is sent. This implementation does not install advertising analytics or third-party tracking tags.",
+          "sq": "Të dhënat shërbejnë për demonstrimin e procesit të ofertimit dhe miratimit. Nuk dërgohet email, mesazh marketingu, pagesë apo porosi reale për prodhim. Ky version nuk instalon analitikë reklamash ose mjete gjurmimi nga palë të treta."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-3",
+        "title": {
+          "en": "Your controls",
+          "sq": "Kontrollet tuaja"
+        },
+        "body": {
+          "en": "Clear your browser draft on the cookies page. The sales workspace offers export and reset controls for synthetic records. Reset removes active demo records; provider backup retention must be confirmed before collecting real data.",
+          "sq": "Pastroni dizajnin e shfletuesit te faqja e cookies. Hapësira e shitjeve ofron eksport dhe rivendosje për të dhënat fiktive. Rivendosja heq të dhënat aktive të demonstrimit; ruajtja e kopjeve rezervë nga ofruesi duhet të konfirmohet para mbledhjes së të dhënave reale."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-4",
+        "title": {
+          "en": "Before commercial launch",
+          "sq": "Para publikimit për përdorim tregtar"
+        },
+        "body": {
+          "en": "The client must approve the legal entity, data controller, retention periods, processors, international transfers and contact process. This page describes the demonstration; it is not an approved production privacy policy.",
+          "sq": "Klienti duhet të miratojë subjektin juridik, kontrolluesin e të dhënave, afatet e ruajtjes, përpunuesit, transferimet ndërkombëtare dhe mënyrën e kontaktit. Kjo faqe përshkruan demonstrimin; nuk është politikë e miratuar e privatësisë për përdorim tregtar."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      }
+    ]
+  },
+  "/terms": {
+    "title": {
+      "en": "Clear expectations, from the start.",
+      "sq": "Kushte të qarta, që nga fillimi."
+    },
+    "sections": [
+      {
+        "id": "section-1",
+        "title": {
+          "en": "Previews and quotations",
+          "sq": "Pamjet paraprake dhe ofertat"
+        },
+        "body": {
+          "en": "Studio previews are indicative. A preview or demonstration quotation is not a binding Kobags offer. Prices in the customer and sales workspaces are fictional, and no payment is collected.",
+          "sq": "Pamjet në studio janë orientuese. Pamja paraprake apo oferta e demonstrimit nuk është ofertë detyruese e Kobags. Çmimet në hapësirat e klientit dhe shitjeve janë fiktive dhe nuk merret pagesë."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-2",
+        "title": {
+          "en": "Production requires confirmation",
+          "sq": "Prodhimi kërkon konfirmim"
+        },
+        "body": {
+          "en": "Material availability, dimensional drawings, printable area, print method, quantity rules, sample terms, prices, shipping, tax, payment and delivery commitments require client approval and a formal commercial agreement.",
+          "sq": "Disponueshmëria e materialit, vizatimet teknike, zona dhe metoda e shtypit, rregullat e sasisë, kushtet e mostrave, çmimet, transporti, taksat, pagesa dhe afatet e dorëzimit kërkojnë miratim nga klienti dhe marrëveshje tregtare zyrtare."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-3",
+        "title": {
+          "en": "Artwork and branding",
+          "sq": "Dizajni dhe marka"
+        },
+        "body": {
+          "en": "Use artwork you are entitled to use. Final artwork approval must identify the exact revision and approved production template. The demonstration illustrates this process without authorizing manufacturing.",
+          "sq": "Përdorni dizajne për të cilat keni të drejtë përdorimi. Miratimi përfundimtar duhet të përcaktojë versionin e saktë të dizajnit dhe modelin teknik të miratuar. Demonstrimi e paraqet këtë proces pa autorizuar prodhimin."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-4",
+        "title": {
+          "en": "Before launch",
+          "sq": "Para publikimit"
+        },
+        "body": {
+          "en": "The legal owner must approve production terms, entity details, jurisdiction, order acceptance, shipment and claims procedures. No legal registration or contractual terms are invented for this demonstration.",
+          "sq": "Pronari juridik duhet të miratojë kushtet e prodhimit, të dhënat e subjektit, juridiksionin, pranimin e porosive, dërgesat dhe procedurat e ankesave. Për këtë demonstrim nuk janë shpikur regjistrime juridike ose kushte kontraktuale."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      }
+    ]
+  },
+  "/cookies": {
+    "title": {
+      "en": "Cookies & browser storage.",
+      "sq": "Cookies dhe ruajtja në shfletues."
+    },
+    "sections": [
+      {
+        "id": "section-1",
+        "title": {
+          "en": "Essential storage",
+          "sq": "Ruajtja e domosdoshme"
+        },
+        "body": {
+          "en": "This site keeps your design draft, quotation step and language preference in browser storage. An essential seven-day session cookie connects anonymous visitors to their saved demonstration records. Clearing the cookie or changing browsers starts a new workspace; expiry does not erase server records. Hosting may also use sign-in cookies. No advertising or analytics tags are installed.",
+          "sq": "Faqja ruan në shfletues dizajnin e papërfunduar, hapin e ofertimit dhe gjuhën e zgjedhur. Një cookie e domosdoshme e sesionit, me afat shtatë ditë, lidh vizitorët anonimë me të dhënat e ruajtura të demonstrimit. Pastrimi i cookies ose ndërrimi i shfletuesit hap një hapësirë të re; skadimi nuk fshin të dhënat në server. Shërbimi i hostimit mund të përdorë edhe cookies për identifikim. Nuk instalohen mjete reklamash apo analitike."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      },
+      {
+        "id": "section-2",
+        "title": {
+          "en": "Clear your design draft",
+          "sq": "Pastroni dizajnin e papërfunduar"
+        },
+        "body": {
+          "en": "This resets the bag configuration in this browser. Submitted requests remain in your workspace. The sales workspace provides a separate reset action for synthetic server records.",
+          "sq": "Ky veprim rivendos konfigurimin e çantës në këtë shfletues. Kërkesat e dërguara mbeten në hapësirën tuaj. Hapësira e shitjeve ka një veprim të veçantë për rivendosjen e të dhënave fiktive në server."
+        },
+        "image": "",
+        "alt": {
+          "en": "",
+          "sq": ""
+        },
+        "link": "",
+        "linkLabel": {
+          "en": "",
+          "sq": ""
+        },
+        "visible": true
+      }
+    ]
+  }
+}

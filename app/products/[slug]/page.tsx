@@ -1,5 +1,5 @@
 import { ProductDetail } from "@/components/product-catalog";
-import { products } from "@/lib/catalog";
+import { publicProducts } from "@/lib/cms/public";
 import { notFound } from "next/navigation";
 import { pageMetadata, requestLanguage } from "@/lib/seo";
 import { localizeProduct } from "@/lib/product-copy";
@@ -12,7 +12,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const p = products.find((p) => p.slug === slug);
+  const p = (await publicProducts()).find((p) => p.slug === slug);
   if (!p) notFound();
   const lang = await requestLanguage();
   const product = localizeProduct(p, lang);
@@ -24,7 +24,7 @@ export default async function Page({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const p = products.find((p) => p.slug === slug);
+  const p = (await publicProducts()).find((p) => p.slug === slug);
   if (!p) notFound();
   const lang = await requestLanguage();
   const product = localizeProduct(p, lang);

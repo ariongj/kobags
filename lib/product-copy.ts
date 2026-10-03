@@ -38,6 +38,7 @@ export const productCopySq: Record<string, ProductCopy> = {
 // Keep any client-edited catalog copy intact until its Albanian version is supplied.
 export function localizeProduct(product: Product, lang: "en" | "sq"): Product {
   if (lang !== "sq") return product;
+  if (product.copySq) return {...product, ...product.copySq};
   const original = products.find((item) => item.slug === product.slug);
   const translated = productCopySq[product.slug];
   if (!original || !translated) return product;

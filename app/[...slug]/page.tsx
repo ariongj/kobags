@@ -1,4 +1,7 @@
-import { company } from "@/lib/company";
+import { CmsExtras, CmsContact } from "@/components/cms/public-extras";
+import { publicContent } from "@/lib/cms/public";
+import CmsPublicPage from "@/components/cms/public-page";
+
 import Certificates from "@/components/certificates";
 import Link from "@/components/site-link";
 import { notFound } from "next/navigation";
@@ -116,6 +119,8 @@ export default async function Page({
   params: Promise<{ slug: string[] }>;
 }) {
   const path = (await params).slug.join("/");
+  const cms=await publicContent("/"+path);
+  if(cms) return <CmsPublicPage content={cms}/>;
   if (!titles[path]) notFound();
   return (
     <main className={path === "sustainability" ? "responsibility-page" : undefined}>
@@ -149,6 +154,8 @@ export default async function Page({
         introSq={introductions[path]?.[1]}
       />}
       <div className="content-width">
+        {path==='resources'&&<><CmsExtras kind="guide"/><CmsExtras kind="faq"/></>}
+        {path==='certifications'&&<CmsExtras kind="certificate"/>}
         {path === "manufacturing" && (
           <>
             <div className="manufacturing-hero">
@@ -393,12 +400,12 @@ export default async function Page({
                 <L en="in Kosova." sq="në Kosovë." />
               </h2>
               <p>
-                {company.streetAddress}<br /><L en="Kosovo · Inquiries from every municipality" sq="Kosovë · Kërkesa nga çdo komunë" /><br /><br />
+                <CmsContact part="address"/><br /><L en="Kosovo · Inquiries from every municipality" sq="Kosovë · Kërkesa nga çdo komunë" /><br /><br />
                 <L en="Email or call us:" sq="Na shkruani ose na telefononi:" />
                 <br />
-                <a href="mailto:info@kobags-group.com">info@kobags-group.com</a>
+                <CmsContact part="email"/>
                 <br />
-                <a href="tel:+38343877753">+383 43 877 753</a>
+                <CmsContact part="phone"/>
               </p>
               <Link href="/bags-kosovo" className="text-button"><L en="Bags for your city" sq="Çanta për qytetin tuaj" /> ↗</Link>
               <Link href="/quote" className="text-button">

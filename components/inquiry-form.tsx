@@ -1,4 +1,5 @@
 "use client";
+import { useLiveInquiry, LiveReceipt } from "./cms/live-inquiry";
 import { useState } from "react";
 import Link from "@/components/site-link";
 import { CheckCircle2, ArrowRight } from "lucide-react";
@@ -13,7 +14,10 @@ export default function InquiryForm({
   kind: "sample" | "partner" | "contact";
 }) {
   const { t, lang, design } = useKobags();
-  const { act, busy, error } = useDemo();
+  const { act, busy:demoBusy, error:demoError } = useDemo();
+  const live=useLiveInquiry();
+  const busy=demoBusy||live.busy;
+  const error=live.error||demoError;
   const [done, setDone] = useState("");
   const [key, setKey] = useState(() =>
     typeof crypto !== "undefined" ? crypto.randomUUID() : "",
@@ -68,16 +72,17 @@ export default function InquiryForm({
       };
       let id: string | undefined;
       try {
-        id = await act(action);
+        id = live.enabled ? await live.send({kind,data:action.data}) : await act(action);
       } catch (cause) {
         if (!(cause instanceof Error) || cause.message !== "REQUEST_KEY_CONFLICT") throw cause;
         const nextKey = crypto.randomUUID();
         setKey(nextKey);
-        id = await act({ ...action, data: { ...action.data, key: nextKey } });
+        id = live.enabled ? await live.send({kind,data:{...action.data,key:nextKey}}) : await act({ ...action, data: { ...action.data, key: nextKey } });
       }
       if (id) setDone(id);
     } catch {}
   };
+  if(live.enabled&&(live.reference||live.checking))return <LiveReceipt heading="h2" reference={live.reference} checking={live.checking}/>;
   if (done)
     return (
       <div className="section-card success-inquiry">
@@ -181,8 +186,8 @@ export default function InquiryForm({
           />
           <span>
             {t(
-              "I understand my inquiry is saved in this website workspace and no email is sent to Kobags.",
-              "E kuptoj se kërkesa ruhet në këtë faqe dhe nuk dërgohet email te Kobags.",
+              live.enabled ? "I agree that Kobags may store my contact details to respond to this inquiry." : "I understand my inquiry is saved in this website workspace and no email is sent to Kobags.",
+              live.enabled ? "Pajtohem që Kobags t’i ruajë të dhënat e kontaktit për t’iu përgjigjur kësaj kërkese." : "E kuptoj se kërkesa ruhet në këtë faqe dhe nuk dërgohet email te Kobags.",
             )}{" "}
             <Link href="/privacy">{t("Privacy notice", "Privatësia")}</Link>
           </span>

@@ -14,17 +14,20 @@ import {
 import { useKobags } from "./kobags-context";
 import { products, productMedia, Product, getProduct } from "@/lib/catalog";
 import { localizeProduct } from "@/lib/product-copy";
+import { useCms } from "./cms/public-context";
 import { useDemo } from "./demo-store";
 import { Choice } from "./bag-studio";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "./ui/dialog";
 import { languageHref } from "@/lib/site-locale";
 export function ProductCatalog() {
   const { state } = useDemo();
+  const cms = useCms();
+  const getProduct = cms.getProduct;
   const { t, lang } = useKobags();
   const [handle, setHandle] = useState("all");
   const [use, setUse] = useState("all");
   const [compare, setCompare] = useState<string[]>([]);
-  const catalog = state?.catalog || products;
+  const catalog = cms.records.some(r=>r.kind==='product') ? cms.products : state?.catalog || products;
   const results = catalog.filter(
     (p) =>
       (handle === "all" || p.handle === handle) &&
@@ -259,12 +262,13 @@ export function ProductCatalog() {
 }
 export function ProductDetail({ product: original }: { product: Product }) {
   const { state } = useDemo();
+  const cms = useCms();
   const { update, t, lang } = useKobags();
   const p = localizeProduct(
-    state?.catalog.find((x) => x.slug === original.slug) || original,
+    cms.records.some(r=>r.kind==='product') ? cms.getProduct(original.slug) : state?.catalog.find((x) => x.slug === original.slug) || original,
     lang,
   );
-  const [size, setSize] = useState(p.variants[0].name);
+  const [size, setSize] = useState(cms.options(p.slug)?.activeSizes?.[0] || p.variants[0].name);
   const [photo, setPhoto] = useState(0);
   const [viewingPhoto, setViewingPhoto] = useState(false);
   const [zoomPhoto, setZoomPhoto] = useState(false);
@@ -335,7 +339,7 @@ export function ProductDetail({ product: original }: { product: Product }) {
             label={t("Choose a size", "Zgjidhni madhësinë")}
             value={size}
             onChange={setSize}
-            options={p.variants.map((v) => ({
+            options={p.variants.filter(v=>!cms.options(p.slug)?.activeSizes || cms.options(p.slug)!.activeSizes!.includes(v.name)).map((v) => ({
               value: v.name,
               label: t(v.name, ({ Small: "E vogël", Medium: "Mesatare", Large: "E madhe" } as Record<string, string>)[v.name]) + " · " + v.dimensions,
             }))}
@@ -356,13 +360,13 @@ export function ProductDetail({ product: original }: { product: Product }) {
           </dl>
           <p className="notice">
             {t("Wholesale orders from", "Porosi me shumicë nga")} {" "}
-            {(state?.settings.moq || 5000).toLocaleString()} {t("bags. We’ll confirm the mix of sizes, colors and designs with your quotation.", "çanta. Kombinimin e madhësive, ngjyrave dhe dizajneve e konfirmojmë në ofertë.")}
+            {(cms.options(p.slug)?.moq || cms.settings?.moq || state?.settings.moq || 5000).toLocaleString()} {t("bags. We’ll confirm the mix of sizes, colors and designs with your quotation.", "çanta. Kombinimin e madhësive, ngjyrave dhe dizajneve e konfirmojmë në ofertë.")}
           </p>
           <div className="actions">
             <button
               className="button"
               onClick={() => {
-                update({ product: p.slug, size });
+                update({ product: p.slug, size, color: cms.options(p.slug)?.colors?.[0] || "Forest green", printColors: 1 });
                 window.location.assign(languageHref("/design", lang));
               }}
             >
@@ -372,7 +376,7 @@ export function ProductDetail({ product: original }: { product: Product }) {
             <button
               className="button secondary"
               onClick={() => {
-                update({ product: p.slug, size });
+                update({ product: p.slug, size, color: cms.options(p.slug)?.colors?.[0] || "Forest green", printColors: 1 });
                 window.location.assign(languageHref("/quote", lang));
               }}
             >

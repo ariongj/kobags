@@ -176,6 +176,7 @@ export default function Handoff() {
           </div>
           <ul>
             {[
+              ["cms-operations.md", "CMS setup, roles, publishing, inquiries & recovery"],
               ["developer-handoff.md", "Architecture, setup & extension guide"],
               ["design-handoff.md", "Design system & page composition"],
               ["migration-map.md", "Original-to-new URL migration map"],

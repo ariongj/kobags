@@ -1,3 +1,4 @@
+import { publishedRecords } from "./cms/records";
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { absolutePage, DEFAULT_SOCIAL_IMAGE, indexablePath, seoPages, SITE_NAME, SITE_ORIGIN } from "./seo-config";
@@ -10,9 +11,11 @@ export async function requestLanguage(): Promise<SiteLanguage> {
 export async function pageMetadata(path: string, override?: { title: string; description: string; image?: string; article?: boolean }): Promise<Metadata> {
   const lang = await requestLanguage();
   const record = seoPages[path];
+  const cms=(await publishedRecords()).find(r=>r.published?.path===path)?.published;
+  if(cms) override={title:cms.seoTitle[lang]||cms.title[lang],description:cms.seoDescription[lang]||cms.description[lang],image:cms.image||undefined};
   const title = override?.title ?? record?.title[lang === "sq" ? 1 : 0] ?? (lang === "sq" ? "Faqja nuk u gjet" : "Page not found");
   const description = override?.description ?? record?.description[lang === "sq" ? 1 : 0] ?? "";
-  const index = indexablePath(path);
+  const index = indexablePath(path) || (!!cms && seoPages[path]?.index !== false);
   const canonical = absolutePage(path, lang);
   const image = SITE_ORIGIN + (override?.image ?? DEFAULT_SOCIAL_IMAGE);
   return {

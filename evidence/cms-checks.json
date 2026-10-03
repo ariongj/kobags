@@ -1,0 +1,19 @@
+{
+  "status": "passed",
+  "checks": [
+    "First administrator restricted to configured signed-in email; anonymous and non-member API access rejected",
+    "Invitation binds the intended email once; editor blocked from staff, inquiries, quotes, backup and production",
+    "Draft isolation, translated publication, sitemap, optimistic locking, version history and 301 rename",
+    "Published catalogue MOQ, active size and GSM reach the public product page; historical drafts retained",
+    "Four real inquiry types persist in shared inbox; exact front/back snapshots, consent, duplicate protection and browser isolation",
+    "Integer-cent quotation, private files, expiring customer links, exact revision/hash approval and gated single production release",
+    "Sequential production stages, new-revision lock, audited re-release after approval and customer-link revocation",
+    "Real reporting, clean quotation print view, unconfigured email fails truthfully, and invalid image signatures rejected",
+    "Public contact form submits to shared inbox and preserves its private receipt on reload",
+    "Desktop and 320/390/768px CMS editor layouts; no captured browser errors",
+    "Full backup restores uploaded objects and verifies their SHA-256 checksums",
+    "Authorized data backup excludes access-link hashes; clean SQLite restore and integrity check preserve records and revision counts"
+  ],
+  "browserErrors": [],
+  "scope": "isolated local Worker; synthetic users and data; no external email sent"
+}

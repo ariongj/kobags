@@ -1,8 +1,10 @@
+import { redirectedPath } from "./lib/cms/routes";
+import { publicContent } from "./lib/cms/public";
 import { NextRequest, NextResponse } from "next/server";
 import { contentPath, languageHref } from "./lib/site-locale";
 import { indexablePath } from "./lib/seo-config";
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
   const pathname = url.pathname;
   if (pathname.length > 1 && pathname.endsWith("/")) {
@@ -11,6 +13,8 @@ export function middleware(request: NextRequest) {
   }
   const lang = pathname === "/sq" || pathname.startsWith("/sq/") ? "sq" : "en";
   const path = contentPath(pathname);
+  const redirected=await redirectedPath(path);
+  if(redirected){url.pathname=languageHref(redirected,lang);return NextResponse.redirect(url,301);}
   // Preserve the chosen language on legacy links from the original website.
   const aliases: Record<string, string> = { "/shop": "/products", "/shop-catalog": "/products", "/blog-home": "/blog", "/privacy-policy": "/privacy", "/terms-conditions": "/terms", "/contact-us": "/contact", "/partner": "/partners", "/become-partner": "/partners/apply", "/thank-you": "/quote" };
   const oldProduct = path.match(/^\/(?:shop-catalog|kobags-bagsdetails)\/([^/]+)$/);
@@ -25,7 +29,8 @@ export function middleware(request: NextRequest) {
     ? NextResponse.rewrite(new URL(path + url.search, url), { request: { headers: requestHeaders } })
     : NextResponse.next({ request: { headers: requestHeaders } });
   response.headers.set("Content-Language", lang);
-  if (!indexablePath(path)) response.headers.set("X-Robots-Tag", "noindex, nofollow");
+  if (!indexablePath(path) && !(await publicContent(path))) response.headers.set("X-Robots-Tag", "noindex, nofollow");
+  if(/^\/(cms|request)(\/|$)/.test(path)){response.headers.set("Cache-Control","private, no-store");response.headers.set("Referrer-Policy","no-referrer");}
   return response;
 }
 

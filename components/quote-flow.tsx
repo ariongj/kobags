@@ -1,4 +1,6 @@
 "use client";
+import { useLiveInquiry, LiveReceipt } from "./cms/live-inquiry";
+import { useCms } from "./cms/public-context";
 import { useEffect, useState } from "react";
 import Link from "@/components/site-link";
 import {
@@ -13,14 +15,19 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Choice, BagPreview } from "./bag-studio";
 import { useKobags } from "./kobags-context";
 import { useDemo, errors } from "./demo-store";
-import { products, getProduct, Design, colors } from "@/lib/catalog";
+import { Design, colors } from "@/lib/catalog";
 import { sideArtwork } from "@/lib/studio-artwork";
 import { artworkSides } from "@/lib/studio-checks";
 import { languageHref } from "@/lib/site-locale";
 import { isCalendarDate, requestFieldLimits } from "@/lib/design-validation";
 export default function QuoteFlow() {
+  const cms = useCms();
+  const getProduct = cms.getProduct;
   const { t, lang, design, update, ready } = useKobags();
-  const { state, error, busy, act, refresh } = useDemo();
+  const { state, error:demoError, busy:demoBusy, act, refresh } = useDemo();
+  const live=useLiveInquiry();
+  const busy=demoBusy||live.busy;
+  const error=live.error||demoError;
   const [step, setStep] = useState(0);
   const [validation, setValidation] = useState("");
   const [submitted, setSubmitted] = useState("");
@@ -32,7 +39,7 @@ export default function QuoteFlow() {
   const sizeSq: Record<string, string> = { Small: "E vogël", Medium: "Mesatare", Large: "E madhe" };
   const displaySize = t(design.size, sizeSq[design.size]);
   const displayColor = t(design.color, colors.find((color) => color.name === design.color)?.sq);
-  const minimum = state?.settings.moq || 5000;
+  const minimum = cms.options(design.product)?.moq || cms.settings?.moq || state?.settings.moq || 5000;
   const sides = artworkSides(design);
   const artworkSummary = sides.length
     ? sides
@@ -73,6 +80,8 @@ export default function QuoteFlow() {
   }, [ready, design.key, update]);
   const set = (key: keyof Design, value: unknown) => update({ [key]: value });
   const validate = () => {
+    if (!cms.products.some(p=>p.slug===design.product)) return 'unavailable';
+    if (step===0 && cms.options(design.product)?.activeSizes && !cms.options(design.product)!.activeSizes!.includes(design.size)) return 'unavailable';
     if (step === 2) {
       if (!Number.isInteger(design.quantity) || design.quantity < minimum || design.quantity > 10000000)
         return "quantity";
@@ -93,6 +102,7 @@ export default function QuoteFlow() {
     return "";
   };
   const messages: Record<string, [string, string]> = {
+    unavailable: ['Choose an available bag and size to continue. Your artwork is kept.', 'Zgjidhni një çantë dhe madhësi të disponueshme. Dizajni juaj ruhet.'],
     quantity: [
       `The published wholesale minimum is ${minimum.toLocaleString()} bags. For a smaller request, use the sample inquiry.`,
       `Minimumi me shumicë është ${minimum.toLocaleString()} çanta. Për sasi më të vogël kërkoni mostra.`,
@@ -127,16 +137,17 @@ export default function QuoteFlow() {
     try {
       let id: string | undefined;
       try {
-        id = await act({ type: "submit", design });
+        id = live.enabled ? await live.send({kind:"quote",design}) : await act({ type: "submit", design });
       } catch (cause) {
         if (!(cause instanceof Error) || cause.message !== "REQUEST_KEY_CONFLICT") throw cause;
         // Only a confirmed key collision gets a fresh key; an uncertain network
         // result retains the original key so retrying cannot duplicate a save.
         const nextDesign = { ...design, key: crypto.randomUUID() };
         update({ key: nextDesign.key });
-        id = await act({ type: "submit", design: nextDesign });
+        id = live.enabled ? await live.send({kind:"quote",design:nextDesign}) : await act({ type: "submit", design: nextDesign });
       }
       if (id) {
+        if(live.enabled){update({key:crypto.randomUUID(),consent:false});return;}
         setSubmitted(id);
         update({ key: crypto.randomUUID(), consent: false });
         history.replaceState(null, "", languageHref("/quote?submitted=" + encodeURIComponent(id), lang));
@@ -145,6 +156,7 @@ export default function QuoteFlow() {
       }
     } catch {}
   };
+  if(live.enabled && (live.reference||live.checking)) return <main className="content-width success-page"><LiveReceipt reference={live.reference} checking={live.checking}/></main>;
   if (submitted && !state?.requests.some((request) => request.id === submitted))
     return (
       <main className="success-page content-width">
@@ -316,10 +328,12 @@ export default function QuoteFlow() {
                   onChange={(product) =>
                     update({
                       product,
-                      size: getProduct(product).variants[0].name,
+                      size: cms.options(product)?.activeSizes?.[0] || getProduct(product).variants[0].name,
+                      color: cms.options(product)?.colors?.[0] || design.color,
+                      printColors: Math.min(design.printColors, cms.options(product)?.printColors || 4),
                     })
                   }
-                  options={products.map((p) => ({
+                  options={cms.products.map((p) => ({
                     value: p.slug,
                     label: p.name,
                   }))}
@@ -329,7 +343,7 @@ export default function QuoteFlow() {
                   label={t("Size", "Madhësia")}
                   value={design.size}
                   onChange={(size) => update({ size })}
-                  options={p.variants.map((v) => ({
+                  options={p.variants.filter(v=>!cms.options(p.slug)?.activeSizes || cms.options(p.slug)!.activeSizes!.includes(v.name)).map((v) => ({
                     value: v.name,
                     label: t(v.name, sizeSq[v.name]) + " · " + v.dimensions,
                   }))}
@@ -417,7 +431,7 @@ export default function QuoteFlow() {
                   label={t("Print colors", "Ngjyrat e shtypit")}
                   value={String(design.printColors)}
                   onChange={(v) => update({ printColors: Number(v) })}
-                  options={[1, 2, 3, 4].map((n) => ({
+                  options={[1, 2, 3, 4].filter(n => n <= (cms.options(p.slug)?.printColors || 4)).map((n) => ({
                     value: String(n),
                     label: `${n} ${t(n === 1 ? "color" : "colors", "ngjyra")}`,
                   }))}
@@ -554,8 +568,8 @@ export default function QuoteFlow() {
                   />
                   <span>
                     {t(
-                      "I understand this demo stores my request and normalized artwork preview for demonstration. No real order or message will be sent.",
-                      "E kuptoj që ky demonstrim ruan kërkesën dhe parapamjen e dizajnit. Nuk dërgohet asnjë porosi ose mesazh real.",
+                      live.enabled ? "I agree that Kobags may store my details and artwork to respond to this inquiry. This is a quotation request, not a confirmed order." : "I understand this demo stores my request and normalized artwork preview for demonstration. No real order or message will be sent.",
+                      live.enabled ? "Pajtohem që Kobags t’i ruajë të dhënat dhe dizajnin për t’iu përgjigjur kërkesës. Kjo është kërkesë për ofertë, jo porosi e konfirmuar." : "E kuptoj që ky demonstrim ruan kërkesën dhe parapamjen e dizajnit. Nuk dërgohet asnjë porosi ose mesazh real.",
                     )}{" "}
                     <Link href="/privacy">
                       {t("Privacy notice", "Njoftimi i privatësisë")}

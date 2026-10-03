@@ -1,3 +1,5 @@
+import { publishedRecords } from "@/lib/cms/records";
+import { CmsContact } from "@/components/cms/public-extras";
 import Link from "@/components/site-link";
 import { LocalizedCopy as L, LocalizedPageHeading } from "@/components/localized-copy";
 import StructuredData from "@/components/structured-data";
@@ -9,6 +11,7 @@ import { breadcrumbs, organizationReference } from "@/lib/seo-schema";
 export const generateMetadata = () => pageMetadata("/bags-kosovo");
 export default async function KosovoBagsPage() {
   const lang = await requestLanguage();
+  const places=(await publishedRecords()).filter(r=>r.kind==='municipality');
   return <main className="kosovo-page">
     <StructuredData data={breadcrumbs([{ path: "/", name: lang === "sq" ? "Ballina" : "Home" }, { path: "/bags-kosovo", name: lang === "sq" ? "Çanta në tërë Kosovën" : "Bags across Kosovo" }], lang)} />
     <StructuredData data={{ "@context": "https://schema.org", "@type": "Service", name: lang === "sq" ? "Prodhimi i qeseve dhe çantave me logo në Kosovë" : "Custom non-woven bag manufacturing across Kosovo", url: absolutePage("/bags-kosovo", lang), provider: organizationReference, serviceType: "Custom non-woven bag manufacturing and printing", areaServed: { "@type": "Country", name: "Kosovo", containsPlace: kosovoMunicipalities.map(name => ({ "@type": "AdministrativeArea", name })) } }} />
@@ -23,9 +26,9 @@ export default async function KosovoBagsPage() {
         </div>
         <aside className="kosovo-contact">
           <h2><L en="Speak with the manufacturer" sq="Flisni me prodhuesin" /></h2>
-          <address>{company.name}<br />{company.streetAddress}<br /><L en="Kosovo" sq="Kosovë" /></address>
-          <a href={"tel:" + company.telephone}>+383 43 877 753</a>
-          <a href={"mailto:" + company.email}>{company.email}</a>
+          <address>{company.name}<br /><CmsContact part="address"/><br /><L en="Kosovo" sq="Kosovë" /></address>
+          <CmsContact part="phone"/>
+          <CmsContact part="email"/>
           <Link href="/manufacturing" className="text-button"><L en="Inside our production" sq="Brenda prodhimit tonë" /> ↗</Link>
         </aside>
       </section>
@@ -34,7 +37,7 @@ export default async function KosovoBagsPage() {
         <p><L en="We welcome wholesale inquiries from businesses across Kosovo, including towns and villages within each municipality. Include your exact delivery address so transport options, cost and timing can be confirmed in your quotation." sq="Mirëpresim kërkesa me shumicë nga bizneset në tërë Kosovën, përfshirë qytetet dhe fshatrat e çdo komune. Shënoni adresën e saktë të dorëzimit që mundësitë e transportit, kostoja dhe afati të konfirmohen në ofertë." /></p>
         <details className="kosovo-municipalities">
           <summary><L en="View all cities and municipalities" sq="Shikoni të gjitha qytetet dhe komunat" /><span aria-hidden="true">+</span></summary>
-          <ul>{kosovoMunicipalities.map(name => <li key={name}>{name}</li>)}</ul>
+          <ul>{kosovoMunicipalities.map(name => <li key={name}>{name}{places.find(r=>r.id==='municipality-'+name)?.published?.description[lang]&&<p>{places.find(r=>r.id==='municipality-'+name)!.published!.description[lang]}</p>}</li>)}</ul>
         </details>
       </section>
       <section aria-labelledby="local-order-title">

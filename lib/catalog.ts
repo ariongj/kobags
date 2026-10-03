@@ -1,6 +1,7 @@
 export type Variant = { name: string; dimensions: string; gsm: number };
 export const MAX_BRAND_TEXT_LENGTH = 60;
 export type Product = {
+  copySq?: { name: string; description: string; use: string; handle: string };
   slug: string;
   name: string;
   use: string;

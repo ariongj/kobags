@@ -57,3 +57,6 @@ __pycache__/
 
 # Local client email attachments are not part of the public website.
 /deliverables/
+
+# Safe CMS configuration example
+!.env.example
