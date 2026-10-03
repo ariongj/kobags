@@ -1474,3 +1474,33 @@ body.kobags-v5:has(.studio-compact) .footer-top p {
   .kobags-v5 .studio-compact .stage-bottom .studio-download { max-width: 100%; white-space: normal; }
   .kobags-v5 .studio-compact .stage-bottom > div { min-width: 0; max-width: 100%; }
 }
+
+/* National buying guide: compact, crawlable municipality coverage. */
+.kobags-v5 .kosovo-home-strip { display:flex; align-items:center; gap:24px; padding-block:30px; border-block:1px solid #dce5df; }
+.kobags-v5 .kosovo-home-strip > div { flex:1; }
+.kobags-v5 .kosovo-home-strip h2 { font-size:clamp(23px,2.4vw,32px); margin:8px 0; }
+.kobags-v5 .kosovo-home-strip p { max-width:760px; margin-bottom:0; }
+.kobags-v5 .kosovo-home-strip > a { flex-shrink:0; }
+.kobags-v5 .kosovo-content { display:grid; gap:30px; padding-bottom:36px; }
+.kobags-v5 .kosovo-content h2 { font-size:clamp(22px,2.2vw,30px); line-height:1.2; margin:0 0 12px; }
+.kobags-v5 .kosovo-content p { line-height:1.65; margin:0 0 16px; }
+.kobags-v5 .kosovo-overview { display:grid; grid-template-columns:minmax(0,2fr) minmax(240px,1fr); gap:28px; }
+.kobags-v5 .kosovo-contact { display:flex; flex-direction:column; align-items:flex-start; gap:10px; padding:22px; background:#eff5eb; border:1px solid #dce5df; border-radius:12px; }
+.kobags-v5 .kosovo-contact h2 { font-size:21px; }
+.kobags-v5 .kosovo-contact address { font-style:normal; line-height:1.65; }
+.kobags-v5 .kosovo-coverage { padding:24px; border:1px solid #dce5df; border-radius:12px; }
+.kobags-v5 .kosovo-municipalities summary { cursor:pointer; display:flex; justify-content:space-between; gap:12px; min-height:44px; align-items:center; font-weight:600; color:#087b35; }
+.kobags-v5 .kosovo-municipalities[open] summary span { transform:rotate(45deg); }
+.kobags-v5 .kosovo-municipalities summary:focus-visible { outline:2px solid #087b35; outline-offset:4px; }
+.kobags-v5 .kosovo-municipalities ul { list-style:none; padding:12px 0 0; margin:0; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:6px 16px; }
+.kobags-v5 .kosovo-municipalities li { padding-block:5px; border-bottom:1px solid #edf1ed; overflow-wrap:anywhere; font-size:14px; }
+.kobags-v5 .kosovo-steps { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; }
+.kobags-v5 .kosovo-steps article { border-top:2px solid #b6d897; padding-top:16px; }
+.kobags-v5 .kosovo-steps h3 { margin:8px 0; font-size:19px; }
+@media(max-width:700px) {
+  .kobags-v5 .kosovo-home-strip { align-items:flex-start; flex-direction:column; gap:14px; }
+  .kobags-v5 .kosovo-overview,.kobags-v5 .kosovo-steps { grid-template-columns:1fr; gap:20px; }
+  .kobags-v5 .kosovo-municipalities ul { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .kobags-v5 .kosovo-coverage,.kobags-v5 .kosovo-contact { padding:18px; }
+  .kobags-v5 .kosovo-content { gap:24px; }
+}

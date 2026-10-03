@@ -1,20 +1,34 @@
 {
   "status": "passed",
-  "sitemapUrls": 46,
+  "sitemapUrls": 48,
   "pages": [
     {
       "path": "/",
       "language": "en",
-      "title": "Non-Woven Bag Manufacturer in Kosovo | Kobags Group",
-      "description": "Kobags Group manufactures custom non-woven bags in Kosovo. Explore five bag families, add your logo in the 3D studio and plan a wholesale quotation.",
+      "title": "Custom Bag Manufacturer in Kosovo | Kobags Group",
+      "description": "Custom non-woven bags made in Kosovo for businesses nationwide. Explore wholesale bags, printing and 3D design, from Prishtina and Lipjan to every municipality.",
       "h1": "Manufacturing bags.Building brands."
     },
     {
       "path": "/sq",
       "language": "sq",
-      "title": "Prodhues i çantave jo të endura në Kosovë | Kobags Group",
-      "description": "Kobags Group prodhon çanta jo të endura në Kosovë. Shikoni pesë llojet e çantave, shtoni logon në studion 3D dhe përgatitni kërkesën për ofertë.",
+      "title": "Qese dhe çanta me logo në Kosovë | Kobags Group",
+      "description": "Kobags prodhon qese dhe çanta me logo në Kosovë për biznese në çdo komunë. Zgjidhni çanta me shumicë, shtyp dhe dizajn 3D, nga Prishtina e Lipjani në tërë vendin.",
       "h1": "Prodhojmë çanta.Ndërtojmë marka."
+    },
+    {
+      "path": "/bags-kosovo",
+      "language": "en",
+      "title": "Wholesale Bags Across Kosovo: All Municipalities | Kobags Group",
+      "description": "Plan custom bag orders for all 38 Kosovo municipalities, including Prishtina, Lipjan, Prizren, Peja, Gjilan and Ferizaj. Compare shapes, artwork and delivery needs.",
+      "h1": "Your business. Your city. Your bag."
+    },
+    {
+      "path": "/sq/bags-kosovo",
+      "language": "sq",
+      "title": "Qese me logo dhe çanta me shumicë në tërë Kosovën | Kobags Group",
+      "description": "Qese me logo dhe çanta jo të endura për biznese në të 38 komunat e Kosovës. Krahasoni modelet dhe përgatitni sasinë, dizajnin dhe adresën për ofertë.",
+      "h1": "Biznesi juaj. Qyteti juaj. Çanta juaj."
     },
     {
       "path": "/products",
@@ -327,6 +341,7 @@
   ],
   "checks": [
     "crawler-visible EN/SQ content without JavaScript",
+    "all 38 Kosovo municipalities in visible content and service schema; 320/390px EN/SQ disclosure and ordering links",
     "unique titles/descriptions, absolute canonicals, reciprocal hreflang and social images",
     "sitemap excludes synthetic and private-flow pages",
     "robots allow public crawling; private routes and 404s remain noindex",

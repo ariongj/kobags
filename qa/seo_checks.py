@@ -72,6 +72,19 @@ async def main():
    assert set(html_alternates)=={'en','sq','x-default'} and all(x in urls for x in html_alternates.values())
    nodes=[node for data in doc.schemas for node in data.get('@graph',[data])]
    assert any(n.get('@type')=='Organization' for n in nodes) and any(n.get('@type')=='WebSite' for n in nodes)
+   organization=next(n for n in nodes if n.get('@type')=='Organization')
+   assert organization['address']['streetAddress']=='Magjistrale Prishtinë–Ferizaj'
+   assert organization['address']['addressCountry']=='Kosovo'
+   assert organization['areaServed']=={'@type':'Country','name':'Kosovo'}
+   if path.endswith('/bags-kosovo'):
+    service=next(n for n in nodes if n.get('@type')=='Service')
+    municipalities=[place['name'] for place in service['areaServed']['containsPlace']]
+    assert len(municipalities)==38 and len(set(municipalities))==38
+    assert all(name in municipalities for name in ['Prishtinë','Lipjan','Mitrovicë Veriore','Zveçan','Dragash','Partesh'])
+    assert all(name in source for name in municipalities),'Municipality coverage must be in crawler HTML'
+    assert service['provider']['@id']==organization['@id']
+    assert 'branchOf' not in service and 'offers' not in service
+
    if '/products/' in path:
     product=next(n for n in nodes if n.get('@type')=='Product');assert product['name']==doc.h1[0]
     assert 'offers' not in product and 'aggregateRating' not in product and 'review' not in product
@@ -117,6 +130,23 @@ async def main():
   chosen=await hero.evaluate('(image)=>image.currentSrc');assert re.search(r'factory-line-(640|960|1600)\.webp$',chosen),chosen
   assert await page.locator('.header .brand img').get_attribute('src')=='/assets/logo-web.png'
   await page.screenshot(path=str(ROOT/'evidence/seo-mobile-home.jpg'),type='jpeg',quality=84)
+  # All municipalities stay accessible in a compact native disclosure on mobile.
+  for locale in ['', '/sq']:
+   for width in [320,390]:
+    await page.set_viewport_size({'width':width,'height':844})
+    await page.goto(BASE+locale+'/bags-kosovo',wait_until='networkidle')
+    await page.locator('.kosovo-municipalities summary').focus()
+    await page.keyboard.press('Enter')
+    assert await page.locator('.kosovo-municipalities').get_attribute('open') is not None
+    assert await page.locator('.kosovo-municipalities li').count()==38
+    assert await page.get_by_text('Zveçan',exact=True).is_visible()
+    assert not await page.evaluate('document.documentElement.scrollWidth>innerWidth')
+    assert await page.locator('a[href="'+locale+'/quote"]').count()>=1
+    if width==390:
+     await page.screenshot(path=str(ROOT/('evidence/seo-kosovo-mobile'+('-sq' if locale else '')+'.jpg')),type='jpeg',quality=84,full_page=True)
+    await page.keyboard.press('Space')
+    assert await page.locator('.kosovo-municipalities').get_attribute('open') is None
+  await page.set_viewport_size({'width':390,'height':844})
   await page.goto(BASE+'/design',wait_until='networkidle')
   await page.get_by_role('tab',name='02 Your design').click();await page.get_by_label('Brand name or message').fill('SEO DRAFT')
   saved=await page.evaluate("JSON.parse(localStorage.getItem('kobags-design-v1'))")
@@ -129,6 +159,6 @@ async def main():
   assert await page.locator('html').get_attribute('lang')=='sq'
   assert not await page.evaluate('document.documentElement.scrollWidth>innerWidth')
   assert not errors and not failed,(errors,failed)
-  report={'status':'passed','sitemapUrls':len(urls),'pages':results,'checks':['crawler-visible EN/SQ content without JavaScript','unique titles/descriptions, absolute canonicals, reciprocal hreflang and social images','sitemap excludes synthetic and private-flow pages','robots allow public crawling; private routes and 404s remain noindex','valid source-backed product/article/organization/breadcrumb JSON-LD without fictional offers or ratings','tracking queries canonicalized and language override ignored','localized legacy redirects','mobile responsive hero and compact logo delivery','design preserved through language switch and quote navigation'],'mobileHero':chosen,'browserErrors':errors,'failedAssets':failed}
+  report={'status':'passed','sitemapUrls':len(urls),'pages':results,'checks':['crawler-visible EN/SQ content without JavaScript','all 38 Kosovo municipalities in visible content and service schema; 320/390px EN/SQ disclosure and ordering links','unique titles/descriptions, absolute canonicals, reciprocal hreflang and social images','sitemap excludes synthetic and private-flow pages','robots allow public crawling; private routes and 404s remain noindex','valid source-backed product/article/organization/breadcrumb JSON-LD without fictional offers or ratings','tracking queries canonicalized and language override ignored','localized legacy redirects','mobile responsive hero and compact logo delivery','design preserved through language switch and quote navigation'],'mobileHero':chosen,'browserErrors':errors,'failedAssets':failed}
   (ROOT/'evidence/seo-checks.json').write_text(json.dumps(report,indent=2,ensure_ascii=False));print('PASS SEO:',len(urls),'EN/SQ sitemap URLs, crawler HTML, metadata, schemas, private exclusions and mobile language handoff');await browser.close()
 if __name__=='__main__': asyncio.run(main())

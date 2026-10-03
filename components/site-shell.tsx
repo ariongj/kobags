@@ -162,6 +162,7 @@ export function Footer() {
         </div>
         <div>
           <h3>{t("Good to know", "Informacione")}</h3>
+          <Link href="/bags-kosovo">{t("Bags across Kosovo", "Çanta në tërë Kosovën")}</Link>
           <Link href="/resources">{t("Buyer resources", "Burime për blerësit")}</Link>
           <Link href="/blog">{t("Journal & guides", "Artikuj dhe udhëzues")}</Link>
           <Link href="/certifications">{t("Certifications", "Certifikimet")}</Link>

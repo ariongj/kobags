@@ -170,3 +170,8 @@ The client requested the headline lime (`#c6eb9d`) on the header logo’s KO/bag
 ## 3D refinement — 3 October
 
 The explicit front/back controls now reset the view on every selection. Buyers can enable or pause rotation from the design panel; camera actions and artwork gestures keep the motion state synchronized. Handle/Box interiors extend to their base, the D-Cut grip has a compressed fabric profile, and printing follows the scene lighting. Static and offscreen models stop rendering. An interrupted WebGL context retains the design and provides an editable photo view. The four-angle family review is recorded in `evidence/presentation-3d-multi-view.jpg`; physical production templates and variant geometry remain separate inputs.
+
+
+## National buying guide — 3 October 2026
+
+The homepage has a compact nationwide introduction linking to `/bags-kosovo` (and `/sq/bags-kosovo`). The guide pairs buying advice with a pale-green manufacturer contact card, a native all-municipalities disclosure and three short order-preparation steps. All 38 names are available in the first HTML response; the disclosure keeps the initial mobile view short and supports keyboard activation. Four columns become two on mobile; the contact and steps stack. Footer and contact links provide alternate entry points. No new photography duplicates existing client imagery, and “Made in Kosova” remains the national brand line.

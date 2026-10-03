@@ -31,6 +31,7 @@ export const siteSections = [
       ["/partners", "Partner models"],
       ["/partners/apply", "Partner application"],
       ["/contact", "Contact & general inquiry"],
+      ["/bags-kosovo", "Bags across Kosovo / all municipalities"],
       ["/resources", "Buyer resources"],
       ["/blog", "Journal index"],
       ...articles.map((a) => ["/blog/" + a.slug, a.title]),

@@ -281,3 +281,22 @@ The scene raycasts the nearest visible mesh face and tests the pointer against r
 `Studio3D` bridges selection and movement through `placementPatch`; both normal and fullscreen scenes share the persisted draft. Callback refs avoid reconstructing the scene on each edit. Face textures allocate their final 1024 × 1024 size before the first render, so asynchronously loaded logos also display after a saved-draft refresh. WebGL texture dimensions must not change after initial allocation. Selection guides appear only in interactive textures; clean exports still use the unchanged artwork painter. A drag is one history transaction, including pauses. Keyboard arrows move the selected layer; Escape deselects it, then arrows rotate the camera. WebGL fallback passes the same editing callbacks to the flat preview.
 
 `qa/studio_direct_drag.py` covers independent layers/faces, mouse and touch movement, gesture undo/redo, keyboard controls, back-face selection without a camera jump, fullscreen editing, guide-free exports, responsive widths and the client-requested lime header logo. Header recoloring uses the original transparent logo as a CSS mask clipped to KO and GROUP (`app/compact.css`), with BAGS kept navy.
+
+## Nationwide search coverage — 3 October 2026
+
+- `/bags-kosovo` and `/sq/bags-kosovo` provide a single substantive national buying guide: bag selection, artwork, minimum quantity and transport details, with all 38 municipalities in an accessible native disclosure. Towns and villages within each municipality are explicitly included. No duplicate city landing pages or fictional branches.
+- Home and footer links make this guide discoverable; contact links connect it to the inquiry journey. Homepage metadata naturally covers custom bags in Kosovo and Albanian “qese dhe çanta me logo”. Keep the “Made in Kosova” brand line.
+- `lib/company.ts` is the source for published business identity and municipality names. Contact address, phone and email were checked against https://kobags-group.com/ on 3 October 2026. The published street is Magjistrale Prishtinë–Ferizaj; no street number, postal code, coordinates, hours or visitor office has been invented.
+- Municipality list checked against the Kosovo Agency of Statistics geo02 table: https://askdata.rks-gov.net/pxweb/en/ASKdata/ASKdata__Geographical%20data/geo02.px/ . Drenas is displayed alongside Gllogovc. National `Organization.areaServed` and the guide's `Service` coverage describe the business market, not a physical office in each city. The page invites inquiries and asks buyers to confirm transport terms.
+- Sitemap now contains 48 EN/SQ URLs; self-canonicals and reciprocal language alternates come from the same SEO registry. No query-based or municipality-specific duplicates are indexed.
+
+### Search launch actions requiring business account access
+
+Technical readiness is not proof of Google indexing or ranking. Search Console ownership, URL inspection and Google Business Profile ownership were not available or verified in this work.
+
+1. Launch the accepted website on the company's chosen long-term domain. Current canonical remains `https://kobags.itdks.tech`; do not silently canonicalize to the older company website. When the approved move happens, change `SITE_ORIGIN`, retain URL paths and 301 redirect old equivalents to the new canonical URLs.
+2. Verify the final domain in Google Search Console, submit `/sitemap.xml`, inspect `/`, `/sq`, `/bags-kosovo` and `/sq/bags-kosovo`, then monitor indexing reports. Sitemap submission and indexing requests do not guarantee inclusion or rankings.
+3. Claim/verify the real Kobags Google Business Profile. Use the accurate business category, address/map pin, phone, website, opening hours and original factory/product media. Do not create profiles for cities without actual eligible locations. Request honest customer reviews without incentives.
+4. Measure impressions/clicks by query and landing page. Review Albanian searches such as “qese me logo”, “çanta me shumicë” and “prodhues qesesh”, plus Kosovo/city terms, and English custom/non-woven/wholesale bag searches. Use actual Search Console data to decide future content, not repeated keyword lists.
+
+Google's local ranking guidance: https://support.google.com/business/answer/7091 . Local results depend on relevance, distance and prominence. No promise of first place or appearance for every city/query is made. The quote/order flow remains a demonstration; this SEO update does not connect manufacturing, payments or outgoing email.

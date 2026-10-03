@@ -16,7 +16,7 @@
     {
       "path": "/sustainability",
       "language": "en",
-      "title": "Better questions. Clearer choices.",
+      "title": "Better questions.\nClearer choices.",
       "mediaFiles": 1
     },
     {
@@ -47,7 +47,7 @@
       "path": "/products/d-cut-bag",
       "language": "en",
       "title": "D-Cut Bag",
-      "mediaFiles": 4
+      "mediaFiles": 3
     },
     {
       "path": "/products/handle-bag",
@@ -95,6 +95,12 @@
       "path": "/contact",
       "language": "en",
       "title": "Talk to the Kobags team.",
+      "mediaFiles": 0
+    },
+    {
+      "path": "/bags-kosovo",
+      "language": "en",
+      "title": "Your business. Your city. Your bag.",
       "mediaFiles": 0
     },
     {
@@ -160,7 +166,7 @@
     {
       "path": "/sustainability",
       "language": "sq",
-      "title": "Pyetje më të mira. Zgjedhje më të qarta.",
+      "title": "Pyetje më të mira.\nZgjedhje më të qarta.",
       "mediaFiles": 1
     },
     {
@@ -191,7 +197,7 @@
       "path": "/products/d-cut-bag",
       "language": "sq",
       "title": "D-Cut Bag",
-      "mediaFiles": 4
+      "mediaFiles": 3
     },
     {
       "path": "/products/handle-bag",
@@ -239,6 +245,12 @@
       "path": "/contact",
       "language": "sq",
       "title": "Kontaktoni ekipin Kobags.",
+      "mediaFiles": 0
+    },
+    {
+      "path": "/bags-kosovo",
+      "language": "sq",
+      "title": "Biznesi juaj. Qyteti juaj. Çanta juaj.",
       "mediaFiles": 0
     },
     {
@@ -291,7 +303,7 @@
     }
   ],
   "metadataDescriptions": {
-    "/": "Kobags Group manufactures custom non-woven bags in Kosovo. Explore five bag families, add your logo in the 3D studio and plan a wholesale quotation.",
+    "/": "Custom non-woven bags made in Kosovo for businesses nationwide. Explore wholesale bags, printing and 3D design, from Prishtina and Lipjan to every municipality.",
     "/manufacturing": "See Kobags bag manufacturing in Kosovo through original factory photos and videos. Explore non-woven PP material, custom printing, forming and finishing.",
     "/sustainability": "Understand the material behind Kobags bags. Read practical guidance on non-woven polypropylene, reuse, recycled content and local recycling requirements.",
     "/certifications": "Inspect the published Kobags ISO 9001 and ISO 14001 certificate scans, registration details, dates and issuer references. Download the original documents.",
@@ -307,6 +319,7 @@
     "/partners": "Explore distribution, retail and commercial partnership opportunities with Kobags Group. Introduce your market and discuss the right wholesale bag model.",
     "/partners/apply": "Prepare a partnership inquiry for Kobags. Share your market, experience and preferred cooperation model to start a discussion about bag distribution.",
     "/contact": "Contact Kobags Group about non-woven bags, manufacturing or partnerships. Find the published telephone and email, or prepare a detailed wholesale inquiry.",
+    "/bags-kosovo": "Plan custom bag orders for all 38 Kosovo municipalities, including Prishtina, Lipjan, Prizren, Peja, Gjilan and Ferizaj. Compare shapes, artwork and delivery needs.",
     "/resources": "Prepare a complete custom bag brief with Kobags buying guides. Check sizes, materials, logo files, printing, quantities and delivery information.",
     "/blog": "Read Kobags guides on non-woven bag materials, printing, product specifications and wholesale planning. Practical questions for your next branded bag order.",
     "/blog/kobagsjourney": "How your product choices become a specification the factory can work with.",

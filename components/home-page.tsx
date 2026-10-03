@@ -357,6 +357,13 @@ export default function HomePage() {
           </Link>
         </article>
       </section>
+      <section className="kosovo-home-strip content-width">
+        <div><p className="eyebrow">{t("FOR BUSINESSES ACROSS KOSOVO", "PËR BIZNESE NË TËRË KOSOVËN")}</p>
+          <h2>{t("Local production. Nationwide possibilities.", "Prodhim vendor. Mundësi në tërë vendin.")}</h2>
+          <p>{t("Branded bags for shops, supermarkets and events, from Prishtina and Lipjan to Prizren, Peja, Gjilan, Ferizaj and beyond.", "Qese dhe çanta me logo për dyqane, supermarkete dhe evente, nga Prishtina e Lipjani në Prizren, Pejë, Gjilan, Ferizaj dhe më gjerë.")}</p>
+        </div>
+        <Link href="/bags-kosovo" className="text-button">{t("Explore all municipalities", "Shikoni të gjitha komunat")} <ArrowUpRight size={16} /></Link>
+      </section>
       <CertificateShowcase />
       <section className="faq-section">
         <div>

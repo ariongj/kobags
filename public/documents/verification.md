@@ -2,6 +2,14 @@
 
 Updated 3 October 2026. Tests ran against the compiled local Worker at `http://localhost:8787` with synthetic data. No live Kobags forms, customer records or production systems were used.
 
+## Nationwide SEO coverage — 3 October
+
+- Added English `/bags-kosovo` and Albanian `/sq/bags-kosovo`: national wholesale buying guidance, contact information and all 38 municipalities, including smaller towns and villages in their coverage. Home, contact and footer links expose the guide; no repeated city doorway pages or invented offices were added.
+- Verified address/phone/email against the original company website and municipality names against Kosovo Agency of Statistics geo02. Organization and Service structured data reflect the visible identity and nationwide inquiry coverage. Homepage metadata includes natural English custom-bag and Albanian qese/çanta-with-logo search wording.
+- `qa/seo_checks.py` passed all **48 EN/SQ sitemap URLs**, crawler HTML, unique metadata, canonical/hreflang, structured data and private-route exclusions. Added checks validate all 38 municipalities, schema/content agreement, ordering links and keyboard-operated municipality disclosure at **320/390px in EN/SQ**. Mobile designer-language handoff still passes without browser errors or failed assets.
+- `qa/presentation_copy_checks.py` passed **50 EN/SQ marketing-page checks**, including unique headings/descriptions, duplicate copy checks, original media and translated resources. TypeScript and production build passed. Lint: **0 errors, 34 existing advisory warnings**. Whitespace check passed. Desktop and mobile screenshots are `seo-kosovo-*`; mobile screenshots record the expanded list, which is collapsed by default for compact browsing.
+- These checks establish site readiness, not Google indexing or ranking. Search Console and Google Business Profile verification/submission were not performed. Current canonical remains the authorized custom domain; final company-domain migration and business-account launch actions are documented in the developer handoff.
+
 ## 3D controls, material and recovery refinement — 3 October
 
 - Fixed repeated front/back selection: the camera resets even when that editing side is already active. Explicit rotation works while the design panel is open, and selecting a face or starting an artwork gesture synchronizes the paused state.

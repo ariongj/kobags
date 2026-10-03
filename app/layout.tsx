@@ -8,6 +8,7 @@ import { LocalizedCopy } from "@/components/localized-copy";
 import { Header, Footer } from "@/components/site-shell";
 import { requestLanguage } from "@/lib/seo";
 import { SITE_NAME, SITE_ORIGIN } from "@/lib/seo-config";
+import { company } from "@/lib/company";
 import StructuredData from "@/components/structured-data";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_ORIGIN),
@@ -31,7 +32,7 @@ export default async function RootLayout({
       <body className="kobags-v5">
         <KobagsProvider initialLanguage={lang}>
           <StructuredData data={{ "@context": "https://schema.org", "@graph": [
-            { "@type": "Organization", "@id": SITE_ORIGIN + "/#organization", name: SITE_NAME, url: SITE_ORIGIN + "/", logo: SITE_ORIGIN + "/assets/logo.png", email: "info@kobags-group.com", telephone: "+38343877753" },
+            { "@type": "Organization", "@id": SITE_ORIGIN + "/#organization", name: SITE_NAME, url: SITE_ORIGIN + "/", logo: SITE_ORIGIN + "/assets/logo.png", email: company.email, telephone: company.telephone, address: { "@type": "PostalAddress", streetAddress: company.streetAddress, addressCountry: company.country }, areaServed: { "@type": "Country", name: company.country } },
             { "@type": "WebSite", "@id": SITE_ORIGIN + "/#website", name: SITE_NAME, url: SITE_ORIGIN + "/", publisher: { "@id": SITE_ORIGIN + "/#organization" }, inLanguage: ["en", "sq"] },
           ] }} />
           <a href="#main-content" className="skip-link">

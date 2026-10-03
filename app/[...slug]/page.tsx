@@ -1,3 +1,4 @@
+import { company } from "@/lib/company";
 import Certificates from "@/components/certificates";
 import Link from "@/components/site-link";
 import { notFound } from "next/navigation";
@@ -392,12 +393,14 @@ export default async function Page({
                 <L en="in Kosova." sq="në Kosovë." />
               </h2>
               <p>
+                {company.streetAddress}<br /><L en="Kosovo · Inquiries from every municipality" sq="Kosovë · Kërkesa nga çdo komunë" /><br /><br />
                 <L en="Email or call us:" sq="Na shkruani ose na telefononi:" />
                 <br />
                 <a href="mailto:info@kobags-group.com">info@kobags-group.com</a>
                 <br />
                 <a href="tel:+38343877753">+383 43 877 753</a>
               </p>
+              <Link href="/bags-kosovo" className="text-button"><L en="Bags for your city" sq="Çanta për qytetin tuaj" /> ↗</Link>
               <Link href="/quote" className="text-button">
                 <L en="Looking for a quotation? Start here" sq="Kërkoni ofertë? Filloni këtu" /> ↗
               </Link>
