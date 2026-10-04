@@ -1,4 +1,8 @@
 # Kobags Group — code and setup handoff
+## CMS password access — 4 October 2026
+
+The CMS uses email/password accounts exclusively. `/api/cms/login`, `logout`, `claim` and `password` manage login, server-side session revocation, single-use staff activation and password changes. `/api/cms/reset-password` is restricted to administrators for other staff accounts. `lib/cms/auth.ts` owns the flows; `password.ts` owns hashing and cookies; `core.ts` checks each session and staff permission. Migration 0003 adds credential and session tables. No platform identity header or ChatGPT account grants CMS access. Existing business records remain unchanged. See CMS operations for setup and recovery; actual credentials are provided privately, never embedded in the handoff.
+
 ## Shared CMS release — 3 October 2026
 
 The new authenticated `/cms` is separate from the original isolated `/demo` workflows described below. See [CMS operations](CMS-OPERATIONS.md) for the authoritative current setup, permissions, publishing model, inquiry/quote/artwork/production flow, email status and backup/recovery instructions. `lib/cms`, `components/cms`, `/api/cms`, `/api/inquiries`, `/api/portal` and `/api/media` implement the shared backend. Drizzle migrations 0001–0002 add explicit tables and indexes; the existing demo table is retained. Logical bindings are now `DB` and `BUCKET`.

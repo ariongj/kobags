@@ -1,12 +1,16 @@
 # Kobags CMS — operation and handoff
 
-Updated 3 October 2026. This document describes the shared CMS added alongside the existing visitor demonstration. The two databases/workflows remain separate. Local acceptance uses synthetic records only; those records are not deployed.
+Updated 4 October 2026. This document describes the shared CMS added alongside the existing visitor demonstration. The two databases/workflows remain separate. Local acceptance uses synthetic records only; those records are not deployed.
 
 ## First administrator
 
-Open `/cms` and sign in with the ChatGPT account whose email is `info@itdks.tech`. Select **Set up administrator workspace**. The server binds the first administrator to that authenticated user ID and imports the existing catalogue and content without overwriting subsequent edits. A different email cannot claim this account. No invitation or email has been sent automatically.
+Open `/cms` and sign in with email `info@itdks.tech` and the administrator password delivered separately. No ChatGPT account is required. The first successful password login initializes the owner's password credential and imports initial content only if settings are absent. Existing records, ownership and permissions are preserved. The password is not included in source, downloads, logs or documentation.
 
-The deployment has `CMS_BOOTSTRAP_EMAIL` and `CMS_NOTIFY_EMAIL` configured to this address. Staff invitations are single-use links, expire after seven days, and must be accepted with the invited email. After acceptance, authorization uses the authenticated user ID. Only administrators manage staff. Disable membership to revoke API access. The owner cannot disable themselves through the interface.
+The deployment has `CMS_BOOTSTRAP_EMAIL` and `CMS_NOTIFY_EMAIL` configured to this address, plus secret `CMS_BOOTSTRAP_PASSWORD_HASH`. The bootstrap secret contains a salted PBKDF2-SHA256 hash, never a plaintext password. Once initialized, the database credential is authoritative; changing the password does not reactivate the original bootstrap password. Passwords do not expire automatically. Sessions last eight hours and can be renewed by signing in again.
+
+**My account** changes your password and signs out every current session. New passwords must contain 14–128 characters. **Staff & access** creates an invitation link that the administrator shares directly with the intended colleague. They enter the invited email and set their own password. Links expire after seven days and work once; accepted staff accounts have no invitation-based expiry. No invitation email is sent automatically. **Reset password** revokes a colleague's existing password and sessions and creates a replacement setup link. Disabling or changing a membership also revokes its sessions. Only administrators manage staff; the owner cannot be disabled or reset through the staff list.
+
+Sessions use random opaque cookies, HttpOnly, SameSite=Strict and Secure over HTTPS. Only token hashes are stored server-side; every API request checks expiry, active membership, the current credential and permissions. Platform identity headers grant no CMS access. Password login and setup are rate-limited; mutations require a matching Origin. If the sole owner's password is lost, a trusted deployment operator must configure a new bootstrap hash and remove only that owner's credential and sessions through controlled database maintenance, then redeploy and sign in. Do not delete business records or expose a public recovery endpoint.
 
 ## Publishing and content
 
@@ -81,9 +85,9 @@ The full restore verifies each object's size and SHA-256 checksum and checks SQL
 
 ## Runtime and verification
 
-Logical bindings: `DB` (D1), `BUCKET` (R2). Apply Drizzle migrations in order, once per database; never execute runtime CREATE TABLE. New CMS migrations preserve `demo_workspaces`. A copied project must provision its own bindings and authenticate behind a trusted proxy that strips untrusted `oai-authenticated-*` headers. The local Wrangler port is for isolated development and must not be exposed publicly with synthetic authentication headers.
+Logical bindings: `DB` (D1), `BUCKET` (R2). Apply Drizzle migrations in order, once per database; never execute runtime CREATE TABLE. Migration 0003 adds credentials and sessions without modifying business data. A copied project must provision its own bindings and bootstrap password hash, use HTTPS and trusted client-IP handling, and configure its own administrator. The local Wrangler port is for isolated development. The separate legacy demo may still use platform identity; that path does not authorize the CMS.
 
-Acceptance: `qa/cms_checks.py` uses synthetic identities against a local compiled Worker only. It covers access, publishing, stale saves, redirects, all inquiry types, idempotency, immutable versions, private files, approval/release gates, mobile layouts, print output and backup recovery. It must not run against the public customer site. Existing SEO, copy, buyer and 3D regression suites remain applicable.
+Acceptance: `qa/cms_checks.py` uses synthetic password accounts against a local compiled Worker only. It covers access, publishing, stale saves, redirects, all inquiry types, idempotency, immutable versions, private files, approval/release gates, mobile layouts, print output and backup recovery. `qa/cms_password_checks.py` covers the login/activation/change-password interfaces, session persistence and revocation, staff disable/reset, role boundaries, cross-origin requests, rejected platform headers, export exclusions, rate limits and responsive login layouts. Set `KOBAGS_QA_PASSWORD` to the local fixture password matching the local bootstrap hash; never use a live credential. Neither suite may run against the public customer site. Existing SEO, copy, buyer and 3D regression suites remain applicable.
 
 ## Explicit remaining operational work
 

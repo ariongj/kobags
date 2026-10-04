@@ -1,5 +1,5 @@
-"""Production CMS acceptance using isolated local data and synthetic identities only."""
-import asyncio,json,uuid,io,sys,tempfile,importlib.util
+"""Production CMS acceptance using isolated local data and synthetic password accounts only."""
+import asyncio,json,uuid,io,sys,tempfile,importlib.util,os
 from pathlib import Path
 from PIL import Image
 from playwright.async_api import async_playwright
@@ -9,24 +9,25 @@ async def main():
  suffix=uuid.uuid4().hex[:8];checks=[]
  async with async_playwright() as p:
   browser=await launch(p)
-  owner=await browser.new_context(extra_http_headers={'oai-authenticated-user-id':'cms-qa-owner','oai-authenticated-user-email':'info@itdks.tech'},viewport={'width':1440,'height':1000})
+  assert BASE.startswith(('http://127.0.0.1:', 'http://localhost:')), 'Run only against a local Worker'
+  password=os.environ['KOBAGS_QA_PASSWORD']
+  owner=await browser.new_context(extra_http_headers={'cf-connecting-ip':'198.19.'+str(int(suffix[:2],16))+'.'+str(int(suffix[2:4],16))},viewport={'width':1440,'height':1000})
   guest=await browser.new_context(extra_http_headers={'cf-connecting-ip':'198.18.'+str(int(suffix[:2],16))+'.'+str(int(suffix[2:4],16))})
   stranger=await browser.new_context(extra_http_headers={'oai-authenticated-user-id':'cms-qa-stranger','oai-authenticated-user-email':'outsider@example.test'})
   async def get(ctx,path,status=200):
    r=await ctx.request.get(BASE+path);assert r.status==status,(path,r.status,(await r.text())[:500]);return await r.json()
   async def post(ctx,path,data,status=200):
    r=await ctx.request.post(BASE+path,data=data,headers={'Origin':BASE});assert r.status==status,(path,r.status,(await r.text())[:700]);return await r.json()
-  await get(guest,'/api/cms/inquiries',401);await get(stranger,'/api/cms/records',403)
-  await post(stranger,'/api/cms/claim',{},403)
-  await post(owner,'/api/cms/claim',{})
+  await get(guest,'/api/cms/inquiries',401);await get(stranger,'/api/cms/records',401)
+  await post(owner,'/api/cms/login',{'email':'info@itdks.tech','password':password})
   session=await get(owner,'/api/cms/session');assert session['member']['role']=='administrator'
   records=(await get(owner,'/api/cms/records'))['records'];assert len([r for r in records if r['kind']=='product'])==5
-  checks.append('First administrator restricted to configured signed-in email; anonymous and non-member API access rejected')
+  checks.append('Email/password administrator access; anonymous and platform-header-only API access rejected')
   invitation=await post(owner,'/api/cms/invite',{'name':'QA editor','email':'editor-'+suffix+'@example.test','role':'editor'})
   token=invitation['invitation'].split('invite=')[1]
-  await post(stranger,'/api/cms/claim',{'invite':token},403)
+  await post(stranger,'/api/cms/claim',{'invite':token,'email':'outsider@example.test','password':password},403)
   editor=await browser.new_context(extra_http_headers={'oai-authenticated-user-id':'cms-qa-editor-'+suffix,'oai-authenticated-user-email':'editor-'+suffix+'@example.test'})
-  await post(editor,'/api/cms/claim',{'invite':token});await post(editor,'/api/cms/claim',{'invite':token},403)
+  await post(editor,'/api/cms/claim',{'invite':token,'email':'editor-'+suffix+'@example.test','password':password});await post(editor,'/api/cms/claim',{'invite':token,'email':'editor-'+suffix+'@example.test','password':password},403)
   for endpoint in ['staff','inquiries','outbox','backup','orders']:
    await get(editor,'/api/cms/'+endpoint,403)
   checks.append('Invitation binds the intended email once; editor blocked from staff, inquiries, quotes, backup and production')
@@ -91,7 +92,7 @@ async def main():
   await post(owner,'/api/cms/release',{'id':ref,'paymentEvidence':'QA payment condition reference'},409)
   prod_invite=await post(owner,'/api/cms/invite',{'name':'QA production','email':'production-'+suffix+'@example.test','role':'production'})
   production=await browser.new_context(extra_http_headers={'oai-authenticated-user-id':'cms-qa-production-'+suffix,'oai-authenticated-user-email':'production-'+suffix+'@example.test'})
-  await post(production,'/api/cms/claim',{'invite':prod_invite['invitation'].split('invite=')[1]})
+  await post(production,'/api/cms/claim',{'invite':prod_invite['invitation'].split('invite=')[1],'email':'production-'+suffix+'@example.test','password':password})
   await get(production,'/api/cms/inquiries',403)
   # Private bytes cannot be obtained by public visitors or editors.
   output=io.BytesIO();Image.new('RGB',(200,100),'green').save(output,format='PNG')

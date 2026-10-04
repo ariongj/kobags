@@ -1,5 +1,12 @@
 # Kobags website — verification record
 
+## CMS email/password access — 4 October 2026
+
+- `qa/cms_checks.py`: all **12 acceptance groups passed again using password accounts**, including content publication, inquiry-to-production, private-file permissions, clean quotation printing, mobile CMS layouts and backup recovery.
+- `qa/cms_password_checks.py`: **7 focused groups passed**: browser login/reload, single-use invitation activation, password change and revocation of all sessions, disabled-account and reset handling, server-side logout, forged identity/cross-origin rejection, credential-free backups, rate limiting, and login layouts at 320/390/768/1440px. No captured JavaScript errors.
+- CMS authentication no longer uses ChatGPT sign-in. Accounts have durable email/password credentials; sessions expire after eight hours. Password hashes and server-side token hashes are isolated from public exports. New administrator credentials are configured separately as a runtime secret; no live plaintext password is in source or evidence.
+- Screenshots `cms-password-login-390.jpg` and `cms-password-login-1440.jpg` show the empty login form. All tests used local synthetic accounts and data; no customer email was sent.
+
 Updated 3 October 2026. Tests ran against the compiled local Worker at `http://localhost:8787` with synthetic data. No live Kobags forms, customer records or production systems were used.
 
 ## Shared CMS release — 3 October

@@ -17,7 +17,7 @@ with zipfile.ZipFile(PUBLIC/'kobags-source.zip','w',zipfile.ZIP_DEFLATED) as z:
   relative=p.relative_to(ROOT)
   if relative.parts[0]=='evidence' and p.suffix.lower() in ['.png','.jpg','.jpeg'] and not p.name.startswith(('presentation-','completion-','seo-','cms-')):continue
   if p in videos:continue
-  if p.suffix in ['.zip','.pyc'] or '__pycache__' in p.parts or (p.name!='.env.example' and any(part.startswith('.env') for part in relative.parts)):continue
+  if p.suffix in ['.zip','.pyc'] or '__pycache__' in p.parts or any(part.startswith('.dev.vars') for part in relative.parts) or (p.name!='.env.example' and any(part.startswith('.env') for part in relative.parts)):continue
   z.write(p,'kobags-website/'+str(relative))
  z.writestr('kobags-website/.openai/hosting.json',json.dumps({'d1':'DB','r2':'BUCKET'},indent=2)+'\n')
  z.writestr('kobags-website/SOURCE-MANIFEST.json',json.dumps({'name':'Kobags website handoff','date':'2026-10-03','type':'reusable source, not a deploy artifact','companion':'Extract kobags-media.zip into the same parent directory to merge its public/assets videos into kobags-website before building.','omitted':['existing Site project ID','credentials and secrets','runtime and customer/demo records','Git history','installed dependencies','build output','nested ZIP files','older QA captures and concept exports (regenerable); current presentation JPEGs and reports included','factory videos: supplied unchanged in companion kobags-media.zip'],'verification':'See evidence/VERIFICATION.md and JSON result manifests.','assetRights':'Kobags identity and original media remain subject to their owner’s rights.'},indent=2)+'\n')

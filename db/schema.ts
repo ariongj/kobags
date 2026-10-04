@@ -12,6 +12,13 @@ export const cmsStaff = sqliteTable("cms_staff", {
   name: text("name").notNull(), role: text("role").notNull(), active: integer("active").notNull().default(1),
   inviteHash: text("invite_hash"), expiresAt: text("expires_at"), createdAt: text("created_at").notNull(),
 });
+export const cmsCredentials = sqliteTable("cms_credentials", {
+  staffId: text("staff_id").primaryKey(), passwordHash: text("password_hash").notNull(), updatedAt: text("updated_at").notNull(),
+});
+export const cmsSessions = sqliteTable("cms_sessions", {
+  tokenHash: text("token_hash").primaryKey(), staffId: text("staff_id").notNull(), credentialTag: text("credential_tag").notNull(),
+  expiresAt: text("expires_at").notNull(), createdAt: text("created_at").notNull(),
+}, t => [index("idx_cmssessions_staff").on(t.staffId),index("idx_cmssessions_expiry").on(t.expiresAt)]);
 export const cmsRecords = sqliteTable("cms_records", {
   id: text("id").primaryKey(), kind: text("kind").notNull(), slug: text("slug").notNull().unique(),
   draft: text("draft").notNull(), published: text("published"), revision: integer("revision").notNull().default(1),
