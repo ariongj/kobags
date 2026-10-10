@@ -172,18 +172,35 @@ export function createStudioScene(
   }
   function zAt(x: number, y: number) {
     const t = (y - bottom) / (top - bottom);
+    if (product === "string-bag") {
+      // A gathered pouch has a rounded belly and nearly pinched side seams,
+      // not the flat side walls and rectangular foot of a shopping tote.
+      const upper = THREE.MathUtils.smoothstep(y, 0.05, top);
+      const shoulder = half * (1 - 0.65 * upper);
+      const across = Math.min(1, Math.abs(x) / shoulder);
+      const belly = Math.pow(Math.max(0, 1 - across * across), 0.65);
+      const length = Math.pow(Math.max(0, Math.sin(t * Math.PI)), 0.48);
+      const pleats = (0.016 + 0.04 * upper) * Math.sin(x * (13 + 10 * upper) + y * 1.2)
+        * (Math.sin(t * Math.PI) + 0.6 * upper ** 3) * (0.3 + 0.7 * belly);
+      return Math.max(0.024, 0.028 + (0.34 * length + 0.045 * upper) * belly + pleats);
+    }
+    if (product === "t-shirt-bag") {
+      const opening = THREE.MathUtils.smoothstep(y, 0.65, top);
+      const edge = Math.min(1, Math.abs(x / half));
+      const belly = 0.08 * Math.cos(edge * Math.PI / 2) * Math.sin(t * Math.PI);
+      const drape = 0.018 * Math.sin(12 * x + 1.7 * y) * Math.sin(t * Math.PI)
+        + 0.025 * Math.sin(7 * x - y) * Math.pow(edge, 3) * (1 - opening);
+      // The front and rear straps meet at their welded tips. The U-cut mouth
+      // remains open between the two sheets, including when viewed from above.
+      return Math.max(0.012, 0.29 * (1 - 0.96 * opening) + belly * (1 - opening) + drape);
+    }
     const flat = product === "box-bag" ? 0.029 : 0.105;
     const edge = Math.pow(Math.abs(x / half), 4);
     const lowerFold = 0.035 * Math.sin(Math.PI * Math.min(1, t * 2.4));
-    const gatheredFold = product === "string-bag"
-      ? 0.043 * Math.pow(THREE.MathUtils.clamp((y - 0.12) / (top - 0.12), 0, 1), 1.25)
-        * Math.sin(11 * x + 1.5 * y) * (1 - edge * 0.55)
-      : 0;
     return (
       depthAt(y) / 2 +
       flat * Math.cos(((x / half) * Math.PI) / 2) * Math.sin(t * Math.PI) +
       lowerFold * (1 - edge) +
-      gatheredFold +
       0.018 * Math.sin(x * 15 + y * 3) * edge
     );
   }
@@ -193,7 +210,9 @@ export function createStudioScene(
   }
   function gussetFold(u: number, y: number) {
     const t = THREE.MathUtils.clamp((y - bottom) / (top - bottom), 0, 1);
-    const crease = product === "box-bag" ? 0.14 : product === "t-shirt-bag" ? 0.16 : 0.075;
+    const crease = product === "box-bag" ? 0.14 : product === "t-shirt-bag"
+      ? 0.18 * (1 - 0.85 * THREE.MathUtils.smoothstep(y, 0.7, top))
+      : product === "string-bag" ? 0.012 : 0.075;
     const relaxed = spec.handles ? 0.8 + 0.2 * Math.sin(t * Math.PI) : 1;
     const wrinkle = spec.handles ? 0.008 * Math.sin(t * 16 + u * 4) * Math.sin(t * Math.PI) : 0;
     return Math.sin(u * Math.PI) * (crease * relaxed + wrinkle);
@@ -337,15 +356,16 @@ export function createStudioScene(
     g.setAttribute("color", new THREE.BufferAttribute(shades, 3));
     return g;
   }
-  if (spec.handles && !photoShell) {
+  if ((spec.handles || product === "t-shirt-bag" || product === "string-bag") && !photoShell) {
     for (const face of [-1, 1]) {
       const lining = faceGeometry(true);
       const pos = lining.getAttribute("position");
       for (let i = 0; i < pos.count; i++)
-        pos.setXYZ(i, pos.getX(i) * 0.994, Math.max(bottom + 0.026, pos.getY(i)), pos.getZ(i) - 0.014);
+        pos.setXYZ(i, pos.getX(i) * 0.994, Math.max(bottom + 0.026, pos.getY(i)), pos.getZ(i) - (spec.handles ? 0.014 : 0.006));
       lining.computeVertexNormals();
       const wall = add(interiorShade(lining), innerMat);
       if (face < 0) wall.rotation.y = Math.PI;
+      if (!spec.handles) continue;
       // Folded webbing across the mouth: a thin textile band, not a box rail.
       const hem = new THREE.PlaneGeometry(width, 0.065, 56, 3);
       const hp = hem.getAttribute("position");
@@ -482,7 +502,7 @@ export function createStudioScene(
     if (face < 0) print.rotation.y = Math.PI;
     faceSides.set(print, face > 0 ? "front" : "back");
     if (photoShell) continue;
-    for (const x of product === "string-bag" ? [] : [-half + 0.022, half - 0.022]) {
+    for (const x of product === "string-bag" || product === "t-shirt-bag" ? [] : [-half + 0.022, half - 0.022]) {
       const pts: THREE.Vector3[] = [];
       const seamTop = product === "t-shirt-bag" ? 0.65 : top - 0.03;
       for (let i = 0; i <= 30; i++) {
@@ -578,42 +598,19 @@ export function createStudioScene(
   let lastPhoto: HTMLCanvasElement | null = null;
   const outerContour = shaped ? outline().extractPoints(40).shape : [];
   if (product === "t-shirt-bag" && !photoShell) {
-    // A T-shirt bag is one folded sheet. Bridge the two faces along the carry
-    // opening and handle tips; otherwise they look like detached paper edges
-    // when viewed from above or at three quarters.
-    const vertices: number[] = [];
-    const uvs: number[] = [];
-    const indices: number[] = [];
-    const minY = 0.64;
-    for (let i = 0; i < outerContour.length; i++) {
-      const first = outerContour[i];
-      const last = outerContour[(i + 1) % outerContour.length];
-      if (first.y < minY && last.y < minY) continue;
-      const start = first.y < minY
-        ? first.clone().lerp(last, (minY - first.y) / (last.y - first.y))
-        : first;
-      const end = last.y < minY
-        ? first.clone().lerp(last, (minY - first.y) / (last.y - first.y))
-        : last;
-      if (start.distanceToSquared(end) < 0.000001) continue;
-      const offset = vertices.length / 3;
-      for (const point of [start, end]) {
-        const x = xAt(point.x, point.y);
-        const z = zAt(point.x, point.y);
-        vertices.push(x, point.y, z, x, point.y, -z);
-        uvs.push(0, point.y / 3, 1, point.y / 3);
+    // Only weld the handle tips. Bridging the entire U-cut sealed the mouth
+    // and made the bag look like a solid extrusion. Each handle now forms a
+    // continuous loop with its matching rear strap and folded side gusset.
+    for (const side of [-1, 1]) {
+      const g = new THREE.PlaneGeometry(0.47, 1, 20, 6);
+      const p = g.getAttribute("position");
+      for (let i = 0; i < p.count; i++) {
+        const x = side * (0.785 + p.getX(i));
+        p.setXYZ(i, xAt(x,top), top, p.getY(i) * 2 * zAt(x,top));
       }
-      indices.push(
-        offset, offset + 1, offset + 2,
-        offset + 2, offset + 1, offset + 3,
-      );
+      g.computeVertexNormals();
+      add(g);
     }
-    const bridge = new THREE.BufferGeometry();
-    bridge.setAttribute("position", new THREE.Float32BufferAttribute(vertices, 3));
-    bridge.setAttribute("uv", new THREE.Float32BufferAttribute(uvs, 2));
-    bridge.setIndex(indices);
-    bridge.computeVertexNormals();
-    add(bridge);
   }
   function outerRightAt(y: number) {
     if (!shaped) return Math.abs(xAt(half, y));
@@ -635,7 +632,7 @@ export function createStudioScene(
     return Math.abs(xAt(right || half, y));
   }
   // Side gussets have their own mesh; they carry the fabric crop around the bag.
-  const sideTop = product === "t-shirt-bag" ? 0.72 : top;
+  const sideTop = top;
   if (!photoShell) for (const side of [-1, 1]) {
     const g = new THREE.PlaneGeometry(depth, sideTop - bottom, 16, 40),
       pos = g.attributes.position;
@@ -671,13 +668,14 @@ export function createStudioScene(
     }
     g.computeVertexNormals();
     add(g);
-    if (spec.handles) {
+    if (spec.handles || product === "t-shirt-bag" || product === "string-bag") {
       const lining = g.clone();
       const lp = lining.getAttribute("position");
       for (let i = 0; i < lp.count; i++)
         lp.setXYZ(i, lp.getX(i) - side * 0.012, Math.max(bottom + 0.026, lp.getY(i)), lp.getZ(i) * 0.982);
       lining.computeVertexNormals();
       add(interiorShade(lining), innerMat);
+      if (!spec.handles) continue;
       for (const inset of [0.005, 0.057]) {
         const points: THREE.Vector3[] = [];
         const y = top - inset;
@@ -690,13 +688,13 @@ export function createStudioScene(
       }
     }
   }
-  if (spec.handles) {
+  if (spec.handles || product === "t-shirt-bag" || product === "string-bag") {
     const floor = new THREE.PlaneGeometry(width, depth, 40, 16);
     const fp = floor.getAttribute("position");
     for (let i = 0; i < fp.count; i++) {
       const x = fp.getX(i), v = fp.getY(i) / depth + 0.5;
       const fold = gussetFold(v, bottom);
-      fp.setXYZ(i, (x/half)*(Math.abs(xAt(half,bottom))-fold-0.008), bottom+0.026, (2*v-1)*(zAt(x,bottom)-0.009));
+      fp.setXYZ(i, (x/half)*(outerRightAt(bottom)-fold-0.008), bottom+0.026, (2*v-1)*(zAt(x,bottom)-0.009));
     }
     floor.computeVertexNormals();
     add(interiorShade(floor, true), innerMat);
@@ -706,11 +704,11 @@ export function createStudioScene(
     underside.deleteAttribute("color");
     add(underside);
   }
-  if (!photoShell && !spec.handles) {
+  if (!photoShell && product === "d-cut-bag") {
     const baseWidth = shaped ? 2 * outerRightAt(bottom + 0.025) : width - 0.01;
     const base = add(
       new THREE.BoxGeometry(baseWidth, 0.025, depth),
-      product === "string-bag" ? seamMat : fabric,
+      fabric,
     );
     base.position.y = bottom + 0.012;
   }
@@ -784,16 +782,18 @@ export function createStudioScene(
         opening.push(rimPoint(x, y));
       }
       seam(opening, 0.006);
-      for (const side of [-1, 1])
-        seam(
-          [
-            rimPoint(side * 0.52, 1.07),
-            rimPoint(side * 0.55, top),
-            rimPoint(side * 1.02, top),
-            rimPoint(side * 1.04, 1.07),
-          ],
-          0.006,
-        );
+      for (const side of [-1, 1]) {
+        const contour = [[side*0.52,1.07],[side*0.55,top],[side*1.02,top],[side*1.04,1.07]];
+        for (let edge=0; edge<contour.length-1; edge++) {
+          const points: THREE.Vector3[]=[];
+          for(let i=0;i<=20;i++) {
+            const u=i/20;
+            points.push(rimPoint(THREE.MathUtils.lerp(contour[edge][0],contour[edge+1][0],u),
+              THREE.MathUtils.lerp(contour[edge][1],contour[edge+1][1],u)));
+          }
+          seam(points,0.0035);
+        }
+      }
     }
   if (product === "box-bag" && !photoShell) {
     for (const face of [-1, 1])
@@ -807,29 +807,46 @@ export function createStudioScene(
           0.004,
         );
   }
-  if (product === "string-bag" && !photoShell)
-    for (const face of [-1, 1]) {
-      const cordPoint = (x: number, y: number, lift: number) =>
-        new THREE.Vector3(xAt(x, y), y, face * (zAt(x, y) + lift));
-      seam(
-        [
-          cordPoint(-0.38, top - 0.05, 0.015),
-          cordPoint(0, top - 0.18, 0.04),
-          cordPoint(0.38, top - 0.05, 0.015),
-        ],
-        0.015,
-        cordMat,
-      );
-      seam(
-        [
-          cordPoint(0.12, top - 0.16, 0.05),
-          cordPoint(0.25, top - 0.42, 0.08),
-          cordPoint(0.22, top - 0.7, 0.07),
-        ],
-        0.012,
-        cordMat,
-      );
+  if (product === "string-bag" && !photoShell) {
+    // A folded casing follows the gathered opening on both faces. Real cord
+    // exits the casing and hangs clear of the cloth rather than being painted on.
+    for (const face of [-1,1]) {
+      const lip: THREE.Vector3[] = [], stitch: THREE.Vector3[] = [];
+      for (let i=0;i<=64;i++) {
+        const x=-0.4+0.8*i/64, y=top-0.05*(1-(x/0.4)**2);
+        lip.push(new THREE.Vector3(xAt(x,y),y,face*(zAt(x,y)+0.004)));
+        const sy=y-0.058;
+        stitch.push(new THREE.Vector3(xAt(x,sy),sy,face*(zAt(x,sy)+0.006)));
+      }
+      seam(lip,0.008);
+      seam(stitch,0.003);
     }
+    const cord = [
+      new THREE.Vector3(0.29,top-0.08,-0.06),
+      new THREE.Vector3(0.40,top-0.08,0.07),
+      new THREE.Vector3(0.31,top-0.39,0.34),
+      new THREE.Vector3(-0.15,top-0.82,0.45),
+      new THREE.Vector3(-0.65,top-1.04,0.42),
+      new THREE.Vector3(-0.82,top-0.86,0.31),
+      new THREE.Vector3(-0.62,top-0.54,0.26),
+      new THREE.Vector3(-0.26,top-0.41,0.35),
+      new THREE.Vector3(0.16,top-0.29,0.25),
+      new THREE.Vector3(0.29,top-0.08,0.09),
+    ];
+    seam(cord,0.011,cordMat);
+    const knot=add(new THREE.SphereGeometry(0.022,10,8),cordMat);
+    knot.position.copy(cord[4]);knot.scale.set(0.8,1.25,0.8);
+    seam([cord[4],new THREE.Vector3(-0.69,top-1.13,0.43),new THREE.Vector3(-0.64,top-1.17,0.43)],0.011,cordMat);
+    // Curved bottom hem, thin enough to read as cloth rather than a hard base.
+    for (const face of [-1,1]) {
+      const hem: THREE.Vector3[]=[];
+      for(let i=0;i<=48;i++) {
+        const x=(-half+0.12)+(width-0.24)*i/48,y=bottom+0.026;
+        hem.push(new THREE.Vector3(xAt(x,y),y,face*(zAt(x,y)+0.003)));
+      }
+      seam(hem,0.004);
+    }
+  }
   const shadow = document.createElement("canvas");
   shadow.width = shadow.height = 128;
   const sc = shadow.getContext("2d")!;

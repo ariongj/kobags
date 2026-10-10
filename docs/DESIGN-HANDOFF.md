@@ -1,5 +1,9 @@
 # Kobags Group — design handoff
 
+## String and T-Shirt revision — 10 October 2026
+
+The T-Shirt has an open mouth, thin joined handle tips, full-height folded sides and a contoured base. The String has a soft rounded body, gathered opening, pinched seams and a loose continuous cord with a knot. Both include interior cloth and retain their existing artwork editing, colors and rotation controls. Reference renders and responsive checks are recorded in `evidence/VERIFICATION.md`.
+
 ## Studio visual refinement — 10 October 2026
 
 The Box and Handle bag openings have connected fabric interiors, contoured bases, thin folded hems and finer seams. Shared material crops and subtle interior shading replace flat dark inserts. Handle and surface self-shadows give the model depth while the floor shadow stays soft. The body texture has gentler relief, and the handle straps are thinner. Client-derived reference photos, artwork placement, colors and front/back controls remain in use. See `studio-asset-note.md` for the precise modeling boundary.

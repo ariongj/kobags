@@ -1,0 +1,14 @@
+{
+  "status": "passed",
+  "checks": [
+    "T-Shirt / front / logo: select, drag on 3D surface and undo",
+    "T-Shirt / front / text: select, drag on 3D surface and undo",
+    "T-Shirt / back / logo: select, drag on 3D surface and undo",
+    "T-Shirt / back / text: select, drag on 3D surface and undo",
+    "String / front / logo: select, drag on 3D surface and undo",
+    "String / front / text: select, drag on 3D surface and undo",
+    "String / back / logo: select, drag on 3D surface and undo",
+    "String / back / text: select, drag on 3D surface and undo"
+  ],
+  "browserErrors": []
+}

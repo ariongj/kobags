@@ -1,5 +1,11 @@
 # Studio image provenance
 
+## String and T-Shirt construction — 10 October 2026
+
+The T-Shirt model now has an open U-cut mouth, interior cloth, full-height folded gussets and front/rear handles joined only at their thin tips. Its body has more depth and relaxed surface folds. The previous bridge across the entire carry opening is removed. The base follows the folded sides instead of using a rectangular block.
+
+The String model uses a rounded fabric body with pinched side seams, a thin bottom hem, gathered neck and an open lined mouth. Its continuous loose drawcord and knot follow the supplied production photograph more closely; the cord is geometry and casts a shadow on the cloth. Both models retain the client-derived photo textures and the existing front/back artwork coordinates. These are illustrative models, not measured scans.
+
 ## Open-top and material refinement — 10 October 2026
 
 The Box and Handle interiors now follow the actual curved front/back panels and folded gussets. Their floors and undersides share the fold profile; the earlier rectangular insert, thick rim rails and protruding rectangular base are removed. Thin fabric hems and inset seams follow the mouth. Small edge relaxation and gusset variation soften the otherwise rigid outline.

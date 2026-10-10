@@ -1,0 +1,27 @@
+{
+  "status": "passed",
+  "checks": [
+    "T-Shirt / Natural / front: rendered without fallback",
+    "T-Shirt / Natural / angle: rendered without fallback",
+    "T-Shirt / Natural / interior: rendered without fallback",
+    "T-Shirt / Natural / back: rendered without fallback",
+    "T-Shirt / Forest green / front: rendered without fallback",
+    "T-Shirt / Forest green / angle: rendered without fallback",
+    "T-Shirt / Forest green / interior: rendered without fallback",
+    "T-Shirt / Forest green / back: rendered without fallback",
+    "String / Natural / front: rendered without fallback",
+    "String / Natural / angle: rendered without fallback",
+    "String / Natural / interior: rendered without fallback",
+    "String / Natural / back: rendered without fallback",
+    "String / Forest green / front: rendered without fallback",
+    "String / Forest green / angle: rendered without fallback",
+    "String / Forest green / interior: rendered without fallback",
+    "String / Forest green / back: rendered without fallback",
+    "T-Shirt / White / 320px: rendered, controls reachable, no horizontal overflow",
+    "String / White / 320px: rendered, controls reachable, no horizontal overflow",
+    "T-Shirt / White / 390px: rendered, controls reachable, no horizontal overflow",
+    "String / White / 390px: rendered, controls reachable, no horizontal overflow"
+  ],
+  "browserErrors": [],
+  "scope": "Compiled local Worker, screenshot comparison and responsive rendering; no claim of scan accuracy"
+}

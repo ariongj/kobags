@@ -1,5 +1,11 @@
 # Kobags Group — code and setup handoff
 
+## Shaped bag construction — 10 October 2026
+
+`lib/studio-scene.ts` branches surface depth by family for T-Shirt drape and String pouch volume/gathers. The T-Shirt U-cut is open; only its tips bridge front to back, and gussets run the full height. Both models get inset cloth linings and contoured floors/undersides. String drawcord/casing/hem are actual mesh geometry. Canonical XY artwork coordinates, saved draft structure and photo-export registration are unchanged.
+
+`qa/studio_shaped_quality_checks.py` records front, three-quarter, opening and rear views in two colors plus 320/390px layouts. `qa/studio_shaped_artwork_checks.py` exercises raycast selection, dragging and undo for logo/text on both faces of both changed families. Run against the compiled local Worker and inspect the captures; automated rendering checks do not assess photorealism or physical-device performance.
+
 ## Studio visual refinement — 10 October 2026
 
 `lib/studio-scene.ts` replaces detached Box/Handle cavity boxes with inward-offset copies of the rendered front/back and gusset meshes. `rimY` and `gussetFold` keep hem, face and base geometry aligned. Interior vertex color supplies smooth depth shading, with the same photo-derived cloth map on interiors and seams. The original family coordinate/UV system is retained for artwork. Handle thickness and bump strength are reduced. Directional PCF self-shadows use one cached 1024px map per model, explicitly disposed with the scene. Color/artwork changes do not invalidate this static geometry shadow. No dependencies, schema or saved-design migration is required.

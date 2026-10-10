@@ -1,5 +1,12 @@
 # Kobags website — verification record
 
+## String and T-Shirt rework — 10 October 2026
+
+- `qa/studio_shaped_quality_checks.py`: **20 visual/responsive checks passed**: both models in Natural and Forest green from front, three-quarter, high opening and rear views, plus White at 320/390px. Captures were inspected for open mouths, folded handles, soft pouch depth and continuous cord geometry. No browser errors or horizontal overflow.
+- `qa/studio_shaped_artwork_checks.py`: **8 interaction checks passed**: independent logo/text selection, surface dragging and undo on both faces of both models. No browser errors. Saved coordinate and photo-export formats are unchanged.
+- `qa/studio_3d_checks.py`: **8 acceptance groups passed** on the final build, including all five families, mouse/keyboard rotation, zoom/reset, independent artwork, fullscreen, two-sided export, quote carry-through, reduced motion, fallback and 320–1440px layouts. An earlier local run was interrupted; the final rerun completed with no browser errors.
+- TypeScript and the compiled production build passed. Browser tests use local Chromium/SwiftShader; they do not establish scan accuracy or physical-phone performance.
+
 ## 3D opening and fabric refinement — 10 October 2026
 
 - `qa/studio_visual_quality_checks.py`: **22 rendering checks passed**: Box/Handle in Natural and Forest green from front, three-quarter and high opening views; all five families in White at 320/390px. No browser errors or horizontal overflow. Original and final matching-angle captures are `visual-before-*` and `visual-final-*`; mobile captures are `visual-mobile-*`.
