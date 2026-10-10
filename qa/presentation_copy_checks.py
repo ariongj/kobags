@@ -76,7 +76,7 @@ async def main():
         await page.get_by_text('A client-reviewed artwork revision.',exact=True).wait_for()
         await go('/products/handle-bag')
         assert 'Indicative dispatch' not in await page.locator('main').inner_text()
-        assert 'Dërgesa orientuese' in await page.locator('main').inner_text()
+        assert 'Afati konfirmohet me ofertën tuaj.' in await page.locator('main').inner_text()
         await go('/')
         assert 'Rrotullo çantën majtas' == await page.locator('.showcase-view-controls button').first.get_attribute('aria-label')
         await page.get_by_role('link',name='Kalo në anglisht').click()

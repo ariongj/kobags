@@ -1,5 +1,5 @@
 "use client";
-import { CmsContact } from "./cms/public-extras";
+import { CmsContact, CmsSocialProfiles } from "./cms/public-extras";
 import Link from "@/components/site-link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, ReactNode } from "react";
@@ -173,6 +173,7 @@ export function Footer() {
           <h3>{t("Let’s talk bags", "Le të flasim për çantat")}</h3>
           <CmsContact part="email"/>
           <CmsContact part="phone"/>
+          <CmsSocialProfiles />
           <Link href="/contact">
             {t("General inquiries", "Pyetje të përgjithshme")} <ArrowUpRight size={14} />
           </Link>

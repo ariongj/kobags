@@ -1,4 +1,15 @@
 # Kobags Group — code and setup handoff
+
+## Client-review consistency pass — 10 October 2026
+
+Homepage and catalogue use published CMS products, including the empty-catalogue case. Home cards retain source ordering and curated optimized imagery unless a different product image is published. Available-size counts, first-active-size comparison values and print-color limits follow the same records. Optional `settings.leadTimeSq` supplies Albanian production guidance alongside `leadTime`; homepage, detail and quote views consume them.
+
+`components/collection-categories.tsx` shares the two approved collection cards. Collection quote progress uses `kobags-quote-step:<collection>`; the generic request retains its existing key. Refresh/language switches preserve the step. Successful requests clear the relevant step and recognized existing collection prefixes are not duplicated.
+
+Optional `settings.social` stores Facebook, Instagram, LinkedIn and YouTube profile URLs. `lib/social-profiles.ts` validates the expected HTTPS host and profile path; CMS validation rejects invalid values and the footer renders only populated valid profiles. These optional JSON settings need no database migration. No official profile URLs have been invented or published.
+
+`qa/client_review_20261010.py` tests publication with temporary local settings/products and restores original records in a `finally` block. The review audit and remaining client inputs are in `docs/CLIENT-REVIEW-2026-10-10.md`.
+
 ## Homepage revision — 10 October 2026
 
 `components/home-page.tsx` removes hero annotations, the repeated 360 link, quotation prompt and immediate proof strip, updates the headline/production copy and introduces two compact printed-collection inquiry links. `components/quote-flow.tsx` accepts only `collection=thank-you` or `collection=smiley`; it shows the selection and includes it in submitted notes for both live and isolated requests, including key-conflict retries. The existing design draft is preserved, note length includes the collection prefix, and starting another request clears the selection. Shared lime accents are `#a6d17a`; the printing-film transform is removed. `qa/homepage_review_20261010.py` covers EN/SQ responsive output and both collection requests with synthetic local data.

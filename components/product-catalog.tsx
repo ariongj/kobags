@@ -19,15 +19,15 @@ import { useDemo } from "./demo-store";
 import { Choice } from "./bag-studio";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "./ui/dialog";
 import { languageHref } from "@/lib/site-locale";
+import { CollectionCategories } from "./collection-categories";
 export function ProductCatalog() {
-  const { state } = useDemo();
   const cms = useCms();
   const getProduct = cms.getProduct;
   const { t, lang } = useKobags();
   const [handle, setHandle] = useState("all");
   const [use, setUse] = useState("all");
   const [compare, setCompare] = useState<string[]>([]);
-  const catalog = cms.records.some(r=>r.kind==='product') ? cms.products : state?.catalog || products;
+  const catalog = [...cms.products].sort((a,b) => products.findIndex(p=>p.slug===a.slug)-products.findIndex(p=>p.slug===b.slug));
   const results = catalog.filter(
     (p) =>
       (handle === "all" || p.handle === handle) &&
@@ -43,7 +43,7 @@ export function ProductCatalog() {
           )}
         </p>
         <h1>
-          {t("Five shapes.", "Pesë forma.")}
+          {catalog.length === 5 ? t("Five shapes.", "Pesë forma.") : t("Find your shape.", "Gjeni formën tuaj.")}
           <br />
           <em>{t("Your signature.", "Identiteti juaj.")}</em>
         </h1>
@@ -60,6 +60,7 @@ export function ProductCatalog() {
         </div>
       </div>
       <div className="content-width">
+        <CollectionCategories />
         <div className="catalog-toolbar">
           <span>
             {results.length} {t("bag families", "lloje çantash")}
@@ -133,6 +134,7 @@ export function ProductCatalog() {
         <div className="catalog-grid">
           {results.map((item, i) => {
             const p = localizeProduct(item, lang);
+            const firstSize = p.variants.find(v => !cms.options(p.slug)?.activeSizes || cms.options(p.slug)!.activeSizes!.includes(v.name)) || p.variants[0];
             return (
             <article className="product-card" data-slug={p.slug} key={p.slug}>
               <Link href={"/products/" + p.slug} className="product-photo">
@@ -158,7 +160,7 @@ export function ProductCatalog() {
                 <p>{p.description}</p>
                 <div className="product-foot">
                   <span>
-                    {p.variants[0].gsm} GSM · {t("Non-woven PP", "PP jo i endur")}
+                    {firstSize.gsm} GSM · {t("Non-woven PP", "PP jo i endur")}
                   </span>
                   <label>
                     <Checkbox
@@ -184,8 +186,8 @@ export function ProductCatalog() {
         </div>
         {!results.length && (
           <div className="empty">
-            {t("No bags match these filters.", "Asnjë çantë nuk përputhet me këta filtra.")}{" "}
-            <button
+            {catalog.length ? t("No bags match these filters.", "Asnjë çantë nuk përputhet me këta filtra.") : t("Contact our team for available bag options.", "Kontaktoni ekipin tonë për çantat në dispozicion.")}{" "}
+            {catalog.length ? <button
               className="text-button"
               onClick={() => {
                 setUse("all");
@@ -193,7 +195,7 @@ export function ProductCatalog() {
               }}
             >
               {t("Reset filters", "Pastro filtrat")}
-            </button>
+            </button> : <Link href="/contact" className="text-button">{t("Contact us", "Na kontaktoni")}</Link>}
           </div>
         )}
         {compare.length > 0 && (
@@ -237,13 +239,13 @@ export function ProductCatalog() {
                         <TableCell key={slug}>
                           {
                             [
-                              p.variants[0].dimensions,
-                              p.variants[0].gsm,
+                              (p.variants.find(v => !cms.options(slug)?.activeSizes || cms.options(slug)!.activeSizes!.includes(v.name)) || p.variants[0]).dimensions,
+                              (p.variants.find(v => !cms.options(slug)?.activeSizes || cms.options(slug)!.activeSizes!.includes(v.name)) || p.variants[0]).gsm,
                               p.handle,
                               t("Non-woven PP", "PP jo i endur"),
                               t(
-                                "Flexographic, up to 4 colors",
-                                "Fleksografik, deri në 4 ngjyra",
+                                `Flexographic, up to ${cms.options(slug)?.printColors || 4} colors`,
+                                `Fleksografik, deri në ${cms.options(slug)?.printColors || 4} ngjyra`,
                               ),
                             ][i]
                           }
@@ -350,7 +352,7 @@ export function ProductDetail({ product: original }: { product: Product }) {
               [t("Fabric weight", "Pesha e materialit"), v.gsm + " g/m²"],
               [t("Material", "Materiali"), t("Non-woven polypropylene (PP)", "Polipropilen jo i endur (PP)")],
               [t("Handle", "Doreza"), p.handle],
-              [t("Printing", "Shtypi"), t("Flexographic · up to 4 colors", "Fleksografik · deri në 4 ngjyra")],
+              [t("Printing", "Shtypi"), t(`Flexographic · up to ${cms.options(p.slug)?.printColors || 4} colors`, `Fleksografik · deri në ${cms.options(p.slug)?.printColors || 4} ngjyra`)],
             ].map(([k, v]) => (
               <div key={k}>
                 <dt>{k}</dt>
@@ -392,8 +394,8 @@ export function ProductDetail({ product: original }: { product: Product }) {
         <div className="section-card">
           <h2>{t("Plan your production", "Planifikoni prodhimin")}</h2>
           <p>
-            {(lang === "en" ? state?.settings.leadTime : undefined) ||
-              t("Indicative dispatch 2–4 weeks after artwork approval, subject to production confirmation.", "Dërgesa orientuese 2–4 javë pas miratimit të dizajnit, sipas konfirmimit të prodhimit.")}{" "}
+            {(lang === "en" ? cms.settings?.leadTime || state?.settings.leadTime : cms.settings?.leadTimeSq) ||
+              t("Timing is confirmed with your quotation.", "Afati konfirmohet me ofertën tuaj.")}{" "}
             {t("Transport time depends on your destination. Custom dimensions are reviewed for feasibility.", "Koha e transportit varet nga destinacioni. Përmasat e veçanta vlerësohen për realizueshmëri.")}
           </p>
         </div>

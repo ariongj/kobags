@@ -1,0 +1,12 @@
+{
+  "status": "passed",
+  "checks": [
+    "CMS names, bilingual copy, custom images, active sizes, comparison GSM, print limits and lead time stay consistent",
+    "Published social profile appears on mobile footer; unsafe and incorrect-platform URLs rejected",
+    "Archived products do not reappear through fallback catalogue data, including an empty catalogue",
+    "Thank you bags: catalogue discovery, refresh/language step recovery, single collection label and successful request",
+    "Smiley bags: catalogue discovery, refresh/language step recovery, single collection label and successful request"
+  ],
+  "browserErrors": [],
+  "scope": "Local compiled Worker, synthetic data, original CMS content restored"
+}

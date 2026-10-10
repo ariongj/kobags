@@ -25,21 +25,6 @@
             ".industrial-secondary"
           ],
           [
-            ".hero-showroom-link"
-          ],
-          [
-            ".hero-showroom-link > span"
-          ],
-          [
-            ".industrial-location > span"
-          ],
-          [
-            ".industrial-location > p"
-          ],
-          [
-            "p > strong"
-          ],
-          [
             ".showcase-overline > span:nth-child(1)"
           ],
           [
@@ -88,7 +73,7 @@
             ".showcase-bottom > span:nth-child(1)"
           ],
           [
-            ".showcase-bottom > span:nth-child(3)"
+            "span:nth-child(3)"
           ],
           [
             "a[href$=\"d-cut-bag\"] > div > span"
@@ -177,6 +162,12 @@
         "id": "color-contrast",
         "nodes": [
           [
+            ".product-photo[href$=\"box-bag\"] > .product-number"
+          ],
+          [
+            "article[data-slug=\"box-bag\"] > .product-copy > .eyebrow"
+          ],
+          [
             ".product-photo[href$=\"d-cut-bag\"] > .product-number"
           ],
           [
@@ -189,19 +180,13 @@
             "article[data-slug=\"handle-bag\"] > .product-copy > .eyebrow"
           ],
           [
-            ".product-photo[href$=\"box-bag\"] > .product-number"
+            ".product-photo[href$=\"string-bag\"] > .product-number"
           ],
           [
             ".product-photo[href$=\"t-shirt-bag\"] > .product-number"
           ],
           [
             "article[data-slug=\"t-shirt-bag\"] > .product-copy > .eyebrow"
-          ],
-          [
-            ".product-photo[href$=\"string-bag\"] > .product-number"
-          ],
-          [
-            "article[data-slug=\"string-bag\"] > .product-copy > .eyebrow"
           ]
         ]
       }

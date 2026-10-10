@@ -25,6 +25,12 @@ Sessions use random opaque cookies, HttpOnly, SameSite=Strict and Secure over HT
 
 The structured preview shows draft text and images; verify video playback on its published page. It is not a full unpublished rendering of the original custom layout. Save/Publish is explicit, and stale revisions are rejected to avoid overwriting another editor. Leaving an edited content record prompts about unsaved changes. Original source-backed page content is retained when overrides are unpublished.
 
+## Social profiles and production guidance
+
+Business settings now includes an optional Albanian production-guidance field. Publish it with the English field so the homepage, product pages and quote form show consistent information. Blank Albanian guidance uses neutral wording that timing is confirmed with the quotation.
+
+Official social-profile fields accept full HTTPS Facebook, Instagram, LinkedIn and YouTube profile URLs. Leave unused platforms blank. Saving a draft does not change the footer; publishing does. The footer hides blank or invalid links. No official profile addresses are pre-filled.
+
 ## Receiving real inquiries
 
 Real shared-inbox handling is **off by default**. Before enabling it:

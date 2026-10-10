@@ -4,7 +4,7 @@
 
 The current headline is **Manufacturing bags. Helping Brands.** Lime accents, including the original logo mask, use the slightly darker `#a6d17a`. The hero contains its introduction and two primary links; corner captions, the right-hand factory stamp, extra quotation prompt, 360 link and the proof strip beneath the photograph are removed. The hero height and bottom spacing are reduced for desktop and mobile. Made in Kosova appears with the production section instead.
 
-Production copy reads **Material. Print. Finished to your specifications.** The printing-video frame is level. The collection includes compact **Thank you bags** and **Smiley bags** category cards above the five physical bag families. These use editorial marks, since matching supplied product photographs are unavailable, and link to quote requests with the chosen collection recorded alongside the buyer's notes. Existing product photographs and the interactive studio remain available.
+Production copy reads **Material. Print. Finished to your specifications.** The printing-video frame is level. The homepage and catalogue include compact **Thank you bags** and **Smiley bags** category cards above the physical bag families. These use editorial marks, since matching supplied product photographs are unavailable, and link to quote requests with the chosen collection recorded alongside the buyer's notes. Existing product photographs and the interactive studio remain available.
 
 Revision: 3 October 2026. Website demonstration, prepared from the supplied audit and the original Kobags website. Edition 05 combines original factory imagery, an interactive 3D showroom, a consistent product collection and a compact bag studio. The final audit refines mobile layouts, enlarged text, accessible controls and the complete design-to-simulated-order journey.
 
@@ -26,7 +26,7 @@ The final delivery pass keeps the same layouts and source photography, with resp
 
 The responsibility page has a dedicated forest-green opening, lime textile-style tag reading “Use. Reuse. Repeat.” (localized in Albanian), lightly drifting leaf outlines and mint material/care panels. The tag expresses an everyday reuse habit, not a certification or a quantified environmental claim. The original material-roll photograph and evidence guidance remain. Small-screen tags become a compact horizontal format; leaf motion stops when reduced motion is preferred.
 
-**Manufacturing bags. Building brands.** The homepage leads with Kobags as a manufacturer: real equipment, material and production footage. The collection shows what the factory produces, and **Your brand. Your bag.** introduces the new customization experience. Preserve the original identity, navy/green palette and factory evidence. The dedicated `/design` page still opens directly into the working designer.
+**Manufacturing bags. Helping Brands.** The homepage leads with Kobags as a manufacturer: real equipment, material and production footage. The collection shows what the factory produces, and **Your brand. Your bag.** introduces the new customization experience. Preserve the original identity, navy/green palette and factory evidence. The dedicated `/design` page still opens directly into the working designer.
 
 The original logo is retained. This is an extension of Kobags' navy/green identity, not a replacement brand. No new logo, fictional client endorsement or production certification is implied.
 

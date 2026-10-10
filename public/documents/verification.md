@@ -1,5 +1,21 @@
 # Kobags website — verification record
 
+## Client-review audit — 10 October 2026
+
+- `qa/client_review_20261010.py`: **5 regression groups passed** using temporary CMS fixtures, restored after testing. Verified bilingual homepage product names, changed imagery, enabled-size counts, print limits, comparison GSM, EN/SQ timing, validated footer social URLs, fully archived catalogue behavior and both collection quote flows through refresh/language switch/submission without duplicate note prefixes.
+- `qa/homepage_review_20261010.py`: **10 checks passed** at 320/390/768/1440px in EN/SQ. The approved darker green, simple hero, production wording, level video and both collection links remain intact.
+- `qa/mobile_site_checks.py`: **55 route/width checks passed**, including menu touch targets, 16px form text, actual touch rotation and short-landscape designer layouts. No captured browser errors or page-level horizontal overflow. The route-count assertion now accommodates the expanded, unique site outline rather than assuming the older 32-route count.
+- `qa/presentation_copy_checks.py`: **50 EN/SQ marketing-page checks passed**, including unique editorial blocks/headings/descriptions, available images and video responses, resource translations and downloadable handoff files. An interrupted local browser run was rerun successfully on the final compiled code.
+- `qa/seo_checks.py`: **48 EN/SQ sitemap URLs passed**, covering crawler HTML, unique metadata, canonical/hreflang, structured data, private-route exclusions and mobile language handoff. This verifies technical implementation, not indexing or rankings.
+- `qa/accessibility_checks.py`: **13 page/state scans**, no automated WCAG A/AA or best-practice violations and no browser errors. Reduced-motion behavior was also checked. Automated checks do not establish complete accessibility conformance.
+- `qa/final_buyer_regressions.py`: **7 groups passed**, including consecutive requests, owned receipts, Albanian receipt persistence, date validation, stale-quote blocking, both artwork faces and repeat-order approvals.
+- `qa/studio_view_recovery_checks.py`: **11 checks passed** across all five families, front/back camera recovery, auto-rotation/pause, idle/offscreen rendering and simulated WebGL loss without losing artwork.
+- Reviewed desktop and mobile homepage captures and mobile catalogue output. A final catalogue adjustment preserves the original family order and numbering when products come from CMS records; a separate desktop/390px browser check passed on the rebuilt output. Captures: `client-review-catalog-1440.jpg` and `client-review-catalog-390.jpg`.
+- Hosting environment inspection confirmed revision 2 contains bootstrap credentials and a notification address; no email-provider key or sender is configured. No environment changes, customer submissions or outbound emails were made for this audit.
+- TypeScript, production build and `git diff --check` passed. Existing framework middleware-deprecation and large-chunk advisories remain; the 3D renderer is loaded dynamically.
+- Client review scope and outstanding inputs are documented in `docs/CLIENT-REVIEW-2026-10-10.md`. Actual-device Safari/Android review, client approvals and operational launch setup remain separate from local Chromium verification.
+
+
 ## Homepage client revision — 10 October 2026
 
 - **10 checks passed** in `qa/homepage_review_20261010.py`: EN/SQ homepage at 320/390/768/1440px, updated heading/accent/logo, removed annotations/proof strip/360 link, level printing video, loaded hero and no horizontal overflow.

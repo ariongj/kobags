@@ -37,7 +37,7 @@ export default function QuoteFlow() {
   const collectionNames: Record<string,string> = {"thank-you":"Thank you bags",smiley:"Smiley bags"};
   const collectionName = collectionNames[collection] || "";
   const collectionPrefix = collectionName ? `Collection: ${collectionName}\n\n` : "";
-  const requestDesign = collectionPrefix ? {...design,note:collectionPrefix+design.note} : design;
+  const requestDesign = collectionPrefix ? {...design,note:collectionPrefix+design.note.replace(/^Collection: (?:Thank you bags|Smiley bags)\n\n/, "")} : design;
   const p = getProduct(design.product);
   const variant =
     p.variants.find((v) => v.name === design.size) || p.variants[0];
@@ -58,17 +58,18 @@ export default function QuoteFlow() {
     : t("No artwork added", "Pa dizajn");
   useEffect(() => {
     const frame = requestAnimationFrame(() => {
+      const params = new URLSearchParams(location.search);
+      const requested = params.get("collection");
+      const requestedCollection = requested === "thank-you" || requested === "smiley" ? requested : "";
+      setCollection(requestedCollection);
       try {
         setStep(
           Math.min(
             3,
-            Math.max(0, Number(localStorage.getItem("kobags-quote-step")) || 0),
+            Math.max(0, Number(localStorage.getItem(requestedCollection ? `kobags-quote-step:${requestedCollection}` : "kobags-quote-step")) || 0),
           ),
         );
       } catch {}
-      const params = new URLSearchParams(location.search);
-      const requestedCollection=params.get("collection");
-      if(requestedCollection==='thank-you'||requestedCollection==='smiley') {setCollection(requestedCollection);setStep(0);}
       const done = params.get("submitted");
       if (done) setSubmitted(done);
       setShowExampleDetails(params.get("demo") === "1");
@@ -79,9 +80,9 @@ export default function QuoteFlow() {
   useEffect(() => {
     if (hydrated)
       try {
-        localStorage.setItem("kobags-quote-step", String(step));
+        localStorage.setItem(collection ? `kobags-quote-step:${collection}` : "kobags-quote-step", String(step));
       } catch {}
-  }, [step, hydrated]);
+  }, [step, hydrated, collection]);
   useEffect(() => {
     if (ready && !design.key) update({ key: crypto.randomUUID() });
   }, [ready, design.key, update]);
@@ -156,6 +157,7 @@ export default function QuoteFlow() {
         id = live.enabled ? await live.send({kind:"quote",design:nextDesign}) : await act({ type: "submit", design: nextDesign });
       }
       if (id) {
+        try { localStorage.setItem(collection ? `kobags-quote-step:${collection}` : "kobags-quote-step", "0"); } catch {}
         if(live.enabled){update({key:crypto.randomUUID(),consent:false});return;}
         setSubmitted(id);
         update({ key: crypto.randomUUID(), consent: false });
@@ -535,9 +537,9 @@ export default function QuoteFlow() {
                     "Kjo është data e kërkuar, jo një zotim për dorëzim.",
                   )}{" "}
                   {t(
-                    state?.settings.leadTime ||
-                      "Indicative dispatch: 2–4 weeks after artwork approval, subject to production confirmation.",
-                    "Dërgimi orientues: 2–4 javë pas miratimit të dizajnit, sipas konfirmimit të prodhimit.",
+                    cms.settings?.leadTime || state?.settings.leadTime ||
+                      "Timing is confirmed with your quotation.",
+                    cms.settings?.leadTimeSq || "Afati konfirmohet me ofertën tuaj.",
                   )}
                 </div>
               </div>

@@ -5,16 +5,16 @@ import Link from "@/components/site-link";
 import {
   ArrowUpRight,
   Paintbrush,
-  Smile,
 } from "lucide-react";
 import { useKobags } from "./kobags-context";
 import { useDemo } from "./demo-store";
 import { products, productMedia } from "@/lib/catalog";
-import { productCopySq } from "@/lib/product-copy";
+import { localizeProduct } from "@/lib/product-copy";
+import { CollectionCategories } from "./collection-categories";
 import BagShowcase from "./bag-showcase";
 
 export default function HomePage() {
-  const { t } = useKobags();
+  const { t, lang } = useKobags();
   const cms=useCms();
   const { state } = useDemo();
   const minimum = cms.settings?.moq || state?.settings.moq || 5000;
@@ -168,7 +168,7 @@ export default function HomePage() {
               {t("FIND YOUR FORMAT", "ZGJIDHNI FORMËN")}
             </p>
             <h2>
-              {t("Five bag families.", "Pesë lloje çantash.")}
+              {cms.products.length === 5 ? t("Five bag families.", "Pesë lloje çantash.") : t("Find your bag.", "Gjeni çantën tuaj.")}
               <br />
               {t("Different ways to carry.", "Mënyra të ndryshme bartjeje.")}
             </h2>
@@ -178,20 +178,15 @@ export default function HomePage() {
             <ArrowUpRight size={16} />
           </Link>
         </div>
-        <div className="home-collection-categories" aria-label={t("Collection categories", "Kategoritë e koleksionit")}>
-          <Link href="/quote?collection=thank-you" className="collection-category">
-            <span className="collection-mark collection-thanks" aria-hidden="true">Thank<br />you.</span>
-            <span><small>{t("COLLECTION", "KOLEKSIONI")}</small><strong>{t("Thank you bags", "Çanta Thank you")}</strong></span>
-            <ArrowUpRight size={20} aria-hidden="true" />
-          </Link>
-          <Link href="/quote?collection=smiley" className="collection-category">
-            <span className="collection-mark" aria-hidden="true"><Smile size={42} strokeWidth={1.4} /></span>
-            <span><small>{t("COLLECTION", "KOLEKSIONI")}</small><strong>{t("Smiley bags", "Çanta Smiley")}</strong></span>
-            <ArrowUpRight size={20} aria-hidden="true" />
-          </Link>
-        </div>
+        <CollectionCategories />
         <div className="home-product-row">
-          {products.map((p, i) => (
+          {[...cms.products].sort((a,b) => products.findIndex(p=>p.slug===a.slug)-products.findIndex(p=>p.slug===b.slug)).map((item, i) => {
+            const p = localizeProduct(item, lang);
+            const original = products.find(original => original.slug === p.slug);
+            const curated = p.image === original?.image && productMedia[p.slug]?.home;
+            const image = curated || p.image;
+            const sizeCount = p.variants.filter(v => !cms.options(p.slug)?.activeSizes || cms.options(p.slug)!.activeSizes!.includes(v.name)).length;
+            return (
             <Link
               className="home-product"
               key={p.slug}
@@ -199,11 +194,11 @@ export default function HomePage() {
             >
               <div>
                 <span>
-                  0{i + 1} / {t(p.handle, productCopySq[p.slug]?.handle).toUpperCase()}
+                  0{i + 1} / {p.handle.toUpperCase()}
                 </span>
                 <img
-                  src={productMedia[p.slug].home.replace(".jpg", "-640.webp")}
-                  srcSet={[320, 640].map(width => `${productMedia[p.slug].home.replace(".jpg", `-${width}.webp`)} ${width}w`).join(", ")}
+                  src={curated ? image.replace(".jpg", "-640.webp") : image}
+                  srcSet={curated ? [320, 640].map(width => `${image.replace(".jpg", `-${width}.webp`)} ${width}w`).join(", ") : undefined}
                   sizes="(max-width: 767px) 44vw, (max-width: 1024px) 28vw, 18vw"
                   alt={p.name}
                   width={220}
@@ -217,13 +212,13 @@ export default function HomePage() {
                 <ArrowUpRight size={17} />
               </h3>
               <p>
-                {t(p.use, productCopySq[p.slug]?.use)}
+                {p.use}
                 <span className="product-size-count">
-                  3 {t("sizes", "madhësi")}
+                  {sizeCount} {sizeCount === 1 ? t("size", "madhësi") : t("sizes", "madhësi")}
                 </span>
               </p>
             </Link>
-          ))}
+          );})}
         </div>
       </section>
       <section className="home-section">
@@ -367,8 +362,8 @@ export default function HomePage() {
               t("How long does production take?", "Sa zgjat prodhimi?"),
               t(
                 cms.settings?.leadTime || state?.settings.leadTime ||
-                  "Published guidance indicates dispatch 2–4 weeks after artwork approval, subject to production confirmation. Transport time is additional.",
-                "Udhëzimi tregon dërgimin 2–4 javë pas miratimit, sipas konfirmimit të prodhimit. Transporti kërkon kohë shtesë.",
+                  "Timing is confirmed with your quotation.",
+                cms.settings?.leadTimeSq || "Afati konfirmohet me ofertën tuaj.",
               ),
             ],
             [

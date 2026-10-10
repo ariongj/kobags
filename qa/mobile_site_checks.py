@@ -13,7 +13,7 @@ async def main():
   async def fits(path,width):
    assert not await page.evaluate('document.documentElement.scrollWidth>document.documentElement.clientWidth'),(path,width,await page.evaluate("Array.from(document.querySelectorAll('main *')).filter(e=>e.getBoundingClientRect().right>innerWidth+2).slice(0,8).map(e=>e.className)"))
    assert await page.locator('h1').count()==1,path
-  await go('/handoff');paths=await page.locator('.outline-group a').evaluate_all('(els)=>els.map(a=>a.getAttribute("href"))');assert len(paths)==32
+  await go('/handoff');paths=await page.locator('.outline-group a').evaluate_all('(els)=>els.map(a=>a.getAttribute("href"))');assert len(paths)>=32 and len(paths)==len(set(paths));assert all(path in paths for path in ['/','/design','/products','/quote','/manufacturing','/sustainability','/bags-kosovo'])
   results=[]
   captures={'/':'home','/products':'catalog','/manufacturing':'manufacturing','/certifications':'certificates','/quote':'quote','/contact':'contact'}
   for path in paths:

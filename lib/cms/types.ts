@@ -1,3 +1,4 @@
+import type { SocialProfiles } from "@/lib/social-profiles";
 import type { Product } from "@/lib/catalog";
 export const roles = ["administrator", "editor", "sales", "designer", "manager", "production"] as const;
 export type Role = typeof roles[number];
@@ -16,7 +17,7 @@ export type Content = {
   product?: Product; productSq?: { name: string; description: string; use: string; handle: string };
   colors?: string[]; activeSizes?: string[]; moq?: number; printColors?: number;
   source?: string; registration?: string; issued?: string; expires?: string;
-  start?: string; end?: string; settings?: { moq: number; leadTime: string; phone: string; email: string; address: string; liveInquiries: boolean };
+  start?: string; end?: string; settings?: { moq: number; leadTime: string; leadTimeSq?: string; phone: string; email: string; address: string; liveInquiries: boolean; social?: SocialProfiles };
 };
 export type CmsRecord = { id: string; kind: string; slug: string; draft: Content; published: Content | null; revision: number; archived: number; updated_at: string };
 export const recordKinds = ["product", "page", "article", "faq", "certificate", "guide", "municipality", "campaign", "copy", "settings"] as const;
