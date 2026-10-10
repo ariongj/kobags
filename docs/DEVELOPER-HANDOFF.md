@@ -1,4 +1,8 @@
 # Kobags Group — code and setup handoff
+## Homepage revision — 10 October 2026
+
+`components/home-page.tsx` removes hero annotations, the repeated 360 link, quotation prompt and immediate proof strip, updates the headline/production copy and introduces two compact printed-collection inquiry links. `components/quote-flow.tsx` accepts only `collection=thank-you` or `collection=smiley`; it shows the selection and includes it in submitted notes for both live and isolated requests, including key-conflict retries. The existing design draft is preserved, note length includes the collection prefix, and starting another request clears the selection. Shared lime accents are `#a6d17a`; the printing-film transform is removed. `qa/homepage_review_20261010.py` covers EN/SQ responsive output and both collection requests with synthetic local data.
+
 ## CMS password access — 4 October 2026
 
 The CMS uses email/password accounts exclusively. `/api/cms/login`, `logout`, `claim` and `password` manage login, server-side session revocation, single-use staff activation and password changes. `/api/cms/reset-password` is restricted to administrators for other staff accounts. `lib/cms/auth.ts` owns the flows; `password.ts` owns hashing and cookies; `core.ts` checks each session and staff permission. Migration 0003 adds credential and session tables. No platform identity header or ChatGPT account grants CMS access. Existing business records remain unchanged. See CMS operations for setup and recovery; actual credentials are provided privately, never embedded in the handoff.

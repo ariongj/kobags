@@ -1,15 +1,15 @@
 {
   "/": {
     "title": {
-      "en": "Manufacturing bags.Building brands.",
-      "sq": "Prodhojmë çanta.Ndërtojmë marka."
+      "en": "Manufacturing bags.Helping Brands.",
+      "sq": "Prodhojmë çanta.Mbështesim markat."
     },
     "sections": [
       {
         "id": "section-1",
         "title": {
-          "en": "Material. Print.Finished to your brief.",
-          "sq": "Material. Shtyp.Sipas kërkesës suaj."
+          "en": "Material. Print.Finished to your specifications.",
+          "sq": "Material. Shtyp.Sipas specifikimeve tuaja."
         },
         "body": {
           "en": "Follow the three decisions that shape your bag: its construction, its print and its finished specification.",

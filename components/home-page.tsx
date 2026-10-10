@@ -4,10 +4,8 @@ import { CertificateShowcase } from "./certificate-showcase";
 import Link from "@/components/site-link";
 import {
   ArrowUpRight,
-  ArrowRight,
-  Package,
   Paintbrush,
-  Factory,
+  Smile,
 } from "lucide-react";
 import { useKobags } from "./kobags-context";
 import { useDemo } from "./demo-store";
@@ -46,7 +44,7 @@ export default function HomePage() {
           <h1>
             {t("Manufacturing bags.", "Prodhojmë çanta.")}
             <br />
-            <em>{t("Building brands.", "Ndërtojmë marka.")}</em>
+            <em>{t("Helping Brands.", "Mbështesim markat.")}</em>
           </h1>
           <p className="industrial-lead">
             {t(
@@ -64,68 +62,20 @@ export default function HomePage() {
               <ArrowUpRight size={18} />
             </Link>
           </div>
-          <a className="hero-showroom-link" href="#bag-showcase">
-            <span>360°</span>
-            {t("Explore your bag in 3D", "Eksploroni çantën në 3D")}
-            <ArrowRight size={17} />
-          </a>
-          <p className="industrial-quote-link">
-            {t(
-              "Planning your next wholesale order?",
-              "Po planifikoni porosinë e radhës?",
-            )}{" "}
-            <Link href="/quote">
-              {t("Talk to us", "Na kontaktoni")} <ArrowRight size={15} />
-            </Link>
-          </p>
-        </div>
-        <div className="hero-factory-stamp">
-          <Factory size={23} />
-          <span>
-            {t("FROM THE FACTORY FLOOR", "NGA LINJA E PRODHIMIT")}
-            <strong>{t("Custom bag production.", "Prodhim i personalizuar.")}</strong>
-          </span>
-        </div>
-        <div className="industrial-location">
-          <span>01 / KOBAGS GROUP</span>
-          <p>
-            {t("Inside Kobags", "Brenda Kobags")}
-            <strong>{t("Material rolls & machinery", "Rula materiali dhe makineri")}</strong>
-          </p>
         </div>
       </section>
-      <div className="home-proof-strip industrial-proof-strip">
-        <span>
-          <Factory size={20} />
-          {t("Made in Kosova", "Prodhuar në Kosovë")}
-        </span>
-        <span>
-          <Paintbrush size={20} />
-          {t(
-            "Custom flexographic printing",
-            "Shtyp fleksografik i personalizuar",
-          )}
-        </span>
-        <span>
-          <Package size={20} />
-          {t(
-            "Wholesale from",
-            "Me shumicë nga",
-          )} {minimum.toLocaleString()} {t("bags", "çanta")}
-        </span>
-      </div>
       <section
         className="home-production home-section"
         aria-labelledby="production-heading"
       >
         <div className="home-production-copy">
           <p className="eyebrow">
-            {t("HOW WE MAKE IT", "SI I PRODHOJMË")}
+            {t("Made in Kosova", "Prodhuar në Kosovë")}
           </p>
           <h2 id="production-heading">
             {t("Material. Print.", "Material. Shtyp.")}
             <br />
-            {t("Finished to your brief.", "Sipas kërkesës suaj.")}
+            {t("Finished to your specifications.", "Sipas specifikimeve tuaja.")}
           </h2>
           <p>
             {t(
@@ -226,6 +176,18 @@ export default function HomePage() {
           <Link href="/products" className="text-button">
             {t("View the whole collection", "Shikoni të gjithë koleksionin")}{" "}
             <ArrowUpRight size={16} />
+          </Link>
+        </div>
+        <div className="home-collection-categories" aria-label={t("Collection categories", "Kategoritë e koleksionit")}>
+          <Link href="/quote?collection=thank-you" className="collection-category">
+            <span className="collection-mark collection-thanks" aria-hidden="true">Thank<br />you.</span>
+            <span><small>{t("COLLECTION", "KOLEKSIONI")}</small><strong>{t("Thank you bags", "Çanta Thank you")}</strong></span>
+            <ArrowUpRight size={20} aria-hidden="true" />
+          </Link>
+          <Link href="/quote?collection=smiley" className="collection-category">
+            <span className="collection-mark" aria-hidden="true"><Smile size={42} strokeWidth={1.4} /></span>
+            <span><small>{t("COLLECTION", "KOLEKSIONI")}</small><strong>{t("Smiley bags", "Çanta Smiley")}</strong></span>
+            <ArrowUpRight size={20} aria-hidden="true" />
           </Link>
         </div>
         <div className="home-product-row">

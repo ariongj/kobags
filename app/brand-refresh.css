@@ -157,7 +157,7 @@
   margin: 30px 0 27px;
 }
 .brand-home-v5 .industrial-hero h1 em {
-  color: #c6eb9d;
+  color: #a6d17a;
 }
 .brand-home-v5 .industrial-lead {
   font-size: 17px;
@@ -167,9 +167,9 @@
   margin-bottom: 27px;
 }
 .brand-home-v5 .industrial-hero .button {
-  background: #c6eb9d;
+  background: #a6d17a;
   color: #15342d;
-  border-color: #c6eb9d;
+  border-color: #a6d17a;
 }
 .brand-home-v5 .industrial-hero .industrial-secondary {
   background: #ffffff08;
@@ -192,7 +192,7 @@
   padding: 3px 9px;
 }
 .hero-showroom-link:hover {
-  color: #c6eb9d;
+  color: #a6d17a;
 }
 .brand-home-v5 .industrial-quote-link {
   display: none;
@@ -214,7 +214,7 @@
   border: 1px solid #ffffff35;
   backdrop-filter: blur(12px);
   padding: 22px 26px;
-  color: #c6eb9d;
+  color: #a6d17a;
   border-radius: 4px;
 }
 .hero-factory-stamp > span {
@@ -292,7 +292,7 @@
   box-shadow: 0 18px 55px #17353b18;
   background: #0e2b37;
   overflow: hidden;
-  transform: rotate(1deg);
+  transform: none;
 }
 .kobags-v5 .production-film-heading {
   background: #0e2b37;
@@ -364,7 +364,7 @@
   z-index: 2;
 }
 .showcase-copy .eyebrow {
-  color: #c6eb9d;
+  color: #a6d17a;
   font-size: 11px;
 }
 .kobags-v5 .showcase-copy h2 {
@@ -376,7 +376,7 @@
 }
 .showcase-copy h2 em {
   font-style: normal;
-  color: #c6eb9d;
+  color: #a6d17a;
 }
 .showcase-copy > p:not(.eyebrow):not(.showcase-note) {
   max-width: 420px;
@@ -408,8 +408,8 @@
 }
 .showcase-personalize input:focus {
   outline: 0;
-  border-color: #c6eb9d;
-  box-shadow: 0 1px 0 #c6eb9d;
+  border-color: #a6d17a;
+  box-shadow: 0 1px 0 #a6d17a;
 }
 .showcase-color-label {
   display: flex;
@@ -448,7 +448,7 @@
   color: #16352d;
 }
 .kobags-v5 .showcase-cta {
-  background: #c6eb9d;
+  background: #a6d17a;
   color: #17372a;
   min-height: 54px;
   gap: 23px;
@@ -946,7 +946,7 @@
   font-size: 14px;
 }
 .kobags-v5 .catalog-end .button {
-  background: #c6eb9d;
+  background: #a6d17a;
   color: #123a2a;
 }
 .kobags-v5 .detail-photo {
@@ -1015,7 +1015,7 @@
   padding: 50px;
 }
 .kobags-v5 .material-feature > span {
-  color: #c6eb9d;
+  color: #a6d17a;
   border-color: #779b79;
 }
 .kobags-v5 .material-feature h2 {
@@ -1069,7 +1069,7 @@
 }
 .kobags-v5 .resource-download {
   background: #153d33;
-  color: #c6eb9d;
+  color: #a6d17a;
   padding: 35px;
   border-radius: 10px;
 }
@@ -1080,7 +1080,7 @@
   color: #bed0c0;
 }
 .kobags-v5 .resource-download > .button {
-  background: #c6eb9d;
+  background: #a6d17a;
   color: #173b2b;
 }
 .kobags-v5 .journal-card {
@@ -1262,7 +1262,7 @@
 }
 .footer-invitation h2 em {
   font-style: normal;
-  color: #c6eb9d;
+  color: #a6d17a;
 }
 .footer-design-link {
   width: 105px;
@@ -1271,14 +1271,14 @@
   place-items: center;
   border-radius: 50%;
   border: 1px solid #a8c99d;
-  color: #c6eb9d;
+  color: #a6d17a;
   flex-shrink: 0;
   transition:
     background 0.25s,
     transform 0.25s;
 }
 .footer-design-link:hover {
-  background: #c6eb9d;
+  background: #a6d17a;
   color: #0c2833;
   transform: rotate(6deg);
 }
@@ -1312,7 +1312,7 @@
   margin-bottom: 12px;
 }
 .kobags-v5 .footer a:hover {
-  color: #c6eb9d;
+  color: #a6d17a;
 }
 .kobags-v5 .footer-bottom {
   max-width: 1310px;
@@ -2122,8 +2122,8 @@
 }
 .showcase-construction:hover,
 .showcase-construction[aria-pressed="true"] {
-  background: #c6eb9d18;
-  border-color: #c6eb9d77;
+  background: #a6d17a18;
+  border-color: #a6d17a77;
   color: #d8f4bd;
 }
 .showcase-fallback .bag-canvas {

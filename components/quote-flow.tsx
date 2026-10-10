@@ -33,6 +33,11 @@ export default function QuoteFlow() {
   const [submitted, setSubmitted] = useState("");
   const [hydrated, setHydrated] = useState(false);
   const [showExampleDetails, setShowExampleDetails] = useState(false);
+  const [collection, setCollection] = useState("");
+  const collectionNames: Record<string,string> = {"thank-you":"Thank you bags",smiley:"Smiley bags"};
+  const collectionName = collectionNames[collection] || "";
+  const collectionPrefix = collectionName ? `Collection: ${collectionName}\n\n` : "";
+  const requestDesign = collectionPrefix ? {...design,note:collectionPrefix+design.note} : design;
   const p = getProduct(design.product);
   const variant =
     p.variants.find((v) => v.name === design.size) || p.variants[0];
@@ -62,6 +67,8 @@ export default function QuoteFlow() {
         );
       } catch {}
       const params = new URLSearchParams(location.search);
+      const requestedCollection=params.get("collection");
+      if(requestedCollection==='thank-you'||requestedCollection==='smiley') {setCollection(requestedCollection);setStep(0);}
       const done = params.get("submitted");
       if (done) setSubmitted(done);
       setShowExampleDetails(params.get("demo") === "1");
@@ -91,6 +98,7 @@ export default function QuoteFlow() {
         return "date";
     }
     if (step === 3) {
+      if(requestDesign.note.length>requestFieldLimits.note)return "note";
       if (
         design.company.trim().length < 2 ||
         design.contact.trim().length < 2 ||
@@ -102,6 +110,7 @@ export default function QuoteFlow() {
     return "";
   };
   const messages: Record<string, [string, string]> = {
+    note: ["Please shorten your additional notes to fit the collection request.","Ju lutemi shkurtoni shënimet shtesë për kërkesën e koleksionit."],
     unavailable: ['Choose an available bag and size to continue. Your artwork is kept.', 'Zgjidhni një çantë dhe madhësi të disponueshme. Dizajni juaj ruhet.'],
     quantity: [
       `The published wholesale minimum is ${minimum.toLocaleString()} bags. For a smaller request, use the sample inquiry.`,
@@ -137,12 +146,12 @@ export default function QuoteFlow() {
     try {
       let id: string | undefined;
       try {
-        id = live.enabled ? await live.send({kind:"quote",design}) : await act({ type: "submit", design });
+        id = live.enabled ? await live.send({kind:"quote",design:requestDesign}) : await act({ type: "submit", design:requestDesign });
       } catch (cause) {
         if (!(cause instanceof Error) || cause.message !== "REQUEST_KEY_CONFLICT") throw cause;
         // Only a confirmed key collision gets a fresh key; an uncertain network
         // result retains the original key so retrying cannot duplicate a save.
-        const nextDesign = { ...design, key: crypto.randomUUID() };
+        const nextDesign = { ...requestDesign, key: crypto.randomUUID() };
         update({ key: nextDesign.key });
         id = live.enabled ? await live.send({kind:"quote",design:nextDesign}) : await act({ type: "submit", design: nextDesign });
       }
@@ -208,6 +217,7 @@ export default function QuoteFlow() {
           className="text-button"
           onClick={() => {
             setSubmitted("");
+            setCollection("");
             setStep(0);
             update({ key: crypto.randomUUID() });
             history.replaceState(null, "", languageHref("/quote", lang));
@@ -283,6 +293,7 @@ export default function QuoteFlow() {
             <ArrowRight size={15} />
           </button>
         </div>}
+        {collectionName&&<div className="quote-collection-note"><strong>{collectionName}</strong><span>{t("Collection included in your quote request. Choose your bag specifications below.","Koleksioni përfshihet në kërkesën për ofertë. Zgjidhni specifikimet më poshtë.")}</span></div>}
         <div className="quote-progress">
           {[
             [t("Bag & purpose", "Çanta dhe qëllimi")],
@@ -556,7 +567,7 @@ export default function QuoteFlow() {
                   <textarea
                     id="q-note"
                     rows={3}
-                    maxLength={3000}
+                    maxLength={requestFieldLimits.note-collectionPrefix.length}
                     value={design.note}
                     onChange={(e) => update({ note: e.target.value })}
                   />

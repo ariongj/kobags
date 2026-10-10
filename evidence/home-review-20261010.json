@@ -1,0 +1,17 @@
+{
+  "status": "passed",
+  "checks": [
+    "en homepage 320px: clean hero, copy, accent, level video and no overflow",
+    "en homepage 390px: clean hero, copy, accent, level video and no overflow",
+    "en homepage 768px: clean hero, copy, accent, level video and no overflow",
+    "en homepage 1440px: clean hero, copy, accent, level video and no overflow",
+    "sq homepage 320px: clean hero, copy, accent, level video and no overflow",
+    "sq homepage 390px: clean hero, copy, accent, level video and no overflow",
+    "sq homepage 768px: clean hero, copy, accent, level video and no overflow",
+    "sq homepage 1440px: clean hero, copy, accent, level video and no overflow",
+    "Thank you bags: link and localized quote submission preserve selected collection and customer notes",
+    "Smiley bags: link and localized quote submission preserve selected collection and customer notes"
+  ],
+  "browserErrors": [],
+  "scope": "local compiled Worker; synthetic requests only"
+}

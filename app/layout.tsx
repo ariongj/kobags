@@ -17,7 +17,7 @@ import StructuredData from "@/components/structured-data";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_ORIGIN),
   title: {
-    default: "Kobags Group | Manufacturing bags. Building brands.",
+    default: "Kobags Group | Manufacturing bags. Helping Brands.",
     template: "%s | Kobags Group",
   },
   description:

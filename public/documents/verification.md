@@ -1,5 +1,11 @@
 # Kobags website — verification record
 
+## Homepage client revision — 10 October 2026
+
+- **10 checks passed** in `qa/homepage_review_20261010.py`: EN/SQ homepage at 320/390/768/1440px, updated heading/accent/logo, removed annotations/proof strip/360 link, level printing video, loaded hero and no horizontal overflow.
+- Both collection links reached their localized quote flow and saved the selected collection with the buyer's original notes in isolated local requests. No external email or customer request was sent.
+- No captured browser JavaScript errors. Desktop/mobile hero and collection screenshots are `home-review-20261010-*` and `home-collections-20261010-*`; results are in `home-review-20261010.json`.
+
 ## CMS email/password access — 4 October 2026
 
 - `qa/cms_checks.py`: all **12 acceptance groups passed again using password accounts**, including content publication, inquiry-to-production, private-file permissions, clean quotation printing, mobile CMS layouts and backup recovery.

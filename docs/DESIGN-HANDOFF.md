@@ -1,5 +1,11 @@
 # Kobags Group — design handoff
 
+## Homepage client revisions — 10 October 2026
+
+The current headline is **Manufacturing bags. Helping Brands.** Lime accents, including the original logo mask, use the slightly darker `#a6d17a`. The hero contains its introduction and two primary links; corner captions, the right-hand factory stamp, extra quotation prompt, 360 link and the proof strip beneath the photograph are removed. The hero height and bottom spacing are reduced for desktop and mobile. Made in Kosova appears with the production section instead.
+
+Production copy reads **Material. Print. Finished to your specifications.** The printing-video frame is level. The collection includes compact **Thank you bags** and **Smiley bags** category cards above the five physical bag families. These use editorial marks, since matching supplied product photographs are unavailable, and link to quote requests with the chosen collection recorded alongside the buyer's notes. Existing product photographs and the interactive studio remain available.
+
 Revision: 3 October 2026. Website demonstration, prepared from the supplied audit and the original Kobags website. Edition 05 combines original factory imagery, an interactive 3D showroom, a consistent product collection and a compact bag studio. The final audit refines mobile layouts, enlarged text, accessible controls and the complete design-to-simulated-order journey.
 
 The final pass aligns photo artwork and PNG exports with the same saved positions used in 3D, including near the fabric edges. Selected overlapping layers remain independently draggable, paused drags undo as one action, and fullscreen/photo fallback stay editable. Original production galleries now use only verified supplied photographs; the D-Cut family has two distinct originals rather than an illustrative third image.
