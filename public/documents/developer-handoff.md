@@ -1,5 +1,12 @@
 # Kobags Group — code and setup handoff
 
+## Studio visual refinement — 10 October 2026
+
+`lib/studio-scene.ts` replaces detached Box/Handle cavity boxes with inward-offset copies of the rendered front/back and gusset meshes. `rimY` and `gussetFold` keep hem, face and base geometry aligned. Interior vertex color supplies smooth depth shading, with the same photo-derived cloth map on interiors and seams. The original family coordinate/UV system is retained for artwork. Handle thickness and bump strength are reduced. Directional PCF self-shadows use one cached 1024px map per model, explicitly disposed with the scene. Color/artwork changes do not invalidate this static geometry shadow. No dependencies, schema or saved-design migration is required.
+
+`qa/studio_visual_quality_checks.py` captures 12 desktop color/angle combinations and all five families at 320/390px. Existing 3D interaction and view-recovery suites cover control and rendering behavior. Screenshots are visual QA evidence, not dimensional validation against a physical sample.
+
+
 ## Client-review consistency pass — 10 October 2026
 
 Homepage and catalogue use published CMS products, including the empty-catalogue case. Home cards retain source ordering and curated optimized imagery unless a different product image is published. Available-size counts, first-active-size comparison values and print-color limits follow the same records. Optional `settings.leadTimeSq` supplies Albanian production guidance alongside `leadTime`; homepage, detail and quote views consume them.

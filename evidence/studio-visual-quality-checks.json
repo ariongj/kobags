@@ -1,0 +1,29 @@
+{
+  "status": "passed",
+  "checks": [
+    "Box / Natural / front: rendered without fallback",
+    "Box / Natural / angle: rendered without fallback",
+    "Box / Natural / interior: rendered without fallback",
+    "Box / Forest green / front: rendered without fallback",
+    "Box / Forest green / angle: rendered without fallback",
+    "Box / Forest green / interior: rendered without fallback",
+    "Handle / Natural / front: rendered without fallback",
+    "Handle / Natural / angle: rendered without fallback",
+    "Handle / Natural / interior: rendered without fallback",
+    "Handle / Forest green / front: rendered without fallback",
+    "Handle / Forest green / angle: rendered without fallback",
+    "Handle / Forest green / interior: rendered without fallback",
+    "Box / White / 320px: rendered, controls reachable, no horizontal overflow",
+    "Handle / White / 320px: rendered, controls reachable, no horizontal overflow",
+    "D-Cut / White / 320px: rendered, controls reachable, no horizontal overflow",
+    "T-Shirt / White / 320px: rendered, controls reachable, no horizontal overflow",
+    "String / White / 320px: rendered, controls reachable, no horizontal overflow",
+    "Box / White / 390px: rendered, controls reachable, no horizontal overflow",
+    "Handle / White / 390px: rendered, controls reachable, no horizontal overflow",
+    "D-Cut / White / 390px: rendered, controls reachable, no horizontal overflow",
+    "T-Shirt / White / 390px: rendered, controls reachable, no horizontal overflow",
+    "String / White / 390px: rendered, controls reachable, no horizontal overflow"
+  ],
+  "browserErrors": [],
+  "scope": "Compiled local Worker, screenshot comparison and responsive rendering; no claim of scan accuracy"
+}

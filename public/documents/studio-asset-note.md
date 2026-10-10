@@ -1,5 +1,12 @@
 # Studio image provenance
 
+## Open-top and material refinement — 10 October 2026
+
+The Box and Handle interiors now follow the actual curved front/back panels and folded gussets. Their floors and undersides share the fold profile; the earlier rectangular insert, thick rim rails and protruding rectangular base are removed. Thin fabric hems and inset seams follow the mouth. Small edge relaxation and gusset variation soften the otherwise rigid outline.
+
+Interior surfaces use the client-derived fabric crop with gradual corner/depth shading. Seam color comes from that same crop. Reduced bump relief avoids an exaggerated textured-plastic appearance. A cached 1024px directional shadow adds handle/cloth self-shadowing while the existing soft floor contact shadow remains. The static light shadow is computed once per model and its resources are disposed when switching bags; idle/offscreen rendering behavior remains part of verification. These refinements do not turn the illustrative model into a measured scan or change its saved artwork coordinate system.
+
+
 ## Current photo-based designer
 
 The current `studio-real-*` blank mockups are derived from the client's supplied product photographs in `CoBag-20260928T203801Z-1-001.zip`. Image generation removed printed artwork while retaining a photographic reference for each bag family. The T-Shirt Natural variant recolors that blank fabric to a warm natural shade. These are edited illustrative previews, not untouched photos of a finished order.

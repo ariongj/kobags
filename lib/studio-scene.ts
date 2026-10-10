@@ -49,6 +49,8 @@ export function createStudioScene(
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.05;
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   const canvas = renderer.domElement;
   canvas.tabIndex = 0;
   canvas.setAttribute("role", "img");
@@ -74,6 +76,18 @@ export function createStudioScene(
   scene.add(new THREE.HemisphereLight(0xffffff, 0x718177, 2.15));
   const key = new THREE.DirectionalLight(0xfff7e8, 3.5);
   key.position.set(-4, 7, 6);
+  key.castShadow = true;
+  key.shadow.mapSize.set(1024, 1024);
+  key.shadow.camera.left = key.shadow.camera.bottom = -3.5;
+  key.shadow.camera.right = key.shadow.camera.top = 3.5;
+  key.shadow.camera.near = 0.5;
+  key.shadow.camera.far = 18;
+  key.shadow.bias = -0.0003;
+  key.shadow.normalBias = 0.015;
+  key.shadow.radius = 3;
+  // Only the camera moves. Reuse the static cloth shadow during orbiting.
+  key.shadow.autoUpdate = false;
+  key.shadow.needsUpdate = true;
   scene.add(key);
   const fill = new THREE.DirectionalLight(0xd6e7ef, 1.65);
   fill.position.set(5, 3, -4);
@@ -113,7 +127,7 @@ export function createStudioScene(
     roughness: 0.88,
     map: bump,
     bumpMap: bump,
-    bumpScale: 0.024,
+    bumpScale: 0.005,
     side: THREE.DoubleSide,
   });
   const seamMat = new THREE.MeshStandardMaterial({
@@ -129,7 +143,10 @@ export function createStudioScene(
   materials.add(cordMat);
   const innerMat = new THREE.MeshStandardMaterial({
     color: colors[0].hex,
-    roughness: 0.98,
+    roughness: 1,
+    bumpMap: bump,
+    bumpScale: 0.003,
+    vertexColors: true,
     side: THREE.DoubleSide,
   });
   materials.add(innerMat);
@@ -170,6 +187,17 @@ export function createStudioScene(
       0.018 * Math.sin(x * 15 + y * 3) * edge
     );
   }
+  function rimY(x: number, y: number) {
+    const settle = spec.handles ? 0.028 * (1 - Math.pow(x / half, 2)) * Math.pow(THREE.MathUtils.clamp((y - top + 0.3) / 0.3, 0, 1), 2) : 0;
+    return y - settle;
+  }
+  function gussetFold(u: number, y: number) {
+    const t = THREE.MathUtils.clamp((y - bottom) / (top - bottom), 0, 1);
+    const crease = product === "box-bag" ? 0.14 : product === "t-shirt-bag" ? 0.16 : 0.075;
+    const relaxed = spec.handles ? 0.8 + 0.2 * Math.sin(t * Math.PI) : 1;
+    const wrinkle = spec.handles ? 0.008 * Math.sin(t * 16 + u * 4) * Math.sin(t * Math.PI) : 0;
+    return Math.sin(u * Math.PI) * (crease * relaxed + wrinkle);
+  }
   function add(
     g: THREE.BufferGeometry,
     material: THREE.Material = fabric,
@@ -178,6 +206,8 @@ export function createStudioScene(
     geometries.add(g);
     materials.add(material);
     const m = new THREE.Mesh(g, material);
+    m.castShadow = material !== innerMat && !material.transparent;
+    m.receiveShadow = true;
     parent.add(m);
     return m;
   }
@@ -284,7 +314,7 @@ export function createStudioScene(
   const photographedFabric = new THREE.MeshStandardMaterial({
     map: photoTexture,
     bumpMap: bump,
-    bumpScale: 0.012,
+    bumpScale: 0.004,
     roughness: 0.92,
     metalness: 0,
     side: THREE.FrontSide,
@@ -293,47 +323,48 @@ export function createStudioScene(
   const rearFabric = photographedFabric.clone();
   rearFabric.map = rearTexture;
   materials.add(rearFabric);
+  // The lining follows the actual cloth surfaces. A second rectangular box
+  // left floating corners, chunky rails and dark panels in tilted views.
+  function interiorShade(g: THREE.BufferGeometry, floor = false) {
+    const pos = g.getAttribute("position");
+    const shades = new Float32Array(pos.count * 3);
+    for (let i = 0; i < pos.count; i++) {
+      const height = THREE.MathUtils.clamp((pos.getY(i) - bottom) / (top - bottom), 0, 1);
+      const corner = Math.pow(Math.min(1, Math.abs(pos.getX(i)) / half), 6);
+      const shade = floor ? 0.56 - 0.1 * corner : 0.51 + 0.37 * Math.sqrt(height) - 0.07 * corner;
+      shades.set([shade, shade, shade], i * 3);
+    }
+    g.setAttribute("color", new THREE.BufferAttribute(shades, 3));
+    return g;
+  }
   if (spec.handles && !photoShell) {
-    // A recessed floor and four inner walls leave a visible opening when the
-    // customer tilts the bag, rather than a solid lid across the top.
-    // Gussets fold inward near the mouth, so the cavity walls sit inside
-    // that fold instead of showing as dark squares on the outside.
-    const openingWidth = width - 0.42;
-    const openingDepth = depth - 0.14;
-    const innerBottom = bottom + 0.055;
-    const innerHeight = top - innerBottom;
-    const cavity = add(
-      new THREE.BoxGeometry(openingWidth, 0.012, openingDepth),
-      innerMat,
-    );
-    cavity.position.y = innerBottom;
     for (const face of [-1, 1]) {
-      const wall = add(
-        new THREE.BoxGeometry(openingWidth, innerHeight, 0.014),
-        innerMat,
-      );
-      wall.position.set(0, innerBottom + innerHeight / 2, face * openingDepth / 2);
-      const lip = add(new THREE.BoxGeometry(width, 0.025, 0.052));
-      lip.position.set(0, top - 0.006, face * (depth / 2 - 0.026));
+      const lining = faceGeometry(true);
+      const pos = lining.getAttribute("position");
+      for (let i = 0; i < pos.count; i++)
+        pos.setXYZ(i, pos.getX(i) * 0.994, Math.max(bottom + 0.026, pos.getY(i)), pos.getZ(i) - 0.014);
+      lining.computeVertexNormals();
+      const wall = add(interiorShade(lining), innerMat);
+      if (face < 0) wall.rotation.y = Math.PI;
+      // Folded webbing across the mouth: a thin textile band, not a box rail.
+      const hem = new THREE.PlaneGeometry(width, 0.065, 56, 3);
+      const hp = hem.getAttribute("position");
+      for (let i = 0; i < hp.count; i++) {
+        const x = hp.getX(i), y = hp.getY(i) + top - 0.0325;
+        hp.setXYZ(i, xAt(x, y), rimY(x,y), zAt(x, y) + 0.004);
+      }
+      hem.computeVertexNormals();
+      const band = add(hem);
+      if (face < 0) band.rotation.y = Math.PI;
+      for (const inset of [0.005, 0.057]) {
+        const points: THREE.Vector3[] = [];
+        for (let i = 0; i <= 48; i++) {
+          const x = -half + width * i / 48, y = top - inset;
+          points.push(new THREE.Vector3(xAt(x,y), rimY(x,y), face * (zAt(x,y) + 0.006)));
+        }
+        seam(points, inset < 0.01 ? 0.0045 : 0.0025);
+      }
     }
-    for (const side of [-1, 1]) {
-      const wall = add(
-        new THREE.BoxGeometry(0.014, innerHeight, openingDepth),
-        innerMat,
-      );
-      wall.position.set(side * openingWidth / 2, innerBottom + innerHeight / 2, 0);
-      const lip = add(new THREE.BoxGeometry(0.052, 0.025, depth));
-      lip.position.set(side * (half - 0.026), top - 0.006, 0);
-    }
-    for (const face of [-1, 1])
-      seam(
-        [
-          new THREE.Vector3(-half + 0.025, top - 0.012, face * depth / 2),
-          new THREE.Vector3(0, top - 0.024, face * (depth / 2 + 0.012)),
-          new THREE.Vector3(half - 0.025, top - 0.012, face * depth / 2),
-        ],
-        0.013,
-      );
   }
   function subdivideShape(geometry: THREE.BufferGeometry, divisions = 10) {
     const source = geometry.index ? geometry.toNonIndexed() : geometry;
@@ -384,7 +415,7 @@ export function createStudioScene(
       const x = pos.getX(i),
         y = pos.getY(i) + (shaped ? 0 : (top + bottom) / 2);
       const xx = xAt(x, y);
-      pos.setXYZ(i, xx, y, zAt(x, y));
+      pos.setXYZ(i, xx, rimY(x,y), zAt(x, y));
       // Register both faces in the same normalized canvas space as the 2D editor.
       const fullTop = spec.handles ? top + 1.1 : top;
       const fullHeight = fullTop - bottom;
@@ -429,7 +460,7 @@ export function createStudioScene(
     const ink = new THREE.MeshStandardMaterial({
       map: texture,
       bumpMap: bump,
-      bumpScale: 0.012,
+      bumpScale: 0.004,
       roughness: 0.92,
       metalness: 0,
       transparent: true,
@@ -461,7 +492,7 @@ export function createStudioScene(
       seam(pts);
     }
     if (!shaped)
-      for (const y of [bottom + 0.04, top - 0.045]) {
+      for (const y of [bottom + 0.04]) {
         const pts: THREE.Vector3[] = [];
         for (let i = 0; i <= 36; i++) {
           const x = -half + 0.03 + ((width - 0.06) * i) / 36;
@@ -491,7 +522,7 @@ export function createStudioScene(
             positions.push(
               px,
               py,
-              z + face * (thickness * 0.012 + 0.006 * Math.sin(t * 5)),
+              z + face * (thickness * 0.006 + 0.006 * Math.sin(t * 5)),
             );
             uv.push((edge + 1) / 2, (i / 60) * 0.95);
           }
@@ -499,7 +530,7 @@ export function createStudioScene(
           const px = x - ((edge * dy) / length) * 0.1,
             py = y + ((edge * dx) / length) * 0.1;
           edges[(edge + 1) / 2].push(
-            new THREE.Vector3(px, py, z + face * 0.015),
+            new THREE.Vector3(px, py, z + face * 0.009),
           );
         }
         if (i < 60) {
@@ -611,8 +642,7 @@ export function createStudioScene(
     for (let i = 0; i < pos.count; i++) {
       const z = pos.getX(i),
         y = pos.getY(i) + (sideTop + bottom) / 2;
-      const fold = Math.sin((z / depth + 0.5) * Math.PI) *
-        (product === "box-bag" ? 0.14 : product === "t-shirt-bag" ? 0.16 : 0.075);
+      const fold = gussetFold(z / depth + 0.5, y);
       const outerX = outerRightAt(y);
       // outerRightAt returns the warped silhouette coordinate. zAt expects
       // the unwarped coordinate used by the front/back mesh; using the warped
@@ -641,8 +671,42 @@ export function createStudioScene(
     }
     g.computeVertexNormals();
     add(g);
+    if (spec.handles) {
+      const lining = g.clone();
+      const lp = lining.getAttribute("position");
+      for (let i = 0; i < lp.count; i++)
+        lp.setXYZ(i, lp.getX(i) - side * 0.012, Math.max(bottom + 0.026, lp.getY(i)), lp.getZ(i) * 0.982);
+      lining.computeVertexNormals();
+      add(interiorShade(lining), innerMat);
+      for (const inset of [0.005, 0.057]) {
+        const points: THREE.Vector3[] = [];
+        const y = top - inset;
+        for (let i = 0; i <= 32; i++) {
+          const u = i / 32;
+          const fold = gussetFold(u, y);
+          points.push(new THREE.Vector3(side * (Math.abs(xAt(half,y)) - fold), y, (2*u-1)*zAt(half,y)));
+        }
+        seam(points, inset < 0.01 ? 0.0045 : 0.0025);
+      }
+    }
   }
-  if (!photoShell) {
+  if (spec.handles) {
+    const floor = new THREE.PlaneGeometry(width, depth, 40, 16);
+    const fp = floor.getAttribute("position");
+    for (let i = 0; i < fp.count; i++) {
+      const x = fp.getX(i), v = fp.getY(i) / depth + 0.5;
+      const fold = gussetFold(v, bottom);
+      fp.setXYZ(i, (x/half)*(Math.abs(xAt(half,bottom))-fold-0.008), bottom+0.026, (2*v-1)*(zAt(x,bottom)-0.009));
+    }
+    floor.computeVertexNormals();
+    add(interiorShade(floor, true), innerMat);
+    const underside = floor.clone();
+    const up = underside.getAttribute("position");
+    for (let i = 0; i < up.count; i++) up.setY(i, bottom + 0.004);
+    underside.deleteAttribute("color");
+    add(underside);
+  }
+  if (!photoShell && !spec.handles) {
     const baseWidth = shaped ? 2 * outerRightAt(bottom + 0.025) : width - 0.01;
     const base = add(
       new THREE.BoxGeometry(baseWidth, 0.025, depth),
@@ -1148,11 +1212,9 @@ export function createStudioScene(
     update(design, front, back, selected, photo) {
       currentDesign = design;
       selection = selected;
-      const hex = (colors.find((c) => c.name === design.color) || colors[0])
-        .hex;
       fabric.color.set(0xffffff);
-      seamMat.color.set(hex).multiplyScalar(0.84);
-      innerMat.color.set(hex).multiplyScalar(0.48);
+      seamMat.color.set(0xffffff).multiplyScalar(0.86);
+      innerMat.color.set(0xffffff);
       if (photo && photo !== lastPhoto) {
           // Crop the actual photographed front panel into the UV space of the
           // volumetric face. The side and rear use unprinted fabric from the
@@ -1341,6 +1403,10 @@ export function createStudioScene(
           }
           clothTexture.needsUpdate = true;
           fabric.map = clothTexture;
+          seamMat.map = clothTexture;
+          seamMat.needsUpdate = true;
+          innerMat.map = clothTexture;
+          innerMat.needsUpdate = true;
           fabric.needsUpdate = true;
         photoTexture.needsUpdate = true;
         rearTexture.needsUpdate = true;
@@ -1395,6 +1461,7 @@ export function createStudioScene(
       geometries.forEach((g) => g.dispose());
       materials.forEach((m) => m.dispose());
       textures.forEach((t) => t.dispose());
+      key.shadow.dispose();
       renderer.dispose();
       canvas.remove();
     },

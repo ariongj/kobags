@@ -1,5 +1,10 @@
 # Kobags Group — design handoff
 
+## Studio visual refinement — 10 October 2026
+
+The Box and Handle bag openings have connected fabric interiors, contoured bases, thin folded hems and finer seams. Shared material crops and subtle interior shading replace flat dark inserts. Handle and surface self-shadows give the model depth while the floor shadow stays soft. The body texture has gentler relief, and the handle straps are thinner. Client-derived reference photos, artwork placement, colors and front/back controls remain in use. See `studio-asset-note.md` for the precise modeling boundary.
+
+
 ## Homepage client revisions — 10 October 2026
 
 The current headline is **Manufacturing bags. Helping Brands.** Lime accents, including the original logo mask, use the slightly darker `#a6d17a`. The hero contains its introduction and two primary links; corner captions, the right-hand factory stamp, extra quotation prompt, 360 link and the proof strip beneath the photograph are removed. The hero height and bottom spacing are reduced for desktop and mobile. Made in Kosova appears with the production section instead.

@@ -1,5 +1,14 @@
 # Kobags website — verification record
 
+## 3D opening and fabric refinement — 10 October 2026
+
+- `qa/studio_visual_quality_checks.py`: **22 rendering checks passed**: Box/Handle in Natural and Forest green from front, three-quarter and high opening views; all five families in White at 320/390px. No browser errors or horizontal overflow. Original and final matching-angle captures are `visual-before-*` and `visual-final-*`; mobile captures are `visual-mobile-*`.
+- Visual inspection confirmed the detached rectangular interior and thick rails are replaced with connected fabric surfaces and thin hems. The underside now follows the side folds; seams share the fabric color. Reduced bump strength and cached self-shadows improve the material depth. The original soft contact shadow is retained.
+- `qa/studio_view_recovery_checks.py`: **11 checks passed**, including front/back recovery on all five models, rotation/pause state, idle/offscreen rendering, and simulated WebGL loss during artwork dragging with retained draft and undo.
+- `qa/studio_3d_checks.py`: **8 acceptance groups passed**, covering five distinct models, pointer/keyboard rotation, zoom/reset, front/back logo and text, precision placement, two-sided export, fullscreen, quote handoff, 320–1440px layouts, reduced motion and unavailable-WebGL fallback. No browser errors.
+- TypeScript, production build and whitespace checks passed. Tests use local Chromium/SwiftShader; physical phone performance and dimensional fidelity to a real sample are not established by these checks. Saved artwork coordinates and photo exports use the existing canonical registration.
+
+
 ## Client-review audit — 10 October 2026
 
 - `qa/client_review_20261010.py`: **5 regression groups passed** using temporary CMS fixtures, restored after testing. Verified bilingual homepage product names, changed imagery, enabled-size counts, print limits, comparison GSM, EN/SQ timing, validated footer social URLs, fully archived catalogue behavior and both collection quote flows through refresh/language switch/submission without duplicate note prefixes.
