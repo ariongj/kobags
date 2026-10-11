@@ -64,6 +64,7 @@ import {
   colors,
   Design,
   initialDesign,
+  preferredBagColor,
   productMedia,
   MAX_BRAND_TEXT_LENGTH,
 } from "@/lib/catalog";
@@ -605,7 +606,7 @@ export default function BagStudio() {
                 key={b.slug}
                 className={b.slug === p.slug ? "bag-pick selected" : "bag-pick"}
                 onClick={() =>
-                  update({ product: b.slug, size: cms.options(b.slug)?.activeSizes?.[0] || b.variants[0].name, color: cms.options(b.slug)?.colors?.[0] || design.color, printColors: Math.min(design.printColors, cms.options(b.slug)?.printColors || 4) })
+                  update({ product: b.slug, size: cms.options(b.slug)?.activeSizes?.[0] || b.variants[0].name, color: preferredBagColor(cms.options(b.slug)?.colors, design.color), printColors: Math.min(design.printColors, cms.options(b.slug)?.printColors || 4) })
                 }
                 aria-pressed={b.slug === p.slug}
                 aria-label={b.name.replace(" Bag", "")}

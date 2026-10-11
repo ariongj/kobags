@@ -15,7 +15,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Choice, BagPreview } from "./bag-studio";
 import { useKobags } from "./kobags-context";
 import { useDemo, errors } from "./demo-store";
-import { Design, colors } from "@/lib/catalog";
+import { Design, colors, preferredBagColor } from "@/lib/catalog";
 import { sideArtwork } from "@/lib/studio-artwork";
 import { artworkSides } from "@/lib/studio-checks";
 import { languageHref } from "@/lib/site-locale";
@@ -342,7 +342,7 @@ export default function QuoteFlow() {
                     update({
                       product,
                       size: cms.options(product)?.activeSizes?.[0] || getProduct(product).variants[0].name,
-                      color: cms.options(product)?.colors?.[0] || design.color,
+                      color: preferredBagColor(cms.options(product)?.colors, design.color),
                       printColors: Math.min(design.printColors, cms.options(product)?.printColors || 4),
                     })
                   }

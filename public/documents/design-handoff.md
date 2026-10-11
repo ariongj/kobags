@@ -1,5 +1,9 @@
 # Kobags Group — design handoff
 
+## Default color — 11 October 2026
+
+Fresh designs and product-page starts use Natural with dark default text. Switching bag families retains the selected color when available, otherwise prefers Natural before the first configured color. Existing saved designs retain their chosen color.
+
 ## String bag refinement — 11 October 2026
 
 The drawstring model has a fuller soft body, rounded lower corners, a wider gathered mouth and folds that fan out from the casing into the printable panel. The two drawcord strands follow the surface, with a small knot and separate loose ends. The mesh and artwork clipping now share one silhouette. This remains an illustrative, photo-informed model pending the physical product scan.

@@ -12,7 +12,7 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import { useKobags } from "./kobags-context";
-import { products, productMedia, Product, getProduct } from "@/lib/catalog";
+import { products, productMedia, Product, getProduct, preferredBagColor } from "@/lib/catalog";
 import { localizeProduct } from "@/lib/product-copy";
 import { useCms } from "./cms/public-context";
 import { useDemo } from "./demo-store";
@@ -366,7 +366,7 @@ export function ProductDetail({ product: original }: { product: Product }) {
             <button
               className="button"
               onClick={() => {
-                update({ product: p.slug, size, color: cms.options(p.slug)?.colors?.[0] || "Forest green", printColors: 1 });
+                update({ product: p.slug, size, color: preferredBagColor(cms.options(p.slug)?.colors), printColors: 1 });
                 window.location.assign(languageHref("/design", lang));
               }}
             >
@@ -376,7 +376,7 @@ export function ProductDetail({ product: original }: { product: Product }) {
             <button
               className="button secondary"
               onClick={() => {
-                update({ product: p.slug, size, color: cms.options(p.slug)?.colors?.[0] || "Forest green", printColors: 1 });
+                update({ product: p.slug, size, color: preferredBagColor(cms.options(p.slug)?.colors), printColors: 1 });
                 window.location.assign(languageHref("/quote", lang));
               }}
             >

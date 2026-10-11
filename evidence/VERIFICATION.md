@@ -1,5 +1,9 @@
 # Kobags website — verification record
 
+## Natural default — 11 October 2026
+
+TypeScript and production build passed. Four local browser color-state checks passed: fresh Natural with dark text, Natural retained across three bag-family switches, selected Navy retained across family switch/reload, and product-page entry starting Natural. Checks used the 2D fallback to isolate state behavior; no 3D geometry changed. Results: `evidence/natural-default-checks.json`.
+
 ## String bag refinement — 11 October 2026
 
 - Shared String silhouette now drives the mesh and artwork clipping. Fuller cloth volume, a gathered rim and surface-following drawcord replace the narrower neck and loose floating cord. The front UV crop excludes the photographed silhouette to remove hard-looking corner shadows.

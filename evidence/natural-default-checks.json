@@ -1,0 +1,11 @@
+{
+  "status": "passed",
+  "checks": [
+    "Fresh Natural with dark text",
+    "Natural retained across three shape switches",
+    "Chosen Navy retained across shape switch and reload",
+    "Product entry starts Natural"
+  ],
+  "scope": "Local browser state checks with 2D fallback; no 3D geometry changes",
+  "browserErrors": []
+}

@@ -111,6 +111,10 @@ export const colors = [
   { name: "Red", sq: "E kuqe", hex: "#b3413d" },
   { name: "Royal blue", sq: "Blu mbretërore", hex: "#3864a7" },
 ];
+export function preferredBagColor(available?: string[], preferred = "Natural") {
+  if (!available?.length || available.includes(preferred)) return preferred;
+  return available.includes("Natural") ? "Natural" : available[0];
+}
 export type ArtworkPlacement = {
   x: number;
   y: number;
@@ -166,13 +170,13 @@ export const initialDesign: Design = {
   previewVersion: "v4",
   product: "handle-bag",
   size: "Small",
-  color: "Forest green",
+  color: "Natural",
   printColors: 1,
   side: "front",
   logo: "",
   logoName: "",
   text: "YOUR\nBRAND",
-  ink: "#ffffff",
+  ink: "#123442",
   x: 50,
   y: 56,
   scale: 34,
