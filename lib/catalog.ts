@@ -62,9 +62,7 @@ export const products: Product[] = [
       "A familiar shopping shape with integrated handles for convenient everyday carrying.",
     image: "/assets/client-2026-09/t-shirt-bag.jpg",
     variants: [
-      { name: "Small", dimensions: "29 × 38 × 10 cm", gsm: 50 },
-      { name: "Medium", dimensions: "37 × 45 × 12 cm", gsm: 50 },
-      { name: "Large", dimensions: "44 × 58 × 14 cm", gsm: 50 },
+      { name: "Small", dimensions: "31 × 55 × 18 cm", gsm: 50 },
     ],
   },
   {

@@ -43,9 +43,7 @@ export function ProductCatalog() {
           )}
         </p>
         <h1>
-          {catalog.length === 5 ? t("Five shapes.", "Pesë forma.") : t("Find your shape.", "Gjeni formën tuaj.")}
-          <br />
-          <em>{t("Your signature.", "Identiteti juaj.")}</em>
+          {t("Choose your bag", "Zgjidhni çantën tuaj")}
         </h1>
         <p className="intro">
           {t(

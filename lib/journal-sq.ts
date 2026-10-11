@@ -86,7 +86,7 @@ const translations: Record<string, JournalTranslation> = {
     sections: [
       {
         title: "1. Forma dhe përmasat",
-        body: "Zgjidhni formën sipas produkteve që do të bartni. Koleksioni ka nga tri madhësi të publikuara për secilën nga pesë familjet. Renditja e përmasave dhe tolerancat duhen konfirmuar me vizatim teknik të prodhimit.",
+        body: "Zgjidhni formën sipas produkteve që do të bartni. Kontrolloni madhësitë aktualisht të publikuara për familjen e zgjedhur të çantave. Renditja e përmasave dhe tolerancat duhen konfirmuar me vizatim teknik të prodhimit.",
       },
       {
         title: "2. Materiali dhe ngjyra",

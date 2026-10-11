@@ -1,5 +1,13 @@
 # Kobags CMS — operation and handoff
 
+## Stock collections and homepage media — 11 October 2026
+
+Open **Stock collections** to edit Thank you / Smiley, or create another category. Complete English and Albanian titles/descriptions, dimensions and at least one stock row. Each row has a GSM, English/Albanian color and availability: In stock, Out of stock, or Confirm availability. Save the draft, then Publish. Out-of-stock rows cannot be ordered; the server also checks stock when a request is sent. Archive a category to remove it from the public collection list. The initial 50/60 GSM rows await real color/availability details.
+
+Add supplied collection photos through **Media library**, then paste the public path into the collection image field. Under **Business settings → Homepage photos & video**, replace the hero image, printing MP4 or poster using public media paths. Add hero descriptions in both languages. Leave a field blank to retain the current source asset; save and publish changes normally.
+
+Finished-stock requests appear as **stock** in Inquiries, with their immutable specification and quantity. Sales can create a quotation and a private approval link. They do not require customer logo upload or custom artwork approval. The team confirms pricing, availability and delivery; this feature does not reserve or decrement inventory. Real submissions follow the existing live-inquiry setting; no notification or email-delivery configuration has changed in this release.
+
 Updated 4 October 2026. This document describes the shared CMS added alongside the existing visitor demonstration. The two databases/workflows remain separate. Local acceptance uses synthetic records only; those records are not deployed.
 
 ## First administrator

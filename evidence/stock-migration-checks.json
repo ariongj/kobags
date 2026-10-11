@@ -1,0 +1,8 @@
+{
+  "status": "passed",
+  "checks": [
+    "defaults: existing edits/GSM protected; stock seed and specification update are repeatable",
+    "editor-customized: existing edits/GSM protected; stock seed and specification update are repeatable",
+    "draft-only-edit: existing edits/GSM protected; stock seed and specification update are repeatable"
+  ]
+}

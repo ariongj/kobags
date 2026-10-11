@@ -1,5 +1,13 @@
 # Kobags Group — design handoff
 
+## Client feedback — 11 October 2026
+
+Navigation and catalogue heading now say **Choose your bag**. Thank you and Smiley are finished-stock collections, with a separate request form for an existing GSM/color option, quantity and contact/delivery details. Collection pages have no artwork uploads, print controls or branding call-to-action. Custom bag design remains a separate journey. Mobile consent controls and the compact stock form were checked at 320/390px.
+
+T-Shirt dimensions are **31 × 55 × 18 cm** (L × H × W); the previous three default sizes are replaced by the one client-confirmed size. Finished collections show **L31 × H55 × W18 cm**, with 50/60 GSM options initially marked for availability confirmation. No colors or in-stock status have been invented. Responsibility content now uses the client's supplied material, water-based ink, recycling and machine-wash care copy, translated into Albanian. These claims are client-provided copy, not newly obtained independent certification.
+
+Pending client assets: finished collection photographs, actual current GSM/color stock combinations, and physical bag scans/models to replace illustrative studio geometry. The existing 3D studio remains illustrative until those assets are received and integrated.
+
 ## String and T-Shirt revision — 10 October 2026
 
 The T-Shirt has an open mouth, thin joined handle tips, full-height folded sides and a contoured base. The String has a soft rounded body, gathered opening, pinched seams and a loose continuous cord with a knot. Both include interior cloth and retain their existing artwork editing, colors and rotation controls. Reference renders and responsive checks are recorded in `evidence/VERIFICATION.md`.

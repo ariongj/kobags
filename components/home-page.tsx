@@ -23,10 +23,10 @@ export default function HomePage() {
       <section className="industrial-hero">
         <img
           className="industrial-hero-photo"
-          src="/assets/client-2026-09/factory-line-1600.webp"
-          srcSet="/assets/client-2026-09/factory-line-640.webp 640w, /assets/client-2026-09/factory-line-960.webp 960w, /assets/client-2026-09/factory-line-1600.webp 1600w"
+          src={cms.settings?.media?.heroImage||"/assets/client-2026-09/factory-line-1600.webp"}
+          srcSet={cms.settings?.media?.heroImage?undefined:"/assets/client-2026-09/factory-line-640.webp 640w, /assets/client-2026-09/factory-line-960.webp 960w, /assets/client-2026-09/factory-line-1600.webp 1600w"}
           sizes="100vw"
-          alt={t(
+          alt={cms.settings?.media?.heroAlt?.[lang]||t(
             "Inside the Kobags production facility: machinery and rolls of non-woven material",
             "Brenda fabrikës Kobags: makineri dhe rula materiali jo të endur",
           )}
@@ -130,7 +130,7 @@ export default function HomePage() {
             controls
             playsInline
             preload="none"
-            poster="/assets/client-2026-09/home-film-poster-640.webp"
+            poster={cms.settings?.media?.printingPoster||"/assets/client-2026-09/home-film-poster-640.webp"}
             width={1000}
             height={750}
             aria-label={t(
@@ -138,7 +138,7 @@ export default function HomePage() {
               "Shikoni procesin e shtypit në Kobags",
             )}
           >
-            <source src="/assets/printing-process.mp4" type="video/mp4" />
+            <source src={cms.settings?.media?.printingVideo||"/assets/printing-process.mp4"} type="video/mp4" />
             {t(
               "Your browser does not support video playback.",
               "Shfletuesi juaj nuk e mbështet videon.",

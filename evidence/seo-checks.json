@@ -33,16 +33,16 @@
     {
       "path": "/products",
       "language": "en",
-      "title": "Custom Non-Woven Bags: Wholesale Collection | Kobags Group",
-      "description": "Compare D-Cut, Handle, Box, T-Shirt and String bags from Kobags. Review published sizes and fabric weights, then customize your bag for a wholesale quote.",
-      "h1": "Five shapes.Your signature."
+      "title": "Choose Your Bag: Custom & Ready-to-Order Bags | Kobags Group",
+      "description": "Choose custom D-Cut, Handle, Box, T-Shirt and String bags, or request finished Thank you and Smiley bags from stock. Made in Kosova.",
+      "h1": "Choose your bag"
     },
     {
       "path": "/sq/products",
       "language": "sq",
-      "title": "Çanta jo të endura: koleksioni me shumicë | Kobags Group",
-      "description": "Krahasoni çantat D-Cut, Handle, Box, T-Shirt dhe String të Kobags. Shikoni përmasat dhe peshën e materialit, pastaj personalizoni çantën për ofertë.",
-      "h1": "Pesë forma.Identiteti juaj."
+      "title": "Zgjidhni çantën tuaj: me porosi dhe nga stoku | Kobags Group",
+      "description": "Zgjidhni çanta D-Cut, Handle, Box, T-Shirt dhe String me porosi, ose kërkoni çanta të gatshme Thank you dhe Smiley nga stoku. Prodhuar në Kosovë.",
+      "h1": "Zgjidhni çantën tuaj"
     },
     {
       "path": "/design",
@@ -76,14 +76,14 @@
       "path": "/sustainability",
       "language": "en",
       "title": "Non-Woven PP Bags: Materials & Responsibility | Kobags Group",
-      "description": "Understand the material behind Kobags bags. Read practical guidance on non-woven polypropylene, reuse, recycled content and local recycling requirements.",
+      "description": "Discover Kobags non-woven polypropylene bags: one material for fabric, handles and stitching, water-based inks, recycling and everyday care.",
       "h1": "Better questions. Clearer choices."
     },
     {
       "path": "/sq/sustainability",
       "language": "sq",
       "title": "Çanta PP jo të endura: materiali dhe përgjegjësia | Kobags Group",
-      "description": "Njihuni me materialin e çantave Kobags. Lexoni për polipropilenin jo të endur, ripërdorimin, përmbajtjen e ricikluar dhe kërkesat e riciklimit lokal.",
+      "description": "Njihuni me çantat PP të Kobags: një material për pëlhurën, dorezat dhe qepjet, bojëra me bazë uji, riciklimi dhe kujdesi i përditshëm.",
       "h1": "Pyetje më të mira. Zgjedhje më të qarta."
     },
     {

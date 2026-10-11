@@ -11,7 +11,7 @@ export async function updateInquiry(input:Record<string,unknown>,member:Staff){
  if(!result[0].meta.changes)throw new CmsError(409,'Inquiry changed. Reload before saving.');return {};
 }
 export async function addQuote(input:Record<string,unknown>,member:Staff){
- const data=quotation(input.data),inquiryId=String(input.id);const exists=await db().prepare("SELECT id FROM cms_inquiries WHERE id=? AND kind='quote'").bind(inquiryId).first();if(!exists)throw new CmsError(404,'Quote inquiry not found.');
+ const data=quotation(input.data),inquiryId=String(input.id);const exists=await db().prepare("SELECT id FROM cms_inquiries WHERE id=? AND kind IN ('quote','stock')").bind(inquiryId).first();if(!exists)throw new CmsError(404,'Quote inquiry not found.');
  const json=JSON.stringify(data),quoteId=id('quote-');await db().batch([db().prepare("INSERT INTO cms_quotes(id,inquiry_id,version,data,hash,status,created_by,created_at) SELECT ?,?,COALESCE(MAX(version),0)+1,?,?,'draft',?,? FROM cms_quotes WHERE inquiry_id=?").bind(quoteId,inquiryId,json,await hash(json),member.id,now(),inquiryId),audit(inquiryId,member.id,'quote-created',quoteId)]);return {id:quoteId};
 }
 export async function issueQuote(input:Record<string,unknown>,member:Staff){

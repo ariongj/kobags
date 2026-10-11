@@ -1,0 +1,12 @@
+{
+  "status": "passed",
+  "checks": [
+    "CMS supports additional collections, unique stock rows, published photo/video overrides and current navigation",
+    "Stock-only EN/SQ request: no artwork controls, draft survives reload/language switch, authoritative stock snapshot and owned receipt",
+    "Server rejects unavailable/stale/archived stock; sales can prepare stock quotations without customer customization",
+    "18 route/language/width checks, updated responsibility and care content, approved T-Shirt dimensions, no horizontal overflow",
+    "CMS stock editor is reachable with GSM, bilingual color, availability and add-row controls"
+  ],
+  "browserErrors": [],
+  "scope": "Local compiled Worker, synthetic contacts, fixture settings restored; no production submissions or email"
+}

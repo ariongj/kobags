@@ -46,7 +46,7 @@ export function Header() {
         >
           {[
             ["/", "Home", "Ballina"],
-            ["/products", "Our bags", "Çantat tona"],
+            ["/products", "Choose your bag", "Zgjidhni çantën tuaj"],
             ["/design", "Design studio", "Studioja"],
             ["/manufacturing", "Manufacturing", "Prodhimi"],
             ["/sustainability", "Our responsibility", "Përgjegjësia jonë"],
@@ -156,7 +156,7 @@ export function Footer() {
         </div>
         <div>
           <h3>{t("Explore", "Eksploro")}</h3>
-          <Link href="/products">{t("Our bags", "Çantat tona")}</Link>
+          <Link href="/products">{t("Choose your bag", "Zgjidhni çantën tuaj")}</Link>
           <Link href="/design">{t("Design studio", "Studioja")}</Link>
           <Link href="/industries">{t("Industries", "Industritë")}</Link>
           <Link href="/manufacturing">{t("Manufacturing", "Prodhimi")}</Link>

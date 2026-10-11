@@ -1,3 +1,4 @@
+import { stockDefaults } from "@/lib/stock-collections";
 import mediaSeed from "./seed-media.json";
 import copySeed from "./seed-copy.json";
 import pageSeed from "./seed-pages.json";
@@ -19,6 +20,7 @@ export async function publishedRecords() {
 }
 export async function seedCms(actor: string) {
  const seeds:{id:string;kind:string;slug:string;data:Content;published:boolean}[]=[];
+ for(const c of stockDefaults)seeds.push({id:'collection-'+c.slug,kind:'collection',slug:c.slug,data:{...emptyContent(),title:c.title,description:c.description,collection:c.collection},published:true});
  for(const p of products)seeds.push({id:"product-"+p.slug,kind:"product",slug:p.slug,data:{...emptyContent(p.name),title:{en:p.name,sq:p.name},description:{en:p.description,sq:productCopySq[p.slug].description},product:p,productSq:{name:p.name,...productCopySq[p.slug]},image:p.image,path:"/products/"+p.slug,colors:colors.map(c=>c.name),activeSizes:p.variants.map(v=>v.name),moq:5000,printColors:4},published:true});
  for(const [path,seo] of Object.entries(seoPages).filter(([p])=>!p.startsWith('/demo')&&p!=='/handoff'&&p!=='/quote'&&p!=='/design'))seeds.push({id:"page-"+(path==='/'?'home':path.slice(1).replaceAll('/','-')),kind:"page",slug:path==='/'?'home':path.slice(1).replaceAll('/','-'),data:{...emptyContent(),preserveLayout:true,sections:(pageSeed as Record<string,{sections:Content['sections']}>)[path]?.sections||[],path,title:{en:seo.title[0],sq:seo.title[1]},description:{en:seo.description[0],sq:seo.description[1]},seoTitle:{en:seo.title[0],sq:seo.title[1]},seoDescription:{en:seo.description[0],sq:seo.description[1]}},published:false});
  for(let i=0;i<copySeed.length;i+=25){const group=copySeed.slice(i,i+25);seeds.push({id:'copy-'+i,kind:'copy',slug:'website-wording-'+i,data:{...emptyContent(),title:{en:'Website wording / '+(i+1)+'–'+(i+group.length),sq:'Tekstet e faqes / '+(i+1)+'–'+(i+group.length)},description:{en:'Edit existing wording while preserving the website design.',sq:'Redaktoni tekstet duke ruajtur dizajnin e faqes.'},sections:group.map((pair,index)=>({id:'copy-'+(i+index),title:{en:pair.source,sq:pair.source},body:{en:pair.en,sq:pair.sq},original:{en:pair.en,sq:pair.sq},image:'',alt:{en:'',sq:''},link:'',linkLabel:{en:'',sq:''},visible:true}))},published:false});}
@@ -41,9 +43,10 @@ export async function saveRecord(input: Record<string, unknown>, member: Staff) 
  if(old && Number(input.revision)!==old.revision)throw new CmsError(409,"Someone updated this record. Reload it before saving your changes.");
  let next=action==='save'?content(input.data):old!.draft;
  if(action==='rollback') { const v=await db().prepare("SELECT data FROM cms_versions WHERE id=? AND record_id=?").bind(String(input.versionId),recordId).first<{data:string}>();if(!v)throw new CmsError(404,"Version not found.");next=content(JSON.parse(v.data)); }
+ if(kind==='collection'&&!next.collection)throw new CmsError(422,'Add the collection stock specification.');
  if(kind==='product' && (!next.product||next.product.slug!==slug))throw new CmsError(422,"Keep the product linked to its original studio family.");
  if(action==='publish') { next=content(next,true);
-  for(const source of [next.image,next.product?.image,next.source,...next.sections.map(section=>section.image)].filter(Boolean)){
+  for(const source of [next.image,next.product?.image,next.source,next.settings?.media?.heroImage,next.settings?.media?.printingVideo,next.settings?.media?.printingPoster,...next.sections.map(section=>section.image)].filter(Boolean)){
    if(source!.startsWith('/api/media/')){const mediaId=source!.slice('/api/media/'.length);const media=await db().prepare("SELECT id FROM cms_media WHERE id=? AND visibility='public'").bind(mediaId).first();if(!media)throw new CmsError(422,'Public content can only reference public media.');}
   }
   if(next.path){const duplicate=await db().prepare("SELECT id FROM cms_records WHERE id!=? AND archived=0 AND json_extract(published,'$.path')=?").bind(recordId,next.path).first();if(duplicate)throw new CmsError(409,'Another published record uses this path.');}

@@ -100,7 +100,7 @@ export const articles: Article[] = [
     sections: [
       {
         title: "1. Shape and dimensions",
-        body: "Choose the profile for what you carry. The collection has three published size variants for each of five families. Dimension order and tolerances should be confirmed against a production drawing.",
+        body: "Choose the profile for what you carry. Check the currently published sizes for your selected bag family. Dimension order and tolerances should be confirmed against a production drawing.",
       },
       {
         title: "2. Material and color",

@@ -1,5 +1,17 @@
 # Kobags Group — code and setup handoff
 
+## Finished-stock collections — 11 October 2026
+
+`collection` CMS records store translated title/description, an optional image and `collection: { dimensions, variants: [{ id, gsm, color, colorSq, status }] }`. Status is `available`, `out` or `check`. New categories and stock rows can be created, revised, published and archived in **Stock collections**. Variant IDs are stable and unique; public inquiry submission rechecks the published record and rejects archived/unavailable options. Submitted snapshots retain the exact collection revision, GSM, color, dimensions and quantity. No inventory reservation or automatic stock deduction is implied.
+
+`/quote?collection=<slug>` renders `StockOrder`, independent of the saved custom design. Draft contact/stock choices use a collection-specific sessionStorage key; consent is not retained across reload. Live stock inquiries share the existing inbox and quotation/private-review workflow without customer artwork controls. When live inquiries are disabled, the existing isolated store prepares a request and offers an explicit email handoff; it does not claim the team received it. Stock fulfillment remains a team-managed stock/delivery agreement, separate from the custom production-file release workflow.
+
+Migration `0004_client_stock_collections.sql` adds the two client-approved categories without overwriting existing records. It updates only the old default T-Shirt dimensions, preserving any edited GSM and saving both previous draft/published specifications in CMS history. Other editor-modified dimensions are preserved. Product validation now accepts 1–3 distinct size variants. Historical customer snapshots remain immutable.
+
+Optional `settings.media` keys `heroImage`, `printingVideo`, `printingPoster` and bilingual `heroAlt` allow homepage media replacement without code edits. Uploaded references must be public; replacement hero descriptions are required in both languages. Empty paths retain existing media. Other product/collection images use their record image field.
+
+Acceptance: `qa/client_feedback_20261011.py`, `qa/stock_accessibility_checks.py`, `qa/seo_checks.py`. Production stock status and asset approvals must be entered by the client; fixture changes are local only.
+
 ## Shaped bag construction — 10 October 2026
 
 `lib/studio-scene.ts` branches surface depth by family for T-Shirt drape and String pouch volume/gathers. The T-Shirt U-cut is open; only its tips bridge front to back, and gussets run the full height. Both models get inset cloth linings and contoured floors/undersides. String drawcord/casing/hem are actual mesh geometry. Canonical XY artwork coordinates, saved draft structure and photo-export registration are unchanged.

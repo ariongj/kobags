@@ -88,7 +88,7 @@ async def main():
    if '/products/' in path:
     product=next(n for n in nodes if n.get('@type')=='Product');assert product['name']==doc.h1[0]
     assert 'offers' not in product and 'aggregateRating' not in product and 'review' not in product
-    assert len(product['additionalProperty'])==3
+    assert len(product['additionalProperty'])==(1 if path.endswith('/t-shirt-bag') else 3),path
     assert any(n.get('@type')=='BreadcrumbList' for n in nodes)
    if '/blog/' in path:
     article=next(n for n in nodes if n.get('@type')=='BlogPosting');assert article['headline']==doc.h1[0] and article['inLanguage']==lang

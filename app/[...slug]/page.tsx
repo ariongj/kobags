@@ -252,12 +252,12 @@ export default async function Page({
               <div>
                 <p className="eyebrow"><L en="KNOW YOUR MATERIAL" sq="NJIHNI MATERIALIN" /></p>
                 <h2>
-                  <L en="Reusable starts with" sq="Ripërdorimi fillon nga" />
+                  <L en="One material." sq="Një material." />
                   <br />
-                  <L en="how you use it." sq="mënyra si e përdorni." />
+                  <L en="Many more uses." sq="Për shumë përdorime." />
                 </h2>
                 <p>
-                  <L en="Non-woven polypropylene is a plastic material. It can be designed for repeated use, but recycled content, recyclability and reuse are different questions." sq="Polipropileni jo i endur është material plastik. Çanta mund të projektohet për përdorim të përsëritur, por përmbajtja e ricikluar, riciklueshmëria dhe ripërdorimi janë çështje të ndryshme." />
+                  <L en="Designed for reuse. Made with one material. Recyclable by design." sq="Projektuar për ripërdorim. Prodhuar me një material. Të riciklueshme që në projektim." />
                 </p>
               </div>
             </div>
@@ -267,22 +267,22 @@ export default async function Page({
                   title: "What is it made of?",
                   icon: Layers,
                   titleSq: "Nga çfarë përbëhet?",
-                  body: "Our non-woven bag range uses polypropylene (PP). For a specific bag, ask us to confirm its full composition and any recycled content.",
-                  bodySq: "Çantat tona jo të endura përdorin polipropilen (PP). Për një çantë të caktuar, kërkoni konfirmim për përbërjen e plotë dhe përmbajtjen eventuale të ricikluar.",
+                  body: "Our non-woven bags are made entirely from polypropylene (PP). Every component, including the fabric, handles, and stitching, is made from the same material, creating a strong, lightweight, durable, and fully recyclable product. We use water-based printing inks to support responsible manufacturing.",
+                  bodySq: "Çantat tona jo të endura prodhohen tërësisht nga polipropileni (PP). Çdo pjesë, përfshirë materialin, dorezat dhe qepjet, prodhohet nga i njëjti material, duke krijuar një produkt të fortë, të lehtë, të qëndrueshëm dhe plotësisht të riciklueshëm. Përdorim bojëra shtypi me bazë uji për të mbështetur prodhimin e përgjegjshëm.",
                 },
                 {
                   title: "Can it be recycled?",
                   icon: Recycle,
                   titleSq: "A mund të riciklohet?",
-                  body: "Collection and processing options depend on your destination. Check local acceptance for the actual finished bag, including print and other components.",
-                  bodySq: "Mundësitë e grumbullimit dhe përpunimit varen nga vendi ku përdoret. Kontrolloni nëse pranohet lokalisht çanta e përfunduar, përfshirë shtypin dhe pjesët e tjera.",
+                  body: "Yes! Our bags are made from 100% recyclable polypropylene (PP). By using one material throughout all bag components, we simplify the recycling process and support efficient material recovery and reuse.",
+                  bodySq: "Po! Çantat tona prodhohen nga polipropileni (PP), i cili është 100% i riciklueshëm. Duke përdorur të njëjtin material për të gjitha pjesët e çantës, thjeshtojmë procesin e riciklimit dhe mbështesim rikuperimin dhe ripërdorimin efikas të materialit.",
                 },
                 {
                   title: "How should I care for it?",
                   icon: Droplets,
                   titleSq: "Si duhet të kujdesem për të?",
-                  body: "Wipe it with a damp cloth or wash it gently by hand. Avoid machine washing and high heat. We can confirm care for your selected print and finish.",
-                  bodySq: "Pastrojeni me leckë të lagur ose lajeni lehtë me dorë. Shmangni lavatriçen dhe temperaturat e larta. Udhëzimet për shtypin dhe përfundimin e zgjedhur i konfirmojmë veçmas.",
+                  body: "Our bags are easy to maintain. Simply wipe clean or machine wash on a gentle, low-temperature cycle. Air dry and avoid high heat to preserve their quality and durability.",
+                  bodySq: "Çantat tona mirëmbahen lehtë. Pastrojini me leckë ose lajini në lavatriçe me program delikat dhe temperaturë të ulët. Thajini në ajër dhe shmangni nxehtësinë e lartë për të ruajtur cilësinë dhe qëndrueshmërinë.",
                 },
               ].map(({ icon: Icon, title, titleSq, body, bodySq }, index) => (
                 <article className="section-card" key={title}>

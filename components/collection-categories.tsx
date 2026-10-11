@@ -1,20 +1,14 @@
 "use client";
-import { ArrowUpRight, Smile } from "lucide-react";
+import { ArrowUpRight, Smile, Package } from "lucide-react";
 import Link from "./site-link";
 import { useKobags } from "./kobags-context";
-
+import { useCms } from "./cms/public-context";
 export function CollectionCategories() {
-  const { t } = useKobags();
-  return <div className="home-collection-categories" aria-label={t("Collection categories", "Kategoritë e koleksionit")}>
-    <Link href="/quote?collection=thank-you" className="collection-category">
-      <span className="collection-mark collection-thanks" aria-hidden="true">Thank<br />you.</span>
-      <span><small>{t("COLLECTION", "KOLEKSIONI")}</small><strong>{t("Thank you bags", "Çanta Thank you")}</strong></span>
-      <ArrowUpRight size={20} aria-hidden="true" />
-    </Link>
-    <Link href="/quote?collection=smiley" className="collection-category">
-      <span className="collection-mark" aria-hidden="true"><Smile size={42} strokeWidth={1.4} /></span>
-      <span><small>{t("COLLECTION", "KOLEKSIONI")}</small><strong>{t("Smiley bags", "Çanta Smiley")}</strong></span>
-      <ArrowUpRight size={20} aria-hidden="true" />
-    </Link>
-  </div>;
+ const {t,lang}=useKobags();const {collections}=useCms();
+ return <div className="home-collection-categories" aria-label={t('Ready-to-order collections','Koleksione të gatshme për porosi')}>
+ {collections.map(c=><Link key={c.id} href={'/quote?collection='+encodeURIComponent(c.slug)} className="collection-category">
+ <span className={'collection-mark'+(c.slug==='thank-you'?' collection-thanks':'')} aria-hidden="true">{c.content.image?<img src={c.content.image} alt=""/>:c.slug==='thank-you'?<>Thank<br/>you.</>:c.slug==='smiley'?<Smile size={42} strokeWidth={1.4}/>:<Package size={38}/>}</span>
+ <span><small>{t('READY-TO-ORDER STOCK','STOK I GATSHËM PËR POROSI')}</small><strong>{c.content.title[lang]||c.content.title.en}</strong></span><ArrowUpRight size={20} aria-hidden="true"/>
+ </Link>)}
+ </div>;
 }

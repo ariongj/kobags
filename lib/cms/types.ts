@@ -11,16 +11,17 @@ export const permissions: Record<Role, string[]> = {
 export type Copy = { en: string; sq: string };
 export type Section = { id: string; title: Copy; body: Copy; image: string; alt: Copy; link: string; linkLabel: Copy; visible: boolean; original?: Copy };
 export type Content = {
+  collection?: import("@/lib/stock-collections").StockCollection;
   preserveLayout?: boolean;
   title: Copy; description: Copy; image: string; sections: Section[];
   seoTitle: Copy; seoDescription: Copy; path: string;
   product?: Product; productSq?: { name: string; description: string; use: string; handle: string };
   colors?: string[]; activeSizes?: string[]; moq?: number; printColors?: number;
   source?: string; registration?: string; issued?: string; expires?: string;
-  start?: string; end?: string; settings?: { moq: number; leadTime: string; leadTimeSq?: string; phone: string; email: string; address: string; liveInquiries: boolean; social?: SocialProfiles };
+  start?: string; end?: string; settings?: { moq: number; leadTime: string; leadTimeSq?: string; phone: string; email: string; address: string; liveInquiries: boolean; media?: {heroImage?:string;printingVideo?:string;printingPoster?:string;heroAlt?:Copy}; social?: SocialProfiles };
 };
 export type CmsRecord = { id: string; kind: string; slug: string; draft: Content; published: Content | null; revision: number; archived: number; updated_at: string };
-export const recordKinds = ["product", "page", "article", "faq", "certificate", "guide", "municipality", "campaign", "copy", "settings"] as const;
+export const recordKinds = ["collection", "product", "page", "article", "faq", "certificate", "guide", "municipality", "campaign", "copy", "settings"] as const;
 export type Inquiry = { id: string; kind: string; data: Record<string, unknown>; status: string; assignee: string | null; priority: string; due_at: string | null; revision: number; created_at: string; updated_at: string; company_id: string };
 export const inquiryStatuses = ["new", "assigned", "review", "awaiting-customer", "resolved", "closed"] as const;
 export const orderStatuses = ["ready", "production", "quality", "dispatch-ready", "dispatched", "closed"] as const;

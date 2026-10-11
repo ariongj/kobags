@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { env } from "cloudflare:workers";
 import { applyAction, seed } from "@/lib/demo-domain";
 import { demoSession } from "@/lib/demo-session";
@@ -17,7 +18,17 @@ export async function submitInquiry(req:Request) {
  state.settings.moq=configuration.settings?.moq||5000;
  let snapshot:Record<string,unknown>,kind:string,key:string;
  try {
-  if(input.kind==='quote'){
+  if(input.kind==='stock'){
+   const request=z.object({collection:z.string().max(150),variant:z.string().max(80),quantity:z.number().int().min(1).max(10000000),city:z.string().trim().min(2).max(150),note:z.string().max(1200)}).parse(input);
+   const collection=configuration.records.find(r=>r.kind==='collection'&&r.slug===request.collection);
+   const selected=collection?.published?.collection?.variants.find(v=>v.id===request.variant);
+   if(!collection||!selected||selected.status==='out')throw new Error('This stock option is no longer available. Refresh and choose another option.');
+   const c=collection.published!;
+   const message=`Stock collection: ${c.title.en}\n${c.collection!.dimensions}\n${selected.gsm} GSM / ${selected.color}\nQuantity: ${request.quantity}\nDelivery: ${request.city}\n${request.note}`;
+   const result=applyAction(state,{type:'inquiry',data:{...input.data,kind:'contact',model:'Finished stock',message}});
+   snapshot={...result.state.inquiries[0],kind:'stock',collection:collection.slug,collectionName:c.title.en,productName:c.title.en,collectionRevision:collection.revision,dimensions:c.collection!.dimensions,gsm:selected.gsm,color:selected.color,variant:selected.id,availability:selected.status,quantity:request.quantity,city:request.city,note:request.note};
+   kind='stock';key=String(input.data.key);
+  }else if(input.kind==='quote'){
    const selected=catalog.find(r=>r.published?.product?.slug===input.design?.product)?.published as Content|undefined;
    if(configuration.settings&&!selected)throw new Error('This bag is not currently accepting new requests.');
    if(selected && ((selected.activeSizes&&!selected.activeSizes.includes(input.design.size))||(selected.colors&&!selected.colors.includes(input.design.color))||input.design.printColors>(selected.printColors||4)))throw new Error('This combination is no longer available. Review your bag options.');

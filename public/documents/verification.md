@@ -1,5 +1,13 @@
 # Kobags website — verification record
 
+## Client feedback and finished stock — 11 October 2026
+
+- `qa/client_feedback_20261011.py`: **5 acceptance groups passed**. Created/published/restored temporary stock and homepage-media records; checked stock row validation, additional categories, no artwork controls or branding footer prompt, draft continuity across reload/language switch, owned receipt, authoritative stock specifications, stale/out-of-stock/archived rejection, stock quotations/PDF content and CMS editor access. Included **18 EN/SQ route/width checks** at 320/390/1440px. Fixed the native consent checkbox width causing Albanian overflow. No browser errors.
+- `qa/stock_migration_checks.py`: **3 in-memory migration fixtures passed**. Default dimensions update to the approved T-Shirt size while retaining edited GSM; customized dimensions and mixed draft/published edits are protected; old specifications are recorded in CMS history; repeated migration is a no-op.
+- `qa/stock_accessibility_checks.py`: **4 page scans**, no automated WCAG A/AA/best-practice violations. Checked both stock languages, responsibility and catalogue. Automated checks do not establish complete conformance.
+- `qa/seo_checks.py`: **48 EN/SQ URLs passed**, including crawler content, canonical/hreflang, metadata, structured data, private-route exclusions and mobile language handoff. Updated its former three-size assumption to match the single client-confirmed T-Shirt size. Indexing/rankings are not guaranteed by these checks.
+- Final TypeScript, production build and whitespace checks passed. Supplied responsibility claims are client-approved copy, not independently certified in this work. No production inquiry, outbound email, real stock reservation or physical scan was created. Local CMS fixtures were restored after checks. Screenshots: `stock-order-en-*` and `stock-order-sq-*`.
+
 ## String and T-Shirt rework — 10 October 2026
 
 - `qa/studio_shaped_quality_checks.py`: **20 visual/responsive checks passed**: both models in Natural and Forest green from front, three-quarter, high opening and rear views, plus White at 320/390px. Captures were inspected for open mouths, folded handles, soft pouch depth and continuous cord geometry. No browser errors or horizontal overflow.
