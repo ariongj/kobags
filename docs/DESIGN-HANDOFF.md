@@ -1,5 +1,9 @@
 # Kobags Group — design handoff
 
+## String bag refinement — 11 October 2026
+
+The drawstring model has a fuller soft body, rounded lower corners, a wider gathered mouth and folds that fan out from the casing into the printable panel. The two drawcord strands follow the surface, with a small knot and separate loose ends. The mesh and artwork clipping now share one silhouette. This remains an illustrative, photo-informed model pending the physical product scan.
+
 ## Client feedback — 11 October 2026
 
 Navigation and catalogue heading now say **Choose your bag**. Thank you and Smiley are finished-stock collections, with a separate request form for an existing GSM/color option, quantity and contact/delivery details. Collection pages have no artwork uploads, print controls or branding call-to-action. Custom bag design remains a separate journey. Mobile consent controls and the compact stock form were checked at 320/390px.

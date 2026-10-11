@@ -3,6 +3,34 @@
 export type Point = { x: number; y: number };
 export type Rect = { x: number; y: number; width: number; height: number };
 export type Quad = [Point, Point, Point, Point]; // TL, TR, BR, BL
+// One silhouette for the mesh, artwork clipping and the folded drawcord rim.
+export const stringMouthHalf = 0.54;
+export function stringMouthY(x: number, top: number) {
+  const u = x / stringMouthHalf;
+  return top - (1 - u * u) * (0.044 + 0.014 * Math.cos(u * Math.PI * 6));
+}
+export function traceStringBag(path: {
+  moveTo: (x: number, y: number) => unknown;
+  lineTo: (x: number, y: number) => unknown;
+  quadraticCurveTo: (cx: number, cy: number, x: number, y: number) => unknown;
+  closePath: () => unknown;
+}, half: number, bottom: number, top: number) {
+  path.moveTo(-half + 0.18, bottom);
+  path.lineTo(half - 0.18, bottom);
+  path.quadraticCurveTo(half, bottom, half, bottom + 0.22);
+  path.quadraticCurveTo(half + 0.035, -0.35, half - 0.015, 0.22);
+  path.quadraticCurveTo(half - 0.02, 0.75, 0.78, 1.12);
+  path.quadraticCurveTo(0.59, top - 0.12, stringMouthHalf, top);
+  for (let i = 1; i <= 48; i++) {
+    const x = stringMouthHalf * (1 - 2 * i / 48);
+    path.lineTo(x, stringMouthY(x, top));
+  }
+  path.quadraticCurveTo(-0.59, top - 0.12, -0.78, 1.12);
+  path.quadraticCurveTo(-half + 0.02, 0.75, -half + 0.015, 0.22);
+  path.quadraticCurveTo(-half - 0.035, -0.35, -half, bottom + 0.22);
+  path.quadraticCurveTo(-half, bottom, -half + 0.18, bottom);
+  path.closePath();
+}
 export const studioFamilies = {
   'handle-bag': { width: 2.5, bottom: -1.25, top: 1.05, depth: .55, handles: true },
   'box-bag': { width: 2.8, bottom: -1.2, top: .95, depth: 1, handles: true },
@@ -81,7 +109,7 @@ export function clipCanonicalFace(ctx: CanvasRenderingContext2D, product: string
   if(product==='t-shirt-bag') {
     move(-half,bottom+.1);quadratic(-half,bottom,-half+.1,bottom);line(half-.1,bottom);quadratic(half,bottom,half,bottom+.1);line(half,.65);quadratic(half,.95,1.04,1.07);line(1.02,top);line(.55,top);line(.52,1.07);quadratic(.5,.7,0,.68);quadratic(-.5,.7,-.52,1.07);line(-.55,top);line(-1.02,top);line(-1.04,1.07);quadratic(-half,.95,-half,.65);line(-half,bottom+.1);ctx.closePath();
   } else if(product==='string-bag') {
-    move(-half+.12,bottom);line(half-.12,bottom);quadratic(half,bottom,half,bottom+.13);line(half,.18);quadratic(half,.65,.75,1);quadratic(.51,top-.06,.4,top);quadratic(0,top-.1,-.4,top);quadratic(-.51,top-.06,-.75,1);quadratic(-half,.65,-half,.18);line(-half,bottom+.13);quadratic(-half,bottom,-half+.12,bottom);ctx.closePath();
+    traceStringBag({moveTo:move,lineTo:line,quadraticCurveTo:quadratic,closePath:()=>ctx.closePath()},half,bottom,top);
   } else {
     move(-half,bottom);line(half,bottom);line(half,top);line(-half,top);line(-half,bottom);ctx.closePath();
     if(product==='d-cut-bag') {

@@ -1,5 +1,12 @@
 # Kobags website — verification record
 
+## String bag refinement — 11 October 2026
+
+- Shared String silhouette now drives the mesh and artwork clipping. Fuller cloth volume, a gathered rim and surface-following drawcord replace the narrower neck and loose floating cord. The front UV crop excludes the photographed silhouette to remove hard-looking corner shadows.
+- TypeScript and production build passed. `qa/studio_shaped_artwork_checks.py` with `KOBAGS_QA_FAMILIES=String`: **4 checks passed**, covering logo/text selection, dragging and undo on front/back. An earlier concurrent software-rendered run timed out; the isolated final-build run passed with no browser errors.
+- `qa/studio_shaped_quality_checks.py` with `KOBAGS_QA_FAMILIES=String`: **10 final-build visual/responsive checks passed**. Reviewed Natural/Forest front, angled, interior and rear captures; White at 320/390px remains compact with reachable rotation controls and no horizontal overflow. No browser errors.
+- This is an illustrative photo-informed model, not a physical scan. Canonical artwork coordinates and saved design schema remain unchanged.
+
 ## Client feedback and finished stock — 11 October 2026
 
 - `qa/client_feedback_20261011.py`: **5 acceptance groups passed**. Created/published/restored temporary stock and homepage-media records; checked stock row validation, additional categories, no artwork controls or branding footer prompt, draft continuity across reload/language switch, owned receipt, authoritative stock specifications, stale/out-of-stock/archived rejection, stock quotations/PDF content and CMS editor access. Included **18 EN/SQ route/width checks** at 320/390/1440px. Fixed the native consent checkbox width causing Albanian overflow. No browser errors.

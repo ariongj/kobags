@@ -1,5 +1,9 @@
 # Kobags Group — code and setup handoff
 
+## String bag refinement — 11 October 2026
+
+`traceStringBag` and `stringMouthY` in `lib/studio-projection.ts` define the shared mesh/artwork silhouette and gathered rim. String-only surface folds are symmetric at the side joins; the drawcord samples the cloth surface along each complete curve to maintain clearance. Keep the canonical artwork coordinates and saved design schema unchanged when replacing this illustrative mesh with an approved scan.
+
 ## Finished-stock collections — 11 October 2026
 
 `collection` CMS records store translated title/description, an optional image and `collection: { dimensions, variants: [{ id, gsm, color, colorSq, status }] }`. Status is `available`, `out` or `check`. New categories and stock rows can be created, revised, published and archived in **Stock collections**. Variant IDs are stable and unique; public inquiry submission rechecks the published record and rejects archived/unavailable options. Submitted snapshots retain the exact collection revision, GSM, color, dimensions and quantity. No inventory reservation or automatic stock deduction is implied.

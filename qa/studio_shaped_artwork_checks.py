@@ -1,5 +1,5 @@
 """Raycast/drag regression on the rebuilt soft bag surfaces; local browser only."""
-import asyncio,base64,json
+import asyncio,base64,json,os
 from pathlib import Path
 from playwright.async_api import async_playwright
 from browser_support import BASE,launch
@@ -19,7 +19,8 @@ async def main():
    return (d['backX'],d['backY']) if side=='back' else (d['x'],d['y'])
   await page.goto(BASE+'/design',wait_until='networkidle');await ready()
   raw=await page.evaluate("""()=>{const c=document.createElement('canvas');c.width=160;c.height=100;const x=c.getContext('2d');x.fillStyle='#193b67';x.fillRect(5,5,150,90);x.fillStyle='#fff';x.font='bold 36px sans-serif';x.fillText('QA',50,65);return c.toDataURL().split(',')[1]}""")
-  for family in ['T-Shirt','String']:
+  for family in os.getenv('KOBAGS_QA_FAMILIES','T-Shirt,String').split(','):
+   print('Testing artwork:',family,flush=True)
    await page.get_by_role('button',name=family,exact=True).click();await ready()
    await page.get_by_role('tab',name='02 Your design',exact=True).click()
    await page.get_by_role('group',name='Select artwork layer').get_by_role('button',name='Text',exact=True).click()
