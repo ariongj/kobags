@@ -1,5 +1,9 @@
 # Kobags Group — code and setup handoff
 
+## Confirmed collection stock — 12 October 2026
+
+Migration `0005_confirmed_tshirt_stock` replaces only the untouched 50/60 GSM placeholder arrays on Smiley and Thank you, independently in draft/published content. It stores prior data in CMS history and preserves manual stock edits, other fields and archived/unpublished state. New variant IDs identify GSM/color pairs; historical inquiry snapshots remain unchanged. `tshirtStockVariants` supplies the same five combinations for fresh imports. Later CMS availability edits remain authoritative.
+
 ## String bag refinement — 11 October 2026
 
 `traceStringBag` and `stringMouthY` in `lib/studio-projection.ts` define the shared mesh/artwork silhouette and gathered rim. String-only surface folds are symmetric at the side joins; the drawcord samples the cloth surface along each complete curve to maintain clearance. Keep the canonical artwork coordinates and saved design schema unchanged when replacing this illustrative mesh with an approved scan.

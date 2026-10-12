@@ -1,0 +1,11 @@
+{
+  "status": "passed",
+  "checks": [
+    "default: correct GSM/color options, editorial data/history preserved, repeat is a no-op",
+    "custom: correct GSM/color options, editorial data/history preserved, repeat is a no-op",
+    "draft-edited: correct GSM/color options, editorial data/history preserved, repeat is a no-op",
+    "published-edited: correct GSM/color options, editorial data/history preserved, repeat is a no-op",
+    "unpublished: correct GSM/color options, editorial data/history preserved, repeat is a no-op",
+    "archived: correct GSM/color options, editorial data/history preserved, repeat is a no-op"
+  ]
+}

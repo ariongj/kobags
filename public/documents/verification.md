@@ -1,5 +1,11 @@
 # Kobags website — verification record
 
+## Confirmed finished stock — 12 October 2026
+
+- `qa/confirmed_stock_checks.py`: six in-memory migration cases passed (default, manually edited, independent draft/published edits, unpublished, archived), with history preservation and repeat no-op checks. The three prior specification migration cases also passed.
+- `evidence/confirmed-stock-browser-checks.json`: four local EN/SQ Smiley/Thank you pages each expose exactly five available choices: 50 GSM White and 60 GSM White/Beige/Black/Red. All selectable, no mobile overflow or customization controls. No browser errors or inquiry submissions.
+- TypeScript, production build and whitespace checks passed. No inventory quantity, stock reservation or physical 3D scan was created.
+
 ## Natural default — 11 October 2026
 
 TypeScript and production build passed. Four local browser color-state checks passed: fresh Natural with dark text, Natural retained across three bag-family switches, selected Navy retained across family switch/reload, and product-page entry starting Natural. Checks used the 2D fallback to isolate state behavior; no 3D geometry changed. Results: `evidence/natural-default-checks.json`.

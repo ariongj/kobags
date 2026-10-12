@@ -2,7 +2,7 @@
 
 ## Stock collections and homepage media — 11 October 2026
 
-Open **Stock collections** to edit Thank you / Smiley, or create another category. Complete English and Albanian titles/descriptions, dimensions and at least one stock row. Each row has a GSM, English/Albanian color and availability: In stock, Out of stock, or Confirm availability. Save the draft, then Publish. Out-of-stock rows cannot be ordered; the server also checks stock when a request is sent. Archive a category to remove it from the public collection list. The initial 50/60 GSM rows await real color/availability details.
+Open **Stock collections** to edit Thank you / Smiley, or create another category. Complete English and Albanian titles/descriptions, dimensions and at least one stock row. Each row has a GSM, English/Albanian color and availability: In stock, Out of stock, or Confirm availability. Save the draft, then Publish. Out-of-stock rows cannot be ordered; the server also checks stock when a request is sent. Archive a category to remove it from the public collection list. Client-confirmed stock on 12 October: 50 GSM White only; 60 GSM White, Beige, Black and Red. Update availability here whenever stock changes.
 
 Add supplied collection photos through **Media library**, then paste the public path into the collection image field. Under **Business settings → Homepage photos & video**, replace the hero image, printing MP4 or poster using public media paths. Add hero descriptions in both languages. Leave a field blank to retain the current source asset; save and publish changes normally.
 

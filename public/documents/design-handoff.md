@@ -1,5 +1,9 @@
 # Kobags Group — design handoff
 
+## Confirmed collection stock — 12 October 2026
+
+Smiley and Thank you T-Shirt stock now offers 50 GSM in White only, and 60 GSM in White, Beige, Black and Red. These five client-confirmed combinations are marked available and remain editable in CMS. Custom studio colors are separate from finished-stock availability. Collection photographs and physical bag scans remain pending.
+
 ## Default color — 11 October 2026
 
 Fresh designs and product-page starts use Natural with dark default text. Switching bag families retains the selected color when available, otherwise prefers Natural before the first configured color. Existing saved designs retain their chosen color.
@@ -14,7 +18,7 @@ Navigation and catalogue heading now say **Choose your bag**. Thank you and Smil
 
 T-Shirt dimensions are **31 × 55 × 18 cm** (L × H × W); the previous three default sizes are replaced by the one client-confirmed size. Finished collections show **L31 × H55 × W18 cm**, with 50/60 GSM options initially marked for availability confirmation. No colors or in-stock status have been invented. Responsibility content now uses the client's supplied material, water-based ink, recycling and machine-wash care copy, translated into Albanian. These claims are client-provided copy, not newly obtained independent certification.
 
-Pending client assets: finished collection photographs, actual current GSM/color stock combinations, and physical bag scans/models to replace illustrative studio geometry. The existing 3D studio remains illustrative until those assets are received and integrated.
+Pending client assets: finished collection photographs and physical bag scans/models to replace illustrative studio geometry. GSM/color stock combinations were confirmed on 12 October (see above). The existing 3D studio remains illustrative until scans are received and integrated.
 
 ## String and T-Shirt revision — 10 October 2026
 

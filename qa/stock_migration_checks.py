@@ -5,7 +5,7 @@ ROOT=Path(__file__).resolve().parents[1]
 def database(draft,published):
  c=sqlite3.connect(':memory:')
  for p in sorted((ROOT/'drizzle').glob('*.sql')):
-  if p.name.startswith('0004_'):continue
+  if p.name >= '0004_':continue
   c.executescript(p.read_text())
  c.execute("INSERT INTO cms_records(id,kind,slug,draft,published,revision,archived,mutation,updated_at) VALUES('product-t-shirt-bag','product','t-shirt-bag',?,?,7,0,'qa','2026-10-01')",(json.dumps(draft),json.dumps(published)))
  return c

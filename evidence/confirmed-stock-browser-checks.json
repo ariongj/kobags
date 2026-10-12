@@ -1,0 +1,127 @@
+{
+  "status": "passed",
+  "checks": [
+    {
+      "route": "/quote?collection=smiley",
+      "options": [
+        {
+          "id": "gsm-50-white",
+          "label": "50 GSM · White — In stock",
+          "disabled": false
+        },
+        {
+          "id": "gsm-60-white",
+          "label": "60 GSM · White — In stock",
+          "disabled": false
+        },
+        {
+          "id": "gsm-60-beige",
+          "label": "60 GSM · Beige — In stock",
+          "disabled": false
+        },
+        {
+          "id": "gsm-60-black",
+          "label": "60 GSM · Black — In stock",
+          "disabled": false
+        },
+        {
+          "id": "gsm-60-red",
+          "label": "60 GSM · Red — In stock",
+          "disabled": false
+        }
+      ]
+    },
+    {
+      "route": "/quote?collection=thank-you",
+      "options": [
+        {
+          "id": "gsm-50-white",
+          "label": "50 GSM · White — In stock",
+          "disabled": false
+        },
+        {
+          "id": "gsm-60-white",
+          "label": "60 GSM · White — In stock",
+          "disabled": false
+        },
+        {
+          "id": "gsm-60-beige",
+          "label": "60 GSM · Beige — In stock",
+          "disabled": false
+        },
+        {
+          "id": "gsm-60-black",
+          "label": "60 GSM · Black — In stock",
+          "disabled": false
+        },
+        {
+          "id": "gsm-60-red",
+          "label": "60 GSM · Red — In stock",
+          "disabled": false
+        }
+      ]
+    },
+    {
+      "route": "/sq/quote?collection=smiley",
+      "options": [
+        {
+          "id": "gsm-50-white",
+          "label": "50 GSM · E bardhë — Në stok",
+          "disabled": false
+        },
+        {
+          "id": "gsm-60-white",
+          "label": "60 GSM · E bardhë — Në stok",
+          "disabled": false
+        },
+        {
+          "id": "gsm-60-beige",
+          "label": "60 GSM · Bezhë — Në stok",
+          "disabled": false
+        },
+        {
+          "id": "gsm-60-black",
+          "label": "60 GSM · E zezë — Në stok",
+          "disabled": false
+        },
+        {
+          "id": "gsm-60-red",
+          "label": "60 GSM · E kuqe — Në stok",
+          "disabled": false
+        }
+      ]
+    },
+    {
+      "route": "/sq/quote?collection=thank-you",
+      "options": [
+        {
+          "id": "gsm-50-white",
+          "label": "50 GSM · E bardhë — Në stok",
+          "disabled": false
+        },
+        {
+          "id": "gsm-60-white",
+          "label": "60 GSM · E bardhë — Në stok",
+          "disabled": false
+        },
+        {
+          "id": "gsm-60-beige",
+          "label": "60 GSM · Bezhë — Në stok",
+          "disabled": false
+        },
+        {
+          "id": "gsm-60-black",
+          "label": "60 GSM · E zezë — Në stok",
+          "disabled": false
+        },
+        {
+          "id": "gsm-60-red",
+          "label": "60 GSM · E kuqe — Në stok",
+          "disabled": false
+        }
+      ]
+    }
+  ],
+  "browserErrors": [],
+  "scope": "Read-only local form checks; no inquiry submitted"
+}
