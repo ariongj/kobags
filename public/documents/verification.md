@@ -1,5 +1,18 @@
 # Kobags website — verification record
 
+## Functional audit — 13 October 2026
+
+- Reproduced and fixed stock prepared-confirmation loss on refresh, field-length mismatch with server validation, poor recovery from an edited retry after a lost response, and missing guidance for removed stock choices. Receipts use saved snapshots and remain browser-owned; fresh forms from unavailable receipt links retain their own draft. Details: `docs/AUDIT-2026-10-13.md`.
+- `qa/stock_recovery_checks.py`: **5 final-build checks passed**, including EN/SQ unchanged and edited retries after an intentionally lost response, receipt refresh, immutable email details, browser ownership, fresh-draft persistence from an unavailable receipt, and removed stock choices. No browser errors. Final TypeScript, production build and whitespace checks passed.
+- `qa/mobile_site_checks.py`: **55 route/width checks passed**, including menu targets, 16px input text, touch rotation and short landscape. No captured browser errors or horizontal overflow.
+- `qa/seo_checks.py`: **48 EN/SQ sitemap URLs passed**, including crawler HTML, metadata, canonical/hreflang, structured data, private-route exclusions, all 38 Kosovo municipalities and mobile language handoff. These checks do not establish rankings or indexing.
+- `qa/client_feedback_20261011.py`: **5 acceptance groups passed**, covering CMS stock/category/media editing, live-request draft and receipt behavior, unavailable/archived stock rejection and quotations/private review, including **18 route/language/width checks**. Temporary local CMS fixtures were restored.
+- `qa/stock_accessibility_checks.py`: **4 scans**, no automated A/AA/best-practice violations on the two stock-language flows, responsibility and catalogue. This does not establish complete accessibility conformance.
+- `qa/studio_3d_checks.py`: **8 acceptance groups passed** across five families, including pointer/keyboard rotation, zoom/reset, front/back artwork, precision placement, fullscreen, two-sided export, quote handoff, 320–1440px layouts, reduced motion and unavailable-WebGL fallback. No browser errors. The inspected String capture and mobile homepage remain consistent with the current visual design. Local software-rendered tests do not establish physical-device performance or scan accuracy.
+- `qa/confirmed_stock_checks.py`: **6 migration cases passed**; `qa/stock_migration_checks.py`: **3 cases passed**. Studio unit checks also passed.
+- Live production intake was read-only checked and remains **disabled**, as requested. A reminder was scheduled for 14 October at 10:00 Europe/Tirane; email delivery remains a separate setup task. No production inquiries or outgoing emails were created. Actual collection photography and physical 3D scans remain outstanding.
+- Optional external CodeRabbit review did not run: automatic approval review rejected uploading the source diff to that service. No code was sent and no external code-review result is claimed.
+
 ## Confirmed finished stock — 12 October 2026
 
 - `qa/confirmed_stock_checks.py`: six in-memory migration cases passed (default, manually edited, independent draft/published edits, unpublished, archived), with history preservation and repeat no-op checks. The three prior specification migration cases also passed.

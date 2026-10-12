@@ -1,5 +1,13 @@
 # Kobags Group — code and setup handoff
 
+## Stock request recovery — 13 October 2026
+
+`StockOrder` now uses the shared server field limits and preserves fallback confirmations through a `prepared` query parameter. That identifier is resolved only against the current browser's isolated inquiries; opening the URL in another browser does not expose the buyer's receipt. The email handoff uses the saved inquiry snapshot. Submitted drafts are cleared; a fresh request from an unavailable receipt retains its own draft.
+
+A synchronous submission lock prevents duplicate handlers. A lost response can be retried with the existing idempotency key; an edited retry receives one new key only after `REQUEST_KEY_CONFLICT`. Removed or out-of-stock saved choices show recovery guidance. Coverage: `qa/stock_recovery_checks.py` (EN/SQ, response loss, edited retry, receipt reload, browser isolation and stale stock).
+
+Live customer inquiry intake remains disabled at the user's request. Activation and email delivery setup are deferred; these changes do not activate either service.
+
 ## Confirmed collection stock — 12 October 2026
 
 Migration `0005_confirmed_tshirt_stock` replaces only the untouched 50/60 GSM placeholder arrays on Smiley and Thank you, independently in draft/published content. It stores prior data in CMS history and preserves manual stock edits, other fields and archived/unpublished state. New variant IDs identify GSM/color pairs; historical inquiry snapshots remain unchanged. `tshirtStockVariants` supplies the same five combinations for fresh imports. Later CMS availability edits remain authoritative.

@@ -1,0 +1,11 @@
+{
+  "status": "passed",
+  "checks": [
+    "EN unchanged: lost response retry, receipt reload, immutable email and browser ownership",
+    "EN edited: lost response retry, receipt reload, immutable email and browser ownership",
+    "SQ unchanged: lost response retry, receipt reload, immutable email and browser ownership",
+    "SQ edited: lost response retry, receipt reload, immutable email and browser ownership",
+    "Removed stock variant shows recovery guidance and retains buyer details"
+  ],
+  "browserErrors": []
+}

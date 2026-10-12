@@ -1,5 +1,9 @@
 # Kobags Group — design handoff
 
+## Stock request recovery — 13 October 2026
+
+Prepared stock requests retain their confirmation and saved specifications after refreshing. A request link opened in another browser explains that the receipt is unavailable and offers a fresh form. Saved stock choices that have been removed or become unavailable now ask the buyer to choose another option while retaining their contact details. Live intake remains off; the prepared-request screen continues to offer an explicit email handoff.
+
 ## Confirmed collection stock — 12 October 2026
 
 Smiley and Thank you T-Shirt stock now offers 50 GSM in White only, and 60 GSM in White, Beige, Black and Red. These five client-confirmed combinations are marked available and remain editable in CMS. Custom studio colors are separate from finished-stock availability. Collection photographs and physical bag scans remain pending.
