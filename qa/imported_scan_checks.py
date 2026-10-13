@@ -41,7 +41,13 @@ async def main():
    capture=await page.locator('.scan-viewer').screenshot(path=str(ROOT/('evidence/coffee-repaired-'+preset+'.png')))
    frame=Image.open(io.BytesIO(capture)).convert('RGB');w,h=frame.size
    assert sum(1 for r,g,b in frame.crop((w*.25,h*.15,w*.75,h*.75)).getdata() if max(r,g,b)<220)>800,('Empty preset',preset)
-  checks.append('Front, back, top, underside and three-quarter presets render; pole views reach the correct angles')
+  await page.get_by_label('Scan viewpoint',exact=True).select_option('front')
+  for side,steps in [('right',4),('left',8)]:
+   for _ in range(steps):await page.get_by_role('button',name='Rotate scan right',exact=True).click()
+   await page.wait_for_timeout(700)
+   await page.locator('.scan-viewer').screenshot(path=str(ROOT/('evidence/coffee-repaired-'+side+'.png')))
+  await page.get_by_label('Scan viewpoint',exact=True).select_option('angle');await page.wait_for_timeout(500)
+  checks.append('Seven angles render, including left/right, top and underside; pole views reach the correct angles')
   await page.screenshot(path=str(ROOT/'evidence/coffee-scan-desktop.jpg'),type='jpeg',quality=85,full_page=True)
   await page.get_by_role('button',name='Enlarge scan',exact=True).click();await page.get_by_role('dialog').locator('.scan-viewer[data-status=ready]').wait_for();await page.keyboard.press('Escape');await ready()
   await page.reload(wait_until='networkidle');await ready();assert saved==await page.evaluate("localStorage.getItem('kobags-design-v1')")

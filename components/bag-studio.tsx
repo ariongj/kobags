@@ -813,7 +813,7 @@ export default function BagStudio() {
           <p className="eyebrow">{t("UPLOADED 3D MODEL", "MODEL 3D I NGARKUAR")}</p>
           <h2>{t("Your scan. Every angle.", "Skanimi juaj. Nga çdo kënd.")}</h2>
           <p>{t("A coffee scan, added here to test how real scanned products look in the studio.", "Një skanim kafeje, i shtuar për të testuar pamjen e produkteve të skanuara në studio.")}</p>
-          <dl><div><dt>{t("Surface", "Sipërfaqja")}</dt><dd>{t("Scanned texture · repaired shape", "Teksturë skanimi · formë e riparuar")}</dd></div><div><dt>{t("Explore", "Eksploroni")}</dt><dd>360°</dd></div></dl>
+          <dl><div><dt>{t("Surface", "Sipërfaqja")}</dt><dd>{t("Glazed ceramic", "Qeramikë e lustruar")}</dd></div><div><dt>{t("Explore", "Eksploroni")}</dt><dd>360°</dd></div></dl>
           <p className="micro">{t("Test model only. Choose a bag above to continue designing and request a quote.", "Vetëm model testues. Zgjidhni një çantë sipër për të vazhduar dizajnin dhe për të kërkuar ofertë.")}</p>
           <button type="button" className="button" onClick={() => chooseTestScan(false)}>{t("Back to your bag", "Kthehu te çanta juaj")}<ArrowRight size={16}/></button>
         </aside> : <section className="studio-controls" aria-label={t("Customize your bag", "Personalizoni çantën")}>

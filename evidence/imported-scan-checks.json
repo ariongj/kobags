@@ -3,28 +3,28 @@
   "checks": [
     "Visible textured scan on first render; isolated selection, no quotation and saved bag unchanged",
     "Pointer and keyboard rotation, zoom, reset and opt-in auto rotation",
-    "Front, back, top, underside and three-quarter presets render; pole views reach the correct angles",
+    "Seven angles render, including left/right, top and underside; pole views reach the correct angles",
     "Fullscreen, reload and direct link; one-row picker at 320/390/768px; normal bag return and quotation preserved",
     "Albanian UI, mobile touch rotation and reduced-motion setting",
     "Failed asset retry and understandable WebGL-unavailable state"
   ],
   "browserErrors": [],
-  "finalSurfaceCheck": {
-    "status": "passed",
-    "modelSHA256": "1f1b278b4477c30e2e954c85488537578cffb92f9910639d48f5b02d9105e8aa",
+  "modelSHA256": "958b26e2341dd9ef9ce34f63eb5c4b08f50f0d9f3e6b52c5c24897ceb83ec00f",
+  "visualReview": {
     "views": [
-      "three-quarter",
       "front",
       "back",
       "left",
       "right",
       "top",
-      "underneath"
+      "underneath",
+      "three-quarter"
     ],
     "mobileWidths": [
+      320,
       390,
-      320
+      768
     ],
-    "note": "Functional acceptance suite passed; final lining color transfer then inspected at seven angles and on mobile."
+    "notes": "Smooth walls/rim; closed interior; handle roots do not enter the bowl; soft contact shadow. Final mobile label shortened and protected from word wrapping."
   }
 }

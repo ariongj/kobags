@@ -3610,7 +3610,8 @@ body.kobags-v5:has(.studio-compact) .footer-top img {
 .scan-info p { font-size: 14px; line-height: 1.6; }
 .scan-info dl { margin: 20px 0; border-top: 1px solid #dce5dd; }
 .scan-info dl > div { display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-bottom: 1px solid #dce5dd; font-size: 12px; }
-.scan-info dd { margin: 0; text-align: right; }
+.scan-info dt { flex-shrink: 0; white-space: nowrap; }
+.scan-info dd { min-width: 0; margin: 0; text-align: right; }
 .scan-info .button { width: 100%; margin-top: 16px; }
 .scan-dialog { width: min(1000px, 96vw) !important; max-width: 1000px !important; }
 .scan-dialog .scan-viewer { height: min(65vh, 650px); }

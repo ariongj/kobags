@@ -1,6 +1,15 @@
 # Kobags website — verification record
 
-## Coffee scan repair — 13 October 2026
+## Smooth ceramic reconstruction — 13 October 2026
+
+- Replaced the remaining dented scan geometry with a spline-lathed cup and saucer, rounded lip, continuous interior/base and swept handle. Handle roots stay in the outer wall. The former damaged shell and patch lining are removed.
+- Source colors are lightly sampled to avoid reintroducing baked scan dents. This is a visual reconstruction from the scan's proportions/tone, not an exact preserved scan. GLB: 3,275,492 bytes / 109,056 triangles, approximately 34% smaller than version 45.
+- Added studio environment reflections, ceramic clearcoat, self-shadowing and soft contact shadow. Generated lighting/shadow resources are disposed on unmount. Existing bag geometry, artwork and order flows remain unchanged.
+- Mesh checks: cup, handle and saucer each watertight, consistent winding, positive volume, finite coordinates and no degenerate triangles. Source and output hashes are in `coffee-repair.json`.
+- TypeScript, production build and whitespace checks passed. Six browser acceptance groups passed, covering seven angles, rendering, pointer/touch/keyboard rotation, zoom/reset/spin, fullscreen, reduced motion, EN/SQ, 320/390/768px, saved-design preservation, bag quotation return, failed-asset retry and unavailable WebGL. No captured main-journey browser errors. Final mobile surface label shortened and prevented from wrapping mid-word.
+- Reviewed seven angle captures and the mobile full-page capture. Browser validation uses local Chromium/software WebGL; physical device testing is not claimed. Model hash is recorded in `imported-scan-checks.json`.
+
+## Previous coffee scan repair — 13 October 2026 (version 45)
 
 - Removed captured table fragments, smoothed the cup/handle geometry, closed the cut cup base, added an inner lining behind side-wall defects, and reconstructed the saucer rim and underside. Missing surfaces are inferred; photographed cup texture and some capture imperfections remain.
 - Reproducible offline pipeline: `scripts/repair-test-scan.py`. `coffee-repair.json` records source/output hashes, closed cup and saucer, positive volumes, consistent winding, finite coordinates and no degenerate triangles.
@@ -8,7 +17,7 @@
 - TypeScript, production build and whitespace checks passed. `qa/imported_scan_checks.py`: six acceptance groups, including visible renders, preset polar angles, pointer/keyboard/touch rotation, mobile widths 320/390/768, fullscreen, reduced motion, load failure/retry, saved bag preservation and return to quotation. Final photograph-blended lining was additionally inspected from seven angles and at 390/320px; asset SHA is recorded in `imported-scan-checks.json`.
 - Validation uses local Chromium software WebGL. This repairs the coffee test only; physical bag scans and deferred customer inquiry activation remain outstanding.
 
-## Original coffee scan import — 13 October 2026 (superseded by repair below)
+## Original coffee scan import — 13 October 2026 (superseded by later revisions)
 
 - Added a separate **3D test** picker entry and shareable `/design?model=coffee-test` URL, including Albanian. The uploaded coffee scan is not a catalogue product and cannot enter the bag quotation schema. Existing bag drafts/artwork are preserved.
 - Converted the supplied OBJ plus diffuse/normal atlases to a self-contained 4.6 MB GLB: all 122,842 triangles retained, texture atlases reduced from 8192 to 2048px. Corrected display orientation only; captured table geometry and scan imperfections remain. Provenance and conversion details are in the developer handoff.
