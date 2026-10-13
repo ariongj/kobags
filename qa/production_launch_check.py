@@ -21,7 +21,11 @@ def fetch(path):
     except HTTPError as error:
         response = error
     with response:
-        return response.status, {key.lower(): value for key, value in response.headers.items()}, response.read()
+        headers = {key.lower(): value for key, value in response.headers.items()}
+        # The hosting edge may add its own cookie after the application cookie.
+        # Preserve repeated Set-Cookie values instead of silently taking the last.
+        headers['set-cookie'] = '\n'.join(response.headers.get_all('Set-Cookie', []))
+        return response.status, headers, response.read()
 
 
 class Canonical(HTMLParser):

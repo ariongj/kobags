@@ -6,7 +6,7 @@ Audit date: 14 October 2026, Europe/Tirane. Launch requested for the next day. C
 
 **Application release verified for kobags.itdks.tech; operational and client sign-off items remain open.** The owner chose to keep this domain for now. Business-domain cutover is prepared and deferred, not a blocker to publishing the current site. This report distinguishes tested software from external account, business and legal requirements. It does not certify perfect security or guarantee search rankings.
 
-The owner approved enabling real customer requests in the shared CMS inbox. Staff will check the inbox manually; transactional email delivery is not connected. The publication tool result and read-only verification of production intake are recorded in the owner-only `deliverables/handoff/release-receipt.json` after deployment. This report does not claim that DNS has been switched.
+The owner approved enabling real customer requests in the shared CMS inbox. Staff will check the inbox manually; transactional email delivery is not connected. Publication succeeded. Read-only checks of `https://kobags.itdks.tech` confirmed real intake enabled, secure browser-cookie attributes, HSTS and other security headers, 48 current-domain sitemap URLs, anonymous CMS rejection and removal of public source bundles. The publication tool result is in the owner-only `deliverables/handoff/release-receipt.json`; detailed live checks are in `deliverables/handoff/live-verification.json`. This report does not claim that DNS has been switched.
 
 ## Fixes in this release
 
@@ -54,7 +54,7 @@ Final focused checks also passed: eight EN/SQ fallback request groups with acces
 | Item | Status and action | Owner |
 | --- | --- | --- |
 | Current / future domain | Keep `kobags.itdks.tech` by owner decision. Future `kobags-group.com` DNS/TLS remains pending; do not apply cutover records until requested. Business-origin configuration has passed local checks. | ITD / future DNS account holder |
-| Customer inquiry intake | Approved. Enable through this verified release and confirm one identified launch request appears in CMS on the current launch domain. | ITD + assigned sales staff |
+| Customer inquiry intake | Enabled and verified through the production configuration endpoint. Assigned staff should still submit one identified launch request and confirm it in CMS on the current domain. Local end-to-end tests used synthetic data. | ITD + assigned sales staff |
 | Staff access and inbox duty | Existing username/password CMS retained; invite named staff with individual roles and confirm they can sign in. Assign a person to check the inbox during business hours. No shared passwords in this report. | Kobags / ITD |
 | Privacy and commercial approval | Confirm legal entity/contact, retention/deletion arrangements, processors/transfers and commercial quotation/claim terms. Current copy describes implementation; it is not legal sign-off. | Client decision maker / adviser |
 | Backup custody and retention | JSON and full file backup/recovery are tested locally. Take an authorized production backup and define where encrypted copies are retained, who can recover them and how often. No scheduled offsite backup is configured. | Operator |
