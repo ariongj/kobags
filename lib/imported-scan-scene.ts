@@ -46,7 +46,7 @@ export function createImportedScanScene(host: HTMLDivElement, label: string, cal
   const disposeModel=(object:THREE.Object3D)=>{const textures=new Set<THREE.Texture>();const materials=new Set<THREE.Material>();object.traverse(child=>{if(child instanceof THREE.Mesh){child.geometry.dispose();for(const material of Array.isArray(child.material)?child.material:[child.material])materials.add(material);}});for(const material of materials){for(const value of Object.values(material))if(value instanceof THREE.Texture)textures.add(value);material.dispose();}for(const texture of textures){texture.dispose();if(typeof ImageBitmap!=='undefined'&&texture.image instanceof ImageBitmap)texture.image.close();}};
   const failed=()=>{if(!disposed){loaded=false;controls.autoRotate=false;callbacks.error();}};
   const contextLost=(event:Event)=>{event.preventDefault();failed();};canvas.addEventListener('webglcontextlost',contextLost);
-  fetch('/assets/models/coffee-test.glb?v=20261013-smooth-ceramic',{signal:abort.signal}).then(response=>{if(!response.ok)throw Error('MODEL_LOAD_FAILED');return response.arrayBuffer();}).then(buffer=>{if(disposed)return;return new GLTFLoader().parseAsync(buffer,'');}).then(async gltf=>{
+  fetch('/assets/models/coffee-test.glb?v=20261013-smooth-scan-texture',{signal:abort.signal}).then(response=>{if(!response.ok)throw Error('MODEL_LOAD_FAILED');return response.arrayBuffer();}).then(buffer=>{if(disposed)return;return new GLTFLoader().parseAsync(buffer,'');}).then(async gltf=>{
     if(!gltf)return;if(disposed){disposeModel(gltf.scene);return;}
     const model=gltf.scene;
     // This supplied scan is Z-up. Present the cup upright without changing its mesh.

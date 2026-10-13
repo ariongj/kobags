@@ -1,0 +1,48 @@
+{
+  "status": "passed",
+  "geometryBaseline": "version 46",
+  "components": [
+    {
+      "component": 0,
+      "positionsIdentical": true,
+      "normalsIdentical": true,
+      "positionSHA256": "36afbac8686985083c9434411ba56eeae7bd630509dbd0ab2713b50c187e32f1",
+      "normalSHA256": "88cb0d85243119fa10eaa1acca1d235111e8fd1c7d2ac63069ec18f5c57c4940"
+    },
+    {
+      "component": 1,
+      "positionsIdentical": true,
+      "normalsIdentical": true,
+      "positionSHA256": "b94f20055b3095596d1f28ff9218f6c66521e16b7d2f56431f164d64bd65e564",
+      "normalSHA256": "ad3323f81995101bf0bd62524ca6bf4015fd1a7718c805663c09325078121e12"
+    },
+    {
+      "component": 2,
+      "positionsIdentical": true,
+      "normalsIdentical": true,
+      "positionSHA256": "3a52e2b5856880528d386e6438d7e85d0758354132c4e28c0663718355a5f98c",
+      "normalSHA256": "320f6887af695bb521d3eedefabc08935b405b44a67108309190d8c9be22b8f4"
+    }
+  ],
+  "textures": [
+    {
+      "width": 2048,
+      "height": 1024,
+      "bytes": 375523,
+      "pixelStandardDeviation": 65.36
+    },
+    {
+      "width": 512,
+      "height": 512,
+      "bytes": 58340,
+      "pixelStandardDeviation": 32.25
+    },
+    {
+      "width": 1024,
+      "height": 512,
+      "bytes": 41914,
+      "pixelStandardDeviation": 18.32
+    }
+  ],
+  "noDentedNormalsOrDisplacement": true
+}

@@ -1,6 +1,14 @@
 # Kobags website — verification record
 
-## Smooth ceramic reconstruction — 13 October 2026
+## Original scan texture on smooth geometry — 13 October 2026
+
+- Replaced the pale vertex-color treatment with photographic UV charts projected from the original `Test.zip` diffuse atlas. Cup: 2048×1024, handle: 512×512, saucer: 1024×512. No generated replacement imagery, original dented normals or displacement is applied.
+- Exterior, interior, rim, handle and saucer projections are separated. The outer envelope limits interior-color bleed, the handle is aligned to its scanned orientation, and pole/seam UVs are split without changing the surface. Unobserved undersides retain inferred ceramic. Some source lighting/capture imperfections remain in the photograph.
+- `qa/coffee_texture_checks.py`: exact per-triangle positions and normals match the accepted version 46 on all three components. Each chart has nonempty high-contrast image content. `coffee-texture-checks.json` contains comparison hashes; `coffee-repair.json` records original ZIP provenance, projection sizes and output hash. Geometry remains 109,056 triangles; GLB is 3,574,208 bytes.
+- Production build, TypeScript and whitespace checks passed. Six imported-scan browser acceptance groups passed, covering seven viewpoints, visible renders, pointer/keyboard/touch rotation, zoom/reset/spin, fullscreen, reduced motion, EN/SQ, 320/390/768px layouts, saved-design isolation, normal bag quotation return, asset retry and unavailable WebGL. No captured main-journey browser errors.
+- Reviewed lettering on the back, front/side material detail, rim/bowl/saucer from above, underside and mobile screenshot. Browser checks use local Chromium/software WebGL. Existing bag meshes, CMS and inquiry activation are unchanged.
+
+## Smooth ceramic reconstruction — 13 October 2026 (version 46)
 
 - Replaced the remaining dented scan geometry with a spline-lathed cup and saucer, rounded lip, continuous interior/base and swept handle. Handle roots stay in the outer wall. The former damaged shell and patch lining are removed.
 - Source colors are lightly sampled to avoid reintroducing baked scan dents. This is a visual reconstruction from the scan's proportions/tone, not an exact preserved scan. GLB: 3,275,492 bytes / 109,056 triangles, approximately 34% smaller than version 45.

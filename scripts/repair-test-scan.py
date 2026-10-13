@@ -1,7 +1,7 @@
 """Reconstruct the coffee trial as smooth ceramic using the supplied scan as reference.
 Usage: python scripts/repair-test-scan.py Test.zip output.glb report.json
 Offline dependencies: numpy, scipy, trimesh, Pillow.
-The scan supplies scale/proportions and sampled surface colors. Smooth cup, rim,
+The scan supplies scale/proportions and its original photograph. Smooth cup, rim,
 handle and saucer replace damaged geometry; this is inferred, not measured CAD.
 """
 import hashlib, io, json, struct, sys, zipfile
@@ -19,12 +19,7 @@ with zipfile.ZipFile(source) as archive:
 points = scan.vertices.copy()
 points[:, 2] += .15 * points[:, 0]
 uv = scan.visual.uv
-px = np.clip((uv[:, 0] * photo.shape[1]).astype(int), 0, photo.shape[1] - 1)
-py = np.clip(((1 - uv[:, 1]) * photo.shape[0]).astype(int), 0, photo.shape[0] - 1)
-source_colors = photo[py, px].astype(float)
 cx, cy = -.003, .023
-radius = np.linalg.norm(points[:, :2] - [cx, cy], axis=1)
-ceramic = np.array([233., 228., 218.])
 
 
 def lathe(profile, rows=144, segments=192):
@@ -48,6 +43,7 @@ def lathe(profile, rows=144, segments=192):
     mesh.remove_unreferenced_vertices()
     mesh.merge_vertices()
     trimesh.repair.fix_normals(mesh)
+    mesh.metadata["texture_grid"] = vertices.reshape(rows, segments, 3).tolist()
     return mesh
 
 
@@ -98,43 +94,14 @@ root_radius=np.maximum(length,outer_radius-.001)
 vertices[:,:2]=[cx,cy]+radial_handle*(root_radius/length)[:,None]
 handle=trimesh.Trimesh(vertices=vertices,faces=faces,process=True)
 trimesh.repair.fix_normals(handle)
+handle.metadata["texture_grid"] = vertices[:len(t)*sections].reshape(len(t),sections,3).tolist()
 
 
-def linear(rgb):
-    rgb=np.clip(rgb/255,0,1)
-    return np.where(rgb<=.04045,rgb/12.92,((rgb+.055)/1.055)**2.4)
+from scan_texture_projection import project_textures
+models={'cup':cup,'handle':handle,'saucer':saucer}
+textures=project_textures(points,scan.faces,uv,photo,models,(cx,cy))
+# Export the exact accepted geometry with original photograph projections.
 
-
-def sampled(mesh, valid, strength):
-    # Robust spatial sampling removes sharp baked scan shadows from dents, while
-    # retaining the source ceramic tone and subdued printed/color detail.
-    tree=cKDTree(points[valid])
-    distance, near=tree.query(mesh.vertices,k=32)
-    values=source_colors[valid][near]
-    low,high=np.quantile(values,[.2,.8],axis=1)
-    values=np.clip(values,low[:,None,:],high[:,None,:])
-    weight=1/np.maximum(distance,.003)**2
-    color=(values*weight[:,:,None]).sum(axis=1)/weight.sum(axis=1)[:,None]
-    return ceramic+(color-ceramic)*strength
-
-
-cup_colors=sampled(cup,(points[:,2]>.020)&(radius<.10),.04)
-# Separate interior from exterior so dark coffee residue cannot be projected
-# onto the outside of the cup through a bad scan wall.
-radial=cup.vertices[:,:2]-[cx,cy]
-radial/=np.maximum(np.linalg.norm(radial,axis=1)[:,None],1e-9)
-inside=(cup.vertex_normals[:,:2]*radial).sum(axis=1)<-.25
-interior=sampled(cup,(points[:,2]>.026)&(radius<.077),.08)
-cup_colors[inside]=interior[inside]
-# Keep a warm, continuous ceramic bowl bottom instead of malformed dark scan
-# fragments; the source only partially captured the interior.
-inner_floor=(cup.vertices[:,2]<.036)&(cup.vertex_normals[:,2]>.3)
-cup_colors[inner_floor]=ceramic*.98
-saucer_colors=sampled(saucer,(radius>.076)&(radius<.153)&(points[:,2]<.045)&(points[:,2]>-.018)&(source_colors[:,2]>90),.04)
-handle_colors=sampled(handle,(points[:,0]>.060)&(points[:,2]>.045),.04)
-
-# Export color-sampled glTF meshes with physically based ceramic glaze. No
-# noisy displacement/normal texture: all lighting follows the clean geometry.
 binary=bytearray();views=[];accessors=[]
 def buffer(data,target=None):
     while len(binary)%4:binary.append(0)
@@ -147,20 +114,23 @@ def attribute(values,kind):
     accessors.append({'bufferView':buffer(values.tobytes(),34962),'componentType':5126,'count':len(values),'type':kind,'min':values.min(axis=0).tolist(),'max':values.max(axis=0).tolist()})
     return index
 
-primitives=[];checks={}
-for name,mesh,color in [('cup',cup,cup_colors),('handle',handle,handle_colors),('saucer',saucer,saucer_colors)]:
+primitives=[];checks={};images=[];materials=[]
+for name,mesh in models.items():
     assert mesh.is_watertight and mesh.is_winding_consistent and mesh.volume>0,name
     assert np.isfinite(mesh.vertices).all() and np.isfinite(mesh.vertex_normals).all(),name
     assert mesh.area_faces.min()>1e-15,name
-    attributes={'POSITION':attribute(mesh.vertices,'VEC3'),'NORMAL':attribute(mesh.vertex_normals,'VEC3'),'COLOR_0':attribute(linear(color),'VEC3')}
-    indices=len(accessors);faces=np.asarray(mesh.faces,dtype='<u4').reshape(-1)
+    chart=textures[name]
+    attributes={'POSITION':attribute(chart['vertices'],'VEC3'),'NORMAL':attribute(chart['normals'],'VEC3'),'TEXCOORD_0':attribute(chart['uv'],'VEC2')}
+    indices=len(accessors);faces=np.asarray(chart['faces'],dtype='<u4').reshape(-1)
     accessors.append({'bufferView':buffer(faces.tobytes(),34963),'componentType':5125,'count':len(faces),'type':'SCALAR'})
-    primitives.append({'attributes':attributes,'indices':indices,'material':0})
+    primitives.append({'attributes':attributes,'indices':indices,'material':len(materials)})
+    images.append({'bufferView':buffer(chart['jpeg']),'mimeType':'image/jpeg'})
+    materials.append({'name':name+' original photograph on smooth geometry','pbrMetallicRoughness':{'baseColorTexture':{'index':len(materials)},'metallicFactor':0,'roughnessFactor':.30},'extensions':{'KHR_materials_clearcoat':{'clearcoatFactor':.60,'clearcoatRoughnessFactor':.20}}})
     checks[name]={'closed':True,'positiveVolume':True,'consistentWinding':True,'triangles':len(mesh.faces)}
 while len(binary)%4:binary.append(0)
-gltf={'asset':{'version':'2.0','generator':'Kobags smooth ceramic reconstruction from supplied coffee scan'},'scene':0,'scenes':[{'nodes':[0]}],'nodes':[{'mesh':0,'name':'Smooth coffee cup and saucer'}],'meshes':[{'primitives':primitives}],'materials':[{'name':'Glazed ivory ceramic with sampled scan color','pbrMetallicRoughness':{'metallicFactor':0,'roughnessFactor':.26},'extensions':{'KHR_materials_clearcoat':{'clearcoatFactor':.85,'clearcoatRoughnessFactor':.18}}}],'extensionsUsed':['KHR_materials_clearcoat'],'accessors':accessors,'bufferViews':views,'buffers':[{'byteLength':len(binary)}]}
+gltf={'asset':{'version':'2.0','generator':'Kobags smooth ceramic reconstruction from supplied coffee scan'},'scene':0,'scenes':[{'nodes':[0]}],'nodes':[{'mesh':0,'name':'Smooth coffee cup and saucer'}],'meshes':[{'primitives':primitives}],'materials':materials,'images':images,'textures':[{'source':i,'sampler':0} for i in range(len(images))],'samplers':[{'wrapS':10497,'wrapT':33071,'magFilter':9729,'minFilter':9987}],'extensionsUsed':['KHR_materials_clearcoat'],'accessors':accessors,'bufferViews':views,'buffers':[{'byteLength':len(binary)}]}
 encoded=json.dumps(gltf,separators=(',',':')).encode();encoded+=b' '*((-len(encoded))%4)
 output.parent.mkdir(parents=True,exist_ok=True)
 output.write_bytes(struct.pack('<III',0x46546c67,2,28+len(encoded)+len(binary))+struct.pack('<II',len(encoded),0x4e4f534a)+encoded+struct.pack('<II',len(binary),0x004e4942)+binary)
-report={'sourceSHA256':hashlib.sha256(source.read_bytes()).hexdigest(),'outputSHA256':hashlib.sha256(output.read_bytes()).hexdigest(),'method':'Smooth reconstructed ceramic, source-sampled colors; original damaged triangles removed','components':checks,'triangles':sum(v['triangles'] for v in checks.values()),'bytes':output.stat().st_size,'finiteCoordinates':True,'degenerateTriangles':0,'inferredSurfaces':['cup walls and inner bowl','rounded rim','handle','saucer and underside'],'sourceGeometryRetained':False}
+report={'sourceSHA256':hashlib.sha256(source.read_bytes()).hexdigest(),'outputSHA256':hashlib.sha256(output.read_bytes()).hexdigest(),'method':'Original photograph projected onto unchanged smooth geometry; no displacement or dented normals','components':checks,'triangles':sum(v['triangles'] for v in checks.values()),'bytes':output.stat().st_size,'finiteCoordinates':True,'degenerateTriangles':0,'inferredSurfaces':['cup walls and inner bowl','rounded rim','handle','saucer and underside'],'sourceGeometryRetained':False,'textureSource':'Unmodified original diffuse atlas, projected by nearest source triangle and interpolated UV','textureCharts':{name:{'width':data['width'],'height':data['height'],'bytes':len(data['jpeg']),'projectedTexels':data['projectedTexels']} for name,data in textures.items()}}
 report_path.parent.mkdir(parents=True,exist_ok=True);report_path.write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report))

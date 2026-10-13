@@ -2,7 +2,7 @@
 
 ## Uploaded scan test — 13 October 2026
 
-A **3D test** choice sits alongside the five bags in one compact row. The coffee reference now uses reconstructed smooth ceramic: tapered walls, a rounded continuous lip, a real inner bowl, a closed base, a rounded handle with roots outside the inner bowl, and a complete saucer/underside. Damaged scan triangles and the patch lining from version 45 are removed. Source colors are sampled lightly to avoid baking dents and scan shadows back onto the clean shape. This is a visual reconstruction using the scan's proportions and tone; it is not an exact archival scan or manufacturing CAD.
+A **3D test** choice sits alongside the five bags in one compact row. The coffee reference now uses reconstructed smooth ceramic: tapered walls, a rounded continuous lip, a real inner bowl, a closed base, a rounded handle with roots outside the inner bowl, and a complete saucer/underside. Damaged scan triangles and the patch lining from version 45 are removed. The original scan photograph is projected onto the smooth model at full strength, restoring the lettering, color variation, rim and interior detail. Geometry and surface normals match the accepted smooth version exactly. Uncaptured undersides retain inferred ceramic. Photo lighting and capture imperfections remain in the source texture; this is a visual reconstruction, not exact archival geometry or manufacturing CAD.
 
 Studio reflections, ceramic clearcoat, self-shadowing and a soft contact shadow make the volume readable as it rotates. Front, back, top, underneath and three-quarter views, rotation, zoom, fullscreen and EN/SQ controls remain available. Existing bag drafts are preserved, and the coffee test is not an orderable product.
 

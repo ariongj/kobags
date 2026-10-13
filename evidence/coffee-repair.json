@@ -1,7 +1,7 @@
 {
   "sourceSHA256": "a3c0c90b6a4feb53e63580511b1ec62b8c9fbab924e1d7f61589e346be1b2fc2",
-  "outputSHA256": "958b26e2341dd9ef9ce34f63eb5c4b08f50f0d9f3e6b52c5c24897ceb83ec00f",
-  "method": "Smooth reconstructed ceramic, source-sampled colors; original damaged triangles removed",
+  "outputSHA256": "e3b9e406f61927f75257efa0fbb4f63cfdf7969601408632c511b0bd9e502007",
+  "method": "Original photograph projected onto unchanged smooth geometry; no displacement or dented normals",
   "components": {
     "cup": {
       "closed": true,
@@ -23,7 +23,7 @@
     }
   },
   "triangles": 109056,
-  "bytes": 3275492,
+  "bytes": 3574208,
   "finiteCoordinates": true,
   "degenerateTriangles": 0,
   "inferredSurfaces": [
@@ -32,5 +32,34 @@
     "handle",
     "saucer and underside"
   ],
-  "sourceGeometryRetained": false
+  "sourceGeometryRetained": false,
+  "textureSource": "Unmodified original diffuse atlas, projected by nearest source triangle and interpolated UV",
+  "textureCharts": {
+    "cup": {
+      "width": 2048,
+      "height": 1024,
+      "bytes": 375523,
+      "projectedTexels": {
+        "outside": 782336,
+        "rim": 59392,
+        "inside": 976896
+      }
+    },
+    "handle": {
+      "width": 512,
+      "height": 512,
+      "bytes": 58340,
+      "projectedTexels": {
+        "handle": 262144
+      }
+    },
+    "saucer": {
+      "width": 1024,
+      "height": 512,
+      "bytes": 41914,
+      "projectedTexels": {
+        "saucer": 253952
+      }
+    }
+  }
 }

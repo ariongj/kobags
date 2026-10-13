@@ -9,7 +9,7 @@
     "Failed asset retry and understandable WebGL-unavailable state"
   ],
   "browserErrors": [],
-  "modelSHA256": "958b26e2341dd9ef9ce34f63eb5c4b08f50f0d9f3e6b52c5c24897ceb83ec00f",
+  "modelSHA256": "e3b9e406f61927f75257efa0fbb4f63cfdf7969601408632c511b0bd9e502007",
   "visualReview": {
     "views": [
       "front",
@@ -25,6 +25,6 @@
       390,
       768
     ],
-    "notes": "Smooth walls/rim; closed interior; handle roots do not enter the bowl; soft contact shadow. Final mobile label shortened and protected from word wrapping."
+    "notes": "Original lettering and interior/saucer texture restored; version 46 geometry unchanged. Uncaptured undersides remain inferred ceramic."
   }
 }
