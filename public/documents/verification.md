@@ -1,5 +1,14 @@
 # Kobags website — verification record
 
+## Supplied coffee scan trial — 13 October 2026
+
+- Added a separate **3D test** picker entry and shareable `/design?model=coffee-test` URL, including Albanian. The uploaded coffee scan is not a catalogue product and cannot enter the bag quotation schema. Existing bag drafts/artwork are preserved.
+- Converted the supplied OBJ plus diffuse/normal atlases to a self-contained 4.6 MB GLB: all 122,842 triangles retained, texture atlases reduced from 8192 to 2048px. Corrected display orientation only; captured table geometry and scan imperfections remain. Provenance and conversion details are in the developer handoff.
+- TypeScript, production build and whitespace checks passed. `qa/imported_scan_checks.py`: **5 acceptance groups passed**, covering a genuinely textured first render, pointer/keyboard rotation, zoom/reset/spin, fullscreen, link/reload state, saved-design isolation, normal T-Shirt return and quote availability, EN/SQ, 320/390/768px layouts, touch rotation, reduced motion, failed-asset retry and WebGL-unavailable messaging. No captured browser errors on the successful main journey.
+- An initial visual check exposed a blank first frame before shader compilation; the viewer now waits for compilation. The first acceptance run exposed narrow picker labels wrapping; compact nonwrapping labels fixed it and the rerun passed. Renderer work is paused offscreen/when the document is hidden.
+- A separate final pixel/screenshot check confirmed the actual textured model at 768, 390 and 320px after bringing the canvas into view. This matters because offscreen resize clears the canvas while rendering is intentionally paused. Reviewed final desktop/mobile captures.
+- Tests use local Chromium with software WebGL. No new bag scans, scan repairs, production requests or email delivery were created. Screenshots: `coffee-scan-desktop.jpg` and `coffee-scan-mobile.jpg`.
+
 ## Functional audit — 13 October 2026
 
 - Reproduced and fixed stock prepared-confirmation loss on refresh, field-length mismatch with server validation, poor recovery from an edited retry after a lost response, and missing guidance for removed stock choices. Receipts use saved snapshots and remain browser-owned; fresh forms from unavailable receipt links retain their own draft. Details: `docs/AUDIT-2026-10-13.md`.

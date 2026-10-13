@@ -1,9 +1,11 @@
 "use client";
 import { useCms } from "./cms/public-context";
 import Studio3D from "./studio-3d";
-import { useCallback, useLayoutEffect, useRef, useState } from "react";
+import ImportedScan from "./imported-scan";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import Link from "@/components/site-link";
 import {
+  Coffee,
   ArrowRight,
   ArrowUpRight,
   Check,
@@ -166,6 +168,18 @@ function PrecisionInput({
 }
 export default function BagStudio() {
   const { design, update: saveDesign, t } = useKobags();
+  const [testScan, setTestScan] = useState(false);
+  useEffect(() => {
+    const sync = () => setTestScan(new URLSearchParams(location.search).get("model") === "coffee-test");
+    sync(); window.addEventListener("popstate", sync);
+    return () => window.removeEventListener("popstate", sync);
+  }, []);
+  const chooseTestScan = (selected: boolean) => {
+    setTestScan(selected);
+    const url = new URL(location.href);
+    if (selected) url.searchParams.set("model", "coffee-test"); else url.searchParams.delete("model");
+    window.history.replaceState(null, "", url.pathname + url.search + url.hash);
+  };
   const history = useRef<{
     past: Design[];
     future: Design[];
@@ -578,15 +592,15 @@ export default function BagStudio() {
     <section className="studio-section studio-v4 studio-compact">
       <div className="studio-heading">
         <div>
-          <h1>{t("Build your bag.", "Krijoni çantën tuaj.")}</h1>
+          <h1>{testScan ? t("Explore your scan.", "Eksploroni skanimin tuaj.") : t("Build your bag.", "Krijoni çantën tuaj.")}</h1>
           <p>
             {t(
-              "Choose a shape. Drag your artwork. Turn it around.",
-              "Zgjidhni formën. Lëvizni dizajnin. Rrotullojeni.",
+              testScan ? "Your uploaded model. Rotate, zoom and explore." : "Choose a shape. Drag your artwork. Turn it around.",
+              testScan ? "Modeli juaj i ngarkuar. Rrotullojeni, zmadhojeni dhe eksplorojeni." : "Zgjidhni formën. Lëvizni dizajnin. Rrotullojeni.",
             )}
           </p>
         </div>
-        <div className="studio-heading-note">
+        {!testScan && <div className="studio-heading-note">
           <span className="pill">
             {t("WHOLESALE FROM ", "ME SHUMICË NGA ") +
               minimum.toLocaleString() +
@@ -595,7 +609,7 @@ export default function BagStudio() {
           <span>
             {t("Made in Kosova", "Prodhuar në Kosovë")}
           </span>
-        </div>
+        </div>}
       </div>
       {!cms.products.some(p=>p.slug===design.product)&&<p role="status" className="notice">{t("This bag is currently unavailable. Choose another shape below; your artwork is kept.","Kjo çantë aktualisht nuk është e disponueshme. Zgjidhni një formë tjetër; dizajni juaj ruhet.")}</p>}
       <div className="studio">
@@ -604,19 +618,24 @@ export default function BagStudio() {
             {cms.products.map((b) => (
               <button
                 key={b.slug}
-                className={b.slug === p.slug ? "bag-pick selected" : "bag-pick"}
-                onClick={() =>
-                  update({ product: b.slug, size: cms.options(b.slug)?.activeSizes?.[0] || b.variants[0].name, color: preferredBagColor(cms.options(b.slug)?.colors, design.color), printColors: Math.min(design.printColors, cms.options(b.slug)?.printColors || 4) })
-                }
-                aria-pressed={b.slug === p.slug}
+                className={!testScan && b.slug === p.slug ? "bag-pick selected" : "bag-pick"}
+                onClick={() => {
+                  chooseTestScan(false);
+                  update({ product: b.slug, size: cms.options(b.slug)?.activeSizes?.[0] || b.variants[0].name, color: preferredBagColor(cms.options(b.slug)?.colors, design.color), printColors: Math.min(design.printColors, cms.options(b.slug)?.printColors || 4) });
+                }}
+                aria-pressed={!testScan && b.slug === p.slug}
                 aria-label={b.name.replace(" Bag", "")}
               >
                 <BagPreview design={pickerDesigns[b.slug]} compact />
                 <span>{b.name.replace(" Bag", "")}</span>
-                {b.slug === p.slug && <Check size={12} />}
+                {!testScan && b.slug === p.slug && <Check size={12} />}
               </button>
             ))}
+            <button type="button" className={testScan ? "bag-pick scan-pick selected" : "bag-pick scan-pick"} aria-pressed={testScan} aria-label={t("3D test — coffee scan", "Test 3D — skanimi i kafesë")} onClick={() => chooseTestScan(true)}>
+              <span className="scan-pick-icon"><Coffee size={26}/></span><span>{t("3D test", "Test 3D")}</span>{testScan && <Check size={12}/>}
+            </button>
           </div>
+          {testScan ? <ImportedScan/> : <>
           <div className="studio-history">
               <div role="group"
                 className="view-mode-tabs"
@@ -788,8 +807,16 @@ export default function BagStudio() {
             </span>
             <ArrowUpRight size={15} />
           </button>
+          </>}
         </div>
-        <section className="studio-controls" aria-label={t("Customize your bag", "Personalizoni çantën")}>
+        {testScan ? <aside className="scan-info section-card">
+          <p className="eyebrow">{t("UPLOADED 3D MODEL", "MODEL 3D I NGARKUAR")}</p>
+          <h2>{t("Your scan. Every angle.", "Skanimi juaj. Nga çdo kënd.")}</h2>
+          <p>{t("A coffee scan, added here to test how real scanned products look in the studio.", "Një skanim kafeje, i shtuar për të testuar pamjen e produkteve të skanuara në studio.")}</p>
+          <dl><div><dt>{t("Surface", "Sipërfaqja")}</dt><dd>{t("Original scanned texture", "Tekstura e skanimit")}</dd></div><div><dt>{t("Explore", "Eksploroni")}</dt><dd>360°</dd></div></dl>
+          <p className="micro">{t("Test model only. Choose a bag above to continue designing and request a quote.", "Vetëm model testues. Zgjidhni një çantë sipër për të vazhduar dizajnin dhe për të kërkuar ofertë.")}</p>
+          <button type="button" className="button" onClick={() => chooseTestScan(false)}>{t("Back to your bag", "Kthehu te çanta juaj")}<ArrowRight size={16}/></button>
+        </aside> : <section className="studio-controls" aria-label={t("Customize your bag", "Personalizoni çantën")}>
           <Tabs value={tab} onValueChange={setTab}>
             <TabsList className="editor-tabs">
               <TabsTrigger value="bag">
@@ -1390,9 +1417,9 @@ export default function BagStudio() {
               )}
             </p>
           </div>
-        </section>
+        </section>}
       </div>
-      <div className="studio-footnote">
+      {!testScan && <div className="studio-footnote">
         <span>
           <ShieldCheck size={15} />
           {t(
@@ -1404,7 +1431,7 @@ export default function BagStudio() {
           {t("Request material samples", "Kërkoni mostra materiali")}
           <ArrowUpRight size={14} />
         </Link>
-      </div>
+      </div>}
       <Dialog open={full} onOpenChange={setFull}>
         <DialogContent
           className="preview-dialog"

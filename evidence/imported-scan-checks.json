@@ -1,0 +1,11 @@
+{
+  "status": "passed",
+  "checks": [
+    "Visible textured scan on first render; isolated selection, no quotation and saved bag unchanged",
+    "Pointer and keyboard rotation, zoom, reset and opt-in auto rotation",
+    "Fullscreen, reload and direct link; one-row picker at 320/390/768px; normal bag return and quotation preserved",
+    "Albanian UI, mobile touch rotation and reduced-motion setting",
+    "Failed asset retry and understandable WebGL-unavailable state"
+  ],
+  "browserErrors": []
+}

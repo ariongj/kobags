@@ -1,5 +1,9 @@
 # Kobags Group — design handoff
 
+## Uploaded scan test — 13 October 2026
+
+A **3D test** choice sits alongside the five bag choices in one compact row. It opens the supplied coffee scan with its real captured textures, rotation, zoom and fullscreen. The panel is clearly marked as a test, with a direct return to the saved bag. English and Albanian labels are included. The source scan contains tabletop geometry and imperfect surfaces, retained for this import trial. This does not add a coffee product to the catalogue or imply that bag scans are complete.
+
 ## Stock request recovery — 13 October 2026
 
 Prepared stock requests retain their confirmation and saved specifications after refreshing. A request link opened in another browser explains that the receipt is unavailable and offers a fresh form. Saved stock choices that have been removed or become unavailable now ask the buyer to choose another option while retaining their contact details. Live intake remains off; the prepared-request screen continues to offer an explicit email handoff.

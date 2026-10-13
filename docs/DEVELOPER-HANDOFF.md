@@ -1,5 +1,15 @@
 # Kobags Group — code and setup handoff
 
+## Uploaded coffee scan trial — 13 October 2026
+
+The studio has a separate **3D test** choice at `/design?model=coffee-test` (also `/sq/design?model=coffee-test`). It is deliberately absent from the product catalogue, CMS product list and quotation schema. Selection is URL/UI state; the saved bag, colors and artwork remain intact when entering or leaving the test. The test has no bag-customization or product-order controls.
+
+`scripts/convert-test-scan.py` converts the supplied `Test.zip` OBJ/MTL package to `public/assets/models/coffee-test.glb`, keeping all 122,842 triangles and the supplied vertex normals/UVs. It flips texture V for glTF and resamples both 8192px atlases to 2048px for browser memory use. The self-contained GLB is 4,590,124 bytes. Source ZIP SHA-256: `a3c0c90b6a4feb53e63580511b1ec62b8c9fbab924e1d7f61589e346be1b2fc2`.
+
+`lib/imported-scan-scene.ts` loads the model only when selected, changes its Z-up display orientation to Y-up, centers/scales it for viewing and retains the scanned table and imperfect surfaces. It awaits shader compilation, supports orbit/zoom/keyboard controls and opt-in spin, and pauses rendering offscreen/when hidden. `components/imported-scan.tsx` supplies loading/error/retry states, reduced-motion handling and fullscreen. This is a fixed supplied asset trial, not a public upload endpoint or a replacement for the bag meshes. No scan reconstruction or mesh repair was performed.
+
+The existing `kobags-media.zip` companion now includes GLB files as well as videos; extract it with `kobags-source.zip` before rebuilding. The original source ZIP remains in the user attachment; it is not published as a second duplicate asset.
+
 ## Stock request recovery — 13 October 2026
 
 `StockOrder` now uses the shared server field limits and preserves fallback confirmations through a `prepared` query parameter. That identifier is resolved only against the current browser's isolated inquiries; opening the URL in another browser does not expose the buyer's receipt. The email handoff uses the saved inquiry snapshot. Submitted drafts are cleared; a fresh request from an unavailable receipt retains its own draft.
