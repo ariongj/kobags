@@ -1,5 +1,9 @@
 # Kobags CMS — operation and handoff
 
+## Launch audit update — 14 October 2026
+
+See `LAUNCH-READINESS-2026-10-14.md` for the current release status and verification. Earlier dated sections describe historical implementation, not current operating instructions. Owner handoff files now live in `deliverables/handoff/` and are not published at `/handoff` or `/documents/*.zip`. Production CMS intake activation is authorized; email delivery remains unconfigured and staff must check the inbox manually. The production-domain cutover is documented in `DOMAIN-CUTOVER-2026-10-14.md`; DNS access and Google Search Console verification remain external launch steps.
+
 ## Stock collections and homepage media — 11 October 2026
 
 Open **Stock collections** to edit Thank you / Smiley, or create another category. Complete English and Albanian titles/descriptions, dimensions and at least one stock row. Each row has a GSM, English/Albanian color and availability: In stock, Out of stock, or Confirm availability. Save the draft, then Publish. Out-of-stock rows cannot be ordered; the server also checks stock when a request is sent. Archive a category to remove it from the public collection list. Client-confirmed stock on 12 October: 50 GSM White only; 60 GSM White, Beige, Black and Red. Update availability here whenever stock changes.
@@ -106,3 +110,17 @@ Acceptance: `qa/cms_checks.py` uses synthetic password accounts against a local 
 ## Explicit remaining operational work
 
 Client-approved policies and commercial inputs; first administrator sign-in and team invitations; verified email service; activation of real inquiries; scheduled backup/retention arrangements; original-artwork malware scanning if required; final business-domain/Search Console and Google Business Profile access. Existing source media replacement throughout custom layouts and new physical bag geometry still require development. There is no ERP, inventory, payment checkout, automated shipping or machine integration.
+
+### One-time launch activation
+
+The Sites runtime flag `CMS_ACTIVATE_INQUIRIES=2026-10-14` runs the owner-approved settings action once, outside schema migrations. It preserves the previous draft and published settings separately, changes only `liveInquiries`, increments the record revision and writes the `launch-live-inquiries-20261014` audit marker. The first public read applies the bounded atomic batch. It does not publish missing, archived or unpublished settings and never overrides a later staff decision to turn inquiries off. Removing the environment flag does not undo activation; use Business settings to disable and publish if a rollback is needed. No email provider is enabled by this flag.
+
+### Daily opening checklist
+
+1. A named staff member signs in to `/cms` and reviews new/unassigned inquiries during business hours. Receipt references identify saved requests; they do not mean a payment or order was accepted.
+2. Confirm product/collection availability in CMS before promising stock. Collection requests do not reserve or decrement inventory.
+3. Review the latest quotation and artwork revision before release. Check payment conditions using the agreed external process.
+4. Export a protected full backup at the agreed cadence and retain it in the operator's approved encrypted location. The source-code handoff is not a customer-data backup.
+5. Keep account invitations and customer approval links private. Use individual staff roles, revoke unused accounts and sign out on shared devices.
+
+Scheduled offsite backup, retention/deletion schedules, email delivery and client legal approval remain operator/client responsibilities recorded in the launch report.

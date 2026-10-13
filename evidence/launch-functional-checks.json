@@ -1,0 +1,15 @@
+{
+  "status": "passed",
+  "checks": [
+    "/contact: explicit email handoff, immutable reload receipt, browser ownership and mobile fit",
+    "/samples: explicit email handoff, immutable reload receipt, browser ownership and mobile fit",
+    "/partners/apply: explicit email handoff, immutable reload receipt, browser ownership and mobile fit",
+    "/quote: email contains immutable saved specification and both faces, preview download, no fictional ordering path, mobile fit",
+    "/sq/contact: explicit email handoff, immutable reload receipt, browser ownership and mobile fit",
+    "/sq/samples: explicit email handoff, immutable reload receipt, browser ownership and mobile fit",
+    "/sq/partners/apply: explicit email handoff, immutable reload receipt, browser ownership and mobile fit",
+    "/sq/quote: email contains immutable saved specification and both faces, preview download, no fictional ordering path, mobile fit"
+  ],
+  "browserErrors": [],
+  "scope": "Local compiled Worker, synthetic contacts; mail links inspected without opening or sending"
+}

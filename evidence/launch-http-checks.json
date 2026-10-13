@@ -1,0 +1,65 @@
+{
+  "status": "passed",
+  "scope": "read-only isolated compiled Worker",
+  "checks": [
+    {
+      "path": "/",
+      "status": 200,
+      "headers": "passed"
+    },
+    {
+      "path": "/sq",
+      "status": 200,
+      "headers": "passed"
+    },
+    {
+      "path": "/privacy",
+      "status": 200,
+      "headers": "passed"
+    },
+    {
+      "path": "/sq/privacy",
+      "status": 200,
+      "headers": "passed"
+    },
+    {
+      "path": "/cms",
+      "status": 200,
+      "headers": "passed"
+    },
+    {
+      "path": "/api/inquiries",
+      "status": 200,
+      "headers": "passed"
+    },
+    {
+      "path": "/api/cms/session",
+      "status": 200,
+      "headers": "passed"
+    },
+    {
+      "path": "/api/portal/invalid-link",
+      "status": 404,
+      "headers": "passed"
+    },
+    {
+      "path": "/api/media/missing-file",
+      "status": 404,
+      "headers": "passed"
+    },
+    {
+      "path": "/assets/logo-web.png",
+      "status": 200,
+      "headers": "passed"
+    },
+    {
+      "privateHandoff": "Public and internal asset aliases return 404"
+    },
+    {
+      "thirdPartyNotices": "Public notice document available"
+    },
+    {
+      "policyPages": "EN/SQ technical disclosures and contact details resolve"
+    }
+  ]
+}

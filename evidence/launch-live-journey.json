@@ -1,0 +1,9 @@
+{
+  "status": "passed",
+  "checks": [
+    "EN: five bags/Natural default, front/back artwork, all four quote steps, MOQ validation, lost response retry recovers same live inbox reference, immutable CMS snapshot, receipt reload and mobile fit",
+    "SQ: five bags/Natural default, front/back artwork, all four quote steps, MOQ validation, lost response retry recovers same live inbox reference, immutable CMS snapshot, receipt reload and mobile fit"
+  ],
+  "browserErrors": [],
+  "scope": "Local compiled Worker; synthetic buyers; CMS settings restored; no outgoing email"
+}

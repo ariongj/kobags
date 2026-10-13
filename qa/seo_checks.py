@@ -1,12 +1,12 @@
 """SEO acceptance against an isolated compiled Worker; no production writes."""
-import asyncio, json, re, xml.etree.ElementTree as ET
+import asyncio, json, os, re, xml.etree.ElementTree as ET
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlparse
 from playwright.async_api import async_playwright
 from browser_support import BASE, launch
 ROOT=Path(__file__).resolve().parents[1]
-ORIGIN='https://kobags.itdks.tech'
+ORIGIN=os.environ.get('KOBAGS_CANONICAL_ORIGIN','https://kobags.itdks.tech').rstrip('/')
 
 class Document(HTMLParser):
  def __init__(self, source):
@@ -97,14 +97,14 @@ async def main():
    for href in doc.anchors:
     if lang=='sq' and href.startswith('/') and not re.match(r'^/(assets|documents|api|_next)/',href):assert href=='/sq' or href.startswith('/sq/') or href==(path[3:] or '/'),(path,href)
    results.append({'path':path,'language':lang,'title':title,'description':desc,'h1':doc.h1[0]})
-  excluded=['/demo/customer','/demo/admin','/quote','/handoff','/privacy','/terms','/cookies','/samples','/partners/apply']
+  excluded=['/demo/customer','/demo/admin','/quote','/privacy','/terms','/cookies','/samples','/partners/apply']
   for lang in ['en','sq']:
    for path in excluded:
     path=('/sq'+path) if lang=='sq' else path
     r=await context.request.get(BASE+path);assert r.status==200
     doc=Document(await r.text());assert 'noindex' in doc.meta_one('robots') and 'noindex' in r.headers.get('x-robots-tag','')
     assert ORIGIN+path not in urls
-   for path in ['/missing-seo-page','/products/unknown-bag','/blog/unknown-article']:
+   for path in ['/handoff','/missing-seo-page','/products/unknown-bag','/blog/unknown-article']:
     r=await context.request.get(BASE+('/sq' if lang=='sq' else '')+path);assert r.status==404,(path,r.status)
     assert 'noindex' in r.headers.get('x-robots-tag','')
   for old,new in [('/sq/','/sq'),('/sq/shop','/sq/products'),('/sq/shop-catalog/box-bag','/sq/products/box-bag'),('/sq/contact-us','/sq/contact')]:

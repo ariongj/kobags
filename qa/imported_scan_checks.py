@@ -13,7 +13,8 @@ async def main():
   await page.goto(BASE+'/design',wait_until='networkidle');await page.locator('.studio-3d[data-status=ready]').wait_for()
   await page.get_by_role('tab',name='02 Your design',exact=True).click();await page.get_by_label('Brand name or message').fill('KEEP MY BAG')
   saved=await page.evaluate("localStorage.getItem('kobags-design-v1')")
-  await page.get_by_role('button',name='3D test — coffee scan',exact=True).click()
+  assert await page.get_by_role('button',name='3D test — coffee scan',exact=True).count()==0
+  await page.goto(BASE+'/design?model=coffee-test',wait_until='networkidle')
   async def ready():
    await page.locator('.scan-viewer[data-status=ready]').wait_for();await page.wait_for_timeout(750)
   async def number(key):return float(await page.locator('.scan-host').get_attribute('data-'+key))
@@ -24,15 +25,18 @@ async def main():
   first=await page.locator('.scan-host canvas').screenshot()
   im=Image.open(io.BytesIO(first)).convert('RGB');w,h=im.size;pixels=list(im.crop((w*.2,h*.1,w*.8,h*.8)).getdata())
   assert sum(1 for r,g,b in pixels if max(r,g,b)<210)>1500,'Scan geometry/texture missing from first render'
-  checks.append('Visible textured scan on first render; isolated selection, no quotation and saved bag unchanged')
+  checks.append('Coffee test hidden from normal buyers, available by direct test link; textured first render, no quotation and saved bag unchanged')
   angle=await number('angle');await page.get_by_role('button',name='Rotate scan right',exact=True).click();await page.wait_for_timeout(400);assert abs(await number('angle')-angle)>.2
   assert first!=await page.locator('.scan-host canvas').screenshot()
   distance=await number('distance');await page.get_by_role('button',name='Zoom in scan',exact=True).click();await page.wait_for_timeout(300);assert await number('distance')<distance
   canvas=page.locator('.scan-host canvas');await canvas.focus();angle=await number('angle');await page.keyboard.press('ArrowLeft');await page.wait_for_timeout(300);assert abs(await number('angle')-angle)>.2
   box=await canvas.bounding_box();angle=await number('angle');await page.mouse.move(box['x']+box['width']*.35,box['y']+box['height']*.45);await page.mouse.down();await page.mouse.move(box['x']+box['width']*.6,box['y']+box['height']*.5,steps=8);await page.mouse.up();await page.wait_for_timeout(500);assert abs(await number('angle')-angle)>.2
   await page.get_by_role('button',name='Auto rotate scan',exact=True).click();angle=await number('angle');await page.wait_for_timeout(1200);assert abs(await number('angle')-angle)>.01
-  await page.get_by_role('button',name='Pause scan rotation',exact=True).click();await page.get_by_role('button',name='Reset scan view',exact=True).click();await page.wait_for_timeout(500)
-  checks.append('Pointer and keyboard rotation, zoom, reset and opt-in auto rotation')
+  await page.emulate_media(reduced_motion='reduce');await page.wait_for_timeout(500)
+  assert await page.get_by_role('button',name='Auto rotate scan',exact=True).is_disabled()
+  angle=await number('angle');await page.wait_for_timeout(700);assert abs(await number('angle')-angle)<.01,'Changed motion preference must stop rotation'
+  await page.emulate_media(reduced_motion='no-preference');await page.get_by_role('button',name='Auto rotate scan',exact=True).click();await page.get_by_role('button',name='Pause scan rotation',exact=True).click();await page.get_by_role('button',name='Reset scan view',exact=True).click();await page.wait_for_timeout(500)
+  checks.append('Pointer and keyboard rotation, zoom, reset, opt-in rotation and live reduced-motion preference changes')
   for preset in ['front','back','top','bottom','angle']:
    await page.get_by_label('Scan viewpoint',exact=True).select_option(preset);await page.wait_for_timeout(700)
    polar=await number('polar')

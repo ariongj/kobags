@@ -77,7 +77,12 @@ async def main():
   await post(second,'login',{'email':email,'password':new_password},401)
   await post(second,'claim',{'email':email,'password':new_password,'invite':reset['invitation'].split('invite=')[1]})
   await post(owner,'reset-password',{'id':'owner'},422)
+  await post(owner,'reset-password',{'id':['owner']},422)
+  await post(owner,'staff',{'id':['owner'],'role':'editor','active':False},422)
+  await post(owner,'staff',{'id':editor_id,'role':'editor','active':'false'},422)
+  assert (await member(owner))['role']=='administrator'
   checks.append('Disabled accounts cannot sign in; re-enabling does not revive sessions; administrator reset revokes old password')
+  checks.append('Malformed staff identifiers and active states cannot bypass owner/self-protection')
   backup=await (await owner.request.get(BASE+'/api/cms/backup')).json()
   assert not any(k in json.dumps(backup) for k in ['password_hash','credential_tag','token_hash','cms_credentials','cms_sessions'])
   saved_cookie=next(c for c in await owner.cookies() if c['name']=='kobags-cms-session')

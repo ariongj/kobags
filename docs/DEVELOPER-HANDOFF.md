@@ -1,5 +1,9 @@
 # Kobags Group — code and setup handoff
 
+## Launch audit update — 14 October 2026
+
+See `LAUNCH-READINESS-2026-10-14.md` for the current release status and verification. Earlier dated sections describe historical implementation, not current operating instructions. Owner handoff files now live in `deliverables/handoff/` and are not published at `/handoff` or `/documents/*.zip`. Production CMS intake activation is authorized; email delivery remains unconfigured and staff must check the inbox manually. The production-domain cutover is documented in `DOMAIN-CUTOVER-2026-10-14.md`; DNS access and Google Search Console verification remain external launch steps.
+
 ## Uploaded coffee scan trial — 13 October 2026
 
 The studio has a separate **3D test** choice at `/design?model=coffee-test` (also `/sq/design?model=coffee-test`). It is deliberately absent from the product catalogue, CMS product list and quotation schema. Selection is URL/UI state; the saved bag, colors and artwork remain intact when entering or leaving the test. The test has no bag-customization or product-order controls.

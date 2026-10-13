@@ -1,9 +1,7 @@
-/** A browser-scoped demo session, separate from authenticated account records. */
+/** Browser-owned requests use an opaque cookie, independent of platform identity. */
 export async function demoSession(
   req: Request,
 ): Promise<{ owner: string; cookie?: string }> {
-  const user = req.headers.get("oai-authenticated-user-id");
-  if (user) return { owner: "user:" + user };
   const secure = new URL(req.url).protocol === "https:";
   const name = secure ? "__Host-kobags-demo" : "kobags-demo";
   const saved = req.headers

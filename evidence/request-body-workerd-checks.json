@@ -1,0 +1,48 @@
+{
+  "status": "passed",
+  "runtime": "Direct local workerd through Miniflare, without Wrangler HTTP proxy",
+  "helperSha256": "2543e827596a938eae6f3cea4f8819ff1dab36bbce324d98d459f154d721435a",
+  "results": [
+    {
+      "scope": "Actual source helper transpiled into minimal Worker",
+      "streamedOversizeStatuses": [
+        413,
+        413,
+        413,
+        413,
+        413
+      ],
+      "recoveryStatuses": [
+        200,
+        200,
+        200,
+        200,
+        200
+      ]
+    },
+    {
+      "scope": "Actual compiled application Worker; no database or secrets bound",
+      "streamedOversizeStatuses": [
+        413,
+        413,
+        413,
+        413,
+        413
+      ],
+      "recoveryStatuses": [
+        200,
+        200,
+        200,
+        200,
+        200
+      ]
+    },
+    {
+      "scope": "Actual compiled application Worker",
+      "missingAndForeignOriginStatuses": [
+        403,
+        403
+      ]
+    }
+  ]
+}

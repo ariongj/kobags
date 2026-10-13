@@ -46,7 +46,6 @@ async def main():
    ('/assets/logo-web.png','image/png','max-age=86400'),
    ('/assets/client-2026-09/factory-line-960.webp','image/webp','max-age=86400'),
    ('/documents/buyer-checklist.txt','text/plain','must-revalidate'),
-   ('/documents/kobags-source.zip','application/zip','must-revalidate'),
   ]:
    response=await context.request.head(BASE+path)
    assert response.status==200 and response.headers.get('content-type','').startswith(kind)

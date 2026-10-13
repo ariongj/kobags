@@ -2,6 +2,10 @@
 import { useEffect, useState, useCallback } from "react";
 import { DemoState } from "@/lib/demo-domain";
 export const errors: Record<string, [string, string]> = {
+  RATE_LIMIT: ["Too many requests were made from this connection. Please wait and retry; your design has been kept.", "Janë bërë shumë kërkesa nga kjo lidhje. Ju lutemi prisni dhe provoni përsëri; dizajni juaj është ruajtur."],
+  INVALID_VARIANT: ["This bag or size is no longer available. Return to the studio and choose an available option.", "Kjo çantë ose madhësi nuk është më e disponueshme. Kthehuni në studio dhe zgjidhni një opsion të disponueshëm."],
+  INVALID_COLOR: ["This bag color is no longer available. Choose another color in the studio.", "Kjo ngjyrë e çantës nuk është më e disponueshme. Zgjidhni një ngjyrë tjetër në studio."],
+  INVALID_PRINT_COLORS: ["The print-color limit has changed. Review your design in the studio.", "Kufiri i ngjyrave të shtypit ka ndryshuar. Shqyrtoni dizajnin në studio."],
   REQUEST_KEY_CONFLICT: [
     "An earlier version of this request is already saved. Please retry to save your updated design separately.",
     "Një version i mëparshëm i kërkesës është ruajtur. Provoni përsëri për ta ruajtur veçmas dizajnin e përditësuar.",
@@ -15,16 +19,16 @@ export const errors: Record<string, [string, string]> = {
     "Zgjidhni një datë të vlefshme në të ardhmen.",
   ],
   DEMO_SESSION_REQUIRED: [
-    "Allow cookies for this demo and try again. Your bag design is still saved.",
-    "Lejoni cookies për demonstrimin dhe provoni përsëri. Dizajni është ruajtur.",
+    "Allow essential cookies and try again. Your current entries have been kept.",
+    "Lejoni cookies e domosdoshme dhe provoni përsëri. Të dhënat aktuale janë ruajtur.",
   ],
   AUTH_REQUIRED: [
     "Sign in to open your demo workspace.",
     "Identifikohuni për të hapur demonstrimin privat.",
   ],
   STORAGE_UNAVAILABLE: [
-    "The demo storage is unavailable. Your design is still saved in this browser. Please retry.",
-    "Ruajtja nuk është e disponueshme. Dizajni juaj ruhet në këtë shfletues. Provoni përsëri.",
+    "Request storage is temporarily unavailable. Your current entries are still on this page. Please retry.",
+    "Ruajtja e kërkesave përkohësisht nuk është e disponueshme. Të dhënat aktuale mbeten në këtë faqe. Provoni përsëri.",
   ],
   RELEASE_GATES: [
     "Accept the latest quote, approve the latest artwork and satisfy its payment condition before release.",
@@ -43,8 +47,8 @@ export const errors: Record<string, [string, string]> = {
     "Caktoni përgjegjësin dhe datën e rishikimit para publikimit.",
   ],
   DEMO_LIMIT: [
-    "This demo has reached its storage limit. Export useful records, then reset the synthetic demo.",
-    "Demonstrimi ka arritur kufirin e ruajtjes. Eksportoni të dhënat, pastaj rivendoseni.",
+    "This browser’s saved request limit has been reached. Please contact Kobags using the email address below.",
+    "Është arritur kufiri i kërkesave të ruajtura nga ky shfletues. Ju lutemi kontaktoni Kobags përmes emailit më poshtë.",
   ],
   SAVE_FAILED: [
     "The request could not be saved. Check your entries and retry; your design has been kept.",

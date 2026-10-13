@@ -1,0 +1,366 @@
+{
+  "@cloudflare/kv-asset-handler@0.5.0": {
+    "file": "vendor/dependency-licenses/9bb3b077cc862833.txt",
+    "sha256": "9bb3b077cc8628334bab25961223dd8207252c8a56aa054195be38f1c042aaf4",
+    "source": "https://raw.githubusercontent.com/cloudflare/workers-sdk/wrangler%404.92.0/LICENSE-MIT",
+    "sourceBasis": "Official tagged release where available; otherwise upstream license snapshot (not evidence of exact-version equivalence).",
+    "status": "source-notice"
+  },
+  "@cloudflare/unenv-preset@2.16.1": {
+    "file": "vendor/dependency-licenses/9bb3b077cc862833.txt",
+    "sha256": "9bb3b077cc8628334bab25961223dd8207252c8a56aa054195be38f1c042aaf4",
+    "source": "https://raw.githubusercontent.com/cloudflare/workers-sdk/wrangler%404.92.0/LICENSE-MIT",
+    "sourceBasis": "Official tagged release where available; otherwise upstream license snapshot (not evidence of exact-version equivalence).",
+    "status": "source-notice"
+  },
+  "@cloudflare/vite-plugin@1.37.1": {
+    "file": "vendor/dependency-licenses/9bb3b077cc862833.txt",
+    "sha256": "9bb3b077cc8628334bab25961223dd8207252c8a56aa054195be38f1c042aaf4",
+    "source": "https://raw.githubusercontent.com/cloudflare/workers-sdk/%40cloudflare%2Fvite-plugin%401.37.1/LICENSE-MIT",
+    "sourceBasis": "Official tagged release where available; otherwise upstream license snapshot (not evidence of exact-version equivalence).",
+    "status": "source-notice"
+  },
+  "@cloudflare/workerd-linux-64@1.20260515.1": {
+    "declaredLicense": "Apache-2.0",
+    "file": "vendor/dependency-licenses/0d542e0c8804e39a.txt",
+    "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594",
+    "source": "https://raw.githubusercontent.com/cloudflare/workerd/e8c16f4875b5228047f081beadbfe5d7aadb5b5d/LICENSE",
+    "sourceCommit": "e8c16f4875b5228047f081beadbfe5d7aadb5b5d",
+    "status": "source-notice"
+  },
+  "@cloudflare/workers-types@4.20260515.1": {
+    "declaredLicense": "MIT OR Apache-2.0",
+    "file": "vendor/dependency-licenses/0d542e0c8804e39a.txt",
+    "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594",
+    "source": "https://raw.githubusercontent.com/cloudflare/workerd/e8c16f4875b5228047f081beadbfe5d7aadb5b5d/LICENSE",
+    "sourceCommit": "e8c16f4875b5228047f081beadbfe5d7aadb5b5d",
+    "status": "source-notice"
+  },
+  "@drizzle-team/brocli@0.10.2": {
+    "file": "vendor/dependency-licenses/c71d239df91726fc.txt",
+    "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "source": "https://raw.githubusercontent.com/drizzle-team/brocli/main/LICENSE",
+    "sourceBasis": "Official tagged release where available; otherwise upstream license snapshot (not evidence of exact-version equivalence).",
+    "status": "source-notice"
+  },
+  "@esbuild/linux-x64@0.25.12": {
+    "declaredLicense": "MIT",
+    "file": "vendor/dependency-licenses/b40ec5baec7bb34f.txt",
+    "sha256": "b40ec5baec7bb34fa5b1c09521fa3cd52d5fad7adafed74932a2010d3612a681",
+    "source": "https://raw.githubusercontent.com/evanw/esbuild/208f539945b145e7c9d6d844290f81c3fe5af320/LICENSE.md",
+    "sourceCommit": "208f539945b145e7c9d6d844290f81c3fe5af320",
+    "status": "source-notice"
+  },
+  "@esbuild/linux-x64@0.28.1": {
+    "declaredLicense": "MIT",
+    "file": "vendor/dependency-licenses/b40ec5baec7bb34f.txt",
+    "sha256": "b40ec5baec7bb34fa5b1c09521fa3cd52d5fad7adafed74932a2010d3612a681",
+    "source": "https://raw.githubusercontent.com/evanw/esbuild/bb9db84c02433fbe37b3509f53f9f3e3cc48725e/LICENSE.md",
+    "sourceCommit": "bb9db84c02433fbe37b3509f53f9f3e3cc48725e",
+    "status": "source-notice"
+  },
+  "@humanfs/types@0.15.0": {
+    "file": "vendor/dependency-licenses/c71d239df91726fc.txt",
+    "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "source": "node_modules/@humanfs/core/LICENSE",
+    "sourceBasis": "Shared upstream project license supplied by the installed parent/sibling package. Package license declaration separately retained.",
+    "status": "source-notice"
+  },
+  "@img/sharp-libvips-linux-x64@1.3.4": {
+    "declaredLicense": "LGPL-3.0-or-later",
+    "file": "vendor/dependency-licenses/b40930bbcf80744c.txt",
+    "sha256": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1",
+    "source": "https://raw.githubusercontent.com/lovell/sharp-libvips/ebb95f8add54eee8bed840e3fb587e4cbec857d7/LICENSE",
+    "sourceCommit": "ebb95f8add54eee8bed840e3fb587e4cbec857d7",
+    "status": "source-notice"
+  },
+  "@img/sharp-libvips-linuxmusl-x64@1.3.4": {
+    "declaredLicense": "LGPL-3.0-or-later",
+    "file": "vendor/dependency-licenses/b40930bbcf80744c.txt",
+    "sha256": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1",
+    "source": "https://raw.githubusercontent.com/lovell/sharp-libvips/ebb95f8add54eee8bed840e3fb587e4cbec857d7/LICENSE",
+    "sourceCommit": "ebb95f8add54eee8bed840e3fb587e4cbec857d7",
+    "status": "source-notice"
+  },
+  "@next/env@16.3.8": {
+    "file": "vendor/dependency-licenses/ee765244e2d59f52.txt",
+    "sha256": "ee765244e2d59f5234d474f62e0766fa0c8b99af967fdd4c0cb8dcb0c76ea224",
+    "source": "node_modules/next/license.md",
+    "sourceBasis": "Shared upstream project license supplied by the installed parent/sibling package. Package license declaration separately retained.",
+    "status": "source-notice"
+  },
+  "@next/eslint-plugin-next@16.3.8": {
+    "file": "vendor/dependency-licenses/ee765244e2d59f52.txt",
+    "sha256": "ee765244e2d59f5234d474f62e0766fa0c8b99af967fdd4c0cb8dcb0c76ea224",
+    "source": "node_modules/next/license.md",
+    "sourceBasis": "Shared upstream project license supplied by the installed parent/sibling package. Package license declaration separately retained.",
+    "status": "source-notice"
+  },
+  "@next/swc-linux-x64-gnu@16.3.8": {
+    "file": "vendor/dependency-licenses/ee765244e2d59f52.txt",
+    "sha256": "ee765244e2d59f5234d474f62e0766fa0c8b99af967fdd4c0cb8dcb0c76ea224",
+    "source": "node_modules/next/license.md",
+    "sourceBasis": "Shared upstream project license supplied by the installed parent/sibling package. Package license declaration separately retained.",
+    "status": "source-notice"
+  },
+  "@next/swc-linux-x64-musl@16.3.8": {
+    "file": "vendor/dependency-licenses/ee765244e2d59f52.txt",
+    "sha256": "ee765244e2d59f5234d474f62e0766fa0c8b99af967fdd4c0cb8dcb0c76ea224",
+    "source": "node_modules/next/license.md",
+    "sourceBasis": "Shared upstream project license supplied by the installed parent/sibling package. Package license declaration separately retained.",
+    "status": "source-notice"
+  },
+  "@radix-ui/react-compose-refs@1.1.2": {
+    "declaredLicense": "MIT",
+    "file": "vendor/dependency-licenses/0e80a2d229d2fd4f.txt",
+    "sha256": "0e80a2d229d2fd4fc7e8636142ec5d0ff0bc031f14c15b682e2ac01dfd5b5138",
+    "source": "https://raw.githubusercontent.com/radix-ui/primitives/fcef0668a5c827e5a4baac405474d75680f9a4eb/LICENSE",
+    "sourceCommit": "fcef0668a5c827e5a4baac405474d75680f9a4eb",
+    "status": "source-notice"
+  },
+  "@resvg/resvg-wasm@2.4.0": {
+    "declaredLicense": "MPL-2.0",
+    "file": "vendor/dependency-licenses/4b89d4518bd135ab.txt",
+    "sha256": "4b89d4518bd135ab4ee154a7bce722246b57a98c3d7efc1a09409898160c2bd1",
+    "source": "https://raw.githubusercontent.com/yisibl/resvg-js/30ac8d830d44802df7e967569c92edabbbcec017/LICENSE",
+    "sourceCommit": "30ac8d830d44802df7e967569c92edabbbcec017",
+    "status": "source-notice"
+  },
+  "@rolldown/binding-linux-x64-gnu@1.0.3": {
+    "declaredLicense": "MIT",
+    "file": "vendor/dependency-licenses/23ecfff35a5a2e80.txt",
+    "sha256": "23ecfff35a5a2e80d92142f75228912c3b1abc4b5a8337a821ff4397e2f9f734",
+    "source": "https://raw.githubusercontent.com/rolldown/rolldown/a287faaa3db70e9e4145b6bc16567f596a3c2e1f/LICENSE",
+    "sourceCommit": "a287faaa3db70e9e4145b6bc16567f596a3c2e1f",
+    "status": "source-notice"
+  },
+  "@rolldown/binding-linux-x64-musl@1.0.3": {
+    "declaredLicense": "MIT",
+    "file": "vendor/dependency-licenses/23ecfff35a5a2e80.txt",
+    "sha256": "23ecfff35a5a2e80d92142f75228912c3b1abc4b5a8337a821ff4397e2f9f734",
+    "source": "https://raw.githubusercontent.com/rolldown/rolldown/a287faaa3db70e9e4145b6bc16567f596a3c2e1f/LICENSE",
+    "sourceCommit": "a287faaa3db70e9e4145b6bc16567f596a3c2e1f",
+    "status": "source-notice"
+  },
+  "@types/json5@0.0.29": {
+    "file": "vendor/dependency-licenses/c2cfccb812fe4821.txt",
+    "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383",
+    "source": "node_modules/@types/node/LICENSE",
+    "sourceBasis": "Shared upstream project license supplied by the installed parent/sibling package. Package license declaration separately retained.",
+    "status": "source-notice"
+  },
+  "@unpic/core@1.0.3": {
+    "file": "vendor/dependency-licenses/682d8e67b96faf38.txt",
+    "sha256": "682d8e67b96faf3894c23ec6fc0e1330492030ccf439694b5821efc986b47e12",
+    "source": "node_modules/@unpic/react/LICENSE",
+    "sourceBasis": "Shared upstream project license supplied by the installed parent/sibling package. Package license declaration separately retained.",
+    "status": "source-notice"
+  },
+  "@unrs/resolver-binding-linux-x64-gnu@1.11.1": {
+    "declaredLicense": "MIT",
+    "file": "vendor/dependency-licenses/a9e35996693bd619.txt",
+    "sha256": "a9e35996693bd619302922c731fa2f620ad12d5f50b19a37c8a3e0e078c9bd2f",
+    "source": "https://raw.githubusercontent.com/unrs/unrs-resolver/9480a90b081f2afcaeb6ca0e882d191c138dd7a3/LICENSE",
+    "sourceCommit": "9480a90b081f2afcaeb6ca0e882d191c138dd7a3",
+    "status": "source-notice"
+  },
+  "@unrs/resolver-binding-linux-x64-musl@1.11.1": {
+    "declaredLicense": "MIT",
+    "file": "vendor/dependency-licenses/a9e35996693bd619.txt",
+    "sha256": "a9e35996693bd619302922c731fa2f620ad12d5f50b19a37c8a3e0e078c9bd2f",
+    "source": "https://raw.githubusercontent.com/unrs/unrs-resolver/9480a90b081f2afcaeb6ca0e882d191c138dd7a3/LICENSE",
+    "sourceCommit": "9480a90b081f2afcaeb6ca0e882d191c138dd7a3",
+    "status": "source-notice"
+  },
+  "@vitejs/plugin-rsc@0.5.34": {
+    "declaredLicense": "MIT",
+    "file": "vendor/dependency-licenses/29b68325fe026047.txt",
+    "sha256": "29b68325fe026047d13e187b44c33b2acacf7dc647dec4583702e59f235e13b5",
+    "source": "https://raw.githubusercontent.com/vitejs/vite-plugin-react/72f1fc7cf003fb0a5309f9238d2d604674298e8c/LICENSE",
+    "sourceCommit": "72f1fc7cf003fb0a5309f9238d2d604674298e8c",
+    "status": "source-notice"
+  },
+  "client-only@0.0.1": {
+    "file": "vendor/dependency-licenses/da6d3703ed11cbe4.txt",
+    "sha256": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93",
+    "source": "node_modules/react/LICENSE",
+    "sourceBasis": "Shared upstream project license supplied by the installed parent/sibling package. Package license declaration separately retained.",
+    "status": "source-notice"
+  },
+  "css-box-shadow@1.0.0-3": {
+    "reason": "Exact published source commit located; README declares MIT but no complete license text found.",
+    "repository": "jxnblk/css-box-shadow",
+    "sourceCommit": "6fc6c3716752879fa683f7925dbc51cf2c7930ee",
+    "status": "declared-only"
+  },
+  "drizzle-kit@0.31.10": {
+    "declaredLicense": "MIT",
+    "file": "vendor/dependency-licenses/c71d239df91726fc.txt",
+    "reviewRequired": "Exact release package metadata declares MIT; the release repository root supplies Apache-2.0. No kit-specific full MIT notice was located. Confirm package-specific terms before redistributing the installed development tool.",
+    "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "source": "https://raw.githubusercontent.com/drizzle-team/drizzle-orm/drizzle-kit%400.31.10/LICENSE",
+    "sourceBasis": "Repository-root license from the official drizzle-kit@0.31.10 tag; package.json at that same tag verifies version 0.31.10 but declares MIT while this root file contains Apache-2.0. No kit-specific license was found; both facts are retained for review.",
+    "status": "source-notice-review"
+  },
+  "drizzle-orm@0.45.2": {
+    "file": "vendor/dependency-licenses/c71d239df91726fc.txt",
+    "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "source": "https://raw.githubusercontent.com/drizzle-team/drizzle-orm/0.45.2/LICENSE",
+    "sourceBasis": "Official tagged release where available; otherwise upstream license snapshot (not evidence of exact-version equivalence).",
+    "status": "source-notice"
+  },
+  "embla-carousel-react@8.6.0": {
+    "declaredLicense": "MIT",
+    "file": "vendor/dependency-licenses/992490064b90ec94.txt",
+    "sha256": "992490064b90ec94c302fe5f29dcc14cb44145857064e46f9ffe6c8f511c1093",
+    "source": "https://raw.githubusercontent.com/davidjerleke/embla-carousel/0fe65834136f1aa35e4c1a4a477e5ccb4bb5ee54/LICENSE",
+    "sourceCommit": "0fe65834136f1aa35e4c1a4a477e5ccb4bb5ee54",
+    "status": "source-notice"
+  },
+  "embla-carousel-reactive-utils@8.6.0": {
+    "declaredLicense": "MIT",
+    "file": "vendor/dependency-licenses/992490064b90ec94.txt",
+    "sha256": "992490064b90ec94c302fe5f29dcc14cb44145857064e46f9ffe6c8f511c1093",
+    "source": "https://raw.githubusercontent.com/davidjerleke/embla-carousel/0fe65834136f1aa35e4c1a4a477e5ccb4bb5ee54/LICENSE",
+    "sourceCommit": "0fe65834136f1aa35e4c1a4a477e5ccb4bb5ee54",
+    "status": "source-notice"
+  },
+  "embla-carousel@8.6.0": {
+    "declaredLicense": "MIT",
+    "file": "vendor/dependency-licenses/992490064b90ec94.txt",
+    "sha256": "992490064b90ec94c302fe5f29dcc14cb44145857064e46f9ffe6c8f511c1093",
+    "source": "https://raw.githubusercontent.com/davidjerleke/embla-carousel/0fe65834136f1aa35e4c1a4a477e5ccb4bb5ee54/LICENSE",
+    "sourceCommit": "0fe65834136f1aa35e4c1a4a477e5ccb4bb5ee54",
+    "status": "source-notice"
+  },
+  "eslint-config-next@16.3.8": {
+    "file": "vendor/dependency-licenses/ee765244e2d59f52.txt",
+    "sha256": "ee765244e2d59f5234d474f62e0766fa0c8b99af967fdd4c0cb8dcb0c76ea224",
+    "source": "node_modules/next/license.md",
+    "sourceBasis": "Shared upstream project license supplied by the installed parent/sibling package. Package license declaration separately retained.",
+    "status": "source-notice"
+  },
+  "esrecurse@4.3.0": {
+    "reason": "No license file found at package directory or repository root.",
+    "repository": "estools/esrecurse",
+    "sourceCommit": "8ceb63797813d9ac69572a671b95cf58ffdf35b6",
+    "status": "declared-only"
+  },
+  "glob-to-regexp@0.4.1": {
+    "file": "vendor/dependency-licenses/74dee53cf021bc8e.txt",
+    "sha256": "74dee53cf021bc8e06a2d1b90cb1a06c6e9a0d1b147ded5d146fa99e159242c8",
+    "source": "node_modules/glob-to-regexp/README.md (copyright section)",
+    "sourceBasis": "Complete license included in installed publisher README.",
+    "status": "source-notice"
+  },
+  "imurmurhash@0.1.4": {
+    "file": "vendor/dependency-licenses/fa0943ddcaa857d9.txt",
+    "sha256": "fa0943ddcaa857d901a9eb92254d89876297ecdfbc884d294a927df08ebcbbe8",
+    "source": "https://raw.githubusercontent.com/jensyt/imurmurhash-js/master/LICENSE",
+    "sourceBasis": "Official tagged release where available; otherwise upstream license snapshot (not evidence of exact-version equivalence).",
+    "status": "source-notice"
+  },
+  "input-otp@1.4.2": {
+    "declaredLicense": "MIT",
+    "file": "vendor/dependency-licenses/079031192fea535a.txt",
+    "sha256": "079031192fea535a245aa64a637d8433c406b82a14f91c3606b1d63e41c00152",
+    "source": "https://raw.githubusercontent.com/guilhermerodz/input-otp/81ccdb48c010d800b24942aa231909f0c971b1ca/LICENSE",
+    "sourceCommit": "81ccdb48c010d800b24942aa231909f0c971b1ca",
+    "status": "source-notice"
+  },
+  "keyv@4.5.4": {
+    "file": "vendor/dependency-licenses/f3a25fb846504d92.txt",
+    "sha256": "f3a25fb846504d92627388f112f326ce91a9202e65d787d0b6ec79c96076d84d",
+    "source": "https://raw.githubusercontent.com/jaredwray/keyv/main/LICENSE",
+    "sourceBasis": "Official tagged release where available; otherwise upstream license snapshot (not evidence of exact-version equivalence).",
+    "status": "source-notice"
+  },
+  "language-subtag-registry@0.3.23": {
+    "declaredLicense": "CC0-1.0",
+    "file": "vendor/dependency-licenses/a2010f343487d3f7.txt",
+    "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499",
+    "source": "https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt",
+    "sourceBasis": "The exact installed 0.3.23 README explicitly licenses its JSON database under CC0-1.0 and links this official Creative Commons legal code.",
+    "status": "source-notice"
+  },
+  "language-tags@1.0.9": {
+    "declaredLicense": "MIT",
+    "file": "vendor/dependency-licenses/40169c46abc7d91a.txt",
+    "sha256": "40169c46abc7d91a7bde828fe8529d3a711f2023b68676754b89606bfb933c42",
+    "source": "https://mattcg.mit-license.org/license.txt",
+    "sourceBasis": "The exact installed 1.0.9 README preserves Copyright (c) 2013, Matthew Caruana Galizia and links this author-hosted MIT license. Retrieved snapshot currently dates its copyright 2026; the original 2013 notice is retained here.",
+    "status": "source-notice"
+  },
+  "miniflare@4.20260515.0": {
+    "file": "vendor/dependency-licenses/9bb3b077cc862833.txt",
+    "sha256": "9bb3b077cc8628334bab25961223dd8207252c8a56aa054195be38f1c042aaf4",
+    "source": "https://raw.githubusercontent.com/cloudflare/workers-sdk/wrangler%404.92.0/LICENSE-MIT",
+    "sourceBasis": "Official tagged release where available; otherwise upstream license snapshot (not evidence of exact-version equivalence).",
+    "status": "source-notice"
+  },
+  "natural-compare@1.4.0": {
+    "declaredLicense": "MIT",
+    "file": "vendor/dependency-licenses/353fe762ba595bf1.txt",
+    "sha256": "353fe762ba595bf1ffe786acf0f5984bb164205901d74f258af195fc8228c67d",
+    "source": "https://lauri.rooden.ee/mit-license.txt",
+    "sourceBasis": "The exact installed 1.4.0 README preserves Copyright (c) 2012-2015 Lauri Rooden and links this author-hosted MIT text. Retrieved snapshot, not an independently dated release file.",
+    "status": "source-notice"
+  },
+  "react-remove-scroll-bar@2.3.8": {
+    "file": "vendor/dependency-licenses/a79aae0c0f21990d.txt",
+    "sha256": "a79aae0c0f21990d9d963bb3c5a79cdcea9a46f8523ba55c58d7fe776b6ebc84",
+    "source": "https://raw.githubusercontent.com/theKashey/react-remove-scroll-bar/master/LICENSE",
+    "sourceBasis": "Official tagged release where available; otherwise upstream license snapshot (not evidence of exact-version equivalence).",
+    "status": "source-notice"
+  },
+  "stable-hash@0.0.5": {
+    "reason": "No license file found at package directory or repository root.",
+    "repository": "shuding/stable-hash",
+    "sourceCommit": "1b314f2cc3e9449bc8d49e417670175cf9afd42a",
+    "status": "declared-only"
+  },
+  "unpic@4.2.2": {
+    "file": "vendor/dependency-licenses/682d8e67b96faf38.txt",
+    "sha256": "682d8e67b96faf3894c23ec6fc0e1330492030ccf439694b5821efc986b47e12",
+    "source": "node_modules/@unpic/react/LICENSE",
+    "sourceBasis": "Shared upstream project license supplied by the installed parent/sibling package. Package license declaration separately retained.",
+    "status": "source-notice"
+  },
+  "unrs-resolver@1.11.1": {
+    "declaredLicense": "MIT",
+    "file": "vendor/dependency-licenses/a9e35996693bd619.txt",
+    "sha256": "a9e35996693bd619302922c731fa2f620ad12d5f50b19a37c8a3e0e078c9bd2f",
+    "source": "https://raw.githubusercontent.com/unrs/unrs-resolver/9480a90b081f2afcaeb6ca0e882d191c138dd7a3/LICENSE",
+    "sourceCommit": "9480a90b081f2afcaeb6ca0e882d191c138dd7a3",
+    "status": "source-notice"
+  },
+  "victory-vendor@37.3.6": {
+    "file": "vendor/dependency-licenses/34dee5fd5e5cc756.txt",
+    "sha256": "34dee5fd5e5cc756efb5ad4d64652bce719bdf5e900ca5d7538253e737930bc4",
+    "source": "https://raw.githubusercontent.com/FormidableLabs/victory/v37.3.6/LICENSE.txt",
+    "sourceBasis": "Official tagged release where available; otherwise upstream license snapshot (not evidence of exact-version equivalence).",
+    "status": "source-notice"
+  },
+  "workerd@1.20260515.1": {
+    "declaredLicense": "Apache-2.0",
+    "file": "vendor/dependency-licenses/0d542e0c8804e39a.txt",
+    "sha256": "0d542e0c8804e39aa7f37eb00da5a762149dc682d7829451287e11b938e94594",
+    "source": "https://raw.githubusercontent.com/cloudflare/workerd/e8c16f4875b5228047f081beadbfe5d7aadb5b5d/LICENSE",
+    "sourceCommit": "e8c16f4875b5228047f081beadbfe5d7aadb5b5d",
+    "status": "source-notice"
+  },
+  "wrangler@4.92.0": {
+    "file": "vendor/dependency-licenses/9bb3b077cc862833.txt",
+    "sha256": "9bb3b077cc8628334bab25961223dd8207252c8a56aa054195be38f1c042aaf4",
+    "source": "https://raw.githubusercontent.com/cloudflare/workers-sdk/wrangler%404.92.0/LICENSE-MIT",
+    "sourceBasis": "Official tagged release where available; otherwise upstream license snapshot (not evidence of exact-version equivalence).",
+    "status": "source-notice"
+  },
+  "yoga-layout@3.2.1": {
+    "file": "vendor/dependency-licenses/52412d7bc7ce4157.txt",
+    "sha256": "52412d7bc7ce4157ea628bbaacb8829e0a9cb3c58f57f99176126bc8cf2bfc85",
+    "source": "https://raw.githubusercontent.com/facebook/yoga/v3.2.1/LICENSE",
+    "sourceBasis": "Official tagged release where available; otherwise upstream license snapshot (not evidence of exact-version equivalence).",
+    "status": "source-notice"
+  }
+}

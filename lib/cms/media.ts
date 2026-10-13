@@ -1,8 +1,14 @@
 import { db,bucket,id,now,hash,audit,CmsError,originGuard } from './core';
 import { permissions,type Staff } from './types';
+import { readRequestBytes } from '../request-body';
 export async function upload(req:Request,member:Staff){
- originGuard(req);if(Number(req.headers.get('content-length')||0)>22*1024*1024)throw new CmsError(413,'Files must be below 20 MB.');
- const form=await req.formData(),file=form.get('file');if(!(file instanceof File)||file.size>20*1024*1024||!file.size)throw new CmsError(422,'Choose a PNG, JPG, WebP, MP4 or PDF below 20 MB.');
+ originGuard(req);
+ const contentType=req.headers.get('content-type')||'';
+ if(!contentType.toLowerCase().startsWith('multipart/form-data;'))throw new CmsError(415,'Expected a file upload.');
+ const uploadBytes=await readRequestBytes(req,22*1024*1024);
+ let form:FormData;
+ try{form=await new Response(uploadBytes.buffer as ArrayBuffer,{headers:{'Content-Type':contentType}}).formData();}catch{throw new CmsError(400,'Invalid file upload.');}
+ const file=form.get('file');if(!(file instanceof File)||file.size>20*1024*1024||!file.size)throw new CmsError(422,'Choose a PNG, JPG, WebP, MP4 or PDF below 20 MB.');
  const visibility=form.get('visibility')==='private'?'private':'public',inquiryId=String(form.get('inquiryId')||'');
  if(visibility==='private'&&!permissions[member.role].includes('artwork'))throw new CmsError(403,'Your role cannot upload private artwork.');
  if(visibility==='private'&&!(await db().prepare('SELECT id FROM cms_inquiries WHERE id=?').bind(inquiryId).first()))throw new CmsError(422,'Select an existing inquiry for private artwork.');

@@ -1,0 +1,50 @@
+{
+  "status": "passed",
+  "scope": "R2-backed CMS upload in disposable local state; real mobile Chromium video element on compiled site origin; no production writes",
+  "rangeProbe": {
+    "status": 206,
+    "bytesReceived": 2,
+    "size": 1823640,
+    "contentType": "video/mp4",
+    "contentDisposition": "inline; filename=\"qa-uploaded-factory-video.mp4\"",
+    "acceptRanges": "bytes",
+    "contentRange": "bytes 0-1/1823640"
+  },
+  "browserResponses": [
+    {
+      "status": 206,
+      "range": "bytes 0-1823639/1823640"
+    },
+    {
+      "status": 206,
+      "range": "bytes 1802240-1823639/1823640"
+    },
+    {
+      "status": 206,
+      "range": "bytes 196608-1823639/1823640"
+    },
+    {
+      "status": 206,
+      "range": "bytes 327680-1823639/1823640"
+    },
+    {
+      "status": 206,
+      "range": "bytes 1376256-1823639/1823640"
+    }
+  ],
+  "duration": 8.55,
+  "seekTo": 6.4125000000000005,
+  "videoDimensions": {
+    "width": 480,
+    "height": 848,
+    "error": null
+  },
+  "browserErrors": [],
+  "checks": [
+    "CMS upload uses R2 instead of static-asset redirect",
+    "Two-byte range returns exact 206 payload and inline video headers",
+    "Mobile metadata and actual decoded playback",
+    "Seek to 75% completes with a decoded frame",
+    "Settings and all content/inquiry records unchanged"
+  ]
+}

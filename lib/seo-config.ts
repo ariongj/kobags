@@ -1,9 +1,18 @@
 import { products } from "./catalog";
 import { articles } from "./journal";
 import { languageHref, type SiteLanguage } from "./site-locale";
+import { env } from "cloudflare:workers";
 
-// Change this single origin when the approved website moves to its final domain.
-export const SITE_ORIGIN = "https://kobags.itdks.tech";
+// Runtime configuration lets hosting activate the business canonical only after
+// its DNS/TLS are ready. Never derive canonicals from an untrusted request Host.
+function configuredOrigin(value?: string) {
+  try {
+    const url = new URL(value || "");
+    if (url.protocol === "https:" && !url.username && !url.password && !url.port && url.pathname === "/" && !url.search && !url.hash) return url.origin;
+  } catch { /* Keep the verified review origin until hosting is configured. */ }
+  return "https://kobags.itdks.tech";
+}
+export const SITE_ORIGIN = configuredOrigin(env.PUBLIC_SITE_ORIGIN);
 export const SITE_NAME = "Kobags Group";
 export const DEFAULT_SOCIAL_IMAGE = "/assets/client-2026-09/factory-line.jpg";
 type Copy = [string, string];
@@ -33,9 +42,9 @@ export const seoPages: Record<string, SeoPage> = {
   "/contact": { title: ["Contact Kobags Group: Bags & Manufacturing", "Kontaktoni Kobags Group: çanta dhe prodhim"], description: ["Contact Kobags Group about non-woven bags, manufacturing or partnerships. Find the published telephone and email, or prepare a detailed wholesale inquiry.", "Kontaktoni Kobags Group për çanta jo të endura, prodhim ose partneritete. Gjeni telefonin dhe emailin ose përgatitni kërkesën me shumicë."] },
   "/blog": { title: ["Non-Woven Bag Guides & Manufacturing Journal", "Udhëzues për çanta jo të endura dhe prodhim"], description: ["Read Kobags guides on non-woven bag materials, printing, product specifications and wholesale planning. Practical questions for your next branded bag order.", "Lexoni udhëzuesit Kobags për materialet, shtypin, specifikimet dhe porositë me shumicë. Pyetje praktike për porosinë e radhës të çantave me markë."] },
   "/quote": { title: ["Request a Wholesale Bag Quotation", "Kërkoni ofertë për çanta me shumicë"], description: ["Prepare your bag configuration, artwork, quantity and delivery requirements for a Kobags quotation request.", "Përgatitni konfigurimin e çantës, dizajnin, sasinë dhe kërkesat e dërgesës për ofertën Kobags."], index: false },
-  "/privacy": { title: ["Privacy & Your Data", "Privatësia dhe të dhënat tuaja"], description: ["How the Kobags website demonstration stores browser drafts and synthetic requests, and which controls you can use.", "Si ruhen dizajnet e shfletuesit dhe kërkesat fiktive në demonstrimin e faqes Kobags dhe cilat kontrolle mund të përdorni."], index: false },
-  "/terms": { title: ["Website Demonstration Terms", "Kushtet e demonstrimit të faqes"], description: ["Read the demonstration terms for bag previews, fictional quotations and artwork approvals before production integration.", "Lexoni kushtet e demonstrimit për pamjet e çantave, ofertat fiktive dhe miratimin e dizajnit para integrimit me prodhimin."], index: false },
-  "/cookies": { title: ["Cookies & Browser Storage", "Cookies dhe ruajtja në shfletues"], description: ["Understand essential browser storage and session cookies on the Kobags demo, or reset your local bag design draft.", "Njihuni me ruajtjen në shfletues dhe cookies e domosdoshme të demonstrimit Kobags ose rivendosni dizajnin lokal të çantës."], index: false },
+  "/privacy": { title: ["Privacy & Your Data", "Privatësia dhe të dhënat tuaja"], description: ["How Kobags stores browser designs and quotation requests, uses contact information and provides controls for your data.", "Si i ruan Kobags dizajnet e shfletuesit dhe kërkesat për ofertë, si i përdor kontaktet dhe cilat kontrolle ofron për të dhënat tuaja."], index: false },
+  "/terms": { title: ["Website & Quotation Terms", "Kushtet e faqes dhe ofertave"], description: ["Understand bag previews, quotation requests, artwork rights and the separate approval required before manufacturing.", "Njihuni me pamjet e çantave, kërkesat për ofertë, të drejtat e dizajnit dhe miratimin e veçantë që kërkohet para prodhimit."], index: false },
+  "/cookies": { title: ["Cookies & Browser Storage", "Cookies dhe ruajtja në shfletues"], description: ["Understand essential browser storage and session cookies on the Kobags website, or reset your local bag design draft.", "Njihuni me ruajtjen në shfletues dhe cookies e domosdoshme të faqes Kobags ose rivendosni dizajnin lokal të çantës."], index: false },
   "/handoff": { title: ["Design & Code Handoff", "Dorëzimi i dizajnit dhe kodit"], description: ["Website outline, design documentation, source code and client demonstration verification.", "Struktura e faqes, dokumentacioni i dizajnit, kodi dhe verifikimi i demonstrimit për klientin."], index: false },
   "/demo/customer": { title: ["Customer Demonstration Workspace", "Hapësira e demonstrimit për klientin"], description: ["Review fictional quotations, artwork approvals and simulated orders in your isolated demonstration workspace.", "Shqyrtoni ofertat fiktive, miratimet e dizajnit dhe porositë e simuluara në hapësirën tuaj të demonstrimit."], index: false },
   "/demo/admin": { title: ["Sales Demonstration Workspace", "Hapësira e demonstrimit për shitjet"], description: ["Manage synthetic requests and the fictional sales and production journey in your own demonstration workspace.", "Menaxhoni kërkesat fiktive dhe demonstrimin e procesit të shitjes dhe prodhimit në hapësirën tuaj."], index: false },

@@ -1,0 +1,339 @@
+{
+  "status": "passed",
+  "base": "http://127.0.0.1:8788",
+  "canonicalOrigin": "https://kobags-group.com",
+  "redirectChecks": [
+    {
+      "host": "kobags.itdks.tech",
+      "method": "GET",
+      "path": "/",
+      "location": "https://kobags-group.com/"
+    },
+    {
+      "host": "kobags.itdks.tech",
+      "method": "GET",
+      "path": "/sq/products/box-bag?utm_source=launch",
+      "location": "https://kobags-group.com/sq/products/box-bag?utm_source=launch"
+    },
+    {
+      "host": "kobags.itdks.tech",
+      "method": "GET",
+      "path": "//outside.invalid/path?x=1",
+      "location": "https://kobags-group.com//outside.invalid/path?x=1"
+    },
+    {
+      "host": "kobags.itdks.tech",
+      "method": "GET",
+      "path": "/%2f%2foutside.invalid/path",
+      "location": "https://kobags-group.com/%2f%2foutside.invalid/path"
+    },
+    {
+      "host": "kobags.itdks.tech",
+      "method": "GET",
+      "path": "/%5coutside.invalid/path",
+      "location": "https://kobags-group.com/%5coutside.invalid/path"
+    },
+    {
+      "host": "kobags.itdks.tech",
+      "method": "GET",
+      "path": "/request/qa-placeholder?from=launch",
+      "location": "https://kobags-group.com/request/qa-placeholder?from=launch"
+    },
+    {
+      "host": "kobags.itdks.tech",
+      "method": "GET",
+      "path": "/sq/request/qa-placeholder",
+      "location": "https://kobags-group.com/sq/request/qa-placeholder"
+    },
+    {
+      "host": "kobags.itdks.tech",
+      "method": "GET",
+      "path": "/cms",
+      "location": "https://kobags-group.com/cms"
+    },
+    {
+      "host": "kobags.itdks.tech",
+      "method": "GET",
+      "path": "/sq/cms",
+      "location": "https://kobags-group.com/sq/cms"
+    },
+    {
+      "host": "kobags.itdks.tech",
+      "method": "HEAD",
+      "path": "/",
+      "location": "https://kobags-group.com/"
+    },
+    {
+      "host": "kobags.itdks.tech",
+      "method": "HEAD",
+      "path": "/sq/products/box-bag?utm_source=launch",
+      "location": "https://kobags-group.com/sq/products/box-bag?utm_source=launch"
+    },
+    {
+      "host": "kobags.itdks.tech",
+      "method": "HEAD",
+      "path": "//outside.invalid/path?x=1",
+      "location": "https://kobags-group.com//outside.invalid/path?x=1"
+    },
+    {
+      "host": "kobags.itdks.tech",
+      "method": "HEAD",
+      "path": "/%2f%2foutside.invalid/path",
+      "location": "https://kobags-group.com/%2f%2foutside.invalid/path"
+    },
+    {
+      "host": "kobags.itdks.tech",
+      "method": "HEAD",
+      "path": "/%5coutside.invalid/path",
+      "location": "https://kobags-group.com/%5coutside.invalid/path"
+    },
+    {
+      "host": "kobags.itdks.tech",
+      "method": "HEAD",
+      "path": "/request/qa-placeholder?from=launch",
+      "location": "https://kobags-group.com/request/qa-placeholder?from=launch"
+    },
+    {
+      "host": "kobags.itdks.tech",
+      "method": "HEAD",
+      "path": "/sq/request/qa-placeholder",
+      "location": "https://kobags-group.com/sq/request/qa-placeholder"
+    },
+    {
+      "host": "kobags.itdks.tech",
+      "method": "HEAD",
+      "path": "/cms",
+      "location": "https://kobags-group.com/cms"
+    },
+    {
+      "host": "kobags.itdks.tech",
+      "method": "HEAD",
+      "path": "/sq/cms",
+      "location": "https://kobags-group.com/sq/cms"
+    },
+    {
+      "host": "www.kobags-group.com",
+      "method": "GET",
+      "path": "/",
+      "location": "https://kobags-group.com/"
+    },
+    {
+      "host": "www.kobags-group.com",
+      "method": "GET",
+      "path": "/sq/products/box-bag?utm_source=launch",
+      "location": "https://kobags-group.com/sq/products/box-bag?utm_source=launch"
+    },
+    {
+      "host": "www.kobags-group.com",
+      "method": "GET",
+      "path": "//outside.invalid/path?x=1",
+      "location": "https://kobags-group.com//outside.invalid/path?x=1"
+    },
+    {
+      "host": "www.kobags-group.com",
+      "method": "GET",
+      "path": "/%2f%2foutside.invalid/path",
+      "location": "https://kobags-group.com/%2f%2foutside.invalid/path"
+    },
+    {
+      "host": "www.kobags-group.com",
+      "method": "GET",
+      "path": "/%5coutside.invalid/path",
+      "location": "https://kobags-group.com/%5coutside.invalid/path"
+    },
+    {
+      "host": "www.kobags-group.com",
+      "method": "GET",
+      "path": "/request/qa-placeholder?from=launch",
+      "location": "https://kobags-group.com/request/qa-placeholder?from=launch"
+    },
+    {
+      "host": "www.kobags-group.com",
+      "method": "GET",
+      "path": "/sq/request/qa-placeholder",
+      "location": "https://kobags-group.com/sq/request/qa-placeholder"
+    },
+    {
+      "host": "www.kobags-group.com",
+      "method": "GET",
+      "path": "/cms",
+      "location": "https://kobags-group.com/cms"
+    },
+    {
+      "host": "www.kobags-group.com",
+      "method": "GET",
+      "path": "/sq/cms",
+      "location": "https://kobags-group.com/sq/cms"
+    },
+    {
+      "host": "www.kobags-group.com",
+      "method": "HEAD",
+      "path": "/",
+      "location": "https://kobags-group.com/"
+    },
+    {
+      "host": "www.kobags-group.com",
+      "method": "HEAD",
+      "path": "/sq/products/box-bag?utm_source=launch",
+      "location": "https://kobags-group.com/sq/products/box-bag?utm_source=launch"
+    },
+    {
+      "host": "www.kobags-group.com",
+      "method": "HEAD",
+      "path": "//outside.invalid/path?x=1",
+      "location": "https://kobags-group.com//outside.invalid/path?x=1"
+    },
+    {
+      "host": "www.kobags-group.com",
+      "method": "HEAD",
+      "path": "/%2f%2foutside.invalid/path",
+      "location": "https://kobags-group.com/%2f%2foutside.invalid/path"
+    },
+    {
+      "host": "www.kobags-group.com",
+      "method": "HEAD",
+      "path": "/%5coutside.invalid/path",
+      "location": "https://kobags-group.com/%5coutside.invalid/path"
+    },
+    {
+      "host": "www.kobags-group.com",
+      "method": "HEAD",
+      "path": "/request/qa-placeholder?from=launch",
+      "location": "https://kobags-group.com/request/qa-placeholder?from=launch"
+    },
+    {
+      "host": "www.kobags-group.com",
+      "method": "HEAD",
+      "path": "/sq/request/qa-placeholder",
+      "location": "https://kobags-group.com/sq/request/qa-placeholder"
+    },
+    {
+      "host": "www.kobags-group.com",
+      "method": "HEAD",
+      "path": "/cms",
+      "location": "https://kobags-group.com/cms"
+    },
+    {
+      "host": "www.kobags-group.com",
+      "method": "HEAD",
+      "path": "/sq/cms",
+      "location": "https://kobags-group.com/sq/cms"
+    },
+    {
+      "host": "kobags-bag-studio.ariongj.chatgpt.site",
+      "method": "GET",
+      "path": "/",
+      "location": "https://kobags-group.com/"
+    },
+    {
+      "host": "kobags-bag-studio.ariongj.chatgpt.site",
+      "method": "GET",
+      "path": "/sq/products/box-bag?utm_source=launch",
+      "location": "https://kobags-group.com/sq/products/box-bag?utm_source=launch"
+    },
+    {
+      "host": "kobags-bag-studio.ariongj.chatgpt.site",
+      "method": "GET",
+      "path": "//outside.invalid/path?x=1",
+      "location": "https://kobags-group.com//outside.invalid/path?x=1"
+    },
+    {
+      "host": "kobags-bag-studio.ariongj.chatgpt.site",
+      "method": "GET",
+      "path": "/%2f%2foutside.invalid/path",
+      "location": "https://kobags-group.com/%2f%2foutside.invalid/path"
+    },
+    {
+      "host": "kobags-bag-studio.ariongj.chatgpt.site",
+      "method": "GET",
+      "path": "/%5coutside.invalid/path",
+      "location": "https://kobags-group.com/%5coutside.invalid/path"
+    },
+    {
+      "host": "kobags-bag-studio.ariongj.chatgpt.site",
+      "method": "GET",
+      "path": "/request/qa-placeholder?from=launch",
+      "location": "https://kobags-group.com/request/qa-placeholder?from=launch"
+    },
+    {
+      "host": "kobags-bag-studio.ariongj.chatgpt.site",
+      "method": "GET",
+      "path": "/sq/request/qa-placeholder",
+      "location": "https://kobags-group.com/sq/request/qa-placeholder"
+    },
+    {
+      "host": "kobags-bag-studio.ariongj.chatgpt.site",
+      "method": "GET",
+      "path": "/cms",
+      "location": "https://kobags-group.com/cms"
+    },
+    {
+      "host": "kobags-bag-studio.ariongj.chatgpt.site",
+      "method": "GET",
+      "path": "/sq/cms",
+      "location": "https://kobags-group.com/sq/cms"
+    },
+    {
+      "host": "kobags-bag-studio.ariongj.chatgpt.site",
+      "method": "HEAD",
+      "path": "/",
+      "location": "https://kobags-group.com/"
+    },
+    {
+      "host": "kobags-bag-studio.ariongj.chatgpt.site",
+      "method": "HEAD",
+      "path": "/sq/products/box-bag?utm_source=launch",
+      "location": "https://kobags-group.com/sq/products/box-bag?utm_source=launch"
+    },
+    {
+      "host": "kobags-bag-studio.ariongj.chatgpt.site",
+      "method": "HEAD",
+      "path": "//outside.invalid/path?x=1",
+      "location": "https://kobags-group.com//outside.invalid/path?x=1"
+    },
+    {
+      "host": "kobags-bag-studio.ariongj.chatgpt.site",
+      "method": "HEAD",
+      "path": "/%2f%2foutside.invalid/path",
+      "location": "https://kobags-group.com/%2f%2foutside.invalid/path"
+    },
+    {
+      "host": "kobags-bag-studio.ariongj.chatgpt.site",
+      "method": "HEAD",
+      "path": "/%5coutside.invalid/path",
+      "location": "https://kobags-group.com/%5coutside.invalid/path"
+    },
+    {
+      "host": "kobags-bag-studio.ariongj.chatgpt.site",
+      "method": "HEAD",
+      "path": "/request/qa-placeholder?from=launch",
+      "location": "https://kobags-group.com/request/qa-placeholder?from=launch"
+    },
+    {
+      "host": "kobags-bag-studio.ariongj.chatgpt.site",
+      "method": "HEAD",
+      "path": "/sq/request/qa-placeholder",
+      "location": "https://kobags-group.com/sq/request/qa-placeholder"
+    },
+    {
+      "host": "kobags-bag-studio.ariongj.chatgpt.site",
+      "method": "HEAD",
+      "path": "/cms",
+      "location": "https://kobags-group.com/cms"
+    },
+    {
+      "host": "kobags-bag-studio.ariongj.chatgpt.site",
+      "method": "HEAD",
+      "path": "/sq/cms",
+      "location": "https://kobags-group.com/sq/cms"
+    }
+  ],
+  "hstsVerified": false,
+  "checks": [
+    "known aliases redirect to pinned business origin",
+    "GET/HEAD retain path and query",
+    "double-slash and encoded separator paths cannot redirect off-site",
+    "private-link referrer suppressed and private routes are not cached",
+    "canonical host/local preview/API routes do not redirect"
+  ]
+}

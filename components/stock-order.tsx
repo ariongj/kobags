@@ -13,6 +13,8 @@ export default function StockOrder({slug}:{slug:string}) {
  const [ready,setReady]=useState(false),[prepared,setPrepared]=useState(''),[error,setError]=useState('');
  const sending=useRef(false);
  const storageKey='kobags-stock:'+slug;
+ // Restore browser-only draft/receipt after hydration before enabling persistence; never carry saved consent forward.
+ // eslint-disable-next-line react-hooks/set-state-in-effect
  useEffect(()=>{setPrepared(new URLSearchParams(location.search).get('prepared')||'');try{const old=JSON.parse(sessionStorage.getItem(storageKey)||'null');if(old&&typeof old==='object')setForm(f=>({...f,...old,consent:false}));}catch{}setReady(true);},[storageKey]);
  useEffect(()=>{if(ready&&!live.reference&&(!prepared||(demo.state&&!demo.state.inquiries.some(i=>i.id===prepared&&i.model==='Finished stock'))))try{sessionStorage.setItem(storageKey,JSON.stringify(form));}catch{}},[form,ready,storageKey,prepared,live.reference,demo.state]);
  const set=(key:keyof typeof form,value:unknown)=>setForm(f=>({...f,[key]:value,key:key==='key'?String(value):f.key}));

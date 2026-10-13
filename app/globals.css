@@ -1564,7 +1564,7 @@ details p {
   margin-bottom: 25px;
 }
 .success-page p:not(.eyebrow) {
-  color: #738268;
+  color: var(--muted-foreground, #5b6c73);
   line-height: 1.8;
   margin-bottom: 20px;
 }

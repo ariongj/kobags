@@ -1,0 +1,257 @@
+{
+  "status": "passed",
+  "base": "http://127.0.0.1:8788",
+  "canonicalOrigin": "https://kobags-group.com",
+  "sitemapUrls": 48,
+  "pages": [
+    {
+      "path": "/",
+      "title": "Custom Bag Manufacturer in Kosovo | Kobags Group",
+      "language": "en"
+    },
+    {
+      "path": "/sq",
+      "title": "Qese dhe çanta me logo në Kosovë | Kobags Group",
+      "language": "sq"
+    },
+    {
+      "path": "/bags-kosovo",
+      "title": "Wholesale Bags Across Kosovo: All Municipalities | Kobags Group",
+      "language": "en"
+    },
+    {
+      "path": "/sq/bags-kosovo",
+      "title": "Qese me logo dhe çanta me shumicë në tërë Kosovën | Kobags Group",
+      "language": "sq"
+    },
+    {
+      "path": "/products",
+      "title": "Choose Your Bag: Custom & Ready-to-Order Bags | Kobags Group",
+      "language": "en"
+    },
+    {
+      "path": "/sq/products",
+      "title": "Zgjidhni çantën tuaj: me porosi dhe nga stoku | Kobags Group",
+      "language": "sq"
+    },
+    {
+      "path": "/design",
+      "title": "Design Your Custom Bag in 3D | Kobags Group",
+      "language": "en"
+    },
+    {
+      "path": "/sq/design",
+      "title": "Dizajnoni çantën tuaj në 3D | Kobags Group",
+      "language": "sq"
+    },
+    {
+      "path": "/manufacturing",
+      "title": "Non-Woven Bag Manufacturing in Kosovo | Kobags Group",
+      "language": "en"
+    },
+    {
+      "path": "/sq/manufacturing",
+      "title": "Prodhimi i çantave jo të endura në Kosovë | Kobags Group",
+      "language": "sq"
+    },
+    {
+      "path": "/sustainability",
+      "title": "Non-Woven PP Bags: Materials & Responsibility | Kobags Group",
+      "language": "en"
+    },
+    {
+      "path": "/sq/sustainability",
+      "title": "Çanta PP jo të endura: materiali dhe përgjegjësia | Kobags Group",
+      "language": "sq"
+    },
+    {
+      "path": "/certifications",
+      "title": "ISO 9001 & ISO 14001 Certificate Documents | Kobags Group",
+      "language": "en"
+    },
+    {
+      "path": "/sq/certifications",
+      "title": "Dokumentet e certifikatave ISO 9001 dhe ISO 14001 | Kobags Group",
+      "language": "sq"
+    },
+    {
+      "path": "/partners",
+      "title": "Wholesale Bag Partnerships & Distribution | Kobags Group",
+      "language": "en"
+    },
+    {
+      "path": "/sq/partners",
+      "title": "Partneritete dhe shpërndarje të çantave me shumicë | Kobags Group",
+      "language": "sq"
+    },
+    {
+      "path": "/resources",
+      "title": "Bag Buying Guides & Wholesale Brief Checklist | Kobags Group",
+      "language": "en"
+    },
+    {
+      "path": "/sq/resources",
+      "title": "Udhëzues për çanta dhe listë për kërkesën me shumicë | Kobags Group",
+      "language": "sq"
+    },
+    {
+      "path": "/industries",
+      "title": "Custom Bags for Retail, Grocery & Events | Kobags Group",
+      "language": "en"
+    },
+    {
+      "path": "/sq/industries",
+      "title": "Çanta me markë për dyqane, ushqimore dhe evente | Kobags Group",
+      "language": "sq"
+    },
+    {
+      "path": "/industries/retail",
+      "title": "Branded Shopping Bags for Retail Businesses | Kobags Group",
+      "language": "en"
+    },
+    {
+      "path": "/sq/industries/retail",
+      "title": "Çanta blerjesh me markë për bizneset e pakicës | Kobags Group",
+      "language": "sq"
+    },
+    {
+      "path": "/contact",
+      "title": "Contact Kobags Group: Bags & Manufacturing | Kobags Group",
+      "language": "en"
+    },
+    {
+      "path": "/sq/contact",
+      "title": "Kontaktoni Kobags Group: çanta dhe prodhim | Kobags Group",
+      "language": "sq"
+    },
+    {
+      "path": "/blog",
+      "title": "Non-Woven Bag Guides & Manufacturing Journal | Kobags Group",
+      "language": "en"
+    },
+    {
+      "path": "/sq/blog",
+      "title": "Udhëzues për çanta jo të endura dhe prodhim | Kobags Group",
+      "language": "sq"
+    },
+    {
+      "path": "/products/d-cut-bag",
+      "title": "D-Cut Bag | Kobags Group",
+      "language": "en"
+    },
+    {
+      "path": "/sq/products/d-cut-bag",
+      "title": "D-Cut Bag | Kobags Group",
+      "language": "sq"
+    },
+    {
+      "path": "/products/handle-bag",
+      "title": "Handle Bag | Kobags Group",
+      "language": "en"
+    },
+    {
+      "path": "/sq/products/handle-bag",
+      "title": "Handle Bag | Kobags Group",
+      "language": "sq"
+    },
+    {
+      "path": "/products/box-bag",
+      "title": "Box Bag | Kobags Group",
+      "language": "en"
+    },
+    {
+      "path": "/sq/products/box-bag",
+      "title": "Box Bag | Kobags Group",
+      "language": "sq"
+    },
+    {
+      "path": "/products/t-shirt-bag",
+      "title": "T-Shirt Bag | Kobags Group",
+      "language": "en"
+    },
+    {
+      "path": "/sq/products/t-shirt-bag",
+      "title": "T-Shirt Bag | Kobags Group",
+      "language": "sq"
+    },
+    {
+      "path": "/products/string-bag",
+      "title": "String Bag | Kobags Group",
+      "language": "en"
+    },
+    {
+      "path": "/sq/products/string-bag",
+      "title": "String Bag | Kobags Group",
+      "language": "sq"
+    },
+    {
+      "path": "/blog/kobagsjourney",
+      "title": "How Non-Woven Bags Are Made at Kobags | Kobags Group",
+      "language": "en"
+    },
+    {
+      "path": "/sq/blog/kobagsjourney",
+      "title": "Si prodhohen çantat jo të endura në Kobags | Kobags Group",
+      "language": "sq"
+    },
+    {
+      "path": "/blog/whyswitchtokobags",
+      "title": "Choosing Reusable Bags for Your Business | Kobags Group",
+      "language": "en"
+    },
+    {
+      "path": "/sq/blog/whyswitchtokobags",
+      "title": "Zgjedhja e çantave për ripërdorim për biznesin | Kobags Group",
+      "language": "sq"
+    },
+    {
+      "path": "/blog/kobagsmission",
+      "title": "Reuse, Recycling & Responsible Bag Choices | Kobags Group",
+      "language": "en"
+    },
+    {
+      "path": "/sq/blog/kobagsmission",
+      "title": "Ripërdorimi, riciklimi dhe zgjedhja e çantave | Kobags Group",
+      "language": "sq"
+    },
+    {
+      "path": "/blog/sciencebehindkobags",
+      "title": "Non-Woven Polypropylene Bags: Material Guide | Kobags Group",
+      "language": "en"
+    },
+    {
+      "path": "/sq/blog/sciencebehindkobags",
+      "title": "Çanta PP jo të endura: udhëzues për materialin | Kobags Group",
+      "language": "sq"
+    },
+    {
+      "path": "/blog/benefitsofkobags",
+      "title": "Custom Bag Orders: Five Details to Confirm | Kobags Group",
+      "language": "en"
+    },
+    {
+      "path": "/sq/blog/benefitsofkobags",
+      "title": "Porositë e çantave: pesë hollësi për konfirmim | Kobags Group",
+      "language": "sq"
+    },
+    {
+      "path": "/blog/helpingbusinesseskobags",
+      "title": "Branded Bags: From Logo to Wholesale Brief | Kobags Group",
+      "language": "en"
+    },
+    {
+      "path": "/sq/blog/helpingbusinesseskobags",
+      "title": "Çanta me markë: nga logoja te kërkesa me shumicë | Kobags Group",
+      "language": "sq"
+    }
+  ],
+  "checks": [
+    "crawler-visible unique titles and descriptions",
+    "canonical/hreflang/sitemap consistency",
+    "source-backed structured data and all 38 municipalities",
+    "private pages excluded",
+    "former handoff/unknown pages return404",
+    "query URLs canonicalize",
+    "third-party software notices accessible and noindex"
+  ]
+}

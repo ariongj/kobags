@@ -169,8 +169,13 @@ function PrecisionInput({
 export default function BagStudio() {
   const { design, update: saveDesign, t } = useKobags();
   const [testScan, setTestScan] = useState(false);
+  const [testScanAvailable, setTestScanAvailable] = useState(false);
   useEffect(() => {
-    const sync = () => setTestScan(new URLSearchParams(location.search).get("model") === "coffee-test");
+    const sync = () => {
+      const selected = new URLSearchParams(location.search).get("model") === "coffee-test";
+      setTestScan(selected);
+      if (selected) setTestScanAvailable(true);
+    };
     sync(); window.addEventListener("popstate", sync);
     return () => window.removeEventListener("popstate", sync);
   }, []);
@@ -614,7 +619,7 @@ export default function BagStudio() {
       {!cms.products.some(p=>p.slug===design.product)&&<p role="status" className="notice">{t("This bag is currently unavailable. Choose another shape below; your artwork is kept.","Kjo çantë aktualisht nuk është e disponueshme. Zgjidhni një formë tjetër; dizajni juaj ruhet.")}</p>}
       <div className="studio">
         <div className="preview-column">
-          <div className="bag-picker">
+          <div className="bag-picker" style={{ gridTemplateColumns: `repeat(${Math.max(1, cms.products.length + Number(testScanAvailable))}, minmax(0, 1fr))` }}>
             {cms.products.map((b) => (
               <button
                 key={b.slug}
@@ -631,9 +636,9 @@ export default function BagStudio() {
                 {!testScan && b.slug === p.slug && <Check size={12} />}
               </button>
             ))}
-            <button type="button" className={testScan ? "bag-pick scan-pick selected" : "bag-pick scan-pick"} aria-pressed={testScan} aria-label={t("3D test — coffee scan", "Test 3D — skanimi i kafesë")} onClick={() => chooseTestScan(true)}>
+            {testScanAvailable && <button type="button" className={testScan ? "bag-pick scan-pick selected" : "bag-pick scan-pick"} aria-pressed={testScan} aria-label={t("3D test — coffee scan", "Test 3D — skanimi i kafesë")} onClick={() => chooseTestScan(true)}>
               <span className="scan-pick-icon"><Coffee size={26}/></span><span>{t("3D test", "Test 3D")}</span>{testScan && <Check size={12}/>}
-            </button>
+            </button>}
           </div>
           {testScan ? <ImportedScan/> : <>
           <div className="studio-history">

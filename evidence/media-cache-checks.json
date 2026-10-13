@@ -1,0 +1,13 @@
+{
+  "status": "passed",
+  "scope": "Final compiled local Worker; existing synthetic public/private R2 fixtures; temporary local staff session",
+  "checks": [
+    "Successful public CMS media keeps its explicit one-day public cache policy, no cookies and restrictive media CSP",
+    "Public media returns exact single ranges, suffixes and open ranges; invalid ranges return 416; HEAD and conditional requests preserve validators and cache rules",
+    "Unauthenticated private files, invalid review grants and missing files are blocked and never cached",
+    "Authorized private artwork downloads remain no-store and no-referrer with their stricter CSP intact",
+    "Private Range, HEAD and conditional responses work after authorization and remain no-store",
+    "Anonymous private Range, HEAD and known-ETag requests cannot disclose metadata, bypass authorization or receive 304/416",
+    "Valid customer review grants support private Range/HEAD/revalidation; rotating the grant revokes access before ETag or range processing"
+  ]
+}

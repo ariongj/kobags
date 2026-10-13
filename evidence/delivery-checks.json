@@ -1,7 +1,7 @@
 {
   "status": "passed",
-  "sitemapPages": 46,
-  "internalDestinations": 62,
+  "sitemapPages": 48,
+  "internalDestinations": 64,
   "sectionLinks": 52,
   "delivery": [
     {
@@ -20,12 +20,6 @@
       "path": "/documents/buyer-checklist.txt",
       "status": 200,
       "type": "text/plain; charset=utf-8",
-      "cache": "public, max-age=0, must-revalidate"
-    },
-    {
-      "path": "/documents/kobags-source.zip",
-      "status": 200,
-      "type": "application/zip",
       "cache": "public, max-age=0, must-revalidate"
     }
   ],

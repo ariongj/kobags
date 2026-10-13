@@ -105,7 +105,14 @@ async def main():
   link=await post(owner,'/api/cms/portal',{'id':ref});portal=link['portal'].split('/')[-1]
   public_review=await get(guest,'/api/portal/'+portal);serialized=json.dumps(public_review);assert 'private-note' not in serialized and 'owner' not in public_review
   artwork=public_review['artwork'][0]
-  assert (await guest.request.get(BASE+'/api/media/'+media+'?portal='+portal)).status==200
+  private_file=await guest.request.get(BASE+'/api/media/'+media+'?portal='+portal)
+  assert private_file.status==200
+  assert private_file.headers.get('cache-control')=='private, no-store'
+  assert private_file.headers.get('referrer-policy')=='no-referrer'
+  assert "default-src 'none'" in private_file.headers.get('content-security-policy','')
+  portal_page=await guest.request.get(BASE+link['portal'])
+  assert portal_page.headers.get('referrer-policy')=='no-referrer'
+  assert 'no-store' in portal_page.headers.get('cache-control','')
   await post(guest,'/api/portal/'+portal,{'kind':'quote','id':qid,'hash':'wrong','decision':'approved','name':'QA Buyer','evidence':'Reviewed QA quote','confirm':True},409)
   await post(guest,'/api/portal/'+portal,{'kind':'quote','id':qid,'hash':qrow['hash'],'decision':'approved','name':'QA Buyer','evidence':'Reviewed QA quote','confirm':True})
   await post(guest,'/api/portal/'+portal,{'kind':'artwork','id':artwork['id'],'hash':artwork['hash'],'decision':'approved','name':'QA Buyer','evidence':'Reviewed exact QA print file','confirm':True})

@@ -8,16 +8,24 @@ Never point this at a running application's database.
 import json,sqlite3,sys,tarfile,hashlib,tempfile
 from pathlib import Path
 TABLES=['cms_records','cms_versions','cms_companies','cms_inquiries','cms_quotes','cms_media','cms_artwork','cms_approvals','cms_orders','cms_events','cms_outbox','cms_redirects']
+def validate_backup(backup):
+ if not isinstance(backup,dict) or backup.get('format')!='kobags-cms-backup-v1':raise ValueError('Unrecognized backup format.')
+ missing=[table for table in TABLES if not isinstance(backup.get(table),list)]
+ if missing:raise ValueError('Incomplete backup: missing or invalid table data for '+', '.join(missing))
 def restore(source,target):
  source,target=Path(source),Path(target)
  if target.exists():raise ValueError('Target already exists. Choose a new local database file.')
  backup=json.loads(source.read_text())
- if backup.get('format')!='kobags-cms-backup-v1':raise ValueError('Unrecognized backup format.')
+ validate_backup(backup)
  root=Path(__file__).resolve().parents[1]
  connection=sqlite3.connect(target)
  try:
   for migration in sorted((root/'drizzle').glob('*.sql')):connection.executescript(migration.read_text())
   connection.execute('BEGIN')
+  # Historical migrations include initial collection rows. A full backup is
+  # authoritative: remove those seeds from this newly created recovery target
+  # before restoring records, rather than colliding with its saved IDs.
+  for table in reversed(TABLES):connection.execute(f'DELETE FROM "{table}"')
   for table in TABLES:
    fields={row[1] for row in connection.execute(f'PRAGMA table_info("{table}")')}
    for row in backup.get(table,[]):
@@ -41,6 +49,7 @@ def restore_archive(source,target,files_target):
   metadata=archive.extractfile('backup.json')
   if metadata is None:raise ValueError('Missing backup.json')
   data=json.load(metadata)
+  validate_backup(data)
   expected=[row for row in data.get('cms_media',[]) if not row['object_key'].startswith('asset:')]
   import re,shutil
   try:

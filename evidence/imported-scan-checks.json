@@ -1,30 +1,12 @@
 {
   "status": "passed",
   "checks": [
-    "Visible textured scan on first render; isolated selection, no quotation and saved bag unchanged",
-    "Pointer and keyboard rotation, zoom, reset and opt-in auto rotation",
+    "Coffee test hidden from normal buyers, available by direct test link; textured first render, no quotation and saved bag unchanged",
+    "Pointer and keyboard rotation, zoom, reset, opt-in rotation and live reduced-motion preference changes",
     "Seven angles render, including left/right, top and underside; pole views reach the correct angles",
     "Fullscreen, reload and direct link; one-row picker at 320/390/768px; normal bag return and quotation preserved",
     "Albanian UI, mobile touch rotation and reduced-motion setting",
     "Failed asset retry and understandable WebGL-unavailable state"
   ],
-  "browserErrors": [],
-  "modelSHA256": "e3b9e406f61927f75257efa0fbb4f63cfdf7969601408632c511b0bd9e502007",
-  "visualReview": {
-    "views": [
-      "front",
-      "back",
-      "left",
-      "right",
-      "top",
-      "underneath",
-      "three-quarter"
-    ],
-    "mobileWidths": [
-      320,
-      390,
-      768
-    ],
-    "notes": "Original lettering and interior/saucer texture restored; version 46 geometry unchanged. Uncaptured undersides remain inferred ceramic."
-  }
+  "browserErrors": []
 }

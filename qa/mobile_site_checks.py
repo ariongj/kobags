@@ -1,5 +1,6 @@
 """Mobile-first navigation, responsive pages and touch interaction, local only."""
-import asyncio,json
+import asyncio,io,json,re
+from PIL import Image
 from pathlib import Path
 from playwright.async_api import async_playwright
 from browser_support import BASE,launch
@@ -13,7 +14,11 @@ async def main():
   async def fits(path,width):
    assert not await page.evaluate('document.documentElement.scrollWidth>document.documentElement.clientWidth'),(path,width,await page.evaluate("Array.from(document.querySelectorAll('main *')).filter(e=>e.getBoundingClientRect().right>innerWidth+2).slice(0,8).map(e=>e.className)"))
    assert await page.locator('h1').count()==1,path
-  await go('/handoff');paths=await page.locator('.outline-group a').evaluate_all('(els)=>els.map(a=>a.getAttribute("href"))');assert len(paths)>=32 and len(paths)==len(set(paths));assert all(path in paths for path in ['/','/design','/products','/quote','/manufacturing','/sustainability','/bags-kosovo'])
+  # Internal source handoff is deliberately unavailable on the public site.
+  paths=[path for path in re.findall(r'\["(/[^\"]*)",', (ROOT/'lib/site-outline.ts').read_text()) if path!='/handoff']
+  for file,prefix in [('catalog.ts','/products/'),('journal.ts','/blog/')]:
+   paths.extend(prefix+slug for slug in re.findall(r'\bslug: "([^\"]+)"', (ROOT/'lib'/file).read_text()))
+  assert len(paths)>=30 and len(paths)==len(set(paths));assert all(path in paths for path in ['/','/design','/products','/quote','/manufacturing','/sustainability','/bags-kosovo'])
   results=[]
   captures={'/':'home','/products':'catalog','/manufacturing':'manufacturing','/certifications':'certificates','/quote':'quote','/contact':'contact'}
   for path in paths:
@@ -43,7 +48,11 @@ async def main():
   await session.send('Input.dispatchTouchEvent',{'type':'touchEnd','touchPoints':[]})
   await page.wait_for_function("Math.abs(Number(document.querySelector('.preview-stage .studio-3d-host').dataset.angle)-"+str(angle)+")>.15")
   await page.get_by_role('tab',name='02 Your design',exact=True).tap();await page.get_by_role('group',name='Select artwork layer').get_by_role('button',name='Text',exact=True).tap();await page.get_by_label('Brand name or message').fill('MOBILE STUDIO')
-  await page.evaluate('document.activeElement?.blur();window.scrollTo(0,0)');await page.screenshot(path=str(ROOT/'evidence/compact-mobile-designer.jpg'),type='jpeg',quality=82,full_page=True)
+  await page.evaluate('document.activeElement?.blur();window.scrollTo(0,0)')
+  await canvas.scroll_into_view_if_needed();await page.wait_for_timeout(900)
+  frame=Image.open(io.BytesIO(await canvas.screenshot())).convert('RGB')
+  assert sum(1 for pixel in frame.getdata() if max(pixel)<220)>1000,'Visible mobile bag did not render after returning to the canvas'
+  await page.screenshot(path=str(ROOT/'evidence/compact-mobile-designer.jpg'),type='jpeg',quality=82,full_page=True)
   for width,height in [(844,390),(1024,768)]:
    await page.set_viewport_size({'width':width,'height':height});await page.wait_for_timeout(200);await fits('/design',width);await page.get_by_role('link',name='Get a quote for this bag',exact=True).scroll_into_view_if_needed()
   assert not errors,errors

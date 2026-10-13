@@ -1,0 +1,31 @@
+{
+  "status": "passed_with_local_proxy_limitation",
+  "scope": "isolated local compiled Worker through Wrangler; anonymous requests only",
+  "checks": [
+    "Non-object JSON is rejected with 400 before authentication",
+    "Declared oversized bodies return 413; every streamed rejection recovers immediately and persists no CMS change",
+    "Visitor writes require a matching Origin, even with a valid private browser cookie",
+    "Anonymous callers cannot read business records, exports, staff or unknown private review links"
+  ],
+  "knownWranglerProxyFailures": [
+    {
+      "attempt": 1,
+      "status": 503,
+      "message": "Your worker restarted mid-request. Please try sending the request again. Only GET or HEAD requests are retried automatically.",
+      "layer": "Wrangler forwarding proxy; direct workerd checked separately"
+    },
+    {
+      "attempt": 2,
+      "status": 503,
+      "message": "Your worker restarted mid-request. Please try sending the request again. Only GET or HEAD requests are retried automatically.",
+      "layer": "Wrangler forwarding proxy; direct workerd checked separately"
+    },
+    {
+      "attempt": 3,
+      "status": 503,
+      "message": "Your worker restarted mid-request. Please try sending the request again. Only GET or HEAD requests are retried automatically.",
+      "layer": "Wrangler forwarding proxy; direct workerd checked separately"
+    }
+  ],
+  "directRuntimeEvidence": "request-body-workerd-checks.json"
+}

@@ -1,6 +1,6 @@
 "use client";
 import { useLiveInquiry, LiveReceipt } from "./cms/live-inquiry";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "@/components/site-link";
 import { CheckCircle2, ArrowRight } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -8,17 +8,23 @@ import { useKobags } from "./kobags-context";
 import { Choice } from "./bag-studio";
 import { useDemo, errors } from "./demo-store";
 import { requestFieldLimits } from "@/lib/design-validation";
+import PreparedRequestActions from "./prepared-request-actions";
 export default function InquiryForm({
   kind,
 }: {
   kind: "sample" | "partner" | "contact";
 }) {
   const { t, lang, design } = useKobags();
-  const { act, busy:demoBusy, error:demoError } = useDemo();
+  const { state, act, busy:demoBusy, error:demoError } = useDemo();
   const live=useLiveInquiry();
   const busy=demoBusy||live.busy;
   const error=live.error||demoError;
   const [done, setDone] = useState("");
+  const sending = useRef(false);
+  // Restore the browser-only receipt after hydration; reading location during SSR would mismatch the form markup.
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => { setDone(new URLSearchParams(location.search).get("prepared") || ""); }, []);
+  const preparedInquiry = state?.inquiries.find(inquiry => inquiry.id === done && inquiry.kind === kind);
   const [key, setKey] = useState(() =>
     typeof crypto !== "undefined" ? crypto.randomUUID() : "",
   );
@@ -36,6 +42,7 @@ export default function InquiryForm({
   const set = (k: string, v: string) => setData((d) => ({ ...d, [k]: v }));
   const send = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (sending.current) return;
     if (!consent) {
       setInvalid(
         t(
@@ -45,6 +52,7 @@ export default function InquiryForm({
       );
       return;
     }
+    sending.current = true;
     setInvalid("");
     try {
       const action = {
@@ -79,28 +87,31 @@ export default function InquiryForm({
         setKey(nextKey);
         id = live.enabled ? await live.send({kind,data:{...action.data,key:nextKey}}) : await act({ ...action, data: { ...action.data, key: nextKey } });
       }
-      if (id) setDone(id);
-    } catch {}
+      if (id && !live.enabled) {
+        setDone(id);
+        history.replaceState(null, "", location.pathname + "?prepared=" + encodeURIComponent(id));
+        window.scrollTo(0, 0);
+      }
+    } catch {} finally { sending.current = false; }
   };
   if(live.enabled&&(live.reference||live.checking))return <LiveReceipt heading="h2" reference={live.reference} checking={live.checking}/>;
-  if (done)
+  if (done && !state && !demoError) return <div className="section-card" role="status">{t("Checking your request…", "Duke kontrolluar kërkesën…")}</div>;
+  if (preparedInquiry)
     return (
       <div className="section-card success-inquiry">
         <CheckCircle2 size={35} />
-        <h2>{t("Your inquiry is saved.", "Kërkesa juaj u ruajt.")}</h2>
+        <h2>{t("Your inquiry is prepared.", "Kërkesa juaj është përgatitur.")}</h2>
         <p>
           {t("Reference:", "Referenca:")} {done}
         </p>
-        <p>
-          {t(
-            "Your inquiry is saved in this website workspace. No message has been sent to Kobags.",
-            "Kërkesa juaj është ruajtur në këtë hapësirë të faqes. Asnjë mesazh nuk është dërguar te Kobags.",
-          )}
-        </p>
+        <PreparedRequestActions reference={preparedInquiry.id}
+          subject={kind === "sample" ? t("Sample request", "Kërkesë për mostra") : kind === "partner" ? t("Partnership inquiry", "Kërkesë për partneritet") : t("Contact inquiry", "Kërkesë kontakti")}
+          details={`${preparedInquiry.message}\n\n${preparedInquiry.model ? preparedInquiry.model + "\n" : ""}${preparedInquiry.company} / ${preparedInquiry.contact}\n${preparedInquiry.email}\n${preparedInquiry.country}\n${t("Reference", "Referenca")}: ${preparedInquiry.id}`}/>
       </div>
     );
   return (
     <form onSubmit={send} className="section-card inquiry-form">
+      {done && state && !preparedInquiry && <p role="alert">{t("This prepared request is not available in this browser. You can prepare a new inquiry below.", "Kjo kërkesë e përgatitur nuk është e disponueshme në këtë shfletues. Mund të përgatitni një kërkesë të re më poshtë.")}</p>}
       <h2>
         {kind === "sample"
           ? t("Let’s talk samples.", "Le të flasim për mostrat.")
@@ -186,8 +197,8 @@ export default function InquiryForm({
           />
           <span>
             {t(
-              live.enabled ? "I agree that Kobags may store my contact details to respond to this inquiry." : "I understand my inquiry is saved in this website workspace and no email is sent to Kobags.",
-              live.enabled ? "Pajtohem që Kobags t’i ruajë të dhënat e kontaktit për t’iu përgjigjur kësaj kërkese." : "E kuptoj se kërkesa ruhet në këtë faqe dhe nuk dërgohet email te Kobags.",
+              live.enabled ? "I agree that Kobags may store my contact details to respond to this inquiry." : "I understand my inquiry is saved here so I can send it to Kobags from my email app.",
+              live.enabled ? "Pajtohem që Kobags t’i ruajë të dhënat e kontaktit për t’iu përgjigjur kësaj kërkese." : "E kuptoj se kërkesa ruhet këtu që ta dërgoj te Kobags përmes emailit tim.",
             )}{" "}
             <Link href="/privacy">{t("Privacy notice", "Privatësia")}</Link>
           </span>

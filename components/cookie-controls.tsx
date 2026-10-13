@@ -21,7 +21,7 @@ export default function CookieControls() {
       </button>
       {done && (
         <p role="status">
-          {t("The local design draft has been cleared. Submitted demo records remain in your demo workspace.", "Dizajni i shfletuesit u pastrua. Kërkesat e dërguara mbeten në hapësirën tuaj të demonstrimit.")}
+          {t("The local design draft has been cleared. This does not delete requests already saved on the server.", "Dizajni i shfletuesit u pastrua. Kjo nuk i fshin kërkesat e ruajtura tashmë në server.")}
         </p>
       )}
     </div>

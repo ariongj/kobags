@@ -1,0 +1,35 @@
+{
+  "status": "passed",
+  "checks": [
+    {
+      "width": 390,
+      "bag": "Box",
+      "renderedDarkPixels": 13593
+    },
+    {
+      "width": 390,
+      "bag": "String",
+      "renderedDarkPixels": 8391
+    },
+    {
+      "width": 390,
+      "bag": "T-Shirt",
+      "renderedDarkPixels": 3117
+    },
+    {
+      "width": 1440,
+      "bag": "Box",
+      "renderedDarkPixels": 107431
+    },
+    {
+      "width": 1440,
+      "bag": "String",
+      "renderedDarkPixels": 65358
+    },
+    {
+      "width": 1440,
+      "bag": "T-Shirt",
+      "renderedDarkPixels": 22369
+    }
+  ]
+}

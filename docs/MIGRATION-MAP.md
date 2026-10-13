@@ -1,11 +1,11 @@
-# Original-to-demo URL migration map
+# Original-to-current URL migration map
 
-Reviewed 15 September 2026 from the original public frontend routes and public article index. This is the demo implementation map; a production launch still needs a complete crawl and analytics/search-console review. The live Kobags domain has not been changed.
+Original route inventory reviewed 15 September 2026; launch update 14 October 2026. Known route patterns are preserved below. The business domain still points to the previous Hostinger site until the DNS cutover in `DOMAIN-CUTOVER-2026-10-14.md` is completed. Search Console export is still needed to identify any additional indexed legacy URLs; no unknown URLs have been invented. A fresh public check found the old `/robots.txt` permits crawling, while old `/sitemap.xml` returns the HTML app shell rather than an XML sitemap. The new release has a validated 48-URL EN/SQ XML sitemap.
 
 | Original route | New route / behavior |
 | --- | --- |
 | `/` | Full brand homepage, with direct studio and collection actions |
-| `/products` | Catalog with comparison and all 15 source-backed size variants |
+| `/products` | Catalog with comparison and the currently published size variants |
 | `/shop` | Permanent redirect to `/products` |
 | `/shop-catalog` | Permanent redirect to `/products` |
 | `/shop-catalog/:slug` | Permanent redirect to `/products/:slug` |
@@ -18,8 +18,8 @@ Reviewed 15 September 2026 from the original public frontend routes and public a
 | `/blog` | Retained as the journal / buying-guide index |
 | `/blog-home` | Permanent redirect to `/blog` |
 | `/blog/:slug` | Six original slugs retained, proposed copy rewritten for factual buying guidance |
-| `/privacy-policy` | Permanent redirect to `/privacy`, explicit demo notice |
-| `/terms-conditions` | Permanent redirect to `/terms`, explicit demo terms |
+| `/privacy-policy` | Permanent redirect to `/privacy`, current data-handling notice |
+| `/terms-conditions` | Permanent redirect to `/terms`, current website/quotation terms |
 | `/thank-you` | Temporary redirect to `/quote`; does not falsely claim an inquiry was submitted |
 
 Five supported product slugs: `d-cut-bag`, `handle-bag`, `box-bag`, `t-shirt-bag`, `string-bag`. Unknown product/article slugs return a real 404. If the production crawl reveals other numeric or retired IDs, add explicit mappings; do not redirect every missing product to the homepage.

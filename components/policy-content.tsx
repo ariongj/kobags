@@ -1,86 +1,91 @@
 "use client";
 
 import { useKobags } from "./kobags-context";
+import { useCms } from "./cms/public-context";
+import { company } from "@/lib/company";
 import CookieControls from "./cookie-controls";
 
 type PolicyKind = "privacy" | "terms" | "cookies";
 type Copy = [string, string];
 type Section = { title: Copy; paragraphs: Copy[] };
-const policies: Record<PolicyKind, { intro?: Copy; sections: Section[] }> = {
-  privacy: {
-    intro: [
-      "This public website demonstration is independent of Kobags’ production systems. Use fictional company and contact details.",
-      "Ky demonstrim publik i faqes është i pavarur nga sistemet e prodhimit të Kobags. Përdorni të dhëna fiktive të kompanisë dhe kontaktit.",
-    ],
-    sections: [
-      {
-        title: ["What is stored", "Çfarë ruhet"],
-        paragraphs: [
-          ["Your design draft and language preference are stored in your browser. Submitted requests store the bag configuration, normalized logo preview, contact fields and consent acknowledgment in your demonstration workspace. Original full-resolution logo files are not retained.", "Dizajni i papërfunduar dhe gjuha e zgjedhur ruhen në shfletues. Kërkesat e dërguara ruajnë konfigurimin e çantës, pamjen e përpunuar të logos, të dhënat e kontaktit dhe konfirmimin e pëlqimit në hapësirën tuaj të demonstrimit. Skedarët origjinalë të logos me rezolucion të plotë nuk ruhen."],
-          ["Requests, quotations, artwork revisions, approvals and simulated orders persist in a separate workspace for your session. An essential cookie connects anonymous visitors to their workspace for up to seven days. Signed-in visitors use their own account workspace. This is not a production customer-account system.", "Kërkesat, ofertat, versionet e dizajnit, miratimet dhe porositë e simuluara ruhen në një hapësirë të veçantë për sesionin tuaj. Një cookie e domosdoshme lidh vizitorët anonimë me këtë hapësirë për deri në shtatë ditë. Vizitorët e identifikuar përdorin hapësirën e llogarisë së tyre. Ky nuk është sistem llogarish për klientët e prodhimit."],
-        ],
-      },
-      {
-        title: ["How records are used", "Si përdoren të dhënat"],
-        paragraphs: [["Records demonstrate the quotation and approval process. No real email, marketing message, payment or manufacturing order is sent. This implementation does not install advertising analytics or third-party tracking tags.", "Të dhënat shërbejnë për demonstrimin e procesit të ofertimit dhe miratimit. Nuk dërgohet email, mesazh marketingu, pagesë apo porosi reale për prodhim. Ky version nuk instalon analitikë reklamash ose mjete gjurmimi nga palë të treta."]],
-      },
-      {
-        title: ["Your controls", "Kontrollet tuaja"],
-        paragraphs: [["Clear your browser draft on the cookies page. The sales workspace offers export and reset controls for synthetic records. Reset removes active demo records; provider backup retention must be confirmed before collecting real data.", "Pastroni dizajnin e shfletuesit te faqja e cookies. Hapësira e shitjeve ofron eksport dhe rivendosje për të dhënat fiktive. Rivendosja heq të dhënat aktive të demonstrimit; ruajtja e kopjeve rezervë nga ofruesi duhet të konfirmohet para mbledhjes së të dhënave reale."]],
-      },
-      {
-        title: ["Before commercial launch", "Para publikimit për përdorim tregtar"],
-        paragraphs: [["The client must approve the legal entity, data controller, retention periods, processors, international transfers and contact process. This page describes the demonstration; it is not an approved production privacy policy.", "Klienti duhet të miratojë subjektin juridik, kontrolluesin e të dhënave, afatet e ruajtjes, përpunuesit, transferimet ndërkombëtare dhe mënyrën e kontaktit. Kjo faqe përshkruan demonstrimin; nuk është politikë e miratuar e privatësisë për përdorim tregtar."]],
-      },
-    ],
-  },
-  terms: {
-    sections: [
-      {
-        title: ["Previews and quotations", "Pamjet paraprake dhe ofertat"],
-        paragraphs: [["Studio previews are indicative. A preview or demonstration quotation is not a binding Kobags offer. Prices in the customer and sales workspaces are fictional, and no payment is collected.", "Pamjet në studio janë orientuese. Pamja paraprake apo oferta e demonstrimit nuk është ofertë detyruese e Kobags. Çmimet në hapësirat e klientit dhe shitjeve janë fiktive dhe nuk merret pagesë."]],
-      },
-      {
-        title: ["Production requires confirmation", "Prodhimi kërkon konfirmim"],
-        paragraphs: [["Material availability, dimensional drawings, printable area, print method, quantity rules, sample terms, prices, shipping, tax, payment and delivery commitments require client approval and a formal commercial agreement.", "Disponueshmëria e materialit, vizatimet teknike, zona dhe metoda e shtypit, rregullat e sasisë, kushtet e mostrave, çmimet, transporti, taksat, pagesa dhe afatet e dorëzimit kërkojnë miratim nga klienti dhe marrëveshje tregtare zyrtare."]],
-      },
-      {
-        title: ["Artwork and branding", "Dizajni dhe marka"],
-        paragraphs: [["Use artwork you are entitled to use. Final artwork approval must identify the exact revision and approved production template. The demonstration illustrates this process without authorizing manufacturing.", "Përdorni dizajne për të cilat keni të drejtë përdorimi. Miratimi përfundimtar duhet të përcaktojë versionin e saktë të dizajnit dhe modelin teknik të miratuar. Demonstrimi e paraqet këtë proces pa autorizuar prodhimin."]],
-      },
-      {
-        title: ["Before launch", "Para publikimit"],
-        paragraphs: [["The legal owner must approve production terms, entity details, jurisdiction, order acceptance, shipment and claims procedures. No legal registration or contractual terms are invented for this demonstration.", "Pronari juridik duhet të miratojë kushtet e prodhimit, të dhënat e subjektit, juridiksionin, pranimin e porosive, dërgesat dhe procedurat e ankesave. Për këtë demonstrim nuk janë shpikur regjistrime juridike ose kushte kontraktuale."]],
-      },
-    ],
-  },
-  cookies: {
-    sections: [
-      {
-        title: ["Essential storage", "Ruajtja e domosdoshme"],
-        paragraphs: [["This site keeps your design draft, quotation step and language preference in browser storage. An essential seven-day session cookie connects anonymous visitors to their saved demonstration records. Clearing the cookie or changing browsers starts a new workspace; expiry does not erase server records. Hosting may also use sign-in cookies. No advertising or analytics tags are installed.", "Faqja ruan në shfletues dizajnin e papërfunduar, hapin e ofertimit dhe gjuhën e zgjedhur. Një cookie e domosdoshme e sesionit, me afat shtatë ditë, lidh vizitorët anonimë me të dhënat e ruajtura të demonstrimit. Pastrimi i cookies ose ndërrimi i shfletuesit hap një hapësirë të re; skadimi nuk fshin të dhënat në server. Shërbimi i hostimit mund të përdorë edhe cookies për identifikim. Nuk instalohen mjete reklamash apo analitike."]],
-      },
-      {
-        title: ["Clear your design draft", "Pastroni dizajnin e papërfunduar"],
-        paragraphs: [["This resets the bag configuration in this browser. Submitted requests remain in your workspace. The sales workspace provides a separate reset action for synthetic server records.", "Ky veprim rivendos konfigurimin e çantës në këtë shfletues. Kërkesat e dërguara mbeten në hapësirën tuaj. Hapësira e shitjeve ka një veprim të veçantë për rivendosjen e të dhënave fiktive në server."]],
-      },
-    ],
-  },
-};
 
 export default function PolicyContent({ kind }: { kind: PolicyKind }) {
   const { t } = useKobags();
-  const policy = policies[kind];
+  const { settings, enabled } = useCms();
+  const email = settings?.email || company.email;
+  const policies: Record<PolicyKind, Section[]> = {
+    privacy: [
+      {
+        title: ["Your information", "Të dhënat tuaja"],
+        paragraphs: [
+          ["Kobags Group uses the information you provide to review your bag requirements and respond to your inquiry. Contact details may include your name, company, email, telephone and delivery location. A request may also contain quantities, specifications, messages and artwork previews.", "Kobags Group i përdor të dhënat që jepni për të shqyrtuar kërkesat tuaja për çanta dhe për t’ju përgjigjur. Të dhënat mund të përfshijnë emrin, kompaninë, emailin, telefonin dhe vendin e dorëzimit. Kërkesa mund të përmbajë edhe sasi, specifikime, mesazhe dhe pamje paraprake të dizajnit."],
+          enabled
+            ? ["Requests submitted through this website are saved in the shared Kobags CMS inbox. Authorized staff can review them and prepare quotations, artwork revisions and production records. A saved request is not a payment or an accepted order.", "Kërkesat e dërguara përmes kësaj faqeje ruhen në kutinë e përbashkët të kërkesave në CMS të Kobags. Stafi i autorizuar mund t’i shqyrtojë dhe të përgatisë oferta, versione dizajni dhe të dhëna prodhimi. Ruajtja e kërkesës nuk është pagesë apo pranim i porosisë."]
+            : ["Online inbox submission is currently unavailable. Prepared requests are saved separately for this browser and are not sent to the Kobags sales team automatically. Use the email action on the confirmation screen and send the message from your email application.", "Dërgimi në kutinë e kërkesave online aktualisht nuk është i aktivizuar. Kërkesat e përgatitura ruhen veçmas për këtë shfletues dhe nuk i dërgohen automatikisht ekipit të shitjeve të Kobags. Përdorni veprimin e emailit në ekranin e konfirmimit dhe dërgojeni mesazhin nga aplikacioni juaj i emailit."],
+        ],
+      },
+      {
+        title: ["Drafts and artwork", "Dizajnet dhe skedarët"],
+        paragraphs: [
+          ["The studio saves your design draft, including entered contact details, in this browser. Stock-request drafts use session storage. Clear drafts before leaving a shared device. Uploaded studio logos are resized for preview; production originals must be provided separately when requested.", "Studioja ruan në këtë shfletues dizajnin e papërfunduar, përfshirë të dhënat e kontaktit të vendosura. Kërkesat për produkte nga stoku përdorin ruajtjen e sesionit. Pastroni dizajnet para se të largoheni nga një pajisje e përbashkët. Logot në studio zvogëlohen për pamjen paraprake; origjinalet për prodhim duhen dërguar veçmas kur kërkohen."],
+          ["Private artwork and customer review links are limited to the staff or recipients who need them. Treat a private review link as confidential; anyone you share it with may be able to review and approve the linked quotation or artwork.", "Dizajnet private dhe lidhjet për shqyrtim u jepen stafit ose marrësve që kanë nevojë për to. Mbajeni konfidenciale lidhjen private; personat me të cilët e ndani mund të shqyrtojnë dhe miratojnë ofertën ose dizajnin përkatës."],
+        ],
+      },
+      {
+        title: ["Hosting and storage", "Hostimi dhe ruajtja"],
+        paragraphs: [
+          ["The website uses OpenAI Sites hosting with Cloudflare infrastructure for its application, database and uploaded files. Hosting and security services process technical information needed to deliver and protect the website. The application does not install advertising trackers or analytics tags.", "Faqja përdor hostimin OpenAI Sites me infrastrukturë Cloudflare për aplikacionin, bazën e të dhënave dhe skedarët e ngarkuar. Shërbimet e hostimit dhe sigurisë përpunojnë të dhënat teknike të nevojshme për funksionimin dhe mbrojtjen e faqes. Aplikacioni nuk instalon gjurmues reklamash apo mjete analitike."],
+          ["Clearing browser storage or allowing a session cookie to expire does not delete records already saved on the server. Retention and removal of customer records and backups are managed by the website operator; contact the team for the arrangements applicable to your request.", "Pastrimi i shfletuesit ose skadimi i cookie-t të sesionit nuk i fshin të dhënat e ruajtura në server. Ruajtja dhe heqja e të dhënave të klientëve dhe kopjeve rezervë menaxhohen nga operatori i faqes; kontaktoni ekipin për kushtet që vlejnë për kërkesën tuaj."],
+        ],
+      },
+      {
+        title: ["Contact and requests", "Kontakti dhe kërkesat"],
+        paragraphs: [[`For questions about your information, or to request access, correction or deletion, contact ${email}. Include the request reference when available. Do not send sensitive personal information or payment-card details through the forms.`, `Për pyetje lidhur me të dhënat tuaja, ose për të kërkuar qasje, korrigjim apo fshirje, kontaktoni ${email}. Shënoni referencën e kërkesës nëse e keni. Mos dërgoni të dhëna personale të ndjeshme apo të kartelës së pagesës përmes formularëve.`]],
+      },
+    ],
+    terms: [
+      {
+        title: ["Previews and requests", "Pamjet paraprake dhe kërkesat"],
+        paragraphs: [["The design studio is a visual planning tool. Colors, dimensions, material appearance and print placement require confirmation against the final production specification. Sending or saving a request does not accept an order, reserve stock or collect payment.", "Studioja e dizajnit është mjet për planifikim vizual. Ngjyrat, përmasat, pamja e materialit dhe vendosja e shtypit duhen konfirmuar sipas specifikimit përfundimtar të prodhimit. Dërgimi ose ruajtja e kërkesës nuk pranon porosi, nuk rezervon stok dhe nuk merr pagesë."]],
+      },
+      {
+        title: ["Commercial confirmation", "Konfirmimi tregtar"],
+        paragraphs: [["Kobags confirms availability, quantity, price, taxes, delivery and payment terms in the quotation or commercial agreement. Finished collections are stock products; custom branding is offered through the custom-bag range. Production requires the agreed commercial terms and approval of the exact artwork revision.", "Kobags konfirmon disponueshmërinë, sasinë, çmimin, taksat, dorëzimin dhe kushtet e pagesës në ofertë ose marrëveshje tregtare. Koleksionet e gatshme janë produkte nga stoku; marka e personalizuar ofrohet për çantat e personalizuara. Prodhimi kërkon marrëveshjen tregtare dhe miratimin e versionit të saktë të dizajnit."]],
+      },
+      {
+        title: ["Your artwork", "Dizajni juaj"],
+        paragraphs: [["Upload only artwork and trademarks you are entitled to use. Check spelling, contact details and the final production file before approval. A studio preview download is not a production-ready print file.", "Ngarkoni vetëm dizajne dhe marka për të cilat keni të drejtë përdorimi. Kontrolloni drejtshkrimin, të dhënat e kontaktit dhe skedarin përfundimtar para miratimit. Pamja e shkarkuar nga studioja nuk është skedar i gatshëm për shtyp."]],
+      },
+      {
+        title: ["Questions about an order", "Pyetje për porosinë"],
+        paragraphs: [[`Contact ${email} about quotation changes, delivery or a product concern. Refer to your agreed quotation and request number so the team can review the correct specification.`, `Kontaktoni ${email} për ndryshime të ofertës, dorëzimin apo shqetësime rreth produktit. Shënoni ofertën e pranuar dhe numrin e kërkesës që ekipi të shqyrtojë specifikimin e duhur.`]],
+      },
+    ],
+    cookies: [
+      {
+        title: ["Essential storage", "Ruajtja e domosdoshme"],
+        paragraphs: [["The website stores your bag design, quotation step and language preference in this browser. Stock-request drafts are stored for the browser session. These entries remain until you clear them or your browser removes them. No advertising or analytics tags are installed by this application.", "Faqja ruan në këtë shfletues dizajnin e çantës, hapin e ofertimit dhe gjuhën e zgjedhur. Kërkesat e papërfunduara për stok ruhen për sesionin e shfletuesit. Këto të dhëna mbeten derisa t’i pastroni ose t’i heqë shfletuesi. Ky aplikacion nuk instalon mjete reklamash apo analitike."]],
+      },
+      {
+        title: ["Session cookies", "Cookies e sesionit"],
+        paragraphs: [["An essential cookie connects this browser to its saved requests for up to seven days. Staff sign-in uses a separate, protected session cookie for up to eight hours. Clearing cookies or changing browsers can remove access to saved receipts; it does not erase server records. The hosting provider may also use cookies to deliver and secure the site.", "Një cookie e domosdoshme lidh këtë shfletues me kërkesat e ruajtura për deri në shtatë ditë. Identifikimi i stafit përdor një cookie të veçantë dhe të mbrojtur për deri në tetë orë. Pastrimi i cookies ose ndërrimi i shfletuesit mund të heqë qasjen te konfirmimet e ruajtura; nuk i fshin të dhënat në server. Ofruesi i hostimit mund të përdorë gjithashtu cookies për funksionimin dhe sigurinë e faqes."]],
+      },
+      {
+        title: ["Clear your design draft", "Pastroni dizajnin e papërfunduar"],
+        paragraphs: [["The button below resets your bag design and quotation step in this browser. It does not delete submitted requests. To clear all local drafts and preferences, use your browser’s site-data controls. Contact Kobags for questions about records held on the server.", "Butoni më poshtë rivendos dizajnin e çantës dhe hapin e ofertimit në këtë shfletues. Nuk i fshin kërkesat e dërguara. Për të pastruar të gjitha dizajnet lokale dhe preferencat, përdorni kontrollet e shfletuesit për të dhënat e faqes. Kontaktoni Kobags për pyetje lidhur me të dhënat në server."]],
+      },
+    ],
+  };
   return (
     <article className="prose">
-      {policy.intro && <p>{t(...policy.intro)}</p>}
-      {policy.sections.map((section) => (
+      {policies[kind].map((section) => (
         <section key={section.title[0]}>
           <h2>{t(...section.title)}</h2>
           {section.paragraphs.map((copy) => <p key={copy[0]}>{t(...copy)}</p>)}
         </section>
       ))}
       {kind === "cookies" && <CookieControls />}
+      {kind === "terms" && <p><a href="/documents/third-party-notices.txt">{t("Third-party software notices", "Njoftimet për softuerin e palëve të treta")}</a></p>}
     </article>
   );
 }

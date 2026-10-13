@@ -1,0 +1,10 @@
+{
+  "status": "passed",
+  "scope": "synthetic local SQLite backups only",
+  "checks": [
+    "Complete snapshots restore without colliding with collection rows seeded by historical migrations",
+    "Existing databases cannot be overwritten",
+    "Missing or malformed table data is rejected before a recovery target is created",
+    "Invalid record sets fail atomically and remove the incomplete recovery target"
+  ]
+}

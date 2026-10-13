@@ -1,11 +1,18 @@
 // Sites dispatches physical asset paths before the Worker and ignores the
 // generated Wrangler run_worker_first setting. Keep public URLs owned by the
 // Worker, while ASSETS retains the compiled bytes under unlinked storage keys.
-import { mkdir, rename, rm, access } from "node:fs/promises";
+import { mkdir, rename, rm, access, readdir } from "node:fs/promises";
 import { resolve } from "node:path";
 
 const client = resolve("dist/client");
 await access(client);
+// Keep reusable source and internal operations/audit notes in the owner's
+// private handoff, never in either public URL or ASSETS storage namespace.
+for (const file of await readdir(resolve(client, "documents"))) {
+  if (/\.(?:zip|md)$/i.test(file) || file === "studio-v4-prompts.json") {
+    throw new Error(`Internal handoff file must not be published: ${file}`);
+  }
+}
 const stored = resolve(client, "__kobags_static");
 await mkdir(stored, { recursive: true });
 for (const tree of ["assets", "documents", "_next"]) {

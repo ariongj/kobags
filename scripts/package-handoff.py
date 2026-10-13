@@ -4,8 +4,8 @@ import json, zipfile, shutil
 from datetime import datetime
 from zoneinfo import ZoneInfo
 ROOT=Path(__file__).resolve().parents[1]
-PUBLIC=ROOT/'public/documents';PUBLIC.mkdir(parents=True,exist_ok=True)
-for src,dst in [('docs/AUDIT-2026-10-13.md','audit-2026-10-13.md'),('docs/CLIENT-REVIEW-2026-10-10.md','client-review-2026-10-10.md'),('docs/CMS-OPERATIONS.md','cms-operations.md'),('docs/DESIGN-HANDOFF.md','design-handoff.md'),('docs/DEVELOPER-HANDOFF.md','developer-handoff.md'),('docs/MIGRATION-MAP.md','migration-map.md'),('docs/SITE-OUTLINE.md','site-outline.md'),('evidence/VERIFICATION.md','verification.md'),('docs/studio-asset-note.md','studio-asset-note.md'),('docs/studio-v4-prompts.json','studio-v4-prompts.json')]:
+PUBLIC=ROOT/'deliverables/handoff';PUBLIC.mkdir(parents=True,exist_ok=True)
+for src,dst in [('docs/LAUNCH-READINESS-2026-10-14.md','launch-readiness-2026-10-14.md'),('docs/DOMAIN-CUTOVER-2026-10-14.md','domain-cutover-2026-10-14.md'),('docs/LAUNCH-LICENSES-SEO-2026-10-14.md','launch-licenses-seo-2026-10-14.md'),('docs/AUDIT-2026-10-13.md','audit-2026-10-13.md'),('docs/CLIENT-REVIEW-2026-10-10.md','client-review-2026-10-10.md'),('docs/CMS-OPERATIONS.md','cms-operations.md'),('docs/DESIGN-HANDOFF.md','design-handoff.md'),('docs/DEVELOPER-HANDOFF.md','developer-handoff.md'),('docs/MIGRATION-MAP.md','migration-map.md'),('docs/SITE-OUTLINE.md','site-outline.md'),('evidence/VERIFICATION.md','verification.md'),('docs/studio-asset-note.md','studio-asset-note.md'),('docs/studio-v4-prompts.json','studio-v4-prompts.json')]:
  shutil.copyfile(ROOT/src,PUBLIC/dst)
 folders=['app','components','lib','db','drizzle','build','hooks','scripts','vendor','docs','qa','tests','evidence','public']
 files=['README.md','package.json','package-lock.json','tsconfig.json','next.config.ts','middleware.ts','postcss.config.mjs','vite.config.ts','drizzle.config.ts','eslint.config.mjs','components.json','cloudflare-env.d.ts','.gitignore','.env.example']

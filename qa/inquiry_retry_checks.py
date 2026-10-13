@@ -36,7 +36,7 @@ async def main():
                 if changed:
                     await page.locator('#inquiry-message').fill('Changed inquiry after the lost response')
                 await page.get_by_role('button', name='Save inquiry', exact=True).click()
-                await page.get_by_role('heading', name='Your inquiry is saved.', exact=True).wait_for()
+                await page.get_by_role('heading', name='Your inquiry is prepared.', exact=True).wait_for()
                 response = await context.request.get(BASE + '/api/demo')
                 inquiries = (await response.json())['state']['inquiries']
                 assert len(inquiries) == (2 if changed else 1), inquiries

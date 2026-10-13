@@ -1,0 +1,11 @@
+{
+  "status": "passed",
+  "scope": "isolated local SQLite; shipped activation SQL; no production records touched",
+  "checks": [
+    "Only the approved flag changes; draft/public differences, custom settings, prior snapshots and revision history are preserved",
+    "Repeated activation is idempotent and never overrides a later CMS disable action",
+    "Missing, unpublished and archived settings are not published, recreated or activated",
+    "An already enabled site receives the one-time marker without unnecessary content revisions",
+    "Concurrent transactions produce one activation, one revision increment and one pair of original snapshots"
+  ]
+}

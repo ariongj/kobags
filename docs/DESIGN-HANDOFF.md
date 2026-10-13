@@ -1,5 +1,9 @@
 # Kobags Group — design handoff
 
+## Launch audit update — 14 October 2026
+
+See `LAUNCH-READINESS-2026-10-14.md` for the current release status and verification. Earlier dated sections describe historical implementation, not current operating instructions. Owner handoff files now live in `deliverables/handoff/` and are not published at `/handoff` or `/documents/*.zip`. Production CMS intake activation is authorized; email delivery remains unconfigured and staff must check the inbox manually. The production-domain cutover is documented in `DOMAIN-CUTOVER-2026-10-14.md`; DNS access and Google Search Console verification remain external launch steps.
+
 ## Uploaded scan test — 13 October 2026
 
 A **3D test** choice sits alongside the five bags in one compact row. The coffee reference now uses reconstructed smooth ceramic: tapered walls, a rounded continuous lip, a real inner bowl, a closed base, a rounded handle with roots outside the inner bowl, and a complete saucer/underside. Damaged scan triangles and the patch lining from version 45 are removed. The original scan photograph is projected onto the smooth model at full strength, restoring the lettering, color variation, rim and interior detail. Geometry and surface normals match the accepted smooth version exactly. Uncaptured undersides retain inferred ceramic. Photo lighting and capture imperfections remain in the source texture; this is a visual reconstruction, not exact archival geometry or manufacturing CAD.

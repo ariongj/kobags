@@ -4,7 +4,7 @@
     "Custom text ink survives reload",
     "Custom text ink survives studio-to-quote navigation",
     "Custom text ink survives Albanian route navigation",
-    "Undo restores fabric and explicit ink together",
+    "Undo restores the approved Natural default and explicit ink together",
     "A flat drag with a 950 ms pause is one undo gesture",
     "Selected overlapping logo moves alone in photo mode",
     "Fullscreen photo artwork is editable and keeps one undo per gesture",

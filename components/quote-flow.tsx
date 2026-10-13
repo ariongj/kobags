@@ -20,6 +20,7 @@ import { sideArtwork } from "@/lib/studio-artwork";
 import { artworkSides } from "@/lib/studio-checks";
 import { languageHref } from "@/lib/site-locale";
 import { isCalendarDate, requestFieldLimits } from "@/lib/design-validation";
+import PreparedRequestActions from "./prepared-request-actions";
 export default function QuoteFlow() {
   const cms = useCms();
   const getProduct = cms.getProduct;
@@ -33,6 +34,7 @@ export default function QuoteFlow() {
   const [submitted, setSubmitted] = useState("");
   const [hydrated, setHydrated] = useState(false);
   const [showExampleDetails, setShowExampleDetails] = useState(false);
+  const savedRequest = state?.requests.find(request => request.id === submitted);
   const [collection, setCollection] = useState("");
   const collectionNames: Record<string,string> = {"thank-you":"Thank you bags",smiley:"Smiley bags"};
   const collectionName = collectionNames[collection] || "";
@@ -161,7 +163,7 @@ export default function QuoteFlow() {
         if(live.enabled){update({key:crypto.randomUUID(),consent:false});return;}
         setSubmitted(id);
         update({ key: crypto.randomUUID(), consent: false });
-        history.replaceState(null, "", languageHref("/quote?submitted=" + encodeURIComponent(id), lang));
+        history.replaceState(null, "", languageHref("/quote?submitted=" + encodeURIComponent(id) + (showExampleDetails ? "&demo=1" : ""), lang));
         try { localStorage.setItem("kobags-quote-step", "0"); } catch {}
         window.scrollTo(0, 0);
       }
@@ -182,7 +184,7 @@ export default function QuoteFlow() {
         <div className="actions">
           {error && <button className="button secondary" onClick={refresh}>{t("Try again", "Provoni përsëri")}</button>}
           <Link href="/quote" className="button">{t("Return to your request", "Kthehuni te kërkesa juaj")}</Link>
-          <Link href="/demo/customer" className="text-button">{t("View saved requests", "Shihni kërkesat e ruajtura")}</Link>
+          {showExampleDetails && <Link href="/demo/customer" className="text-button">{t("View saved requests", "Shihni kërkesat e ruajtura")}</Link>}
         </div>
       </main>
     );
@@ -195,8 +197,8 @@ export default function QuoteFlow() {
         <p className="eyebrow">
           {t("DESIGN SAVED", "DIZAJNI U RUAJT")}
         </p>
-        <h1>{t("Your bag has a beginning.", "Çanta juaj ka një fillim.")}</h1>
-        <p>
+        <h1>{showExampleDetails ? t("Your bag has a beginning.", "Çanta juaj ka një fillim.") : t("Your design request is prepared.", "Kërkesa e dizajnit është përgatitur.")}</h1>
+        {showExampleDetails ? <><p>
           {t(
             "Your complete configuration is saved as",
             "Konfigurimi juaj i plotë u ruajt si",
@@ -214,7 +216,26 @@ export default function QuoteFlow() {
             {t("Explore next steps", "Shihni hapat vijues")}{" "}
             <ArrowRight size={17} />
           </Link>
-        </div>
+        </div></> : savedRequest && <PreparedRequestActions reference={savedRequest.id} subject={t("Bag quotation request", "Kërkesë për ofertë të çantave")}
+          design={savedRequest.snapshot}
+          details={[
+            `${t("Reference", "Referenca")}: ${savedRequest.id}`,
+            `${savedRequest.snapshot.productName} / ${savedRequest.snapshot.size}`,
+            `${savedRequest.snapshot.dimensions} / ${savedRequest.snapshot.gsm} GSM / ${savedRequest.snapshot.color}`,
+            `${t("Quantity", "Sasia")}: ${savedRequest.snapshot.quantity}`,
+            `${t("Print colors", "Ngjyra shtypi")}: ${savedRequest.snapshot.printColors}`,
+            `${t("Custom dimensions", "Përmasa sipas kërkesës")}: ${savedRequest.snapshot.customDimensions || "—"}`,
+            `${t("Front text", "Teksti përpara")}: ${savedRequest.snapshot.text || "—"}`,
+            `${t("Back text", "Teksti prapa")}: ${savedRequest.snapshot.backText || "—"}`,
+            `${t("Front logo", "Logoja përpara")}: ${savedRequest.snapshot.logoName || "—"}`,
+            `${t("Back logo", "Logoja prapa")}: ${savedRequest.snapshot.backLogoName || "—"}`,
+            `${t("Delivery", "Dërgesa")}: ${savedRequest.snapshot.city}, ${savedRequest.snapshot.country}`,
+            `${t("Requested date", "Data e kërkuar")}: ${savedRequest.snapshot.date || "—"}`,
+            `${savedRequest.snapshot.company} / ${savedRequest.snapshot.contact}`,
+            savedRequest.snapshot.email,
+            savedRequest.snapshot.phone || "",
+            savedRequest.snapshot.note,
+          ].filter(Boolean).join("\n")}/>}
         <button
           className="text-button"
           onClick={() => {
@@ -581,8 +602,8 @@ export default function QuoteFlow() {
                   />
                   <span>
                     {t(
-                      live.enabled ? "I agree that Kobags may store my details and artwork to respond to this inquiry. This is a quotation request, not a confirmed order." : "I understand this demo stores my request and normalized artwork preview for demonstration. No real order or message will be sent.",
-                      live.enabled ? "Pajtohem që Kobags t’i ruajë të dhënat dhe dizajnin për t’iu përgjigjur kërkesës. Kjo është kërkesë për ofertë, jo porosi e konfirmuar." : "E kuptoj që ky demonstrim ruan kërkesën dhe parapamjen e dizajnit. Nuk dërgohet asnjë porosi ose mesazh real.",
+                      live.enabled ? "I agree that Kobags may store my details and artwork to respond to this inquiry. This is a quotation request, not a confirmed order." : "I understand this saves my request and design preview so I can send them to Kobags from my email app. No order is confirmed.",
+                      live.enabled ? "Pajtohem që Kobags t’i ruajë të dhënat dhe dizajnin për t’iu përgjigjur kërkesës. Kjo është kërkesë për ofertë, jo porosi e konfirmuar." : "E kuptoj se kërkesa dhe parapamja e dizajnit ruhen që t’i dërgoj te Kobags përmes emailit tim. Asnjë porosi nuk konfirmohet.",
                     )}{" "}
                     <Link href="/privacy">
                       {t("Privacy notice", "Njoftimi i privatësisë")}

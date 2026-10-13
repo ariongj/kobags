@@ -2,6 +2,10 @@ import { env } from "cloudflare:workers";
 import { products } from "@/lib/catalog";
 import { seed, applyAction, DemoState } from "@/lib/demo-domain";
 import { demoSession } from "@/lib/demo-session";
+import { readRequestText, RequestBodyLimitError } from "@/lib/request-body";
+import { publishedRecords } from "@/lib/cms/records";
+import { withPublishedQuoteCatalog } from "@/lib/cms/request-catalog";
+import { CmsError, rateLimit } from "@/lib/cms/core";
 export const dynamic = "force-dynamic";
 function json(body: unknown, status = 200, cookie?: string) {
   return Response.json(body, {
@@ -73,15 +77,17 @@ export async function POST(req: Request) {
     if (req.headers.get("content-type")?.split(";")[0] !== "application/json")
       return json({ error: "INVALID_REQUEST" }, 415);
     const origin = req.headers.get("origin");
-    if (origin && origin !== new URL(req.url).origin)
+    if (origin !== new URL(req.url).origin)
       return json({ error: "ORIGIN" }, 403);
-    const body = await req.text();
-    if (body.length > 350000) return json({ error: "FILE_TOO_LARGE" }, 413);
+    const body = await readRequestText(req, 350000);
     const action = JSON.parse(body);
+    await rateLimit(req, "demo", 60);
+    const records = action?.type === "submit" ? await publishedRecords() : [];
     for (let attempt = 0; attempt < 3; attempt++) {
       const old = await read(owner, true);
-      const result = applyAction(old, action);
-      if (result.state === old) return json(result, 200, cookie);
+      const current = action?.type === "submit" ? withPublishedQuoteCatalog(old, action.design, records) : old;
+      const result = applyAction(current, action);
+      if (result.state === current) return json({ ...result, state: old }, 200, cookie);
       const rev = old.revision + 1;
       result.state.revision = rev;
       const saved = await env
@@ -100,6 +106,8 @@ export async function POST(req: Request) {
     }
     return json({ error: "CONFLICT" }, 409);
   } catch (e) {
+    if (e instanceof RequestBodyLimitError) return json({ error: "FILE_TOO_LARGE" }, 413, cookie);
+    if (e instanceof CmsError && e.status === 429) return json({ error: "RATE_LIMIT" }, 429, cookie);
     const raw = e instanceof Error ? e.message : "SAVE_FAILED";
     const known = [
       "AUTH_REQUIRED",
@@ -107,6 +115,7 @@ export async function POST(req: Request) {
       "DATE",
       "INVALID_VARIANT",
       "INVALID_COLOR",
+      "INVALID_PRINT_COLORS",
       "INVALID_IMAGE",
       "PARTNER_MODEL",
       "NOT_FOUND",
