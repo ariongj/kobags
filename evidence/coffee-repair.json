@@ -1,0 +1,23 @@
+{
+  "sourceSHA256": "a3c0c90b6a4feb53e63580511b1ec62b8c9fbab924e1d7f61589e346be1b2fc2",
+  "outputSHA256": "1f1b278b4477c30e2e954c85488537578cffb92f9910639d48f5b02d9105e8aa",
+  "consistentWinding": true,
+  "positiveVolumes": true,
+  "finiteCoordinates": true,
+  "degenerateTriangles": 0,
+  "inferredSurfaces": [
+    "cup closure",
+    "saucer",
+    "underside",
+    "inner lining behind scan voids"
+  ],
+  "triangles": 145272,
+  "closedLining": true,
+  "retainedCupTriangles": 60369,
+  "patchTriangles": 167,
+  "saucerTriangles": 80896,
+  "closedCup": true,
+  "closedSaucer": true,
+  "boundaryLoopsRepaired": 1,
+  "bytes": 4974796
+}

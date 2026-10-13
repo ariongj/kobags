@@ -1,6 +1,14 @@
 # Kobags website — verification record
 
-## Supplied coffee scan trial — 13 October 2026
+## Coffee scan repair — 13 October 2026
+
+- Removed captured table fragments, smoothed the cup/handle geometry, closed the cut cup base, added an inner lining behind side-wall defects, and reconstructed the saucer rim and underside. Missing surfaces are inferred; photographed cup texture and some capture imperfections remain.
+- Reproducible offline pipeline: `scripts/repair-test-scan.py`. `coffee-repair.json` records source/output hashes, closed cup and saucer, positive volumes, consistent winding, finite coordinates and no degenerate triangles.
+- Added compact front/back/top/underneath/three-quarter presets with English and Albanian labels; dynamic triangle count and a versioned model URL to avoid stale browser assets.
+- TypeScript, production build and whitespace checks passed. `qa/imported_scan_checks.py`: six acceptance groups, including visible renders, preset polar angles, pointer/keyboard/touch rotation, mobile widths 320/390/768, fullscreen, reduced motion, load failure/retry, saved bag preservation and return to quotation. Final photograph-blended lining was additionally inspected from seven angles and at 390/320px; asset SHA is recorded in `imported-scan-checks.json`.
+- Validation uses local Chromium software WebGL. This repairs the coffee test only; physical bag scans and deferred customer inquiry activation remain outstanding.
+
+## Original coffee scan import — 13 October 2026 (superseded by repair below)
 
 - Added a separate **3D test** picker entry and shareable `/design?model=coffee-test` URL, including Albanian. The uploaded coffee scan is not a catalogue product and cannot enter the bag quotation schema. Existing bag drafts/artwork are preserved.
 - Converted the supplied OBJ plus diffuse/normal atlases to a self-contained 4.6 MB GLB: all 122,842 triangles retained, texture atlases reduced from 8192 to 2048px. Corrected display orientation only; captured table geometry and scan imperfections remain. Provenance and conversion details are in the developer handoff.

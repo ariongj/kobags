@@ -2,7 +2,7 @@
 
 ## Uploaded scan test — 13 October 2026
 
-A **3D test** choice sits alongside the five bag choices in one compact row. It opens the supplied coffee scan with its real captured textures, rotation, zoom and fullscreen. The panel is clearly marked as a test, with a direct return to the saved bag. English and Albanian labels are included. The source scan contains tabletop geometry and imperfect surfaces, retained for this import trial. This does not add a coffee product to the catalogue or imply that bag scans are complete.
+A **3D test** choice sits alongside the five bag choices in one compact row. It opens the supplied coffee scan with its real captured textures, rotation, zoom and fullscreen. The panel is clearly marked as a test, with a direct return to the saved bag. English and Albanian labels are included. The repaired version removes the captured tabletop, smooths the cup, closes its base, adds a lining behind wall defects and reconstructs the saucer rim and underside. Front, back, top, underneath and three-quarter views are available in a compact selector. The cup retains its photographed texture; missing surfaces are inferred ceramic. Some photographic capture noise remains, so this is not an exact manufacturing model. This does not add a coffee product to the catalogue or imply that bag scans are complete.
 
 ## Stock request recovery — 13 October 2026
 
