@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import {
   ArrowLeft,
   ArrowRight,
@@ -9,6 +9,8 @@ import {
   Play,
   Pause,
   LoaderCircle,
+  SlidersHorizontal,
+  X,
 } from "lucide-react";
 import type { Design } from "@/lib/catalog";
 import { placementPatch, type ArtworkLayer } from "@/lib/studio-artwork";
@@ -41,6 +43,20 @@ export default function Studio3D({
   const { t } = useKobags();
   const host = useRef<HTMLDivElement>(null);
   const scene = useRef<StudioScene | null>(null);
+  const controlsId = useId();
+  const [controlsOpen, setControlsOpen] = useState(false);
+  const controlsToggle = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (!controlsOpen) return;
+    const close = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setControlsOpen(false);
+        controlsToggle.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", close);
+    return () => window.removeEventListener("keydown", close);
+  }, [controlsOpen]);
   const latest = useRef(design);
   useLayoutEffect(() => { latest.current = design; }, [design]);
   const [selected, setSelected] = useState(editing);
@@ -257,8 +273,23 @@ export default function Studio3D({
         </>
       )}
       {status === "ready" && (
+        <>
+        <button
+          type="button"
+          className="studio-view-toggle"
+          ref={controlsToggle}
+          aria-expanded={controlsOpen}
+          aria-controls={controlsId}
+          aria-label={t("3D view controls", "Kontrollet e pamjes 3D")}
+          onClick={() => setControlsOpen((open) => !open)}
+        >
+          {controlsOpen ? <X size={17} /> : <SlidersHorizontal size={17} />}
+          <span>{t("View", "Pamja")}</span>
+        </button>
         <div
+          id={controlsId}
           className="studio-3d-tools"
+          data-open={controlsOpen}
           role="group"
           aria-label={t("3D view controls", "Kontrollet e pamjes 3D")}
         >
@@ -323,6 +354,7 @@ export default function Studio3D({
             {spinning ? <Pause size={15} /> : <Play size={15} />}
           </button>
         </div>
+        </>
       )}
     </div>
   );

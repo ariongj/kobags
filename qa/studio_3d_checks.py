@@ -53,6 +53,7 @@ async def main():
   await page.get_by_text('Position & rotation',exact=True).click();await page.get_by_label('Horizontal position',exact=True).fill('56');await ready();assert (await draft())['textPlacement']['x']==56
   await page.get_by_role('button',name='Photo + artwork',exact=True).click();await page.wait_for_function("document.querySelector('.preview-stage>.bag-canvas')?.dataset.ready==='true'")
   saved=await draft();assert saved['backText']=='MADE FOR\nEVERY DAY' and saved['logo'] and saved['backLogo']
+  await page.locator('.studio-resources > summary').click()
   async with page.expect_download() as download:await page.get_by_role('button',name='Download both sides + specifications',exact=True).click()
   path=await (await download.value).path();png=Path(path).read_bytes();assert int.from_bytes(png[16:20],'big')==2000
   await page.get_by_role('button',name='3D view',exact=True).click();await ready();await page.get_by_text('Position & rotation',exact=True).click();await shot('studio-3d-desktop.jpg')
@@ -61,6 +62,7 @@ async def main():
    await page.set_viewport_size({'width':width,'height':844});await page.wait_for_timeout(200);assert not await page.evaluate('document.documentElement.scrollWidth>innerWidth'),width
   await page.set_viewport_size({'width':390,'height':844});await shot('studio-3d-mobile.jpg')
   assert await page.locator('.preview-stage').evaluate('(e)=>e.getBoundingClientRect().height')<=360
+  await page.get_by_role('button',name='3D view controls',exact=True).click()
   await page.get_by_role('button',name='Rotate bag left',exact=True).click();await ready()
   await page.get_by_role('link',name='Get a quote for this bag',exact=True).click();await page.wait_for_url('**/quote');assert (await draft())['backText']==saved['backText']
   # Motion preference and WebGL failure have usable, explicit alternatives.

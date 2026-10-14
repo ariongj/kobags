@@ -1,0 +1,47 @@
+{
+  "home": {
+    "height": 7541,
+    "preview": null,
+    "editor": null,
+    "quote": null
+  },
+  "catalog": {
+    "height": 3502,
+    "preview": null,
+    "editor": null,
+    "quote": null
+  },
+  "studio": {
+    "height": 1653,
+    "preview": {
+      "x": 13,
+      "y": 269.390625,
+      "width": 364,
+      "height": 307.1875,
+      "top": 269.390625,
+      "right": 377,
+      "bottom": 576.578125,
+      "left": 13
+    },
+    "editor": {
+      "x": 12,
+      "y": 723.453125,
+      "width": 366,
+      "height": 673.640625,
+      "top": 723.453125,
+      "right": 378,
+      "bottom": 1397.09375,
+      "left": 12
+    },
+    "quote": {
+      "x": 25,
+      "y": 1323.703125,
+      "width": 340,
+      "height": 43.59375,
+      "top": 1323.703125,
+      "right": 365,
+      "bottom": 1367.296875,
+      "left": 25
+    }
+  }
+}

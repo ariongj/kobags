@@ -1,5 +1,18 @@
 # Kobags website — verification record
 
+## Mobile workspace release — 14 October 2026
+
+- Reworked <=800px studio into one workspace with an independently scrolling editor, persistent quote row, visible Front/Back and optional 44px camera controls. The editor can expand; product samples/specifications/exports live in a native disclosure below. Existing 3D/photo editing, dual-sided artwork and quote storage remain shared.
+- Natural is first in the color palette and the default for fresh designs, homepage previews and renderer fallbacks. All five fresh shapes retained Natural; an explicit Forest green choice survived reload, then was switched back to Natural by the test.
+- At 390×844, the quote button ends at 808.5px (previously 1367.3px). The homepage document decreased from 7541 to 6514px; the catalog from 3502 to 2350px. Full product descriptions remain available. These are measurements from the local Chromium layout, not field performance metrics.
+- `qa/mobile_site_checks.py`: 54 route/width checks passed, including menu, input sizes, direct touch rotation and a first editor-tab tap after rotation. That last action reproduced a dropped compatibility mouse event; studio tabs now handle completed touch pointer events directly.
+- `qa/mobile_workspace_checks.py`: six buyer/editing groups passed across 320×568, 360×740, 390×844, 430×932, 768×1024, 844×390 and 1440×900. Covers live touch text/logo movement, upload, undo/redo, copying both sides, camera tools, expanded editor, fullscreen/focus, original sample dialog, 2000px exports, quote handoff and Albanian. No browser errors in the successful run. An earlier software-WebGL run timed out waiting for an uploaded logo projection; the fresh-context repeat passed without changing the renderer or discarding the draft.
+- `qa/text_resize_checks.py`: 16 routes including EN/SQ studio at 320px and 200% text had no document-width overflow; editor panels retained at least 120px of usable height. Horizontal family rows intentionally scroll inside their containers. A visual review also identified and fixed the previously fixed-offset skip link revealing long Albanian text over the header.
+- `qa/accessibility_checks.py`: zero automated violations in 13 page/dialog/editor states. `qa/studio_3d_checks.py` passed all five models, pointer/keyboard/camera controls, dual-sided texture changes, fullscreen, export, responsive layouts, reduced motion and the no-WebGL fallback. `qa/final_studio_regressions.py` passed ten artwork/undo/storage/quote/fallback groups.
+- Production build, TypeScript and whitespace checks passed; lint reports 0 errors and the existing 44 warnings. Design/developer handoffs describe the final layout. Existing custom domain, public audience, CMS access and live inquiry settings are preserved.
+- Tests use a local isolated Worker and Chromium with software WebGL. They do not certify physical iOS/Safari, Android hardware performance, assistive-technology behavior or every virtual keyboard. No live customer inquiry, email, payment or production order was created.
+
+
 ## Launch audit — 14 October 2026 (Europe/Tirane)
 
 This entry supersedes earlier notes saying intake is deferred, source ZIPs are public or the coffee test appears in the regular bag picker. The owner now explicitly approved shared CMS requests, then chose to keep `kobags.itdks.tech` for now. The prepared `kobags-group.com` switch is deferred. Email notifications and future business-domain DNS/TLS remain separate operational steps.

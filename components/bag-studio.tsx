@@ -30,6 +30,9 @@ import {
   Redo2,
   Copy,
   Type,
+  ChevronDown,
+  PanelTopClose,
+  PanelTopOpen,
 } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Slider } from "@/components/ui/slider";
@@ -248,6 +251,8 @@ export default function BagStudio() {
   const displayColor = t(design.color, colors.find((color) => color.name === design.color)?.sq);
   const [copied, setCopied] = useState(false);
   const [tab, setTab] = useState("bag");
+  const artworkTab = useRef<HTMLButtonElement>(null);
+  const [editorExpanded, setEditorExpanded] = useState(false);
   const [viewMode, setViewMode] = useState("3d");
   const [samplePhoto, setSamplePhoto] = useState<string | null>(null);
   const [error, setError] = useState("");
@@ -594,7 +599,7 @@ export default function BagStudio() {
     }
   };
   return (
-    <section className="studio-section studio-v4 studio-compact">
+    <section className="studio-section studio-v4 studio-compact" data-editor-expanded={editorExpanded} data-scan={testScan}>
       <div className="studio-heading">
         <div>
           <h1>{testScan ? t("Explore your scan.", "Eksploroni skanimin tuaj.") : t("Build your bag.", "Krijoni çantën tuaj.")}</h1>
@@ -756,62 +761,6 @@ export default function BagStudio() {
               </button>
             </div>
           </div>
-          {downloaded && (
-            <p className="saved-feedback" role="status">
-              {t("Preview download started:", "Shkarkimi i parapamjes filloi:")}{" "}
-              {downloaded}
-            </p>
-          )}
-          <div className="studio-spec-line">
-            <span>
-              {v.dimensions} · {v.gsm} GSM · {t("Non-woven PP", "PP jo i endur")}
-            </span>
-            <span>{displayColor}</span>
-          </div>
-          <div className="studio-real-samples">
-            <div className="studio-real-samples-copy">
-              <strong>{t("Real bags from our production", "Çanta reale nga prodhimi ynë")}</strong>
-              <span>{t("See material, stitching and shape", "Shihni materialin, qepjet dhe formën")}</span>
-            </div>
-            <div className="studio-real-samples-images">
-              {[p.image, productMedia[p.slug].home, ...(p.slug === "d-cut-bag" ? [] : [productMedia[p.slug].detail])].map((src, index) => (
-                <button
-                  type="button"
-                  key={src}
-                  onClick={() => setSamplePhoto(src)}
-                  aria-label={t(`View real ${p.name} sample ${index + 1}`, `Shihni mostrën reale ${index + 1} të ${p.name}`)}
-                >
-                  <img src={src} alt="" loading="lazy" />
-                </button>
-              ))}
-            </div>
-          </div>
-          <Dialog open={Boolean(samplePhoto)} onOpenChange={(open) => !open && setSamplePhoto(null)}>
-            <DialogContent className="studio-sample-dialog">
-              <DialogTitle>{t("A real bag made by Kobags", "Çantë reale e prodhuar nga Kobags")}</DialogTitle>
-              <DialogDescription>
-                {t("Explore the material, stitching and shape of a bag made by Kobags.", "Shihni materialin, qepjet dhe formën e një çante të prodhuar nga Kobags.")}
-              </DialogDescription>
-              {samplePhoto && <img src={samplePhoto} alt={t(`Real ${p.name} product sample`, `Mostër reale e ${p.name}`)} />}
-            </DialogContent>
-          </Dialog>
-          <button
-            type="button"
-            className="studio-sheet-download"
-            onClick={downloadSheet}
-            disabled={!previewReady || exporting}
-          >
-            <Download size={16} />
-            <span>
-              {exporting
-                ? t("Preparing…", "Duke përgatitur…")
-                : t(
-                    "Download both sides + specifications",
-                    "Shkarko të dyja anët + specifikimet",
-                  )}
-            </span>
-            <ArrowUpRight size={15} />
-          </button>
           </>}
         </div>
         {testScan ? <aside className="scan-info section-card">
@@ -823,14 +772,33 @@ export default function BagStudio() {
           <button type="button" className="button" onClick={() => chooseTestScan(false)}>{t("Back to your bag", "Kthehu te çanta juaj")}<ArrowRight size={16}/></button>
         </aside> : <section className="studio-controls" aria-label={t("Customize your bag", "Personalizoni çantën")}>
           <Tabs value={tab} onValueChange={setTab}>
+            <div className="studio-editor-nav">
             <TabsList className="editor-tabs">
-              <TabsTrigger value="bag">
-                01 <span>{t("The bag", "Çanta")}</span>
+              <TabsTrigger value="bag" onPointerUp={(event) => {
+                // A touch orbit can suppress the next compatibility mouse event.
+                // Complete tab taps directly; a scrolling gesture sends pointercancel.
+                if (event.pointerType === "touch") { setTab("bag"); event.currentTarget.focus({ preventScroll: true }); }
+              }}>
+                <span className="editor-step">01</span> <span>{t("The bag", "Çanta")}</span>
               </TabsTrigger>
-              <TabsTrigger value="artwork">
-                02 <span>{t("Your design", "Dizajni juaj")}</span>
+              <TabsTrigger value="artwork" ref={artworkTab} onPointerUp={(event) => {
+                if (event.pointerType === "touch") { setTab("artwork"); event.currentTarget.focus({ preventScroll: true }); }
+              }}>
+                <span className="editor-step">02</span> <span>{t("Your design", "Dizajni juaj")}</span>
               </TabsTrigger>
             </TabsList>
+            <button
+              type="button"
+              className="studio-editor-expand"
+              aria-label={editorExpanded ? t("Show bag preview", "Shfaq parapamjen e çantës") : t("Expand editing controls", "Zgjero panelin e dizajnit")}
+              title={editorExpanded ? t("Show bag preview", "Shfaq parapamjen e çantës") : t("Expand editing controls", "Zgjero panelin e dizajnit")}
+              aria-pressed={editorExpanded}
+              onClick={() => setEditorExpanded((expanded) => !expanded)}
+            >
+              {editorExpanded ? <PanelTopOpen size={20} /> : <PanelTopClose size={20} />}
+            </button>
+            </div>
+            {editorExpanded && <p className="studio-editor-context">{p.name} · {displayColor}<span>{t("Preview hidden · tap the icon to return", "Parapamja e fshehur · prekni ikonën për ta kthyer")}</span></p>}
             <TabsContent value="bag" className="editor-body">
               <Choice
                 id="bag-size"
@@ -884,26 +852,10 @@ export default function BagStudio() {
                 </div>
                 <small>
                   {t(
-                    "Color options are indicative; availability is confirmed with your quote.",
-                    "Ngjyrat janë orientuese; disponueshmëria konfirmohet me ofertën.",
+                    "Availability is confirmed with your quote.",
+                    "Disponueshmëria konfirmohet me ofertën.",
                   )}
                 </small>
-              </div>
-              <div className="spec-mini">
-                <div>
-                  <Package size={17} />
-                  <span>
-                    {t("Material", "Materiali")}
-                    <strong>{t("Non-woven PP", "PP jo i endur")}</strong>
-                  </span>
-                </div>
-                <div>
-                  <ShieldCheck size={17} />
-                  <span>
-                    {t("Fabric weight", "Pesha e materialit")}
-                    <strong>{v.gsm} g/m²</strong>
-                  </span>
-                </div>
               </div>
               <div className="studio-print-plan">
                 <Choice
@@ -952,7 +904,7 @@ export default function BagStudio() {
               </details>
               <button
                 className="button design-next"
-                onClick={() => setTab("artwork")}
+                onClick={() => { setTab("artwork"); artworkTab.current?.focus(); }}
               >
                 {t("Next: add your design", "Vazhdoni: shtoni dizajnin")}{" "}
                 <ArrowRight size={15} />
@@ -1388,6 +1340,7 @@ export default function BagStudio() {
           <input
             ref={fileRef}
             type="file"
+            tabIndex={-1}
             className="sr-only"
             accept="image/png,image/jpeg,image/webp"
             aria-label={t("Upload logo", "Ngarko logon")}
@@ -1417,13 +1370,80 @@ export default function BagStudio() {
             </Link>}
             <p>
               {t(
-                "No payment now. Your design goes with your request.",
-                "Pa pagesë tani. Dizajni dërgohet me kërkesën.",
+                "Your design is included. No payment now.",
+                "Dizajni përfshihet. Pa pagesë tani.",
               )}
             </p>
           </div>
         </section>}
       </div>
+      {!testScan && <details className="studio-resources">
+        <summary><Package size={17} /><span>{t("Details, real samples & downloads", "Detaje, mostra reale dhe shkarkime")}</span><ChevronDown size={18} /></summary>
+        <div className="studio-resources-body">
+          {downloaded && (
+            <p className="saved-feedback" role="status">
+              {t("Preview download started:", "Shkarkimi i parapamjes filloi:")}{" "}
+              {downloaded}
+            </p>
+          )}
+          <div className="studio-spec-line">
+            <span>
+              {v.dimensions} · {v.gsm} GSM · {t("Non-woven PP", "PP jo i endur")}
+            </span>
+            <span>{displayColor}</span>
+          </div>
+          <div className="studio-real-samples">
+            <div className="studio-real-samples-copy">
+              <strong>{t("Real bags from our production", "Çanta reale nga prodhimi ynë")}</strong>
+              <span>{t("See material, stitching and shape", "Shihni materialin, qepjet dhe formën")}</span>
+            </div>
+            <div className="studio-real-samples-images">
+              {[p.image, productMedia[p.slug].home, ...(p.slug === "d-cut-bag" ? [] : [productMedia[p.slug].detail])].map((src, index) => (
+                <button
+                  type="button"
+                  key={src}
+                  onClick={() => setSamplePhoto(src)}
+                  aria-label={t(`View real ${p.name} sample ${index + 1}`, `Shihni mostrën reale ${index + 1} të ${p.name}`)}
+                >
+                  <img src={src} alt="" loading="lazy" />
+                </button>
+              ))}
+            </div>
+          </div>
+          <Dialog open={Boolean(samplePhoto)} onOpenChange={(open) => !open && setSamplePhoto(null)}>
+            <DialogContent className="studio-sample-dialog">
+              <DialogTitle>{t("A real bag made by Kobags", "Çantë reale e prodhuar nga Kobags")}</DialogTitle>
+              <DialogDescription>
+                {t("Explore the material, stitching and shape of a bag made by Kobags.", "Shihni materialin, qepjet dhe formën e një çante të prodhuar nga Kobags.")}
+              </DialogDescription>
+              {samplePhoto && <img src={samplePhoto} alt={t(`Real ${p.name} product sample`, `Mostër reale e ${p.name}`)} />}
+            </DialogContent>
+          </Dialog>
+          <div className="studio-resource-actions">
+          <button type="button" className="studio-sheet-download" onClick={download} disabled={!previewReady || exporting}>
+            <Download size={16} />
+            {t("Download this view", "Shkarko këtë pamje")}
+          </button>
+          <button
+            type="button"
+            className="studio-sheet-download"
+            onClick={downloadSheet}
+            disabled={!previewReady || exporting}
+          >
+            <Download size={16} />
+            <span>
+              {exporting
+                ? t("Preparing…", "Duke përgatitur…")
+                : t(
+                    "Download both sides + specifications",
+                    "Shkarko të dyja anët + specifikimet",
+                  )}
+            </span>
+            <ArrowUpRight size={15} />
+          </button>
+          </div>
+        </div>
+      </details>}
       {!testScan && <div className="studio-footnote">
         <span>
           <ShieldCheck size={15} />

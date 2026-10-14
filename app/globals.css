@@ -908,13 +908,16 @@ details p {
 .skip-link {
   position: fixed;
   left: 16px;
-  top: -60px;
+  top: 0;
+  transform: translateY(calc(-100% - 2px));
+  max-width: calc(100% - 32px);
   background: white;
   z-index: 1000;
   padding: 12px;
 }
 .skip-link:focus {
   top: 10px;
+  transform: none;
 }
 .error {
   background: #fff1ed;

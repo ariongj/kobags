@@ -85,10 +85,37 @@
             "a[href$=\"box-bag\"] > div > span"
           ],
           [
+            "a[href$=\"box-bag\"] > h3"
+          ],
+          [
+            "a[href$=\"box-bag\"] > p"
+          ],
+          [
+            "a[href$=\"box-bag\"] > p > .product-size-count"
+          ],
+          [
             "a[href$=\"t-shirt-bag\"] > div > span"
           ],
           [
+            "a[href$=\"t-shirt-bag\"] > h3"
+          ],
+          [
+            "a[href$=\"t-shirt-bag\"] > p"
+          ],
+          [
+            "a[href$=\"t-shirt-bag\"] > p > .product-size-count"
+          ],
+          [
             "a[href$=\"string-bag\"] > div > span"
+          ],
+          [
+            "a[href$=\"string-bag\"] > h3"
+          ],
+          [
+            "a[href$=\"string-bag\"] > p"
+          ],
+          [
+            "a[href$=\"string-bag\"] > p > .product-size-count"
           ]
         ]
       }
@@ -108,7 +135,7 @@
             ".subtle"
           ],
           [
-            ".studio-3d-badge"
+            ".studio-view-toggle > span"
           ]
         ]
       }
@@ -128,7 +155,7 @@
             ".subtle"
           ],
           [
-            ".studio-3d-badge"
+            ".studio-view-toggle > span"
           ]
         ]
       }
@@ -165,25 +192,13 @@
             ".product-photo[href$=\"d-cut-bag\"] > .product-number"
           ],
           [
-            "article[data-slug=\"d-cut-bag\"] > .product-copy > .eyebrow"
-          ],
-          [
             ".product-photo[href$=\"handle-bag\"] > .product-number"
-          ],
-          [
-            "article[data-slug=\"handle-bag\"] > .product-copy > .eyebrow"
           ],
           [
             ".product-photo[href$=\"box-bag\"] > .product-number"
           ],
           [
-            "article[data-slug=\"box-bag\"] > .product-copy > .eyebrow"
-          ],
-          [
             ".product-photo[href$=\"t-shirt-bag\"] > .product-number"
-          ],
-          [
-            "article[data-slug=\"t-shirt-bag\"] > .product-copy > .eyebrow"
           ],
           [
             ".product-photo[href$=\"string-bag\"] > .product-number"
@@ -247,6 +262,9 @@
           ],
           [
             "button[aria-label=\"Inspect ISO 14001:2015\"] > span"
+          ],
+          [
+            "#radix-_R_cmdiH1_"
           ]
         ]
       }

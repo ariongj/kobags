@@ -179,7 +179,7 @@ export default function HomePage() {
           </Link>
         </div>
         <CollectionCategories />
-        <div className="home-product-row">
+        <div className="home-product-row" role="region" aria-label={t("Explore bag shapes", "Shikoni format e çantave")} tabIndex={0}>
           {[...cms.products].sort((a,b) => products.findIndex(p=>p.slug===a.slug)-products.findIndex(p=>p.slug===b.slug)).map((item, i) => {
             const p = localizeProduct(item, lang);
             const original = products.find(original => original.slug === p.slug);

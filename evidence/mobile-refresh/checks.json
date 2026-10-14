@@ -1,0 +1,49 @@
+{
+  "checks": [
+    "Natural first/default for all five bag shapes, saved chosen colors preserved; front/back and quote visible on first phone screen",
+    "Editor scrolls independently; direct next-step text entry",
+    "Phone logo upload, independent text/logo touch dragging, undo/redo, both sides",
+    "44px view controls; zoom/orbit; expanded editor restores preview; fullscreen and focus return",
+    "Real photo dialog, full resolution two-sided export, quote carries both sides",
+    "Albanian studio, all five swipeable homepage shapes, Natural homepage default, compact catalog"
+  ],
+  "widths": [
+    [
+      320,
+      568
+    ],
+    [
+      360,
+      740
+    ],
+    [
+      390,
+      844
+    ],
+    [
+      430,
+      932
+    ],
+    [
+      768,
+      1024
+    ],
+    [
+      844,
+      390
+    ],
+    [
+      1440,
+      900
+    ]
+  ],
+  "browserErrors": [],
+  "studio": {
+    "quoteBottom": 808.5,
+    "previewHeight": 227.9,
+    "pageHeight": 1157
+  },
+  "homeHeight": 6514,
+  "catalogHeight": 2350,
+  "status": "passed"
+}

@@ -103,9 +103,9 @@ export const productMedia: Record<string, { home: string; detail: string }> = {
   },
 };
 export const colors = [
+  { name: "Natural", sq: "Natyrale", hex: "#d9cba6" },
   { name: "Forest green", sq: "E gjelbër", hex: "#276344" },
   { name: "Navy blue", sq: "Blu e errët", hex: "#193b67" },
-  { name: "Natural", sq: "Natyrale", hex: "#d9cba6" },
   { name: "White", sq: "E bardhë", hex: "#f1f0e8" },
   { name: "Black", sq: "E zezë", hex: "#2a2d30" },
   { name: "Red", sq: "E kuqe", hex: "#b3413d" },

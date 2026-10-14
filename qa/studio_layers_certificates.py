@@ -49,6 +49,7 @@ async def main():
   await page.get_by_role('button',name='Back',exact=True).click();await layer('Text');await page.get_by_label('Brand name or message').fill('MADE FOR\nEVERY DAY');await page.get_by_label('Horizontal position',exact=True).fill('46');await ready();assert (await draft())['textPlacement']['x']==50
   await page.get_by_role('tab',name='01 The bag').click();await page.get_by_text('Need a custom size?',exact=True).click();await page.get_by_label('Requested dimensions',exact=True).fill('40 × 35 × 12 cm')
   await page.locator('#studio-print-colors').click();await page.get_by_role('option',name='2 colors',exact=True).click()
+  await page.locator('.studio-resources > summary').click()
   async with page.expect_download() as pending:await page.get_by_role('button',name='Download both sides + specifications',exact=True).click()
   output=await pending.value;sheet=ROOT/'evidence/layered-design-sheet.png';await output.save_as(str(sheet));data=sheet.read_bytes();assert (int.from_bytes(data[16:20],'big'),int.from_bytes(data[20:24],'big'))==(2000,1400)
   await page.get_by_role('button',name='Front',exact=True).click();await page.get_by_role('tab',name='02 Your design').click();await layer('Text');await ready();await screenshot('studio-layered-desktop.jpg')

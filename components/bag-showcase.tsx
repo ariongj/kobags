@@ -26,7 +26,7 @@ export default function BagShowcase() {
   );
   const [playing, setPlaying] = useState(true);
   const [construction, setConstruction] = useState(false);
-  const [color, setColor] = useState("Natural");
+  const [color, setColor] = useState(initialDesign.color);
   const [text, setText] = useState("YOUR\nBRAND");
   const ink = color === "Natural" || color === "White" ? "#12313b" : "#ffffff";
   const values = useRef({ color, text });
