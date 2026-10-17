@@ -16,7 +16,7 @@ import { Choice, BagPreview } from "./bag-studio";
 import { useKobags } from "./kobags-context";
 import { useDemo, errors } from "./demo-store";
 import { Design, colors, preferredBagColor } from "@/lib/catalog";
-import { sideArtwork } from "@/lib/studio-artwork";
+import { artworkSummary as summarizeArtwork } from "@/lib/studio-artwork";
 import { artworkSides } from "@/lib/studio-checks";
 import { languageHref } from "@/lib/site-locale";
 import { isCalendarDate, requestFieldLimits } from "@/lib/design-validation";
@@ -225,10 +225,8 @@ export default function QuoteFlow() {
             `${t("Quantity", "Sasia")}: ${savedRequest.snapshot.quantity}`,
             `${t("Print colors", "Ngjyra shtypi")}: ${savedRequest.snapshot.printColors}`,
             `${t("Custom dimensions", "Përmasa sipas kërkesës")}: ${savedRequest.snapshot.customDimensions || "—"}`,
-            `${t("Front text", "Teksti përpara")}: ${savedRequest.snapshot.text || "—"}`,
-            `${t("Back text", "Teksti prapa")}: ${savedRequest.snapshot.backText || "—"}`,
-            `${t("Front logo", "Logoja përpara")}: ${savedRequest.snapshot.logoName || "—"}`,
-            `${t("Back logo", "Logoja prapa")}: ${savedRequest.snapshot.backLogoName || "—"}`,
+            `${t("Front artwork", "Dizajni përpara")}: ${summarizeArtwork({ ...savedRequest.snapshot, side: "front" }) || "—"}`,
+            `${t("Back artwork", "Dizajni prapa")}: ${summarizeArtwork({ ...savedRequest.snapshot, side: "back" }) || "—"}`,
             `${t("Delivery", "Dërgesa")}: ${savedRequest.snapshot.city}, ${savedRequest.snapshot.country}`,
             `${t("Requested date", "Data e kërkuar")}: ${savedRequest.snapshot.date || "—"}`,
             `${savedRequest.snapshot.company} / ${savedRequest.snapshot.contact}`,
@@ -424,7 +422,6 @@ export default function QuoteFlow() {
                 <div className="full quote-artwork-review">
                   <div className="quote-artwork-pair">
                     {(["front", "back"] as const).map((side) => {
-                      const artwork = sideArtwork({ ...design, side });
                       return (
                         <div key={side} className="quote-artwork-face">
                           <BagPreview design={{ ...design, side }} compact />
@@ -435,18 +432,7 @@ export default function QuoteFlow() {
                             )}
                           </h3>
                           <p>
-                            {artwork.logo &&
-                            artwork.text &&
-                            design.layeredArtwork
-                              ? `${artwork.name || t("Uploaded logo", "Logo e ngarkuar")} + ${artwork.text}`
-                              : artwork.logo
-                                ? artwork.name ||
-                                  t("Uploaded logo", "Logo e ngarkuar")
-                                : artwork.text.trim() ||
-                                  t(
-                                    "No artwork · blank side",
-                                    "Pa dizajn · anë bosh",
-                                  )}
+                            {summarizeArtwork({ ...design, side }) || t("No artwork · blank side", "Pa dizajn · anë bosh")}
                           </p>
                         </div>
                       );

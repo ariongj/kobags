@@ -5,6 +5,7 @@ import { useKobags } from "./kobags-context";
 import { logicalFace, fitPhotoPanel, mapFromPhoto, photoArtworkTransform, clipCanonicalFace } from "@/lib/studio-projection";
 import {
   artworkFonts,
+  artworkLayers,
   placementPatch,
   type ArtworkLayer,
   sideArtwork,
@@ -162,19 +163,13 @@ async function paintArtwork(
   composite: GlobalCompositeOperation = "source-over",
   onlyLayer?: ArtworkLayer,
 ) {
-  const primary = sideArtwork(design);
-  const logo = primary.logo ? await loadImage(primary.logo) : null;
   const boxes: ArtworkBounds[] = [];
-  const layers: ArtworkLayer[] = logo
-    ? design.layeredArtwork && primary.text
-      ? ["logo", "text"]
-      : ["logo"]
-    : primary.text
-      ? ["text"]
-      : [];
+  const layers = artworkLayers(design);
   for (const layer of layers) {
     if (onlyLayer && layer !== onlyLayer) continue;
     const art = sideArtwork(design, layer);
+    if (art.kind === "text" && !art.text.trim()) continue;
+    const logo = art.kind !== "text" && art.logo ? await loadImage(art.logo) : null;
     let width = 0,
       height = 0;
     const maxWidth = art.scale * 8;
@@ -182,7 +177,8 @@ async function paintArtwork(
     ctx.globalCompositeOperation = composite;
     ctx.translate(art.x * 8, art.y * 8);
     ctx.rotate((art.rotation * Math.PI) / 180);
-    if (layer === "logo" && logo) {
+    if (logo) {
+      if (art.kind === "qr") ctx.imageSmoothingEnabled = false;
       const fit = Math.min(
         maxWidth / logo.naturalWidth,
         Math.min(320, art.scale * 10) / logo.naturalHeight,

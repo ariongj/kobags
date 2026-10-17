@@ -2,8 +2,8 @@ import type { Design } from "./catalog";
 
 export function artworkSides(design: Design): ("front" | "back")[] {
   const sides: ("front" | "back")[] = [];
-  if (design.logo || design.text.trim()) sides.push("front");
-  if (design.backLogo || design.backText.trim()) sides.push("back");
+  if (design.logo || design.text.trim() || design.elements?.some(e => e.side === "front" && (e.logo || e.text.trim()))) sides.push("front");
+  if (design.backLogo || design.backText.trim() || design.elements?.some(e => e.side === "back" && (e.logo || e.text.trim()))) sides.push("back");
   return sides;
 }
 

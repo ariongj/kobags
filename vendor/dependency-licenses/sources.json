@@ -362,5 +362,13 @@
     "source": "https://raw.githubusercontent.com/facebook/yoga/v3.2.1/LICENSE",
     "sourceBasis": "Official tagged release where available; otherwise upstream license snapshot (not evidence of exact-version equivalence).",
     "status": "source-notice"
+  },
+  "qrcode-generator@2.0.4": {
+    "file": "vendor/dependency-licenses/3a850fa5f08101db.txt",
+    "sha256": "3a850fa5f08101db6f40676c2786e10bd2cd5fff7b12ffdf1e0c434d4e49d90c",
+    "source": "https://raw.githubusercontent.com/kazuhikoarase/qrcode-generator/83b7e8fe3fddd3b0368dbafd6ce56995bd25e3c8/LICENSE",
+    "sourceCommit": "83b7e8fe3fddd3b0368dbafd6ce56995bd25e3c8",
+    "declaredLicense": "MIT",
+    "status": "source-notice"
   }
 }

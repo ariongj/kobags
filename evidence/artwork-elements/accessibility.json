@@ -1,0 +1,46 @@
+[
+  {
+    "route": "/design",
+    "buttons": [
+      {
+        "text": "Logo",
+        "width": 85,
+        "scroll": 85
+      },
+      {
+        "text": "Text",
+        "width": 85,
+        "scroll": 85
+      },
+      {
+        "text": "QR",
+        "width": 85,
+        "scroll": 85
+      }
+    ],
+    "pageWidth": 320,
+    "violations": []
+  },
+  {
+    "route": "/sq/design",
+    "buttons": [
+      {
+        "text": "Logo",
+        "width": 85,
+        "scroll": 85
+      },
+      {
+        "text": "Tekst",
+        "width": 85,
+        "scroll": 85
+      },
+      {
+        "text": "QR",
+        "width": 85,
+        "scroll": 85
+      }
+    ],
+    "pageWidth": 320,
+    "violations": []
+  }
+]

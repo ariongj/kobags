@@ -2,6 +2,8 @@
 import { useCms } from "./cms/public-context";
 import Studio3D from "./studio-3d";
 import ImportedScan from "./imported-scan";
+import { ArtworkPalette, QrEditor, QuickPlacement } from "./artwork-tools";
+import { prepareLogo, clearFlatBackground } from "@/lib/logo-cleanup";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import Link from "@/components/site-link";
 import {
@@ -53,6 +55,10 @@ import { BagPreview, renderBagDesign } from "./bag-preview";
 export { BagPreview } from "./bag-preview";
 import {
   sideArtwork,
+  artworkLayers,
+  artworkPatch,
+  newArtwork,
+  removeArtwork,
   artworkFonts,
   placementPatch,
   enableLayers,
@@ -61,7 +67,7 @@ import {
 } from "@/lib/studio-artwork";
 import {
   artworkSides,
-  clearWhiteBackground,
+  readableInk,
 } from "@/lib/studio-checks";
 import { useDemo } from "./demo-store";
 import {
@@ -200,7 +206,8 @@ export default function BagStudio() {
   const draggingArtwork = useRef(false);
   const [selectionKey, setSelectionKey] = useState(0);
   const [viewKey, setViewKey] = useState(0);
-  const [activeLayer, setActiveLayer] = useState<ArtworkLayer>("text");
+  const [selectedLayer, setActiveLayer] = useState<ArtworkLayer>("text");
+  const activeLayer = selectedLayer.startsWith("element:") && !design.elements?.some(e => e.id === selectedLayer.slice(8) && e.side === design.side) ? artworkLayers(design)[0] || "text" : selectedLayer;
   const update = useCallback((patch: Partial<Design>) => {
     const current = currentDesign.current;
     if (
@@ -225,6 +232,11 @@ export default function BagStudio() {
     saveDesign(patch);
     setHistoryAvailable({ undo: !!history.current.past.length, redo: !!history.current.future.length });
   }, [activeLayer, saveDesign]);
+  const commitArtwork = (patch: Partial<Design>) => {
+    history.current.key = "";
+    update(patch);
+    history.current.key = "";
+  };
   const travel = (direction: "past" | "future") => {
     const h = history.current,
       next = h[direction].pop();
@@ -294,14 +306,14 @@ export default function BagStudio() {
   const sides = artworkSides(design);
   const [backgroundBusy, setBackgroundBusy] = useState(false);
   const [backgroundEdits, setBackgroundEdits] = useState<
-    Partial<Record<Design["side"], { original: string; cleaned: string }>>
+    Partial<Record<string, { original: string; cleaned: string }>>
   >({});
   const [backgroundNotice, setBackgroundNotice] = useState<{
     source: string;
     message: "unchanged" | "empty";
   } | null>(null);
   const latestDesign = currentDesign;
-  const backgroundEdit = backgroundEdits[design.side];
+  const backgroundEdit = backgroundEdits[`${design.side}/${activeLayer}`];
   const canRestoreBackground =
     backgroundEdit?.cleaned === art.logo && !!art.logo;
   const { state } = useDemo();
@@ -318,6 +330,22 @@ export default function BagStudio() {
   const enlargeButton = useRef<HTMLButtonElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const back = design.side === "back";
+  const uploadTarget = useRef<{ side: Design["side"]; layer?: ArtworkLayer } | null>(null);
+  const chooseLogo = (layer?: ArtworkLayer) => {
+    uploadTarget.current = { side: design.side, layer: layer || (!sideArtwork(design).logo ? "logo" : undefined) };
+    fileRef.current?.click();
+  };
+  const addText = () => {
+    if (artworkLayers(design).length >= 4) return;
+    const primary = sideArtwork(design);
+    if (!primary.text.trim()) {
+      commitArtwork({ ...enableLayers(design), ...artworkPatch(design, "text", { text: t("Your text", "Teksti juaj"), ink: readableInk(colors.find(c => c.name === design.color)?.hex || colors[0].hex) }) });
+      selectArtwork("text");
+    } else {
+      const next = newArtwork(design, "text", { text: t("Your text", "Teksti juaj") });
+      if (next) { commitArtwork(next.patch); selectArtwork(next.layer); }
+    }
+  };
   const upload = async (file?: File) => {
     if (!file || uploading || backgroundBusy) return;
     setError("");
@@ -334,66 +362,42 @@ export default function BagStudio() {
       return;
     }
     setUploading(true);
-    const uploadToBack = back;
-    let bitmap: ImageBitmap | undefined;
+    const targetInfo = uploadTarget.current || { side: design.side, layer: art.kind === "logo" ? activeLayer : !sideArtwork(design).logo ? "logo" as const : undefined };
+    uploadTarget.current = null;
     try {
-      bitmap = await createImageBitmap(file);
-      if (bitmap.width > 8000 || bitmap.height > 8000) throw Error();
-      let image = "";
-      for (const edge of [1024, 768, 512, 320]) {
-        const c = document.createElement("canvas");
-        const fit = Math.min(1, edge / Math.max(bitmap.width, bitmap.height));
-        c.width = Math.max(1, Math.round(bitmap.width * fit));
-        c.height = Math.max(1, Math.round(bitmap.height * fit));
-        const ctx = c.getContext("2d")!;
-        ctx.imageSmoothingQuality = "high";
-        ctx.drawImage(bitmap, 0, 0, c.width, c.height);
-        image = c.toDataURL("image/webp", 0.94);
-        if (image.length <= 100000) break;
+      const prepared = await prepareLogo(file, targetInfo.layer === "logo" ? 100000 : 20000);
+      const target = { ...currentDesign.current, side: targetInfo.side };
+      let layer = targetInfo.layer;
+      let patch: Partial<Design>;
+      if (layer) {
+        if (!sideArtwork(target, layer).logo && artworkLayers(target).length >= 4) throw Error("ELEMENT_LIMIT");
+        if (layer.startsWith("element:") && !target.elements?.some(e => e.id === layer!.slice(8) && e.side === target.side)) return;
+        const existing = sideArtwork(target);
+        const keepText = existing.text.trim() && existing.text !== "YOUR\nBRAND";
+        patch = artworkPatch(target, layer, { logo: prepared.image, name: file.name.slice(0, 150) });
+        if (layer === "logo") {
+          patch = { ...(keepText ? (!existing.logo || target.layeredArtwork ? enableLayers(target) : {}) : { layeredArtwork: true }), ...patch,
+            ...(!keepText ? artworkPatch(target, "text", { text: "" }) : {}),
+            ...(!existing.logo && keepText ? placementPatch(target, "logo", { y: 44, scale: 26 }) : {}) };
+        }
+      } else {
+        const next = newArtwork(target, "logo", { logo: prepared.image, name: file.name.slice(0, 150) });
+        if (!next) throw Error("ELEMENT_LIMIT");
+        patch = next.patch; layer = next.layer;
       }
-      if (image.length > 100000) throw Error();
-      const target = {
-        ...currentDesign.current,
-        side: uploadToBack ? ("back" as const) : ("front" as const),
-      };
-      const existing = sideArtwork(target);
-      const keepText = existing.text.trim() && existing.text !== "YOUR\nBRAND";
-      const layers = keepText ? enableLayers(target) : { layeredArtwork: true };
-      update({
-        ...layers,
-        ...(uploadToBack
-          ? {
-              backLogo: image,
-              backText: keepText ? existing.text : "",
-              backLogoName: file.name.slice(0, 150),
-              ...(!existing.logo && keepText
-                ? { backY: 44, backScale: 26 }
-                : {}),
-            }
-          : {
-              logo: image,
-              text: keepText ? existing.text : "",
-              logoName: file.name.slice(0, 150),
-              ...(!existing.logo && keepText ? { y: 44, scale: 26 } : {}),
-            }),
-      });
-      selectArtwork("logo");
+      commitArtwork(patch);
+      setBackgroundNotice(null);
+      if (prepared.cleaned) setBackgroundEdits(previous => ({ ...previous, [`${target.side}/${layer}`]: { original: prepared.original, cleaned: prepared.image } }));
+      selectArtwork(layer, target.side);
     } catch {
-      setError(
-        t(
-          "This image could not be read. Try a smaller PNG or JPG.",
-          "Imazhi nuk u lexua. Provoni një PNG ose JPG më të vogël.",
-        ),
-      );
-    } finally {
-      bitmap?.close();
-      setUploading(false);
-    }
+      setError(t("This image could not be added. Use a PNG, JPG or WebP and up to four elements per side.", "Imazhi nuk u shtua. Përdorni PNG, JPG ose WebP dhe deri në katër elemente për anë."));
+    } finally { setUploading(false); }
   };
-  const removeWhiteBackground = async () => {
+  const cleanLogoBackground = async () => {
     if (backgroundBusy || uploading || !art.logo) return;
     const source = art.logo;
     const side = design.side;
+    const layer = activeLayer;
     setBackgroundBusy(true);
     setBackgroundNotice(null);
     setError("");
@@ -416,7 +420,7 @@ export default function BagStudio() {
       const ctx = output.getContext("2d", { willReadFrequently: true })!;
       ctx.drawImage(image, 0, 0);
       const pixels = ctx.getImageData(0, 0, output.width, output.height);
-      const removed = clearWhiteBackground(
+      const removed = clearFlatBackground(
         pixels.data,
         output.width,
         output.height,
@@ -429,9 +433,7 @@ export default function BagStudio() {
         }
       // Do not replace artwork changed while the image was being decoded.
       if (
-        (side === "back"
-          ? latestDesign.current.backLogo
-          : latestDesign.current.logo) !== source
+        sideArtwork({ ...latestDesign.current, side }, layer).logo !== source
       )
         return;
       if (!removed || !visible) {
@@ -443,14 +445,14 @@ export default function BagStudio() {
       }
       ctx.putImageData(pixels, 0, 0);
       let cleaned = output.toDataURL("image/png");
-      if (cleaned.length > 100000)
-        cleaned = output.toDataURL("image/webp", 0.94);
-      if (cleaned.length > 100000) throw Error("IMAGE_TOO_LARGE");
+      const limit = layer.startsWith("element:") ? 20000 : 100000;
+      if (cleaned.length > limit) cleaned = output.toDataURL("image/webp", 0.94);
+      if (cleaned.length > limit) throw Error("IMAGE_TOO_LARGE");
       setBackgroundEdits((previous) => ({
         ...previous,
-        [side]: { original: source, cleaned },
+        [`${side}/${layer}`]: { original: source, cleaned },
       }));
-      update(side === "back" ? { backLogo: cleaned } : { logo: cleaned });
+      update(artworkPatch({ ...latestDesign.current, side }, layer, { logo: cleaned }));
     } catch {
       setError(
         t(
@@ -948,44 +950,12 @@ export default function BagStudio() {
                   {guides ? <Eye size={17} /> : <EyeOff size={17} />}
                 </button>
               </div>
-              <div
-                className="layer-selector"
-                role="group"
-                aria-label={t(
-                  "Select artwork layer",
-                  "Zgjidhni shtresën e dizajnit",
-                )}
-              >
-                <button
-                  type="button"
-                  aria-pressed={activeLayer === "logo"}
-                  onClick={() => selectArtwork("logo")}
-                >
-                  <ImagePlus size={17} />
-                  <span>
-                    {t("Logo", "Logo")}
-                    <small>
-                      {art.logo
-                        ? t("Select & position", "Zgjidhni dhe poziciononi")
-                        : t("Add an image", "Shtoni një imazh")}
-                    </small>
-                  </span>
-                </button>
-                <button
-                  type="button"
-                  aria-pressed={activeLayer === "text"}
-                  onClick={() => selectArtwork("text")}
-                >
-                  <Type size={17} />
-                  <span>
-                    {t("Text", "Tekst")}
-                    <small>
-                      {t("Your name or message", "Emri ose mesazhi juaj")}
-                    </small>
-                  </span>
-                </button>
-              </div>
-              {activeLayer === "logo" && (
+              <ArtworkPalette design={design} activeLayer={activeLayer} onSelect={selectArtwork} onLogo={() => chooseLogo()} onText={addText} busy={uploading || backgroundBusy} t={t} onQr={data => {
+                const next = newArtwork(currentDesign.current, "qr", data);
+                if (next) { commitArtwork(next.patch); selectArtwork(next.layer); }
+              }}/>
+              {art.kind === "qr" && <QrEditor key={`${design.side}/${activeLayer}`} value={art.qrValue} t={t} onSave={data => update(artworkPatch(design, activeLayer, data))}/>}
+              {art.kind === "logo" && (
                 <>
                   {art.logo ? (
                     <div className="artwork-file">
@@ -1005,7 +975,7 @@ export default function BagStudio() {
                         </span>
                         <button
                           className="text-button"
-                          onClick={() => fileRef.current?.click()}
+                          onClick={() => chooseLogo(activeLayer)}
                           disabled={uploading || backgroundBusy}
                         >
                           {t("Replace logo", "Zëvendëso logon")}
@@ -1015,11 +985,12 @@ export default function BagStudio() {
                   ) : (
                     <button
                       className="upload-zone short artwork-upload"
-                      onClick={() => fileRef.current?.click()}
+                      onClick={() => chooseLogo(activeLayer)}
                       disabled={uploading || backgroundBusy}
                       onDragOver={(e) => e.preventDefault()}
                       onDrop={(e) => {
                         e.preventDefault();
+                        uploadTarget.current = { side: design.side, layer: activeLayer };
                         upload(e.dataTransfer.files[0]);
                       }}
                     >
@@ -1044,12 +1015,10 @@ export default function BagStudio() {
                         onClick={() => {
                           if (canRestoreBackground && backgroundEdit) {
                             update(
-                              back
-                                ? { backLogo: backgroundEdit.original }
-                                : { logo: backgroundEdit.original },
+                              artworkPatch(design, activeLayer, { logo: backgroundEdit.original }),
                             );
                             setBackgroundNotice(null);
-                          } else void removeWhiteBackground();
+                          } else void cleanLogoBackground();
                         }}
                       >
                         {canRestoreBackground ? (
@@ -1061,18 +1030,18 @@ export default function BagStudio() {
                           ? t("Removing background…", "Duke hequr sfondin…")
                           : canRestoreBackground
                             ? t(
-                                "Restore original background",
-                                "Rikthe sfondin origjinal",
+                                "Restore original",
+                                "Rikthe origjinalin",
                               )
                             : t(
-                                "Remove white background",
-                                "Hiq sfondin e bardhë",
+                                "Clean background",
+                                "Pastro sfondin",
                               )}
                       </button>
                       <p>
                         {t(
-                          "For logos on a white background. Check light details after removal; you can undo it here.",
-                          "Për logo me sfond të bardhë. Kontrolloni detajet e çelëta pas heqjes; këtu mund ta zhbëni.",
+                          canRestoreBackground ? "Background cleaned. Your original is kept here." : "Plain backgrounds are cleaned automatically on upload.",
+                          canRestoreBackground ? "Sfondi u pastrua. Origjinali ruhet këtu." : "Sfondet e njëtrajtshme pastrohen gjatë ngarkimit.",
                         )}
                       </p>
                       {backgroundNotice?.source === art.logo && (
@@ -1083,8 +1052,8 @@ export default function BagStudio() {
                                 "Kjo do ta hiqte të gjithë logon. Origjinali u ruajt.",
                               )
                             : t(
-                                "No white background was found at the edges. Your logo is unchanged.",
-                                "Nuk u gjet sfond i bardhë në skaje. Logoja nuk u ndryshua.",
+                                "No plain background was found. Your logo is unchanged.",
+                                "Nuk u gjet sfond i njëtrajtshëm. Logoja nuk u ndryshua.",
                               )}
                         </p>
                       )}
@@ -1092,7 +1061,7 @@ export default function BagStudio() {
                   )}
                 </>
               )}
-              {activeLayer === "text" && (
+              {art.kind === "text" && (
                 <>
                   <div className="field">
                     <label htmlFor="brand-text">
@@ -1105,16 +1074,17 @@ export default function BagStudio() {
                       value={art.text}
                       placeholder={t("Your brand name", "Emri i markës suaj")}
                       onChange={(e) => {
+                        if (activeLayer === "text" && !art.text.trim() && artworkLayers(design).length >= 4) {
+                          setError(t("Remove an element before adding another text block.", "Hiqni një element para se të shtoni tekst tjetër."));
+                          return;
+                        }
                         const limitedText = e.currentTarget.value.slice(0, MAX_BRAND_TEXT_LENGTH);
                         setTextLimitNotice(e.currentTarget.value.length > MAX_BRAND_TEXT_LENGTH);
                         if (e.currentTarget.value !== limitedText) e.currentTarget.value = limitedText;
                         setError("");
-                        setActiveLayer("text");
                         update({
-                          ...(art.logo ? enableLayers(design) : {}),
-                          ...(back
-                            ? { backText: limitedText }
-                            : { text: limitedText }),
+                          ...(activeLayer === "text" && art.logo ? enableLayers(design) : {}),
+                          ...artworkPatch(design, activeLayer, { text: limitedText }),
                         });
                       }}
                     />
@@ -1135,7 +1105,7 @@ export default function BagStudio() {
                   </div>
                 </>
               )}
-              {activeLayer === "text" && (
+              {art.kind === "text" && (
                 <>
                   <Choice
                     id="artwork-font"
@@ -1143,9 +1113,7 @@ export default function BagStudio() {
                     value={art.font}
                     onChange={(value) =>
                       update(
-                        back
-                          ? { backTextFont: value as Design["backTextFont"] }
-                          : { textFont: value as Design["textFont"] },
+                        artworkPatch(design, activeLayer, { font: value as Design["textFont"] }),
                       )
                     }
                     options={artworkFonts.map((f) => ({
@@ -1172,9 +1140,7 @@ export default function BagStudio() {
                           aria-pressed={art.align === align}
                           onClick={() =>
                             update(
-                              back
-                                ? { backTextAlign: align }
-                                : { textAlign: align },
+                              artworkPatch(design, activeLayer, { align }),
                             )
                           }
                         >
@@ -1190,9 +1156,7 @@ export default function BagStudio() {
                         value={art.ink}
                         onChange={(e) =>
                           update(
-                            back
-                              ? { backInk: e.target.value }
-                              : { ink: e.target.value },
+                            artworkPatch(design, activeLayer, { ink: e.target.value }),
                           )
                         }
                       />
@@ -1203,9 +1167,7 @@ export default function BagStudio() {
               <div className="artwork-transform">
                 <div className="transform-heading">
                   <h2>
-                    {activeLayer === "logo"
-                      ? t("Logo placement", "Pozicioni i logos")
-                      : t("Text placement", "Pozicioni i tekstit")}
+                    {t("Placement", "Pozicioni")}
                   </h2>
                   <button
                     className="text-button"
@@ -1215,6 +1177,7 @@ export default function BagStudio() {
                     {t("Center artwork", "Qendro dizajnin")}
                   </button>
                 </div>
+                <QuickPlacement scale={art.scale} onChange={transform} t={t}/>
                 <div className="range-field">
                   <div className="field-title">
                     <label id="scale-label">
@@ -1284,23 +1247,13 @@ export default function BagStudio() {
               <div className="artwork-actions">
                 <p>
                   {t(
-                    "Select your logo or text on the bag, then drag to move it.",
-                    "Zgjidhni logon ose tekstin në çantë, pastaj tërhiqeni për ta lëvizur.",
+                    "Tap an element on the bag or in the list, then drag to move it.",
+                    "Zgjidhni një element në çantë ose në listë dhe tërhiqeni për ta lëvizur.",
                   )}
                 </p>
                 <button
                   className="text-button remove-artwork"
-                  onClick={() =>
-                    update(
-                      activeLayer === "logo"
-                        ? back
-                          ? { backLogo: "", backLogoName: "" }
-                          : { logo: "", logoName: "" }
-                        : back
-                          ? { backText: "" }
-                          : { text: "" },
-                    )
-                  }
+                  onClick={() => commitArtwork(removeArtwork(design, activeLayer))}
                 >
                   <Trash2 size={15} />
                   {t("Remove selected", "Hiq të zgjedhurën")}
@@ -1309,9 +1262,9 @@ export default function BagStudio() {
               <button
                 type="button"
                 className="copy-artwork"
-                disabled={!art.logo && !art.text.trim()}
+                disabled={!artworkLayers(design).length}
                 onClick={() => {
-                  update(copyArtworkToOtherSide(design));
+                  commitArtwork(copyArtworkToOtherSide(design));
                   setCopied(true);
                 }}
               >

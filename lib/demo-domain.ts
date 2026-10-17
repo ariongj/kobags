@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { enableLayers } from "./studio-artwork";
+import { enableLayers, artworkLayers } from "./studio-artwork";
 import { isCalendarDate, requestFieldLimits } from "./design-validation";
 import {
   products,
@@ -183,6 +183,19 @@ const placementSchema = z.object({
   rotation: z.number().min(-45).max(45),
 });
 export const designSchema = z.object({
+  elements: z.array(z.object({
+    id: z.string().regex(/^[a-zA-Z0-9-]{1,60}$/),
+    side: z.enum(["front", "back"]),
+    kind: z.enum(["logo", "text", "qr"]),
+    logo: image.refine(v => v.length <= 20000, "ELEMENT_IMAGE_TOO_LARGE"),
+    name: z.string().max(150),
+    text: z.string().max(MAX_BRAND_TEXT_LENGTH),
+    qrValue: z.string().max(500).refine(v => !v || /^https?:\/\/[^\s]+$/i.test(v), "INVALID_QR_URL").optional(),
+    ink: z.string().regex(/^#[0-9a-fA-F]{6}$/),
+    font: z.enum(["sans", "serif", "mono"]),
+    align: z.enum(["left", "center", "right"]),
+    ...placementSchema.shape,
+  })).max(8).refine(v => new Set(v.map(e => e.id)).size === v.length, "DUPLICATE_ARTWORK_ID").optional(),
   layeredArtwork: z.boolean().optional(),
   textPlacement: placementSchema.optional(),
   backTextPlacement: placementSchema.optional(),
@@ -300,7 +313,10 @@ export function applyAction(
       (!isCalendarDate(d.date) || d.date < now.slice(0, 10))
     )
       throw Error("DATE");
-    for (const image of [d.logo, d.backLogo]) {
+    for (const side of ["front", "back"] as const) {
+      if (artworkLayers({ ...d, side }).length > 4) throw Error("TOO_MANY_ARTWORK_ELEMENTS");
+    }
+    for (const image of [d.logo, d.backLogo, ...(d.elements || []).map(e => e.logo)]) {
       if (image) {
         const bytes = atob(image.split(",")[1]);
         if (!(

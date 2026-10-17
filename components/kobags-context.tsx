@@ -18,6 +18,7 @@ function limitDesignText(design: Design): Design {
     ...design,
     text: typeof design.text === "string" ? design.text.slice(0, MAX_BRAND_TEXT_LENGTH) : initialDesign.text,
     backText: typeof design.backText === "string" ? design.backText.slice(0, MAX_BRAND_TEXT_LENGTH) : initialDesign.backText,
+    ...(design.elements ? { elements: design.elements.map(e => ({ ...e, text: e.text.slice(0, MAX_BRAND_TEXT_LENGTH) })) } : {}),
   };
 }
 function readableTextForBag(design: Design): Design {
@@ -28,6 +29,7 @@ function readableTextForBag(design: Design): Design {
     next.ink = readableInk(fabric);
   if (next.backText.trim() && inkContrast(next.backInk || next.ink, fabric) < 3)
     next.backInk = readableInk(fabric);
+  if (next.elements) next.elements = next.elements.map(e => e.kind === "text" && e.text.trim() && inkContrast(e.ink, fabric) < 3 ? { ...e, ink: readableInk(fabric) } : e);
   return next;
 }
 type Context = {

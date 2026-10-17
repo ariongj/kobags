@@ -1,4 +1,5 @@
-import type { Design, ArtworkPlacement } from "./catalog";
+import { colors, type Design, type ArtworkPlacement, type ArtworkElement } from "./catalog";
+import { inkContrast, readableInk } from "./studio-checks";
 export const artworkFonts = [
   {
     value: "sans",
@@ -21,7 +22,44 @@ export const artworkFonts = [
 ] as const;
 export type ArtworkFont = (typeof artworkFonts)[number]["value"];
 export type ArtworkAlignment = "left" | "center" | "right";
-export type ArtworkLayer = "logo" | "text";
+export type ArtworkLayer = "logo" | "text" | `element:${string}`;
+export const MAX_ARTWORK_PER_SIDE = 4;
+
+export function artworkLayers(d: Design): ArtworkLayer[] {
+  const a = sideArtwork(d);
+  const base: ArtworkLayer[] = a.logo ? (d.layeredArtwork && a.text.trim() ? ["logo", "text"] : ["logo"]) : a.text.trim() ? ["text"] : [];
+  return [...base, ...(d.elements || []).filter(e => e.side === d.side).map(e => `element:${e.id}` as const)];
+}
+
+export function artworkSummary(d: Design) {
+  return artworkLayers(d).map(layer => {
+    const a = sideArtwork(d, layer);
+    return a.kind === "qr" ? `QR: ${a.qrValue}` : a.kind === "text" ? a.text : a.name || "Logo";
+  }).join(" · ");
+}
+
+export function artworkPatch(d: Design, layer: ArtworkLayer, patch: Partial<Pick<ArtworkElement, "logo" | "name" | "text" | "ink" | "font" | "align" | "qrValue">>): Partial<Design> {
+  if (layer.startsWith("element:")) return { elements: (d.elements || []).map(e => e.id === layer.slice(8) && e.side === d.side ? { ...e, ...patch } : e) };
+  const keys = { logo: "logo", name: "logoName", text: "text", ink: "ink", font: "textFont", align: "textAlign" } as const;
+  return Object.fromEntries(Object.entries(patch).filter(([key]) => key in keys).map(([key, value]) => {
+    const name = keys[key as keyof typeof keys];
+    return [d.side === "back" ? "back" + name[0].toUpperCase() + name.slice(1) : name, value];
+  }));
+}
+
+export function removeArtwork(d: Design, layer: ArtworkLayer): Partial<Design> {
+  return layer.startsWith("element:") ? { elements: (d.elements || []).filter(e => !(e.id === layer.slice(8) && e.side === d.side)) } : artworkPatch(d, layer, layer === "logo" ? { logo: "", name: "" } : { text: "" });
+}
+
+export function newArtwork(d: Design, kind: ArtworkElement["kind"], content: Partial<ArtworkElement> = {}): { patch: Partial<Design>; layer: ArtworkLayer } | null {
+  const layers = artworkLayers(d);
+  if (layers.length >= MAX_ARTWORK_PER_SIDE) return null;
+  const id = crypto.randomUUID();
+  const ink = d.side === "back" ? d.backInk || d.ink : d.ink;
+  const fabric = colors.find(c => c.name === d.color)?.hex || colors[0].hex;
+  const element: ArtworkElement = { id, side: d.side, kind, logo: "", name: "", text: kind === "text" ? "Your text" : "", ink: inkContrast(ink, fabric) < 3 ? readableInk(fabric) : ink, font: "sans", align: "center", x: layers.length === 2 ? 64 : layers.length >= 3 ? 36 : 50, y: layers.length ? 70 : 56, scale: kind === "qr" ? 18 : layers.length >= 2 ? 20 : 25, rotation: 0, ...content };
+  return { patch: { elements: [...(d.elements || []), element] }, layer: `element:${id}` };
+}
 export type ArtworkBounds = {
   x: number;
   y: number;
@@ -37,6 +75,8 @@ export type ArtworkTexture = {
 
 export function sideArtwork(d: Design, layer?: ArtworkLayer) {
   const back = d.side === "back";
+  const extra = layer?.startsWith("element:") ? d.elements?.find(e => e.id === layer.slice(8) && e.side === d.side) : undefined;
+  if (extra) return { ...extra, back, qrValue: extra.qrValue || "" };
   const placement =
     layer === "text" && d.layeredArtwork
       ? back
@@ -44,6 +84,8 @@ export function sideArtwork(d: Design, layer?: ArtworkLayer) {
         : d.textPlacement
       : undefined;
   return {
+    kind: (layer === "logo" ? "logo" : "text") as ArtworkElement["kind"],
+    qrValue: "",
     back,
     logo: back ? d.backLogo : d.logo,
     name: back ? d.backLogoName || "" : d.logoName,
@@ -63,6 +105,7 @@ export function placementPatch(
   patch: Partial<ArtworkPlacement>,
 ): Partial<Design> {
   const back = d.side === "back";
+  if (layer.startsWith("element:")) return { elements: (d.elements || []).map(e => e.id === layer.slice(8) && e.side === d.side ? { ...e, ...patch } : e) };
   const separate =
     d.layeredArtwork &&
     layer === "text" &&
@@ -103,7 +146,9 @@ export function enableLayers(d: Design): Partial<Design> {
 export function copyArtworkToOtherSide(d: Design): Partial<Design> {
   const a = sideArtwork(d);
   const placement = a.back ? d.backTextPlacement : d.textPlacement;
-  return a.back
+  const elements = (d.elements || []).filter(e => e.side === d.side);
+  const copies = elements.map(e => ({ ...e, id: crypto.randomUUID(), side: (a.back ? "front" : "back") as Design["side"] }));
+  return { elements: [...elements, ...copies], ...(a.back
     ? {
         logo: a.logo,
         logoName: a.name,
@@ -129,7 +174,7 @@ export function copyArtworkToOtherSide(d: Design): Partial<Design> {
         backTextFont: a.font,
         backTextAlign: a.align,
         backTextPlacement: placement,
-      };
+      }) };
 }
 // Blank product mockups were edited from Kobags' supplied product photography.
 // The editable artwork is composited separately; the actual client photos remain

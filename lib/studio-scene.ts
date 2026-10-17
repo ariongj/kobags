@@ -1446,10 +1446,10 @@ export function createStudioScene(
         printTextures[i].needsUpdate = true;
       });
       host.dataset.frontArtwork = String(
-        Boolean(design.logo || design.text.trim()),
+        Boolean(front.bounds.length),
       );
       host.dataset.backArtwork = String(
-        Boolean(design.backLogo || design.backText.trim()),
+        Boolean(back.bounds.length),
       );
       wake();
     },

@@ -122,6 +122,7 @@ export type ArtworkPlacement = {
   rotation: number;
 };
 export type Design = {
+  elements?: ArtworkElement[];
   layeredArtwork?: boolean;
   textPlacement?: ArtworkPlacement;
   backTextPlacement?: ArtworkPlacement;
@@ -165,6 +166,18 @@ export type Design = {
   consent: boolean;
   key: string;
   reorderOf?: string;
+};
+export type ArtworkElement = ArtworkPlacement & {
+  id: string;
+  side: "front" | "back";
+  kind: "logo" | "text" | "qr";
+  logo: string;
+  name: string;
+  text: string;
+  qrValue?: string;
+  ink: string;
+  font: "sans" | "serif" | "mono";
+  align: "left" | "center" | "right";
 };
 export const initialDesign: Design = {
   previewVersion: "v4",

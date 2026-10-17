@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-13T23:41:05.909745+00:00",
-  "packageLockSha256": "4635e977fb54623f2c8d06d8900e39e629bb84d27757bea126a880893b819603",
+  "generatedAt": "2026-10-17T14:48:47.342487+00:00",
+  "packageLockSha256": "ec5b94b7e6fd9e0520775134a139d60e8018406ada81ad2e896dc225cdc39440",
   "scope": "Declared licenses for every locked package; full notices supplied by installed packages or separately preserved exact-source notices. Optional packages absent on this OS are inventoried, not redistributed.",
-  "lockedPackageRecords": 863,
-  "installedPackageRecords": 689,
+  "lockedPackageRecords": 864,
+  "installedPackageRecords": 690,
   "declaredLicenseCounts": {
     "0BSD": 2,
     "Apache-2.0": 46,
@@ -16,7 +16,7 @@
     "CC0-1.0": 2,
     "ISC": 31,
     "LGPL-3.0-or-later": 10,
-    "MIT": 715,
+    "MIT": 716,
     "MIT AND ISC": 1,
     "MIT OR Apache-2.0": 4,
     "MPL-2.0": 28,
@@ -10695,6 +10695,24 @@
         "483acb265f182907d1caf6cff9c16c96f31325ed23792832cc5d8b12d5f88c8a"
       ],
       "rootNotice": true
+    },
+    {
+      "name": "qrcode-generator",
+      "version": "2.0.4",
+      "license": "MIT",
+      "location": "node_modules/qrcode-generator",
+      "developmentOnly": false,
+      "installed": true,
+      "repository": {
+        "type": "git",
+        "url": "https://github.com/kazuhikoarase/qrcode-generator.git"
+      },
+      "noticeHashes": [
+        "3a850fa5f08101db6f40676c2786e10bd2cd5fff7b12ffdf1e0c434d4e49d90c"
+      ],
+      "rootNotice": true,
+      "upstreamNotice": "https://raw.githubusercontent.com/kazuhikoarase/qrcode-generator/83b7e8fe3fddd3b0368dbafd6ce56995bd25e3c8/LICENSE",
+      "upstreamNoticeBasis": "Exact source commit identified by the published package."
     },
     {
       "name": "queue-microtask",

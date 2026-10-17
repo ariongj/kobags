@@ -80,7 +80,7 @@ async def main():
         assert await page.locator('.preview-stage').bounding_box() == before
         assert await quote.bounding_box() == q
         await page.get_by_role('button', name='Next: add your design', exact=True).tap()
-        await page.get_by_role('group', name='Select artwork layer').get_by_role('button', name='Text', exact=True).tap()
+        await page.get_by_role('group', name='Your elements').get_by_role('button', name='Select Text').first.tap()
         await page.get_by_label('Brand name or message').fill('MOBILE BRAND')
         await top()
         await page.wait_for_function("JSON.parse(document.querySelector('.preview-stage .studio-3d-host').dataset.artworkTargets).some(t=>t.layer==='text'&&t.visible)")
@@ -122,7 +122,7 @@ async def main():
         buf = io.BytesIO()
         logo.save(buf, format='PNG')
         await page.locator('input[type=file]').set_input_files({'name': 'mobile-qa.png', 'mimeType': 'image/png', 'buffer': buf.getvalue()})
-        await page.get_by_text('mobile-qa.png', exact=True).wait_for()
+        await page.locator('.artwork-file strong').filter(has_text='mobile-qa.png').wait_for()
         await top()
         await front.tap()
         try:
@@ -195,7 +195,7 @@ async def main():
             await ready()
             await fits()
             await page.get_by_role('tab', name='02 Your design', exact=True).click()
-            await page.get_by_role('group', name='Select artwork layer').get_by_role('button', name='Text', exact=True).click()
+            await page.get_by_role('group', name='Your elements').get_by_role('button', name='Select Text').first.click()
             await page.get_by_label('Brand name or message').fill('MOBILE BRAND')
             await quote.scroll_into_view_if_needed()
             await fits()

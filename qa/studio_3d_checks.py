@@ -40,11 +40,11 @@ async def main():
   # Text and uploaded artwork update the same design shown on both 3D faces.
   await page.get_by_role('tab',name='02 Your design',exact=True).click();await page.get_by_label('Brand name or message').fill('NOVA\nFRONT');await ready()
   first=await canvas.screenshot();await page.get_by_label('Brand name or message').fill('NOVA\nSTUDIO');await ready();assert first!=await canvas.screenshot()
-  await page.get_by_role('group',name='Select artwork layer').get_by_role('button',name='Logo',exact=True).click()
+  await page.get_by_role('group',name='Add artwork').get_by_role('button',name='Logo',exact=True).click()
   raw=await page.evaluate("""()=>{let c=document.createElement('canvas');c.width=c.height=300;let x=c.getContext('2d');x.fillStyle='#d9cba6';x.beginPath();x.arc(150,150,120,0,Math.PI*2);x.fill();x.fillStyle='#193b67';x.font='bold 160px Georgia';x.textAlign='center';x.fillText('N',150,200);return c.toDataURL('image/png').split(',')[1]}""")
-  await page.locator('input[type=file]').set_input_files({'name':'nova-studio.png','mimeType':'image/png','buffer':base64.b64decode(raw)});await page.get_by_text('nova-studio.png',exact=True).wait_for();await ready()
+  await page.locator('input[type=file]').set_input_files({'name':'nova-studio.png','mimeType':'image/png','buffer':base64.b64decode(raw)});await page.locator('.artwork-file strong').filter(has_text='nova-studio.png').wait_for();await ready()
   await page.get_by_role('button',name='Copy design to back',exact=True).click();await page.get_by_role('button',name='Edit back',exact=True).click()
-  await page.get_by_role('group',name='Select artwork layer').get_by_role('button',name='Text',exact=True).click();await page.get_by_label('Brand name or message').fill('MADE FOR\nEVERY DAY');await ready()
+  await page.get_by_role('group',name='Your elements').get_by_role('button',name='Select Text').first.click();await page.get_by_label('Brand name or message').fill('MADE FOR\nEVERY DAY');await ready()
   assert await page.locator('.studio-3d-host').get_attribute('data-back-artwork')=='true'
   assert abs(await number('angle'))>2.9
   await page.get_by_role('button',name='Edit front',exact=True).click();await ready();await page.get_by_role('button',name='Reset 3D view',exact=True).click();await page.wait_for_timeout(500)
