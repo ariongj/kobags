@@ -340,3 +340,15 @@
 .kobags-v5 .studio-compact .artwork-add button { flex-wrap:wrap; }
 .kobags-v5 .studio-compact .artwork-add button span { max-width:100%; overflow-wrap:anywhere; }
 @media(max-width:400px) { .kobags-v5 .artwork-add button > svg:last-child { display:none; } }
+
+/* Selection and quick resizing stay visible while logo/QR settings scroll. */
+.mobile-artwork-tools { display:none; }
+@media(max-width:800px) {
+  .kobags-v5 .studio-compact[data-editing-artwork="true"] .preview-stage { height:clamp(190px,24svh,250px); min-height:12em; }
+  .kobags-v5 .mobile-artwork-tools { display:flex; flex:none; align-items:center; gap:8px; padding:5px 8px; background:#f3f7f3; border-bottom:1px solid #d6e3dc; }
+  .kobags-v5 .mobile-artwork-tools select { width:0; min-width:0; flex:1; min-height:44px; padding:8px 25px 8px 9px; border:1px solid #ccdcd2; border-radius:7px; background-color:white; color:#123442; font-size:16px; text-overflow:ellipsis; }
+  .kobags-v5 .mobile-artwork-size { display:flex; flex:none; align-items:center; border:1px solid #ccdcd2; border-radius:7px; background:white; }
+  .kobags-v5 .mobile-artwork-size button { width:44px; min-height:44px; display:grid; place-items:center; flex:none; border-radius:6px; color:#087a36; touch-action:manipulation; }
+  .kobags-v5 .mobile-artwork-size button:disabled { opacity:.4; }
+  .kobags-v5 .mobile-artwork-size output { min-width:36px; text-align:center; font-size:12px; font-weight:650; font-variant-numeric:tabular-nums; }
+}

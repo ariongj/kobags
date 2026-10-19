@@ -4,6 +4,7 @@ import { colors, type Design } from "./catalog";
 import { studioFamilies, stringMouthHalf, stringMouthY, traceStringBag } from "./studio-projection";
 import {
   sideArtwork,
+  pickArtwork,
   type ArtworkBounds,
   type ArtworkLayer,
   type ArtworkTexture,
@@ -1029,25 +1030,7 @@ export function createStudioScene(
     if (!side) return null;
     const x = hit.uv.x * 800,
       y = (1 - hit.uv.y) * 800;
-    const boxes = [...faceBounds[side]].reverse();
-    // The sidebar can select an overlapping layer before it is dragged.
-    if (selection?.side === side)
-      boxes.sort(
-        (a, b) =>
-          Number(b.layer === selection?.layer) -
-          Number(a.layer === selection?.layer),
-      );
-    const box = boxes.find((b) => {
-      const angle = (-b.rotation * Math.PI) / 180,
-        dx = x - b.x,
-        dy = y - b.y;
-      return (
-        Math.abs(dx * Math.cos(angle) - dy * Math.sin(angle)) <=
-          b.width / 2 + 18 &&
-        Math.abs(dx * Math.sin(angle) + dy * Math.cos(angle)) <=
-          b.height / 2 + 18
-      );
-    });
+    const box = pickArtwork(faceBounds[side], x, y, selection?.side === side ? selection.layer : undefined);
     return box?.layer ? { box, side, x, y, point: hit.point } : null;
   }
   function deselect() {

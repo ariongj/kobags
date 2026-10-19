@@ -2,7 +2,7 @@
 import { useCms } from "./cms/public-context";
 import Studio3D from "./studio-3d";
 import ImportedScan from "./imported-scan";
-import { ArtworkPalette, QrEditor, QuickPlacement } from "./artwork-tools";
+import { ArtworkPalette, QrEditor, QuickPlacement, MobileArtworkTools } from "./artwork-tools";
 import { prepareLogo, clearFlatBackground } from "@/lib/logo-cleanup";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import Link from "@/components/site-link";
@@ -601,7 +601,7 @@ export default function BagStudio() {
     }
   };
   return (
-    <section className="studio-section studio-v4 studio-compact" data-editor-expanded={editorExpanded} data-scan={testScan}>
+    <section className="studio-section studio-v4 studio-compact" data-editor-expanded={editorExpanded} data-scan={testScan} data-editing-artwork={tab === "artwork"}>
       <div className="studio-heading">
         <div>
           <h1>{testScan ? t("Explore your scan.", "Eksploroni skanimin tuaj.") : t("Build your bag.", "Krijoni çantën tuaj.")}</h1>
@@ -800,6 +800,7 @@ export default function BagStudio() {
               {editorExpanded ? <PanelTopOpen size={20} /> : <PanelTopClose size={20} />}
             </button>
             </div>
+            {tab === "artwork" && <MobileArtworkTools design={design} activeLayer={activeLayer} onSelect={selectArtwork} onResize={scale => commitArtwork(placementPatch(design, activeLayer, { scale }))} t={t}/>}
             {editorExpanded && <p className="studio-editor-context">{p.name} · {displayColor}<span>{t("Preview hidden · tap the icon to return", "Parapamja e fshehur · prekni ikonën për ta kthyer")}</span></p>}
             <TabsContent value="bag" className="editor-body">
               <Choice
@@ -1191,6 +1192,10 @@ export default function BagStudio() {
                     max={55}
                     step={1}
                     value={[art.scale]}
+                    onPointerDownCapture={() => artworkDrag(true)}
+                    onPointerUpCapture={() => artworkDrag(false)}
+                    onPointerCancel={() => artworkDrag(false)}
+                    onLostPointerCapture={() => artworkDrag(false)}
                     onValueChange={([scale]) => transform({ scale })}
                   />
                 </div>

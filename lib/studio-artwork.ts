@@ -73,6 +73,20 @@ export type ArtworkTexture = {
   bounds: ArtworkBounds[];
 };
 
+// Nearby artwork can overlap a logo's transparent padding. Prefer the element
+// whose centre was tapped; keep the current selection when centres coincide so
+// the element picker can still target stacked artwork deliberately.
+export function pickArtwork(bounds: ArtworkBounds[], x: number, y: number, selected?: ArtworkLayer, padding = 18) {
+  return [...bounds].reverse().filter(box => {
+    const angle = -box.rotation * Math.PI / 180, dx = x - box.x, dy = y - box.y;
+    return Math.abs(dx * Math.cos(angle) - dy * Math.sin(angle)) <= box.width / 2 + padding &&
+      Math.abs(dx * Math.sin(angle) + dy * Math.cos(angle)) <= box.height / 2 + padding;
+  }).sort((a, b) => {
+    const distance = Math.hypot(x - a.x, y - a.y) - Math.hypot(x - b.x, y - b.y);
+    return Math.abs(distance) > 1 ? distance : Number(b.layer === selected) - Number(a.layer === selected);
+  })[0];
+}
+
 export function sideArtwork(d: Design, layer?: ArtworkLayer) {
   const back = d.side === "back";
   const extra = layer?.startsWith("element:") ? d.elements?.find(e => e.id === layer.slice(8) && e.side === d.side) : undefined;

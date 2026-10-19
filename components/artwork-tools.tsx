@@ -1,12 +1,31 @@
 "use client";
 import { useRef, useState } from "react";
-import { ImagePlus, Type, QrCode, Plus, Check, AlignLeft, AlignCenter, AlignRight, AlignStartVertical, AlignCenterVertical, AlignEndVertical } from "lucide-react";
+import { ImagePlus, Type, QrCode, Plus, Minus, Check, AlignLeft, AlignCenter, AlignRight, AlignStartVertical, AlignCenterVertical, AlignEndVertical } from "lucide-react";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "./ui/dialog";
 import type { Design, ArtworkPlacement } from "@/lib/catalog";
 import { artworkLayers, sideArtwork, MAX_ARTWORK_PER_SIDE, type ArtworkLayer } from "@/lib/studio-artwork";
 import { createQrArtwork } from "@/lib/qr-artwork";
 type T = (en: string, sq?: string) => string;
 type QrData = ReturnType<typeof createQrArtwork>;
+
+/** Keep the selected element and small size adjustments within thumb reach
+ * while the detailed editor scrolls independently on phones. */
+export function MobileArtworkTools({ design, activeLayer, onSelect, onResize, t }: { design: Design; activeLayer: ArtworkLayer; onSelect: (layer: ArtworkLayer) => void; onResize: (size: number) => void; t: T }) {
+  const layers = artworkLayers(design), selected = layers.includes(activeLayer);
+  const art = sideArtwork(design, activeLayer);
+  const names = { logo: t("Logo", "Logo"), text: t("Text", "Tekst"), qr: "QR" };
+  return <div className="mobile-artwork-tools" role="group" aria-label={t("Selected artwork controls", "Kontrollet e elementit të zgjedhur")}>
+    <select aria-label={t("Selected element", "Elementi i zgjedhur")} value={selected ? activeLayer : ""} onChange={event => onSelect(event.target.value as ArtworkLayer)} disabled={!layers.length}>
+      {!selected && <option value="" disabled>{t("Select an element", "Zgjidhni një element")}</option>}
+      {layers.map((layer, index) => { const item = sideArtwork(design, layer); return <option key={layer} value={layer}>{names[item.kind]} {index + 1} · {item.kind === "text" ? item.text || t("Empty text", "Tekst bosh") : item.name || names[item.kind]}</option>; })}
+    </select>
+    <div className="mobile-artwork-size" role="group" aria-label={t("Artwork size", "Madhësia e dizajnit")}>
+      <button type="button" aria-label={t("Make selected element smaller", "Zvogëlo elementin e zgjedhur")} disabled={!selected || art.scale <= 10} onClick={() => onResize(Math.max(10, art.scale - 2))}><Minus size={17}/></button>
+      <output aria-label={t("Selected element size", "Madhësia e elementit të zgjedhur")}>{selected ? `${art.scale}%` : "—"}</output>
+      <button type="button" aria-label={t("Make selected element larger", "Zmadho elementin e zgjedhur")} disabled={!selected || art.scale >= 55} onClick={() => onResize(Math.min(55, art.scale + 2))}><Plus size={17}/></button>
+    </div>
+  </div>;
+}
 
 export function QrEditor({ value = "", onSave, t, adding = false }: { value?: string; onSave: (data: QrData) => void; t: T; adding?: boolean }) {
   const [entry, setEntry] = useState({ value, text: value }), [error, setError] = useState("");

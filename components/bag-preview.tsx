@@ -7,6 +7,7 @@ import {
   artworkFonts,
   artworkLayers,
   placementPatch,
+  pickArtwork,
   type ArtworkLayer,
   sideArtwork,
   studioMockups,
@@ -479,19 +480,9 @@ export function BagPreview({
           touchAction: onChange ? "none" : "auto",
         }}
         onPointerDown={(e) => {
-          if (!onChange || !bounds.current || (!art.logo && !art.text) || e.button !== 0) return;
+          if (!onChange || !bounds.current?.layers.length || e.button !== 0) return;
           const pos = position(e);
-          const b = [...bounds.current.layers].reverse().sort((a, b) => Number(b.layer === activeLayer) - Number(a.layer === activeLayer)).find((box) => {
-            const angle = (-box.rotation * Math.PI) / 180,
-              dx = pos.x - box.x,
-              dy = pos.y - box.y;
-            return (
-              Math.abs(dx * Math.cos(angle) - dy * Math.sin(angle)) <=
-                box.width / 2 + 20 &&
-              Math.abs(dx * Math.sin(angle) + dy * Math.cos(angle)) <=
-                box.height / 2 + 20
-            );
-          });
+          const b = pickArtwork(bounds.current.layers, pos.x, pos.y, activeLayer, 20);
           if (!b?.layer) return;
           onSelectLayer?.(b.layer);
           drag.current = { dx: pos.x - b.x, dy: pos.y - b.y, layer: b.layer };

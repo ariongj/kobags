@@ -4,6 +4,8 @@
 
 At phone/tablet widths up to 800px, the studio keeps the shape picker, 3D/photo preview, editing tabs and quote action together. Only the selected controls scroll. The expand-editor button makes room for detailed changes, and restores the same live preview afterward. Rotation/zoom controls open from **View**; Front/Back and fullscreen stay visible. Secondary specifications, original samples and exports are inside **Details, real samples & downloads**. Short screens use ordinary page scrolling; enlarged text increases workspace space instead of crushing the form.
 
+In the artwork tab, a fixed mobile row keeps the element selector and smaller/larger buttons visible above the scrolling settings. The current percentage is shown between 44px buttons; each tap changes only the selected element by two percentage points. The detailed size slider remains available and a continuous resize is one undo step. Tapping near the centre of a logo or QR selects that element even when a neighbouring logo has transparent padding around it. Coincident elements can still be chosen from the element list. QR-only designs remain draggable in the photo and no-WebGL previews.
+
 Primary studio controls have 44px touch areas; editable text and selectors use 16px text. The homepage bag families form a swipeable row with part of the next card visible; catalog cards place the real product photo beside their description. Mobile header/section spacing is reduced without changing the manufacturer's content. Natural is first in the palette and the default for fresh studio and homepage designs. Previously chosen colors remain in saved designs.
 
 ## Launch audit update — 14 October 2026

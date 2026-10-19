@@ -1,5 +1,15 @@
 # Kobags website — verification record
 
+## Mobile logo and QR review — 19 October 2026
+
+- Added a fixed mobile element selector and ±2-point size controls above the scrolling artwork settings. All three quick controls are at least 44px. The smaller artwork-mode preview keeps the quote action within the 390×844 workspace. Detailed sizing, placement and QR settings remain available below; the expanded editor retains the same draft.
+- Reproduced and fixed a QR-only photo/fallback drag being blocked by empty legacy artwork (`mobile-artwork-20261019/before.json`). A direct 3D touch check also reproduced the selected logo intercepting the nearby QR through its transparent padding. Photo and 3D now share nearest-centre picking, with the selected layer winning at coincident centres. Selected overlapping artwork remains independently editable.
+- Slider resizing now brackets one history gesture. A 950ms pause during a touch resize still undoes in one step. Quick-size taps create individual undo entries and cannot exceed 10–55%.
+- `tests/artwork-elements.test.ts`: seven groups passed, including adjacent/coincident/rotated hit testing and existing element, cleanup, QR and submission validation. TypeScript, production build and whitespace checks passed.
+- `qa/mobile_artwork_checks.py`: six groups passed with no captured browser errors. Covers Natural default, automatic logo cleanup, direct logo/QR taps, independent touch movement and resizing, camera stability, first resize tap after dragging, fixed controls while settings scroll, limits/undo, QR-only photo and no-WebGL editing, export, Albanian controls and QR entry at a simulated 390×420 short viewport. Layout checks passed at 320×568, 360×740, 390×844, 430×932, 768×1024, 844×390 and 1440×900. No document-width overflow. The Albanian editor had zero automated accessibility violations. ZXing independently decoded the resized QR from the exported 2000×1400 sheet.
+- `qa/final_studio_regressions.py`: ten groups passed, including selected overlapping logo movement, fullscreen/photo touch, upload-to-quote handoff, storage and undo. `qa/artwork_accessibility_checks.py`: EN/SQ QR dialogs, focus return and reachable add controls passed at 320px and 200% text. `qa/text_resize_checks.py`: sixteen routes passed at 320px/200% text, with no document-width overflow and usable editor panel height.
+- Design/developer handoffs updated. Tests use Chromium touch emulation and software WebGL on a local isolated Worker. They do not certify physical iOS/Android performance, native virtual keyboards or print-production QR readability. No production customer requests, messages or orders were created.
+
 ## Multi-element artwork release — 17 October 2026
 
 - Added local automatic cleanup of uniform edge-connected logo backgrounds, with restore of the normalized original during the current editor session. Transparent borders and enclosed light details are preserved. No external image-processing service receives the upload.

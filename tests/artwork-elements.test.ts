@@ -1,13 +1,26 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { initialDesign } from '../lib/catalog';
-import { artworkLayers, sideArtwork, newArtwork, placementPatch, artworkPatch, copyArtworkToOtherSide, removeArtwork } from '../lib/studio-artwork';
+import { artworkLayers, sideArtwork, newArtwork, placementPatch, artworkPatch, copyArtworkToOtherSide, removeArtwork, pickArtwork, type ArtworkBounds } from '../lib/studio-artwork';
 import { clearFlatBackground } from '../lib/logo-cleanup';
 import { normalizeQrUrl } from '../lib/qr-artwork';
 import { seed, applyAction } from '../lib/demo-domain';
 
 const valid = () => ({...initialDesign,company:'Artwork QA',contact:'Test Buyer',email:'qa@example.com',city:'Prishtina',consent:true,key:crypto.randomUUID()});
 const png = 'data:image/png;base64,iVBORw0KGgo=';
+test('touch picking selects a nearby QR through logo padding and preserves coincident layer selection',()=>{
+  const logo: ArtworkBounds={x:400,y:448,width:256,height:256,rotation:0,layer:'logo'};
+  const qr: ArtworkBounds={x:400,y:560,width:160,height:160,rotation:0,layer:'element:qr'};
+  assert.equal(pickArtwork([logo,qr],400,560,'logo')?.layer,'element:qr');
+  assert.equal(pickArtwork([logo,qr],400,448,'element:qr')?.layer,'logo');
+  const text: ArtworkBounds={...logo,width:350,height:50,layer:'text'};
+  assert.equal(pickArtwork([logo,text],400,448,'logo')?.layer,'logo');
+  assert.equal(pickArtwork([logo,text],400,448,'text')?.layer,'text');
+  assert.equal(pickArtwork([logo,qr],20,20,'logo'),undefined);
+  const rotated: ArtworkBounds={x:100,y:100,width:100,height:10,rotation:90,layer:'text'};
+  assert.equal(pickArtwork([rotated],100,145,undefined,0)?.layer,'text');
+  assert.equal(pickArtwork([rotated],145,100,undefined,0),undefined);
+});
 function fixture() {
   let d=valid();
   for(const kind of ['logo','qr','text'] as const) {
