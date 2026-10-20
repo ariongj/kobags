@@ -137,9 +137,6 @@ export function ProductCatalog() {
             return (
             <article className="product-card" data-slug={p.slug} key={p.slug}>
               <Link href={"/products/" + p.slug} className="product-photo">
-                <span className="product-number">
-                  0{products.findIndex((x) => x.slug === p.slug) + 1}
-                </span>
                 <img
                   src={p.image}
                   alt={t(`${p.name} by Kobags`, `${p.name} nga Kobags`)}

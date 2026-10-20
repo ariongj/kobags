@@ -190,7 +190,7 @@ export default function BagShowcase() {
             BRAND.
           </div>
           <div className="showcase-model-caption">
-            <span>01 / HANDLE BAG</span>
+            <span>HANDLE BAG</span>
             <span>{t("NON-WOVEN PP", "PP JO I ENDUR")}</span>
           </div>
           <button

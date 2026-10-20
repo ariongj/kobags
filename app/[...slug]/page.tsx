@@ -178,22 +178,22 @@ export default async function Page({
               {[
                 {
                   icon: Layers,
-                  title: "01 / Material",
-                  titleSq: "01 / Materiali",
+                  title: "Material",
+                  titleSq: "Materiali",
                   body: "Define the non-woven PP material, GSM, bag shape and color for your application.",
                   bodySq: "Përcaktoni materialin PP jo të endur, peshën në GSM, formën dhe ngjyrën e çantës sipas nevojës suaj.",
                 },
                 {
                   icon: Paintbrush,
-                  title: "02 / Printing",
-                  titleSq: "02 / Shtypi",
+                  title: "Printing",
+                  titleSq: "Shtypi",
                   body: "Choose up to four print colors and share your artwork. We’ll confirm the print method and usable area for your selected bag.",
                   bodySq: "Zgjidhni deri në katër ngjyra shtypi dhe na dërgoni dizajnin tuaj. Metodën e shtypit dhe sipërfaqen e përdorshme i konfirmojmë për çantën e zgjedhur.",
                 },
                 {
                   icon: PackageCheck,
-                  title: "03 / Approval & dispatch",
-                  titleSq: "03 / Miratimi dhe dërgimi",
+                  title: "Approval & dispatch",
+                  titleSq: "Miratimi dhe dërgimi",
                   body: "Review the quotation and artwork proof before production. Confirm dispatch timing and destination-dependent transport.",
                   bodySq: "Shqyrtoni ofertën dhe provën e dizajnit para prodhimit. Konfirmoni afatin e nisjes dhe transportin sipas destinacionit.",
                 },
@@ -219,28 +219,28 @@ export default async function Page({
                   <source src="/assets/client-2026-09/bag-forming-reel.mp4" type="video/mp4" />
                   <L en="Your browser does not support video playback." sq="Shfletuesi juaj nuk e mbështet videon." />
                 </video>
-                <figcaption><span><L en="01 / FORMING" sq="01 / FORMIMI" /></span><strong><L en="On the production line" sq="Në linjën e prodhimit" /></strong></figcaption>
+                <figcaption><span><L en="FORMING" sq="FORMIMI" /></span><strong><L en="On the production line" sq="Në linjën e prodhimit" /></strong></figcaption>
               </figure>
               <figure className="factory-reel">
                 <video controls playsInline preload="none" poster="/assets/client-2026-09/bag-stacking-poster.jpg" width="480" height="848" aria-label="Watch bag blanks moving into a stack">
                   <source src="/assets/client-2026-09/bag-stacking-reel.mp4" type="video/mp4" />
                   <L en="Your browser does not support video playback." sq="Shfletuesi juaj nuk e mbështet videon." />
                 </video>
-                <figcaption><span><L en="02 / FINISHING" sq="02 / PËRFUNDIMI" /></span><strong><L en="Into the finishing stack" sq="Vendosja në stivë" /></strong></figcaption>
+                <figcaption><span><L en="FINISHING" sq="PËRFUNDIMI" /></span><strong><L en="Into the finishing stack" sq="Vendosja në stivë" /></strong></figcaption>
               </figure>
             </section>
             <div className="manufacturing-photo-rail" aria-label="Inside Kobags production">
               <figure>
                 <img src="/assets/client-2026-09/material-rolls.jpg" alt="Rolls of bag material at the Kobags factory" loading="lazy" width="800" height="533" />
-                <figcaption><L en="01 / Material" sq="01 / Materiali" /></figcaption>
+                <figcaption><L en="Material" sq="Materiali" /></figcaption>
               </figure>
               <figure>
                 <img src="/assets/client-2026-09/printing-rollers.jpg" alt="Printing rollers in the Kobags production line" loading="lazy" width="800" height="533" />
-                <figcaption><L en="02 / Print" sq="02 / Shtypi" /></figcaption>
+                <figcaption><L en="Print" sq="Shtypi" /></figcaption>
               </figure>
               <figure>
                 <img src="/assets/client-2026-09/finished-stack-rail.jpg" alt="Stacks of finished bags at the Kobags factory" loading="lazy" width="800" height="533" />
-                <figcaption><L en="03 / Finished bags" sq="03 / Çantat e përfunduara" /></figcaption>
+                <figcaption><L en="Finished bags" sq="Çantat e përfunduara" /></figcaption>
               </figure>
             </div>
           </>
@@ -284,9 +284,9 @@ export default async function Page({
                   body: "Our bags are easy to maintain. Simply wipe clean or machine wash on a gentle, low-temperature cycle. Air dry and avoid high heat to preserve their quality and durability.",
                   bodySq: "Çantat tona mirëmbahen lehtë. Pastrojini me leckë ose lajini në lavatriçe me program delikat dhe temperaturë të ulët. Thajini në ajër dhe shmangni nxehtësinë e lartë për të ruajtur cilësinë dhe qëndrueshmërinë.",
                 },
-              ].map(({ icon: Icon, title, titleSq, body, bodySq }, index) => (
+              ].map(({ icon: Icon, title, titleSq, body, bodySq }) => (
                 <article className="section-card" key={title}>
-                  <div className="responsibility-card-top"><Icon size={24} strokeWidth={1.6} aria-hidden="true" /><span>0{index + 1}</span></div>
+                  <div className="responsibility-card-top"><Icon size={24} strokeWidth={1.6} aria-hidden="true" /></div>
                   <h3><L en={title} sq={titleSq} /></h3>
                   <p><L en={body} sq={bodySq} /></p>
                 </article>
@@ -317,29 +317,25 @@ export default async function Page({
             <div className="partner-grid">
               {[
                 {
-                  number: "01",
                   title: "Country representative",
                   titleSq: "Përfaqësues për një vend",
                   body: "Develop a market and introduce suitable wholesale customers. Territory, responsibilities and exclusivity require an agreed partner arrangement.",
                   bodySq: "Zhvilloni një treg dhe prezantoni blerës të përshtatshëm me shumicë. Territori, përgjegjësitë dhe ekskluziviteti kërkojnë marrëveshje të veçantë partneriteti.",
                 },
                 {
-                  number: "02",
                   title: "Sales partner",
                   titleSq: "Partner shitjesh",
                   body: "Bring relevant customer requirements into a structured quote process. Sales responsibilities and commercial terms are agreed directly.",
                   bodySq: "Sillni kërkesat e klientëve në një proces të qartë ofertimi. Përgjegjësitë e shitjes dhe kushtet tregtare dakordohen drejtpërdrejt.",
                 },
                 {
-                  number: "03",
                   title: "Affiliate",
                   titleSq: "Partner referimi",
                   body: "Introduce potential buyers through an agreed referral model. Eligibility, attribution and commission terms need confirmation.",
                   bodySq: "Prezantoni blerës të mundshëm përmes një modeli referimi të dakorduar. Kushtet e pjesëmarrjes, atribuimit dhe komisionit duhet të konfirmohen.",
                 },
-              ].map(({ number, title, titleSq, body, bodySq }) => (
-                <article className="section-card" key={number}>
-                  <span className="partner-number">{number}</span>
+              ].map(({ title, titleSq, body, bodySq }) => (
+                <article className="section-card" key={title}>
                   <h2><L en={title} sq={titleSq} /></h2>
                   <p><L en={body} sq={bodySq} /></p>
                   <Link className="text-button" href="/partners/apply">

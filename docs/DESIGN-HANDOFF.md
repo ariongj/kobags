@@ -1,5 +1,10 @@
 # Kobags Group — design handoff
 
+## Unnumbered public sections — 20 October 2026
+
+Removed decorative 01/02/03/04 labels from homepage manufacturing and ordering sections, bag cards, catalogue photographs, manufacturing titles and video captions, responsibility cards, partner cards, certificates and journal cards. Compact heading spacing closes the space previously used by the numerals. The public studio remains hidden. Functional quotation progress, certificate identifiers, dimensions and stock quantities remain meaningful content.
+
+
 ## Client approval without the builder — 20 October 2026
 
 The public website presents Kobags manufacturing, product photographs, the catalogue, stock collections and quotation requests. The interactive homepage showroom, design navigation and customization buttons are hidden until the real bag scans are ready. Previous studio links lead to the catalogue. Quotation summaries show a product example and the requested specifications; printing requirements are discussed with the team.

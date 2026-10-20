@@ -72,7 +72,6 @@ export default function JournalIndex() {
                   height="400"
                   loading={index > 2 ? "lazy" : "eager"}
                 />
-                <span className="journal-number">0{index + 1}</span>
                 <p className="eyebrow">{article.category}</p>
                 <h2>{article.title}</h2>
                 <p>{article.intro}</p>

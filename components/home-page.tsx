@@ -141,9 +141,8 @@ export default function HomePage() {
                   "Konfirmoni specifikimet përfundimtare, afatin e prodhimit dhe destinacionin me ekipin tonë.",
                 ),
               ],
-            ].map(([title, body], i) => (
+            ].map(([title, body]) => (
               <li key={title}>
-                <span>0{i + 1}</span>
                 <div>
                   <h3>{title}</h3>
                   <p>{body}</p>
@@ -177,7 +176,7 @@ export default function HomePage() {
         </div>
         <CollectionCategories />
         <div className="home-product-row" role="region" aria-label={t("Explore bag shapes", "Shikoni format e çantave")} tabIndex={0}>
-          {[...cms.products].sort((a,b) => products.findIndex(p=>p.slug===a.slug)-products.findIndex(p=>p.slug===b.slug)).map((item, i) => {
+          {[...cms.products].sort((a,b) => products.findIndex(p=>p.slug===a.slug)-products.findIndex(p=>p.slug===b.slug)).map((item) => {
             const p = localizeProduct(item, lang);
             const original = products.find(original => original.slug === p.slug);
             const curated = p.image === original?.image && productMedia[p.slug]?.home;
@@ -191,7 +190,7 @@ export default function HomePage() {
             >
               <div>
                 <span>
-                  0{i + 1} / {p.handle.toUpperCase()}
+                  {p.handle.toUpperCase()}
                 </span>
                 <img
                   src={curated ? image.replace(".jpg", "-640.webp") : image}
@@ -265,9 +264,8 @@ export default function HomePage() {
                 "Prodhimi vijon pas miratimit. Dërgimi dhe dorëzimi konfirmohen veçmas.",
               ),
             ],
-          ].map(([h, p], i) => (
+          ].map(([h, p]) => (
             <article key={h}>
-              <span>0{i + 1}</span>
               <h3>{h}</h3>
               <p>{p}</p>
             </article>

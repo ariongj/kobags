@@ -98,6 +98,10 @@
 .kobags-v5 .home-buyer-grid h2 {
   font-size: 34px;
 }
+.kobags-v5 .home-process h3,
+.kobags-v5 .partner-grid h2 {
+  margin-top: 0;
+}
 .kobags-v5 .home-process article,
 .kobags-v5 .home-process article + article {
   padding-top: 22px;

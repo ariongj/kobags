@@ -1,5 +1,14 @@
 # Kobags website — verification record
 
+## Client approval audit and decorative numbering removal — 20 October 2026
+
+- Public read-only audit before the change: 56 routes, 46 unique sitemap URLs and 51 image/poster URLs resolve. Studio bookmarks redirect to the catalogue; intake reports enabled; anonymous CMS inquiry access returns 401; private source/handoff downloads return 404. The initial audit incorrectly expected a canonical on the noindex CMS login page; corrected the audit expectation, without changing the intentionally private login SEO behavior.
+- Removed decorative leading-zero labels from all public marketing/product sections, and compacted headings where the removed numbers had left top spacing. Functional quotation steps, stock counts and ISO identifiers are preserved. The locally retained builder remains disabled on production.
+- Responsive audit: 42 EN/SQ home, manufacturing, responsibility, certification, partner, journal and Kosovo-guide layouts at 320px, 393px and 1440px passed with no overflow, decorative numerals or browser errors. Six catalogue layouts passed after removing its image counters. Screenshots were visually inspected.
+- Existing studio-isolation/quote suite passed all six groups: redirects, sitemap, 22 phone pages, desktop/narrow layouts, two language quote submissions, MOQ validation, lost-response retry and durable local inbox receipt reload. Additional local checks saved/reloaded eight synthetic contact/sample/partner/stock inquiries across EN/SQ. No production customer submissions, accounts or emails were created.
+- TypeScript, production build and whitespace checks passed. Browser coverage uses Chromium emulation rather than physical phone hardware. Local audit reports and captures are in the private `deliverables/handoff/client-review-audit-20261020/` folder. The public HTTP audit is repeated after publication and stored there.
+
+
 ## Public studio paused; local testing retained — 20 October 2026
 
 Client launch decision: keep the builder local while the physical bags are scanned. The shared development-only gate removes the public showroom, navigation, product customization and browser design tools. Direct EN/SQ studio and scan URLs temporarily redirect to the catalogue with noindex/no-store; neither URL parameters, cookies nor forwarded host headers enable the production builder. The sitemap excludes it. Product, manufacturing, stock and inquiry functionality stays available.

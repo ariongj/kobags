@@ -62,7 +62,7 @@ export default function Certificates() {
       <p className="sr-only" role="status">
         {filtered.length} {t("certificates found", "certifikata të gjetura")}
       </p>
-      {filtered.map((c, i) => (
+      {filtered.map((c) => (
         <article className="certificate-record" id={`iso-${c.id}`} key={c.id}>
           <div className="certificate-document">
             <span className="certificate-document-label">
@@ -93,7 +93,7 @@ export default function Certificates() {
           </div>
           <div className="certificate-record-details">
             <p className="eyebrow">
-              0{i + 1} / {t(c.title, c.titleSq)}
+              {t(c.title, c.titleSq)}
             </p>
             <h2>
               ISO {c.id}

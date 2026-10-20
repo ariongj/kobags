@@ -37,7 +37,7 @@ export function CertificateShowcase() {
         </small>
       </div>
       <div className="certificate-duo">
-        {certificates.map((c, i) => (
+        {certificates.map((c) => (
           <Link
             href={`/certifications#iso-${c.id}`}
             className="certificate-mini"
@@ -45,7 +45,7 @@ export function CertificateShowcase() {
           >
             <div className="certificate-mini-top">
               <span>
-                0{i + 1} / {t("CERTIFICATE", "CERTIFIKATË")}
+                {t("CERTIFICATE", "CERTIFIKATË")}
               </span>
               <ArrowUpRight size={17} />
             </div>
