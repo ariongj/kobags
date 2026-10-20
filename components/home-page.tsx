@@ -194,8 +194,8 @@ export default function HomePage() {
                   {p.handle.toUpperCase()}
                 </span>
                 <img
-                  src={curated ? image.replace(".jpg", "-640.webp") : image}
-                  srcSet={curated ? [320, 640].map(width => `${image.replace(".jpg", `-${width}.webp`)} ${width}w`).join(", ") : undefined}
+                  src={curated ? image.replace(/\.(jpg|webp)$/, "-640.webp") : image}
+                  srcSet={curated ? [320, 640].map(width => `${image.replace(/\.(jpg|webp)$/, `-${width}.webp`)} ${width}w`).join(", ") : undefined}
                   sizes="(max-width: 767px) 44vw, (max-width: 1024px) 28vw, 18vw"
                   alt={p.name}
                   width={220}

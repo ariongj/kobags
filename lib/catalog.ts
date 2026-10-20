@@ -82,23 +82,23 @@ export const products: Product[] = [
 ];
 export const productMedia: Record<string, { home: string; detail: string }> = {
   "d-cut-bag": {
-    home: "/assets/client-2026-09/home-d-cut.jpg",
+    home: "/assets/d-cut-bag.webp",
     detail: "/assets/client-2026-09/d-cut-bag.jpg",
   },
   "handle-bag": {
-    home: "/assets/client-2026-09/home-handle.jpg",
-    detail: "/assets/client-2026-09/detail-handle.jpg",
+    home: "/assets/handle-bag.webp",
+    detail: "/assets/client-2026-09/handle-bag.jpg",
   },
   "box-bag": {
-    home: "/assets/client-2026-09/home-box.jpg",
+    home: "/assets/box-bag.webp",
     detail: "/assets/client-2026-09/detail-box.jpg",
   },
   "t-shirt-bag": {
-    home: "/assets/client-2026-09/home-t-shirt.jpg",
+    home: "/assets/t-shirt-bag.webp",
     detail: "/assets/client-2026-09/detail-t-shirt.jpg",
   },
   "string-bag": {
-    home: "/assets/client-2026-09/home-string.jpg",
+    home: "/assets/string-bag.webp",
     detail: "/assets/client-2026-09/detail-string.jpg",
   },
 };

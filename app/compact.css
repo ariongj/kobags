@@ -1051,17 +1051,15 @@ body.kobags-v5:has(.studio-compact) .footer-top p {
 /* Distinct, client-supplied media across the rest of the site. */
 .kobags-v5 .factory-reels {
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) repeat(2, minmax(0, .78fr));
-  gap: 16px;
-  align-items: stretch;
-  margin: 34px 0 22px;
-  padding: 18px;
-  border: 1px solid #dbe5dc;
-  border-radius: 12px;
-  background: #eef3ed;
+  grid-template-columns: minmax(0, 1fr) repeat(2, minmax(0, 210px));
+  gap: 24px;
+  align-items: center;
+  margin: 28px 0 22px;
+  padding: 26px 0;
+  border-block: 1px solid #dbe5dc;
 }
 .kobags-v5 .factory-reels-intro {
-  padding: 15px 14px;
+  padding: 0 20px 0 0;
   align-self: center;
 }
 .kobags-v5 .factory-reels-intro h2 {
@@ -1082,35 +1080,57 @@ body.kobags-v5:has(.studio-compact) .footer-top p {
 .kobags-v5 .factory-reel {
   min-width: 0;
   margin: 0;
-  padding: 7px;
-  border: 1px solid #dce4dd;
-  border-radius: 9px;
-  background: white;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #f1f5ef;
 }
+.factory-reel-media { position: relative; overflow: hidden; }
 .kobags-v5 .factory-reel video {
   display: block;
   width: 100%;
+  height: auto;
   aspect-ratio: 9 / 16;
-  max-height: 370px;
-  border-radius: 5px;
-  object-fit: contain;
-  background: #112c39;
+  max-height: none;
+  object-fit: cover;
+  background: #edf2ec;
 }
-.kobags-v5 .factory-reel figcaption {
+.factory-reel-play {
+  position: absolute;
+  inset: 0;
   display: grid;
-  gap: 2px;
-  padding: 10px 5px 5px;
-  line-height: 1.3;
+  place-items: center;
+  width: 100%;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  background: linear-gradient(0deg, #102e3838, transparent 50%);
+  color: #133c32;
 }
-.kobags-v5 .factory-reel figcaption span {
-  color: #087a36;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: .09em;
+.factory-reel-play > span {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  padding-left: 3px;
+  border-radius: 50%;
+  background: #fffffff2;
+  box-shadow: 0 4px 24px #102e3826;
+}
+.factory-reel-play:hover > span { background: #fff; }
+.factory-reel-play:focus-visible { outline: 3px solid #a6d17a; outline-offset: -5px; }
+.kobags-v5 .factory-reel figcaption {
+  display: flex;
+  align-items: center;
+  min-height: 52px;
+  padding: 12px 14px;
+  line-height: 1.3;
 }
 .kobags-v5 .factory-reel figcaption strong {
   color: #153340;
+  font-family: inherit;
   font-size: 14px;
+  font-weight: 600;
 }
 .kobags-v5 .manufacturing-photo-rail {
   margin: 18px 0;
@@ -1192,20 +1212,19 @@ body.kobags-v5:has(.studio-compact) .footer-top p {
 @media (max-width: 800px) {
   .kobags-v5 .factory-reels {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
-    padding: 10px;
+    gap: 14px;
+    padding: 20px 0;
     margin: 22px 0;
   }
   .kobags-v5 .factory-reels-intro {
     grid-column: 1 / -1;
-    padding: 8px;
+    padding: 0 0 4px;
   }
   .kobags-v5 .factory-reels-intro > p:not(.eyebrow) {
     max-width: none;
   }
-  .kobags-v5 .factory-reel video {
-    max-height: none;
-  }
+  .kobags-v5 .factory-reel { max-width: 230px; justify-self: center; }
+  .kobags-v5 .factory-reel figcaption { padding: 10px 12px; font-size: 13px; }
   .kobags-v5 .material-feature > img {
     width: 100%;
     height: 205px;
@@ -1319,10 +1338,6 @@ body.kobags-v5:has(.studio-compact) .footer-top p {
   .kobags-v5 .detail-photo img { width: 100%; height: 100%; max-height: none; }
   .kobags-v5 .detail-thumbnails button { flex-direction: column; align-items: center; justify-content: center; min-height: 76px; gap: 3px; font-size: 11px; text-align: center; }
   .kobags-v5 .detail-thumbnails img { width: 43px; height: 43px; flex-basis: 43px; }
-  .kobags-v5 .factory-reels { grid-template-columns: minmax(0, 1fr); }
-  .kobags-v5 .factory-reels-intro { grid-column: auto; }
-  .kobags-v5 .factory-reel { width: min(100%, 370px); justify-self: center; }
-  .kobags-v5 .factory-reel video { max-height: 460px; }
 }
 
 /* Keep the bag itself prominent on a phone and every 3D action within reach. */

@@ -133,13 +133,13 @@
 }
 .brand-home-v5 .industrial-hero-photo {
   object-position: 72% 52%;
-  filter: saturate(0.68) contrast(1.07);
+  filter: saturate(0.88) contrast(1.02) brightness(1.06);
   animation: factory-arrive 1.5s ease-out both;
 }
 .brand-home-v5 .industrial-hero:after {
   background:
-    linear-gradient(90deg, #0a2533f2 0%, #0a2533d1 39%, #0a253342 78%),
-    linear-gradient(0deg, #0a2533c9 0%, transparent 50%);
+    linear-gradient(90deg, #0a2533d9 0%, #0a2533b3 39%, #0a253326 78%),
+    linear-gradient(0deg, #0a25338c 0%, transparent 50%);
 }
 .brand-home-v5 .industrial-hero-copy {
   max-width: 980px;
@@ -1527,8 +1527,8 @@
   }
   .brand-home-v5 .industrial-hero:after {
     background:
-      linear-gradient(90deg, #0a2533ed, #0a2533a6),
-      linear-gradient(0deg, #0a2533d9, transparent);
+      linear-gradient(90deg, #0a2533c7, #0a253380),
+      linear-gradient(0deg, #0a253399, transparent);
   }
   .brand-home-v5 .industrial-hero-copy {
     padding: 0;

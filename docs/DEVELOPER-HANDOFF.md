@@ -1,5 +1,11 @@
 # Kobags Group — code and setup handoff
 
+## Bag-photo references and manufacturing player — 20 October 2026
+
+`productMedia` maps the five homepage covers to the original PDF-matching `/assets/*-bag.webp` photographs. New 320/640px WebP variants use explicit width descriptors. Existing CMS-custom images still take precedence; no product records or specifications were changed. The same corrected reference images feed the product galleries, and the unverified Handle detail was removed. Provenance: `docs/bag-photo-reference-2026-10-20.json`.
+
+`components/factory-video.tsx` supplies a poster-first, keyboard-operable play button and native controls after activation. Server-rendered/native controls remain available when JavaScript is absent. The CSS uses proportional portrait cards without a conflicting maximum video height; the compact phone layout presents both reels side by side. Homepage hero brightening adjusts only presentation filters/overlays, preserving the original source photo.
+
 ## Client media and WhatsApp — 20 October 2026
 
 New original media and the generated exact-frame poster live under `public/assets/client-2026-10/`; hashes and provenance are in `docs/client-media-2026-10-20.json`, with CMS seed-media entries. The MP4 is already fast-start H.264/AAC and is copied without re-encoding. Its encoded dimensions are 1024×576, with a -90° display matrix; the browser and poster display 576×1024. The build-derived video size map includes the new MP4 for HTTP range delivery.

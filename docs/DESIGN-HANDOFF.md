@@ -1,5 +1,11 @@
 # Kobags Group — design handoff
 
+## PDF bag references and production cards — 20 October 2026
+
+The five homepage bag cards now use the original Kobags photographs shown in the client's “5 bag types.pdf”: black D-Cut, green Handle with red loops, black Box, white T-Shirt with integrated handles, and white String. The incorrect separate-handle T-Shirt cover and box-style Handle cover are removed from public use; the Handle gallery uses two verified views of its green/red bag. The catalogue retains its correctly classified client-photo variants, with the PDF photographs available in each gallery.
+
+The factory hero has a lighter overlay and a small brightness adjustment, keeping darker shading behind the text. Manufacturing videos now use flush portrait cards, consistent caption bars, and a large play button. Native playback controls appear on activation and remain available without JavaScript. On phones the two cards share one row; the framed pale panel and dark side gutters are removed.
+
 ## Client media and contact update — 20 October 2026
 
 The homepage factory film now uses the client's six-second Emona printing clip, with an exact-frame poster oriented to match the portrait video. The player keeps the full frame visible within a compact, height-limited layout. On Manufacturing, the Print photograph now shows black material with gold Fresh Food artwork, and the second reel has the single caption “Production Line” (“Linja e prodhimit” in Albanian).

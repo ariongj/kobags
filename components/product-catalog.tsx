@@ -53,9 +53,9 @@ export function ProductCatalog() {
           )}
         </p>
         <div className="catalog-heading-bags" aria-hidden="true">
-          <img src="/assets/studio-v4/d-cut.webp" alt="" />
-          <img src="/assets/studio-v4/box.webp" alt="" />
-          <img src="/assets/studio-v4/handle.webp" alt="" />
+          <img src="/assets/d-cut-bag-320.webp" alt="" />
+          <img src="/assets/box-bag-320.webp" alt="" />
+          <img src="/assets/handle-bag-320.webp" alt="" />
         </div>
       </div>
       <div className="content-width">
@@ -275,7 +275,7 @@ export function ProductDetail({ product: original }: { product: Product }) {
   const photos = [
     { src: p.image, label: t("Bag", "Çanta") },
     { src: productMedia[p.slug]?.detail, label: t("Print example", "Shembull shtypi") },
-    { src: productMedia[p.slug]?.home, label: t("Another finish", "Ngjyrë tjetër") },
+    { src: productMedia[p.slug]?.home, label: t("Another view", "Pamje tjetër") },
   ].filter((item, index, all): item is { src: string; label: string } =>
     Boolean(item.src) && all.findIndex((other) => other.src === item.src) === index,
   );

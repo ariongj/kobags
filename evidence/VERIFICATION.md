@@ -1,5 +1,12 @@
 # Kobags website — verification record
 
+## PDF bag references, brighter hero and production-video redesign — 20 October 2026
+
+- The five homepage cover photographs were visually matched to the client PDF. The former incorrect T-Shirt/Handle covers and ambiguous Handle detail are absent from all exercised page requests.
+- TypeScript, production build and whitespace checks passed. Read-only local Chromium checks covered 16 EN/SQ homepage/manufacturing layouts at 320, 393, 768 and 1440px; no overflow or page errors. Ten product-gallery checks covered all five families on phone and desktop, with the PDF reference present in every gallery.
+- Both production clips play and seek via touch on phone and keyboard on desktop. Native controls activate after play and remain server-rendered for visitors without JavaScript. The video cards fill their media frames without the previous side gutters. Desktop/phone hero, card, gallery and catalogue screenshots were visually reviewed.
+- Reports/captures: private `deliverables/handoff/bag-photo-review-20261020/`. Checks use Chromium emulation, not physical Safari devices. No customer inquiry or external message was sent.
+
 ## Client media, header wordmark and WhatsApp — 20 October 2026
 
 - Replaced the homepage printing film with the supplied six-second MP4 and an exact-frame poster. Browser inspection identified the source's -90° rotation metadata; the final poster and player preserve its 576×1024 portrait presentation.

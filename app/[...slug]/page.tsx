@@ -4,7 +4,7 @@ import CmsPublicPage from "@/components/cms/public-page";
 
 import Certificates from "@/components/certificates";
 import Link from "@/components/site-link";
-import { publicVideoSource } from "@/lib/public-video";
+import { FactoryVideo } from "@/components/factory-video";
 import { notFound } from "next/navigation";
 import {
   ArrowUpRight,
@@ -212,23 +212,11 @@ export default async function Page({
             <section className="factory-reels" aria-labelledby="factory-reels-title">
               <div className="factory-reels-intro">
                 <p className="eyebrow"><L en="FACTORY MOTION / KOSOVA" sq="LINJA E PRODHIMIT / KOSOVË" /></p>
-                <h2 id="factory-reels-title"><L en="Forming and finishing, in motion." sq="Formimi dhe përfundimi në lëvizje." /></h2>
-                <p><L en="Watch bag forming and stacking on our production floor. Each clip shows a different step in making your order." sq="Shihni formimin dhe vendosjen e çantave në linjën tonë. Secila video paraqet një hap të ndryshëm të prodhimit." /></p>
+                <h2 id="factory-reels-title"><L en="Inside production." sq="Brenda prodhimit." /></h2>
+                <p><L en="See our bags take shape on the factory floor." sq="Shihni si marrin formë çantat në fabrikën tonë." /></p>
               </div>
-              <figure className="factory-reel">
-                <video controls playsInline preload="none" poster="/assets/client-2026-09/bag-forming-poster.jpg" width="464" height="832" aria-label="Watch bags being formed on the Kobags production line">
-                  <source src={publicVideoSource("/assets/client-2026-09/bag-forming-reel.mp4")} type="video/mp4" />
-                  <L en="Your browser does not support video playback." sq="Shfletuesi juaj nuk e mbështet videon." />
-                </video>
-                <figcaption><span><L en="FORMING" sq="FORMIMI" /></span><strong><L en="On the production line" sq="Në linjën e prodhimit" /></strong></figcaption>
-              </figure>
-              <figure className="factory-reel">
-                <video controls playsInline preload="none" poster="/assets/client-2026-09/bag-stacking-poster.jpg" width="480" height="848" aria-label="Watch bag blanks moving into a stack">
-                  <source src={publicVideoSource("/assets/client-2026-09/bag-stacking-reel.mp4")} type="video/mp4" />
-                  <L en="Your browser does not support video playback." sq="Shfletuesi juaj nuk e mbështet videon." />
-                </video>
-                <figcaption><strong><L en="Production Line" sq="Linja e prodhimit" /></strong></figcaption>
-              </figure>
+              <FactoryVideo source="/assets/client-2026-09/bag-forming-reel.mp4" poster="/assets/client-2026-09/bag-forming-poster.jpg" width={464} height={832} title="Bag Forming" titleSq="Formimi i çantave" />
+              <FactoryVideo source="/assets/client-2026-09/bag-stacking-reel.mp4" poster="/assets/client-2026-09/bag-stacking-poster.jpg" width={480} height={848} title="Production Line" titleSq="Linja e prodhimit" />
             </section>
             <div className="manufacturing-photo-rail" aria-label="Inside Kobags production">
               <figure>

@@ -566,5 +566,85 @@
     "type": "image/webp",
     "size": 41372,
     "hash": "a62fd0b84cba2817ee5bffaade28b1be97a4d0de01075e20bb77190730b571a8"
+  },
+  {
+    "id": "source-020700e7eb0173fc9b8d",
+    "path": "/assets/d-cut-bag-320.webp",
+    "filename": "d-cut-bag-320.webp",
+    "type": "image/webp",
+    "size": 5944,
+    "hash": "f21245e9ca7c66a08b25ae0fda7429ceedec838122a3a34993524fd887723bfc"
+  },
+  {
+    "id": "source-03d5b546ca8f7b79a352",
+    "path": "/assets/d-cut-bag-640.webp",
+    "filename": "d-cut-bag-640.webp",
+    "type": "image/webp",
+    "size": 30228,
+    "hash": "dedabaabdda0c94489d7eca8dd02bfef846a8f2181ac4a0d1b00703f1c5e2c53"
+  },
+  {
+    "id": "source-0975b31ac07f43b61849",
+    "path": "/assets/handle-bag-320.webp",
+    "filename": "handle-bag-320.webp",
+    "type": "image/webp",
+    "size": 9778,
+    "hash": "18428bfc101aef8d746577b64fea471fd5eee6f88a3b3f47cb563533b1639b56"
+  },
+  {
+    "id": "source-b2a53c1245f1b0759bfb",
+    "path": "/assets/handle-bag-640.webp",
+    "filename": "handle-bag-640.webp",
+    "type": "image/webp",
+    "size": 31818,
+    "hash": "8709d4865cbf40fbb91bdc571749a476c0f5ce94a9458737b7db85235454c09a"
+  },
+  {
+    "id": "source-edfa169857235115e242",
+    "path": "/assets/box-bag-320.webp",
+    "filename": "box-bag-320.webp",
+    "type": "image/webp",
+    "size": 8028,
+    "hash": "56014cf638a592ec8f5294795eb21803b20e592400f141aa945ae74f228d3587"
+  },
+  {
+    "id": "source-7bcc9c9b0fb1aa040a2c",
+    "path": "/assets/box-bag-640.webp",
+    "filename": "box-bag-640.webp",
+    "type": "image/webp",
+    "size": 24446,
+    "hash": "d3747d744754a693aea4a77c23d2d85290b8bca548cc9f369958e2bb0f51022a"
+  },
+  {
+    "id": "source-f3e6687704735cf83000",
+    "path": "/assets/t-shirt-bag-320.webp",
+    "filename": "t-shirt-bag-320.webp",
+    "type": "image/webp",
+    "size": 13830,
+    "hash": "19959cde989b84664bee907b1ba1cae26ca8936a5756c89fe7ae3701309845ec"
+  },
+  {
+    "id": "source-c8ae72e79c5032864311",
+    "path": "/assets/t-shirt-bag-640.webp",
+    "filename": "t-shirt-bag-640.webp",
+    "type": "image/webp",
+    "size": 36938,
+    "hash": "1998f5ad6611a67c61110def42dee681b985ec21b94fcd888d661b686d3c3522"
+  },
+  {
+    "id": "source-fce1797344ff3a8831a9",
+    "path": "/assets/string-bag-320.webp",
+    "filename": "string-bag-320.webp",
+    "type": "image/webp",
+    "size": 7032,
+    "hash": "6ec547ebaa1b56b1d95bb0799deb598926bc0885db001c09b189f8ea5b53fbef"
+  },
+  {
+    "id": "source-435382ff03d07f5a62d4",
+    "path": "/assets/string-bag-640.webp",
+    "filename": "string-bag-640.webp",
+    "type": "image/webp",
+    "size": 25388,
+    "hash": "55aadfc7857e997f87d0d233b59d0b5814c7ab54c0639470023bad33946a0c0e"
   }
 ]

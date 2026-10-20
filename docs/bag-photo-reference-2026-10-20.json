@@ -1,0 +1,60 @@
+{
+  "note": "Homepage cards use the exact five product photographs shown in the client PDF. Correctly classified client photo variants remain in the catalogue and product galleries. The incorrect separate-handle T-Shirt cover and box-style Handle cover are no longer referenced. The ambiguous black Handle detail was removed from its gallery. Responsive files are resized encodings of the existing original photographs, with no generated product changes.",
+  "products": [
+    {
+      "family": "d-cut",
+      "reference": "5 bag types.pdf, supplied by the client on 2026-10-20",
+      "source": "Original Kobags product photograph already held in public/assets; provenance in docs/asset-sources.json",
+      "publicPath": "/assets/d-cut-bag.webp",
+      "sha256": "4c726654ccd6300190bce38b1037b32eacaa8f48e449b1b80a88925397cf623b",
+      "responsive": [
+        "/assets/d-cut-bag-320.webp",
+        "/assets/d-cut-bag-640.webp"
+      ]
+    },
+    {
+      "family": "handle",
+      "reference": "5 bag types.pdf, supplied by the client on 2026-10-20",
+      "source": "Original Kobags product photograph already held in public/assets; provenance in docs/asset-sources.json",
+      "publicPath": "/assets/handle-bag.webp",
+      "sha256": "d80ce3d8f336a7ea739bcd74ad20af3a575ef7ea60db1a34207d87b16c2ebb17",
+      "responsive": [
+        "/assets/handle-bag-320.webp",
+        "/assets/handle-bag-640.webp"
+      ]
+    },
+    {
+      "family": "box",
+      "reference": "5 bag types.pdf, supplied by the client on 2026-10-20",
+      "source": "Original Kobags product photograph already held in public/assets; provenance in docs/asset-sources.json",
+      "publicPath": "/assets/box-bag.webp",
+      "sha256": "0f72a6efe59c0dddebf5ebeb434fe2a3d25de36d004ef2ad271254a59bdbd0cf",
+      "responsive": [
+        "/assets/box-bag-320.webp",
+        "/assets/box-bag-640.webp"
+      ]
+    },
+    {
+      "family": "t-shirt",
+      "reference": "5 bag types.pdf, supplied by the client on 2026-10-20",
+      "source": "Original Kobags product photograph already held in public/assets; provenance in docs/asset-sources.json",
+      "publicPath": "/assets/t-shirt-bag.webp",
+      "sha256": "bfefa2103f763f31ef49a09587f3d3c9783131b37f024d39507a4d161279540e",
+      "responsive": [
+        "/assets/t-shirt-bag-320.webp",
+        "/assets/t-shirt-bag-640.webp"
+      ]
+    },
+    {
+      "family": "string",
+      "reference": "5 bag types.pdf, supplied by the client on 2026-10-20",
+      "source": "Original Kobags product photograph already held in public/assets; provenance in docs/asset-sources.json",
+      "publicPath": "/assets/string-bag.webp",
+      "sha256": "e59d72e1ccfc38bcd05b8ce33d07580886c8ba7feec21073eface84180a01ea6",
+      "responsive": [
+        "/assets/string-bag-320.webp",
+        "/assets/string-bag-640.webp"
+      ]
+    }
+  ]
+}
