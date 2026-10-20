@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Play } from "lucide-react";
 import { publicVideoSource } from "@/lib/public-video";
 import { useKobags } from "./kobags-context";
 
 export function FactoryVideo({
-  source, poster, width, height, title, titleSq,
+  source, poster, width, height, title, titleSq, className = "", caption,
 }: {
   source: string;
   poster: string;
@@ -14,6 +14,8 @@ export function FactoryVideo({
   height: number;
   title: string;
   titleSq: string;
+  className?: string;
+  caption?: ReactNode;
 }) {
   const { t } = useKobags();
   const video = useRef<HTMLVideoElement>(null);
@@ -22,7 +24,7 @@ export function FactoryVideo({
   useEffect(() => setEnhanced(true), []);
   const label = t(title, titleSq);
   return (
-    <figure className="factory-reel">
+    <figure className={`factory-reel ${className}`.trim()}>
       <div className="factory-reel-media">
         <video
           ref={video}
@@ -56,7 +58,7 @@ export function FactoryVideo({
           </button>
         )}
       </div>
-      <figcaption><strong>{label}</strong></figcaption>
+      <figcaption>{caption ?? <strong>{label}</strong>}</figcaption>
     </figure>
   );
 }

@@ -258,3 +258,9 @@ The explicit front/back controls now reset the view on every selection. Buyers c
 ## National buying guide — 3 October 2026
 
 The homepage has a compact nationwide introduction linking to `/bags-kosovo` (and `/sq/bags-kosovo`). The guide pairs buying advice with a pale-green manufacturer contact card, a native all-municipalities disclosure and three short order-preparation steps. All 38 names are available in the first HTML response; the disclosure keeps the initial mobile view short and supports keyboard activation. Four columns become two on mobile; the contact and steps stack. Footer and contact links provide alternate entry points. No new photography duplicates existing client imagery, and “Made in Kosova” remains the national brand line.
+
+## Homepage factory film — 20 October 2026
+
+The original client printing video now sits in a 9:16 frame with a short caption beside it. The pale card replaces the navy heading/caption bands and wide dark video gutters. On phones the card is approximately 225–308px tall, with a full-frame touch target for play. Playback uses native controls after activation and falls back to native controls without JavaScript; there is no autoplay. CMS video/poster overrides remain supported. Shared player implementation: `components/factory-video.tsx`; homepage composition: `components/home-page.tsx`; final responsive styles: `app/mobile.css`.
+
+The clip remains uncropped and has not been re-encoded. Browser checks cover 320, 393, 430, 768, 1024 and 1440px in English and Albanian, touch/keyboard playback, seeking, desktop fullscreen and no-JavaScript controls. These are Chromium viewport checks, not a physical iPhone/Safari certification. Review captures and results are kept privately in `deliverables/handoff/home-film-review-20261020/`.

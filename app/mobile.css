@@ -21,8 +21,56 @@
 }
 .home-production-copy { grid-area: intro; }
 .home-production-details { grid-area: details; }
-.home-production-film { grid-area: film; align-self: center; }
-.kobags-v5 .home-production-film video { height: clamp(280px, 30vw, 440px); aspect-ratio: auto; object-fit: contain; }
+.kobags-v5 .home-production-film {
+  grid-area: film;
+  align-self: center;
+  justify-self: center;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  width: 100%;
+  max-width: 480px;
+  border: 1px solid #dce6df;
+  border-radius: 12px;
+  background: #f1f5ef;
+  box-shadow: none;
+}
+.kobags-v5 .home-production-film .factory-reel-media { align-self: center; }
+.kobags-v5 .home-production-film video {
+  height: auto;
+  aspect-ratio: 9 / 16;
+  object-fit: contain;
+  background: #f1f5ef;
+}
+.kobags-v5 .home-production-film figcaption {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 24px;
+  background: transparent;
+  color: #153340;
+}
+.kobags-v5 .home-production-film figcaption .eyebrow {
+  color: #087b3a;
+  font-size: 10px;
+  line-height: 1.4;
+}
+.kobags-v5 .home-production-film figcaption strong {
+  color: #153340;
+  font-size: clamp(20px, 2vw, 26px);
+  font-weight: 650;
+  line-height: 1.15;
+  letter-spacing: -.5px;
+  text-wrap: balance;
+}
+.kobags-v5 .home-production-film figcaption p {
+  margin: 0;
+  color: #526862;
+  font-size: 14px;
+  line-height: 1.5;
+}
 .whatsapp-contact {
   position: fixed;
   right: max(18px, env(safe-area-inset-right));
@@ -96,17 +144,15 @@ body:has(.whatsapp-contact) .footer-bottom { padding-bottom: 82px; }
   .kobags-v5 .brand-home-v5 .industrial-hero .button svg { flex:none; width:16px; }
   .kobags-v5 .home-production { grid-template-columns: minmax(0, 1fr); grid-template-areas: "intro" "film" "details"; gap: 16px; }
   .kobags-v5 .home-production-copy > h2 { font-size: clamp(26px, 6.7vw, 34px); line-height: 1.12; margin: 10px 0 0; text-wrap: balance; }
-  .kobags-v5 .home-production-film { width: 100%; border-radius: 10px; box-shadow: 0 8px 24px #17353b12; }
-  .kobags-v5 .production-film-heading { padding: 12px 14px; font-size: 9px; }
-  .kobags-v5 .home-production-film figcaption { padding: 12px 14px; gap: 10px; }
-  .kobags-v5 .home-production-film figcaption strong { font-size: 14px; }
-  .kobags-v5 .home-production-film figcaption p { font-size: 12px; margin-top: 3px; }
+  .kobags-v5 .home-production-film { grid-template-columns: min(44%, 172px) minmax(0, 1fr); max-width: 440px; border-radius: 10px; }
+  .kobags-v5 .home-production-film figcaption { padding: 16px; gap: 10px; }
+  .kobags-v5 .home-production-film figcaption strong { font-size: clamp(18px, 4.7vw, 22px); }
+  .kobags-v5 .home-production-film figcaption p { font-size: 12px; }
   .kobags-v5 .production-stages { margin: 0 0 12px; }
   .kobags-v5 .production-stages li { padding-block: 12px; }
   .kobags-v5 .production-stages h3 { font-size: 15px; }
   .kobags-v5 .production-stages p { font-size: 13px; margin-top: 4px; }
   .kobags-v5 .production-stages p { line-height: 1.55; }
-  .kobags-v5 .home-production-film video { height: clamp(280px, 82vw, 340px); aspect-ratio: auto; }
   .kobags-v5 .bag-showcase { padding: 22px 16px; scroll-margin-top: 56px; }
   .kobags-v5 .showcase-copy { padding-top: 16px; }
   .kobags-v5 .showcase-personalize { margin: 14px 0; }

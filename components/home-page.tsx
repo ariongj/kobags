@@ -1,13 +1,10 @@
 "use client";
 import { studioEnabled } from "@/lib/studio-availability";
-import { publicVideoSource } from "@/lib/public-video";
+import { FactoryVideo } from "./factory-video";
 import { useCms } from "./cms/public-context";
 import { CertificateShowcase } from "./certificate-showcase";
 import Link from "@/components/site-link";
-import {
-  ArrowUpRight,
-  Paintbrush,
-} from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { useKobags } from "./kobags-context";
 import { useDemo } from "./demo-store";
 import { products, productMedia } from "@/lib/catalog";
@@ -80,44 +77,22 @@ export default function HomePage() {
             {t("Finished to your specifications.", "Sipas specifikimeve tuaja.")}
           </h2>
         </div>
-        <figure className="home-production-film">
-          <div className="production-film-heading">
-            <span>{t("FLEXOGRAPHIC PRINTING", "SHTYP FLEKSOGRAFIK")}</span>
-            <span>{t("FACTORY FILM", "VIDEO NGA FABRIKA")}</span>
-          </div>
-          <video
-            controls
-            playsInline
-            preload="none"
-            poster={cms.settings?.media?.printingPoster||"/assets/client-2026-10/printing-emona-poster.webp"}
-            width={576}
-            height={1024}
-            aria-label={t(
-              "Watch the Kobags printing process",
-              "Shikoni procesin e shtypit në Kobags",
-            )}
-          >
-            <source src={publicVideoSource(cms.settings?.media?.printingVideo||"/assets/client-2026-10/printing-emona.mp4")} type="video/mp4" />
-            {t(
-              "Your browser does not support video playback.",
-              "Shfletuesi juaj nuk e mbështet videon.",
-            )}
-          </video>
-          <figcaption>
-            <Paintbrush size={20} />
-            <div>
-              <strong>
-                {t("Your artwork, on the material.", "Dizajni juaj, mbi material.")}
-              </strong>
-              <p>
-                {t(
-                  "Watch the material move through the printing equipment.",
-                  "Shikoni si kalon materiali nëpër makineritë e shtypit.",
-                )}
-              </p>
-            </div>
-          </figcaption>
-        </figure>
+        <FactoryVideo
+          className="home-production-film"
+          source={cms.settings?.media?.printingVideo||"/assets/client-2026-10/printing-emona.mp4"}
+          poster={cms.settings?.media?.printingPoster||"/assets/client-2026-10/printing-emona-poster.webp"}
+          width={576}
+          height={1024}
+          title="Watch the Kobags printing process"
+          titleSq="Shikoni procesin e shtypit në Kobags"
+          caption={
+            <>
+              <span className="eyebrow">{t("In print", "Në shtyp")}</span>
+              <strong>{t("Your brand, taking shape.", "Marka juaj merr formë.")}</strong>
+              <p>{t("A closer look at printing on our factory floor.", "Shikoni nga afër shtypin në fabrikën tonë.")}</p>
+            </>
+          }
+        />
         <div className="home-production-details">
           <ol className="production-stages">
             {[
