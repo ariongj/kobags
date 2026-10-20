@@ -1,5 +1,16 @@
 # Kobags website — verification record
 
+## Phone experience release — 20 October 2026
+
+- Replaced the fixed-height mobile studio and nested settings scrollbar with natural page scrolling. The preview is 272–330px high, with full-width framing; all five real-photo silhouettes measure approximately 231px tall at 393×750. Opening the artwork step brings the preview, selection/resize and three add actions into view. Focus mode provides more editing room. Undo/redo, photo/3D switching, front/back and fullscreen remain beside the bag.
+- Short viewports and focused text inputs release the pinned preview. At 320px and 200% EN/SQ text, preview controls wrap without overlap, add actions remain reachable and QR dialogs remain editable. When a fourth element disables Add, closing the QR dialog returns focus to the visible mobile selector.
+- Homepage: shorter introductory copy, paired phone actions and the factory film directly after the production heading, before the explanatory steps. The approved headline/green accent, manufacturer emphasis, original media and desktop two-column production layout remain.
+- `qa/phone_layout_checks.py`: six acceptance groups, 12 EN/SQ homepage layouts from 320–1440px, all five photo families, immediate add-button reachability, Focus/fullscreen focus restoration, short-view QR entry and fourth-element focus return passed with no browser errors.
+- `qa/phone_experience_checks.py`: six touch groups passed on the final build: independent logo/QR selection, movement and sizing in 3D, automatic background cleanup, pause-and-undo slider behavior, seven layout sizes, QR-only photo/fallback dragging, two-sided export, Albanian and short-view QR entry. No captured browser errors or automated accessibility violations. The undo assertion waits for asynchronous draft persistence instead of reading storage in the same event turn. ZXing independently decoded the exported QR.
+- `qa/phone_accessibility_checks.py`: EN/SQ QR dialogs, keyboard focus, 200% text and non-overlapping preview actions at 320px passed. `qa/phone_home_text_checks.py`: both homepages retained readable, non-overflowing actions at 320px/200% text. `qa/final_studio_regressions.py`: all ten existing artwork, undo, storage, fullscreen, quote carry-through and fallback groups passed before the final button-wrapping refinement.
+- TypeScript, the production build and whitespace checks passed. Design/developer handoffs updated. Earlier checks were rerun after restarting the local server to serve matching build assets. All browser evidence uses Chromium touch emulation/software WebGL on an isolated local Worker, not physical iPhone/Safari or Android hardware. No production customer request, message, payment or order was created. Domain, public audience, CMS access and inquiry settings are unchanged.
+
+
 ## Mobile logo and QR review — 19 October 2026
 
 - Added a fixed mobile element selector and ±2-point size controls above the scrolling artwork settings. All three quick controls are at least 44px. The smaller artwork-mode preview keeps the quote action within the 390×844 workspace. Detailed sizing, placement and QR settings remain available below; the expanded editor retains the same draft.

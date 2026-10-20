@@ -1,0 +1,50 @@
+{
+  "checks": [
+    "Natural default, automatic logo cleanup, independent logo/QR quick sizing and undo",
+    "Direct touch selection and independent logo/QR dragging in 3D; camera stays still",
+    "Page-scrolling editor with pinned preview/selection; paused resize undoes once; size bounds respected",
+    "Compact 320\u20131440px layouts, 44px quick controls and visible phone quote action",
+    "QR-only touch dragging works in photo and unavailable-WebGL previews; export succeeds",
+    "Albanian selection/resizing, accessible controls and QR entry with a short viewport"
+  ],
+  "errors": [],
+  "layouts": [
+    {
+      "width": 320,
+      "height": 568,
+      "overflow": false
+    },
+    {
+      "width": 360,
+      "height": 740,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "overflow": false
+    },
+    {
+      "width": 430,
+      "height": 932,
+      "overflow": false
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "overflow": false
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "height": 900,
+      "overflow": false
+    }
+  ],
+  "accessibility": [],
+  "status": "passed"
+}

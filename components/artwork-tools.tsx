@@ -8,8 +8,7 @@ import { createQrArtwork } from "@/lib/qr-artwork";
 type T = (en: string, sq?: string) => string;
 type QrData = ReturnType<typeof createQrArtwork>;
 
-/** Keep the selected element and small size adjustments within thumb reach
- * while the detailed editor scrolls independently on phones. */
+/** Keep selection and small size adjustments near the preview on phones. */
 export function MobileArtworkTools({ design, activeLayer, onSelect, onResize, t }: { design: Design; activeLayer: ArtworkLayer; onSelect: (layer: ArtworkLayer) => void; onResize: (size: number) => void; t: T }) {
   const layers = artworkLayers(design), selected = layers.includes(activeLayer);
   const art = sideArtwork(design, activeLayer);
@@ -63,7 +62,14 @@ export function ArtworkPalette({ design, activeLayer, onSelect, onLogo, onText, 
         <Icon size={14}/><span>{label}</span>{layer === activeLayer && <Check size={13}/>}
       </button>; })}
     </div>}
-    <Dialog open={qrOpen} onOpenChange={setQrOpen}><DialogContent className="qr-dialog" onCloseAutoFocus={event => { event.preventDefault(); const target = qrTrigger.current?.disabled ? layerList.current?.querySelector<HTMLButtonElement>('button[aria-pressed="true"]') : qrTrigger.current; target?.focus({ preventScroll: true }); }}><DialogTitle>{t("Add a QR code", "Shto një kod QR")}</DialogTitle><DialogDescription>{t("Give customers a direct link to your website, menu or contact page.", "Lidhni klientët drejtpërdrejt me faqen, menynë ose kontaktin tuaj.")}</DialogDescription><QrEditor adding t={t} onSave={data => { onQr(data); setQrOpen(false); }}/></DialogContent></Dialog>
+    <Dialog open={qrOpen} onOpenChange={setQrOpen}><DialogContent className="qr-dialog" onCloseAutoFocus={event => {
+      event.preventDefault();
+      const selected = layerList.current?.querySelector<HTMLButtonElement>('button[aria-pressed="true"]');
+      const target = qrTrigger.current?.disabled
+        ? selected?.getClientRects().length ? selected : document.querySelector(".mobile-artwork-tools select") as HTMLSelectElement | null
+        : qrTrigger.current;
+      target?.focus({ preventScroll: true });
+    }}><DialogTitle>{t("Add a QR code", "Shto një kod QR")}</DialogTitle><DialogDescription>{t("Give customers a direct link to your website, menu or contact page.", "Lidhni klientët drejtpërdrejt me faqen, menynë ose kontaktin tuaj.")}</DialogDescription><QrEditor adding t={t} onSave={data => { onQr(data); setQrOpen(false); }}/></DialogContent></Dialog>
   </>;
 }
 

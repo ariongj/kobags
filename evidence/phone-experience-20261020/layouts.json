@@ -1,0 +1,116 @@
+{
+  "layouts": [
+    {
+      "route": "en home",
+      "width": 320,
+      "height": 568,
+      "overflow": false
+    },
+    {
+      "route": "en home",
+      "width": 393,
+      "height": 650,
+      "overflow": false
+    },
+    {
+      "route": "en home",
+      "width": 393,
+      "height": 750,
+      "overflow": false
+    },
+    {
+      "route": "en home",
+      "width": 430,
+      "height": 932,
+      "overflow": false
+    },
+    {
+      "route": "en home",
+      "width": 768,
+      "height": 1024,
+      "overflow": false
+    },
+    {
+      "route": "en home",
+      "width": 1440,
+      "height": 900,
+      "overflow": false
+    },
+    {
+      "route": "sq home",
+      "width": 320,
+      "height": 568,
+      "overflow": false
+    },
+    {
+      "route": "sq home",
+      "width": 393,
+      "height": 650,
+      "overflow": false
+    },
+    {
+      "route": "sq home",
+      "width": 393,
+      "height": 750,
+      "overflow": false
+    },
+    {
+      "route": "sq home",
+      "width": 430,
+      "height": 932,
+      "overflow": false
+    },
+    {
+      "route": "sq home",
+      "width": 768,
+      "height": 1024,
+      "overflow": false
+    },
+    {
+      "route": "sq home",
+      "width": 1440,
+      "height": 900,
+      "overflow": false
+    },
+    {
+      "family": "Box",
+      "bagHeight": 231.34,
+      "canvasHeight": 269,
+      "stageWidth": 371
+    },
+    {
+      "family": "D-Cut",
+      "bagHeight": 231.34,
+      "canvasHeight": 269,
+      "stageWidth": 371
+    },
+    {
+      "family": "Handle",
+      "bagHeight": 231.34,
+      "canvasHeight": 269,
+      "stageWidth": 371
+    },
+    {
+      "family": "String",
+      "bagHeight": 231.34,
+      "canvasHeight": 269,
+      "stageWidth": 371
+    },
+    {
+      "family": "T-Shirt",
+      "bagHeight": 231.34,
+      "canvasHeight": 269,
+      "stageWidth": 371
+    }
+  ],
+  "checks": [
+    "12 EN/SQ homepage layouts; compact actions; manufacturing film before the steps",
+    "Opening Your design reveals all three add actions without extra scrolling",
+    "All five real-photo bag silhouettes exceed 200px at 393\u00d7750; full-width stage",
+    "Focus mode, preview restoration and fullscreen focus return",
+    "Short viewport QR entry remains usable; pinned canvas releases space",
+    "Fourth artwork addition returns focus to the mobile selector when Add becomes disabled"
+  ],
+  "errors": [],
+  "status": "passed"
+}

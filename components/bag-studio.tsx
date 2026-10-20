@@ -265,6 +265,16 @@ export default function BagStudio() {
   const [tab, setTab] = useState("bag");
   const artworkTab = useRef<HTMLButtonElement>(null);
   const [editorExpanded, setEditorExpanded] = useState(false);
+  const openEditorTab = (next: string) => {
+    setTab(next);
+    // Reveal the canvas and add tools together after choosing the design step.
+    // Direct artwork selection does not scroll underneath a dragging finger.
+    if (next === "artwork" && tab !== next && !editorExpanded && window.matchMedia("(max-width: 800px)").matches) {
+      requestAnimationFrame(() => {
+        document.querySelector(".studio-compact .preview-stage")?.scrollIntoView({ block: "start", behavior: "instant" });
+      });
+    }
+  };
   const [viewMode, setViewMode] = useState("3d");
   const [samplePhoto, setSamplePhoto] = useState<string | null>(null);
   const [error, setError] = useState("");
@@ -601,7 +611,7 @@ export default function BagStudio() {
     }
   };
   return (
-    <section className="studio-section studio-v4 studio-compact" data-editor-expanded={editorExpanded} data-scan={testScan} data-editing-artwork={tab === "artwork"}>
+    <section className="studio-section studio-v4 studio-compact" data-editor-expanded={editorExpanded} data-scan={testScan} data-editing-artwork={tab === "artwork"} data-preview-mode={viewMode}>
       <div className="studio-heading">
         <div>
           <h1>{testScan ? t("Explore your scan.", "Eksploroni skanimin tuaj.") : t("Build your bag.", "Krijoni çantën tuaj.")}</h1>
@@ -692,6 +702,21 @@ export default function BagStudio() {
               <span>
                 {p.name} <span className="subtle">/ {displaySize}</span>
               </span>
+              <div className="stage-top-actions">
+              <button
+                type="button"
+                className="icon-button mobile-stage-action"
+                aria-label={t("Undo change", "Zhbëj ndryshimin")}
+                disabled={!historyAvailable.undo || uploading || backgroundBusy}
+                onClick={() => travel("past")}
+              ><Undo2 size={17}/></button>
+              <button
+                type="button"
+                className="icon-button mobile-stage-action"
+                aria-label={t("Redo change", "Ribëj ndryshimin")}
+                disabled={!historyAvailable.redo || uploading || backgroundBusy}
+                onClick={() => travel("future")}
+              ><Redo2 size={17}/></button>
               <button
                 className="icon-button"
                 ref={enlargeButton}
@@ -700,6 +725,7 @@ export default function BagStudio() {
               >
                 <Maximize2 size={18} />
               </button>
+              </div>
             </div>
             {viewMode === "3d" ? (
               <Studio3D
@@ -747,6 +773,15 @@ export default function BagStudio() {
                 )}
               </span>
               <button
+                type="button"
+                className="mobile-preview-mode"
+                aria-label={viewMode === "edit" ? t("Switch to 3D view", "Kalo në pamjen 3D") : t("Switch to photo view", "Kalo në pamjen fotografike")}
+                onClick={() => setViewMode(viewMode === "edit" ? "3d" : "edit")}
+              >
+                {viewMode === "edit" ? <Box size={16}/> : <ImagePlus size={16}/>}
+                <span>{viewMode === "edit" ? "3D" : t("Photo", "Foto")}</span>
+              </button>
+              <button
                 className="studio-download"
                 onClick={download}
                 disabled={!previewReady || exporting}
@@ -773,18 +808,18 @@ export default function BagStudio() {
           <p className="micro">{t("Test model only. Choose a bag above to continue designing and request a quote.", "Vetëm model testues. Zgjidhni një çantë sipër për të vazhduar dizajnin dhe për të kërkuar ofertë.")}</p>
           <button type="button" className="button" onClick={() => chooseTestScan(false)}>{t("Back to your bag", "Kthehu te çanta juaj")}<ArrowRight size={16}/></button>
         </aside> : <section className="studio-controls" aria-label={t("Customize your bag", "Personalizoni çantën")}>
-          <Tabs value={tab} onValueChange={setTab}>
+          <Tabs value={tab} onValueChange={openEditorTab}>
             <div className="studio-editor-nav">
             <TabsList className="editor-tabs">
               <TabsTrigger value="bag" onPointerUp={(event) => {
                 // A touch orbit can suppress the next compatibility mouse event.
                 // Complete tab taps directly; a scrolling gesture sends pointercancel.
-                if (event.pointerType === "touch") { setTab("bag"); event.currentTarget.focus({ preventScroll: true }); }
+                if (event.pointerType === "touch") { openEditorTab("bag"); event.currentTarget.focus({ preventScroll: true }); }
               }}>
                 <span className="editor-step">01</span> <span>{t("The bag", "Çanta")}</span>
               </TabsTrigger>
               <TabsTrigger value="artwork" ref={artworkTab} onPointerUp={(event) => {
-                if (event.pointerType === "touch") { setTab("artwork"); event.currentTarget.focus({ preventScroll: true }); }
+                if (event.pointerType === "touch") { openEditorTab("artwork"); event.currentTarget.focus({ preventScroll: true }); }
               }}>
                 <span className="editor-step">02</span> <span>{t("Your design", "Dizajni juaj")}</span>
               </TabsTrigger>
@@ -795,9 +830,14 @@ export default function BagStudio() {
               aria-label={editorExpanded ? t("Show bag preview", "Shfaq parapamjen e çantës") : t("Expand editing controls", "Zgjero panelin e dizajnit")}
               title={editorExpanded ? t("Show bag preview", "Shfaq parapamjen e çantës") : t("Expand editing controls", "Zgjero panelin e dizajnit")}
               aria-pressed={editorExpanded}
-              onClick={() => setEditorExpanded((expanded) => !expanded)}
+              onClick={(event) => {
+                const studio = event.currentTarget.closest(".studio");
+                setEditorExpanded((expanded) => !expanded);
+                requestAnimationFrame(() => studio?.scrollIntoView({ block: "start", behavior: "instant" }));
+              }}
             >
               {editorExpanded ? <PanelTopOpen size={20} /> : <PanelTopClose size={20} />}
+              <span>{editorExpanded ? t("Preview", "Pamja") : t("Focus", "Fokus")}</span>
             </button>
             </div>
             {tab === "artwork" && <MobileArtworkTools design={design} activeLayer={activeLayer} onSelect={selectArtwork} onResize={scale => commitArtwork(placementPatch(design, activeLayer, { scale }))} t={t}/>}
@@ -907,7 +947,7 @@ export default function BagStudio() {
               </details>
               <button
                 className="button design-next"
-                onClick={() => { setTab("artwork"); artworkTab.current?.focus(); }}
+                onClick={() => { openEditorTab("artwork"); artworkTab.current?.focus({ preventScroll: true }); }}
               >
                 {t("Next: add your design", "Vazhdoni: shtoni dizajnin")}{" "}
                 <ArrowRight size={15} />
@@ -1323,7 +1363,8 @@ export default function BagStudio() {
               </strong>
             </div>
             {uploading || backgroundBusy ? <button className="button" disabled aria-busy="true">{t("Preparing artwork…", "Duke përgatitur dizajnin…")}</button> : <Link href="/quote" className="button">
-              {t("Get a quote for this bag", "Kërkoni ofertë për këtë çantë")}{" "}
+              <span className="quote-full-label">{t("Get a quote for this bag", "Kërkoni ofertë për këtë çantë")}</span>
+              <span className="quote-short-label">{t("Request a quote", "Kërkoni ofertë")}</span>{" "}
               <ArrowUpRight size={18} />
             </Link>}
             <p>

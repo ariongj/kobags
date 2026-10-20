@@ -8,6 +8,20 @@
   flex: none;
   min-width: 0;
 }
+.stage-top-actions { display: flex; gap: 4px; pointer-events: auto; }
+.mobile-stage-action, .mobile-preview-mode { display: none; }
+.quote-short-label { display:none; }
+/* Keep the manufacturing story in reading order on both layouts. */
+.kobags-v5 .home-production {
+  display: grid;
+  grid-template-areas: "intro film" "details film";
+  grid-template-columns: 1fr 1fr;
+  gap: 0 40px;
+  align-items: start;
+}
+.home-production-copy { grid-area: intro; }
+.home-production-details { grid-area: details; }
+.home-production-film { grid-area: film; align-self: center; }
 .kobags-v5 .studio-editor-nav .editor-tabs {
   width: 100%;
 }
@@ -50,8 +64,20 @@
   .kobags-v5 .section-heading { gap: 12px; margin-bottom: 16px; }
   .kobags-v5 .brand-home-v5 .industrial-hero { padding: 28px 16px; }
   .kobags-v5 .brand-home-v5 .industrial-hero .actions { margin-top: 18px; }
-  .kobags-v5 .home-production { gap: 18px; }
+  .kobags-v5 .brand-home-v5 .industrial-hero .actions { display:grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap:8px; }
+  .kobags-v5 .brand-home-v5 .industrial-hero .button { width:100%; font-size:12px; padding:10px 9px; min-height:48px; white-space:normal; gap:7px; }
+  .kobags-v5 .brand-home-v5 .industrial-hero .button svg { flex:none; width:16px; }
+  .kobags-v5 .home-production { grid-template-columns: minmax(0, 1fr); grid-template-areas: "intro" "film" "details"; gap: 16px; }
+  .kobags-v5 .home-production-copy > h2 { font-size: clamp(26px, 6.7vw, 34px); line-height: 1.12; margin: 10px 0 0; text-wrap: balance; }
+  .kobags-v5 .home-production-film { width: 100%; border-radius: 10px; box-shadow: 0 8px 24px #17353b12; }
+  .kobags-v5 .production-film-heading { padding: 12px 14px; font-size: 9px; }
+  .kobags-v5 .home-production-film figcaption { padding: 12px 14px; gap: 10px; }
+  .kobags-v5 .home-production-film figcaption strong { font-size: 14px; }
+  .kobags-v5 .home-production-film figcaption p { font-size: 12px; margin-top: 3px; }
+  .kobags-v5 .production-stages { margin: 0 0 12px; }
   .kobags-v5 .production-stages li { padding-block: 12px; }
+  .kobags-v5 .production-stages h3 { font-size: 15px; }
+  .kobags-v5 .production-stages p { font-size: 13px; margin-top: 4px; }
   .kobags-v5 .production-stages p { line-height: 1.55; }
   .kobags-v5 .home-production-film video { aspect-ratio: 16/9; }
   .kobags-v5 .bag-showcase { padding: 22px 16px; scroll-margin-top: 56px; }
@@ -89,9 +115,8 @@
   .kobags-v5 .responsibility-hero { padding-block: 24px; margin-bottom: 20px; }
   .kobags-v5 .responsibility-hero-inner { gap: 18px; }
 
-  /* The preview and the controls share a phone-sized workspace. Only the
-     current controls scroll; the canvas, tabs and quote stay in view. svh
-     avoids jumps when browser chrome expands and contracts. */
+  /* A roomy preview with ordinary page scrolling. No nested settings pane.
+     Only the preview and selected-element tools pin while editing. */
   .kobags-v5 .studio-compact.studio-section { padding: 10px 10px 16px; }
   .kobags-v5 .studio-compact .studio-heading { margin-bottom: 10px; gap: 8px; }
   .kobags-v5 .studio-compact .studio-heading h1 { font-size: 24px; margin-bottom: 3px; }
@@ -100,14 +125,17 @@
     display: flex;
     flex-direction: column;
     gap: 0;
-    height: max(600px, calc(100svh - 130px));
-    min-height: 38em;
+    height: auto;
+    min-height: 0;
+    --phone-stage: clamp(272px, 40svh, 330px);
+    scroll-margin-top: 64px;
     border: 1px solid #d6e3dc;
     border-radius: 10px;
     background: white;
-    overflow: clip;
+    overflow: visible;
   }
-  .kobags-v5 .studio-compact .preview-column {
+  .kobags-v5 .studio-compact[data-scan="false"] .preview-column {
+    display: contents;
     position: relative;
     top: auto;
     width: 100%;
@@ -123,27 +151,35 @@
     overflow-x: auto;
     scrollbar-width: thin;
   }
+  .kobags-v5 .studio-compact[data-scan="false"] :is(.bag-picker,.studio-history,.preview-stage) { width:100%; align-self:stretch; flex:none; }
   .kobags-v5 .studio-compact .bag-pick { flex: 1 0 4.25em; min-width: 4.25em; height: auto; min-height: 54px; padding: 3px; font-size: 11px; }
   .kobags-v5 .studio-compact .bag-pick .bag-canvas { width: 30px !important; height: 30px !important; }
   .kobags-v5 .studio-compact .bag-pick > svg { top: 4px; right: 4px; width: 10px; height: 10px; }
   .kobags-v5 .studio-compact .studio-history { min-height: 46px; padding: 0 5px; gap: 3px; }
   .kobags-v5 .studio-compact .studio-history > div:last-child { gap: 0; }
+  .kobags-v5 .studio-compact .studio-history > div:last-child { display:none; }
   .kobags-v5 .studio-compact .studio-history > div:last-child button { width: 44px; height: 44px; min-height: 44px; padding: 0; justify-content: center; }
   .kobags-v5 .studio-compact .view-mode-tabs { gap: 0; height: auto !important; min-height: 44px; background: none; }
   .kobags-v5 .studio-compact .view-mode-tabs button { height: auto !important; min-height: 44px; padding: 5px 7px !important; font-size: 12px !important; }
   .kobags-v5 .studio-compact .view-mode-tabs button svg { width: 14px; height: 14px; }
-  .kobags-v5 .studio-compact .preview-stage { height: clamp(210px, 27svh, 285px); min-height: 13em; }
+  .kobags-v5 .studio-compact .preview-stage { position: sticky; top: 56px; z-index: 8; scroll-margin-top:56px; height: var(--phone-stage); min-height: 0; background: radial-gradient(ellipse at 50% 38%, #fff 0%, #f0f5f0 85%); border-bottom: 1px solid #d6e3dc; }
   .kobags-v5 .studio-compact .preview-stage > .studio-3d { position: absolute; inset: 0; width: 100%; height: 100%; }
   .kobags-v5 .studio-compact .stage-top { top: 4px; left: 10px; right: 5px; font-size: 12px; }
   .kobags-v5 .studio-compact .stage-top .icon-button { width: 44px; height: 44px; background: #ffffffd9; }
   .kobags-v5 .studio-compact .stage-top .subtle { font-size: 11px; }
-  .kobags-v5 .studio-compact .stage-bottom { position: absolute; bottom: 5px; left: 6px; right: 6px; padding: 0; flex-wrap: nowrap; pointer-events: none; }
-  .kobags-v5 .studio-compact .stage-bottom .side-switch { pointer-events: auto; padding: 0 !important; height: 44px !important; min-height: 44px; }
+  .kobags-v5 .studio-compact .stage-top-actions { pointer-events: auto; }
+  .kobags-v5 .studio-compact .mobile-stage-action { display: grid; place-items: center; }
+  .kobags-v5 .studio-compact .mobile-stage-action:disabled { opacity:.4; }
+  .kobags-v5 .studio-compact .stage-bottom { position: absolute; bottom: 5px; left: 6px; right: 6px; padding: 0 78px 0 0; gap:4px; flex-wrap: wrap; pointer-events: none; }
+  .kobags-v5 .studio-compact[data-preview-mode="edit"] .stage-bottom { padding-right:0; }
+  .kobags-v5 .studio-compact .stage-bottom .side-switch { pointer-events: auto; padding: 0 !important; height: auto !important; min-height: 44px; max-width:100%; flex-wrap:wrap; }
   .kobags-v5 .studio-compact .side-switch button { min-width: 58px; min-height: 44px; height: 44px !important; padding: 6px 9px !important; }
+  .kobags-v5 .studio-compact .stage-bottom .side-switch button { max-width:100%; height:auto !important; white-space:normal; overflow-wrap:anywhere; }
   .kobags-v5 .studio-compact .stage-bottom .studio-download { display: none; }
-  .kobags-v5 .studio-compact .preview-stage .studio-3d-host { inset: 0 0 34px; }
+  .mobile-preview-mode { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:5px; margin-left:auto; min-height:44px; min-width:44px; max-width:100%; padding:8px; border:1px solid #d6e3dc; border-radius:7px; background:#fffffff2; color:#24493b; font-size:12px; pointer-events:auto; }
+  .kobags-v5 .studio-compact .preview-stage .studio-3d-host { inset: 12px 0 42px; }
   .kobags-v5 .studio-compact .preview-stage > .bag-canvas,
-  .kobags-v5 .studio-compact .preview-stage .studio-3d > .bag-canvas { height: calc(100% - 60px); margin: 12px auto 48px !important; }
+  .kobags-v5 .studio-compact .preview-stage .studio-3d > .bag-canvas { display: block; width: 100%; height: calc(100% - 30px); object-fit: contain; margin: 0 auto 30px !important; }
   .studio-view-toggle {
     display: flex;
     align-items: center;
@@ -159,6 +195,9 @@
     background: #fffffff2;
     color: #24493b;
     font-size: 12px;
+    max-width: 76px;
+    flex-wrap: wrap;
+    overflow-wrap: anywhere;
   }
   .studio-3d-tools { display: none; right: 6px; bottom: 55px; gap: 0; padding: 3px; z-index: 4; box-shadow: 0 4px 18px #12344224; }
   .studio-3d-tools[data-open="true"] { display: flex; }
@@ -172,7 +211,7 @@
   .kobags-v5 .studio-compact .studio-controls {
     width: 100%;
     min-height: 0;
-    flex: 1;
+    flex: none;
     display: flex;
     flex-direction: column;
     gap: 0;
@@ -181,21 +220,23 @@
     border-top: 1px solid #d6e3dc;
     border-radius: 0;
   }
-  .kobags-v5 .studio-compact .studio-controls > [data-slot="tabs"] { flex: 1; min-height: 0; gap: 0; overflow: hidden; }
+  .kobags-v5 .studio-compact .studio-controls > [data-slot="tabs"] { flex: none; min-height: 0; gap: 0; overflow: visible; }
   .studio-editor-nav { display: flex; gap: 5px; align-items: center; padding: 5px 7px; border-bottom: 1px solid #e4ebe7; }
   .kobags-v5 .studio-compact .editor-tabs { min-width: 0; flex: 1; height: auto !important; min-height: 44px; margin: 0; padding: 0; }
   .kobags-v5 .studio-compact .editor-tabs button { min-height: 44px; flex-wrap: wrap; }
   .kobags-v5 .studio-compact .editor-tabs button span { font-size: 13px; }
   .kobags-v5 .studio-compact .editor-tabs .editor-step { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
-  .studio-editor-expand { display: grid; place-items: center; width: 44px; height: 44px; flex: none; border-radius: 6px; color: #36654d; background: #f0f5ef; }
+  .studio-editor-expand { display: flex; align-items: center; justify-content: center; gap: 5px; min-width: 44px; min-height: 44px; padding: 6px 8px; flex: none; border-radius: 6px; color: #36654d; background: #f0f5ef; font-size: 11px; }
   .studio-editor-expand[aria-pressed="true"] { background: #deecd9; }
   .studio-editor-context { display: flex; flex-direction: column; gap: 3px; font-size: 13px; padding: 10px 12px; background: #f4f8f2; margin: 0; }
   .studio-editor-context span { font-size: 12px; color: #52715f; }
   .kobags-v5 .studio-compact[data-editor-expanded="true"] .preview-column { display: none; }
+  .kobags-v5 .studio-compact[data-editor-expanded="true"] .mobile-artwork-tools { top: 56px; }
   .kobags-v5 .studio-compact .editor-body {
-    flex: 1;
+    flex: none;
     min-height: 0;
-    overflow-y: auto;
+    max-height: none;
+    overflow-y: visible;
     overscroll-behavior-y: auto;
     scrollbar-width: thin;
     scrollbar-color: #a4bfae #f4f8f4;
@@ -213,6 +254,8 @@
   .kobags-v5 .studio-compact .studio-custom-request summary { min-height: 44px; display: flex; align-items: center; }
   .kobags-v5 .studio-compact .studio-custom-request[open] { padding-bottom: 10px; }
   .kobags-v5 .studio-compact .editing-side { padding: 0 5px 0 8px; gap: 4px; min-height: 44px; }
+  /* Front/back and guides are already beside the bag; avoid another row. */
+  .kobags-v5 .studio-compact:not([data-editor-expanded="true"]) .editing-side { display: none; }
   .kobags-v5 .studio-compact .guide-toggle { width: 44px; height: 44px; min-width: 44px; }
   .kobags-v5 .studio-compact .flip-edit-side { min-height: 44px; }
   .kobags-v5 .studio-compact .layer-selector button,
@@ -232,7 +275,13 @@
   .kobags-v5 .studio-compact .precision-details { margin-top: 0; }
   .kobags-v5 .studio-compact .precision-details > summary { min-height: 44px; padding-block: 12px; }
   .kobags-v5 .studio-compact .precision-grid input { height: 44px; font-size: 16px; }
-  .kobags-v5 .studio-compact .studio-quote { display: flex; flex-direction: column; flex: none; padding: 8px 12px max(8px, env(safe-area-inset-bottom)); gap: 5px; background: white; box-shadow: 0 -4px 14px #12344206; }
+  .kobags-v5 .studio-compact .studio-quote { position: sticky; bottom: 0; z-index: 10; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; flex: none; padding: 8px 10px max(8px, env(safe-area-inset-bottom)); gap: 4px 8px; background: #fffffff5; border-top: 1px solid #d6e3dc; border-radius: 0 0 10px 10px; box-shadow: 0 -4px 14px #12344208; }
+  .kobags-v5 .studio-compact .studio-quote > div { grid-column: 2; grid-row: 1; }
+  .kobags-v5 .studio-compact .studio-quote > div > span { display: none; }
+  .kobags-v5 .studio-compact .studio-quote .button { grid-column: 1; grid-row: 1; }
+  .kobags-v5 .studio-compact .studio-quote > p { grid-column: 1 / -1; }
+  .quote-full-label { display:none; }
+  .quote-short-label { display:inline; }
   .kobags-v5 .studio-compact .studio-quote > div { font-size: 11px; line-height: 1.2; margin: 0; }
   .kobags-v5 .studio-compact .studio-quote strong { font-size: 11px; }
   .kobags-v5 .studio-compact .studio-quote .button { min-height: 44px; padding: 10px 12px; font-size: 14px; }
@@ -283,14 +332,13 @@
   .kobags-v5 .catalog-grid .product-foot label { min-height: 44px; font-size: 12px; }
 }
 
-/* Short layout viewports retain ordinary page scrolling. Nothing
-   gets clipped into an unusable controls pane, even in landscape or at zoom. */
+/* Short viewports and keyboards must leave the page free to scroll. */
 @media (max-width: 800px) and (max-height: 620px) {
   .kobags-v5 .studio-compact[data-scan="false"] .studio { height: auto; overflow: visible; }
-  .kobags-v5 .studio-compact .preview-stage { height: 230px; }
+  .kobags-v5 .studio-compact .preview-stage { position: relative; top: auto; height: 272px; }
   .kobags-v5 .studio-compact .studio-controls { flex: none; }
   .kobags-v5 .studio-compact .studio-controls > [data-slot="tabs"] { overflow: visible; }
-  .kobags-v5 .studio-compact .editor-body { max-height: 320px; flex: none; }
+  .kobags-v5 .studio-compact .editor-body { max-height: none; flex: none; }
   .kobags-v5 .studio-compact[data-editor-expanded="true"] .editor-body { max-height: none; }
 }
 
@@ -335,20 +383,37 @@
   .kobags-v5 .artwork-layer-list button,.kobags-v5 .quick-placement button { min-height:44px; }
   .kobags-v5 .artwork-add-heading { margin-top:0; }
   .kobags-v5 .studio-compact .studio-logo-cleanup { padding:9px; }
+  .kobags-v5 .studio-compact .artwork-add-heading,
+  .kobags-v5 .studio-compact .artwork-layer-list { display: none; }
+  .kobags-v5 .studio-compact .artwork-add { margin: 0; }
 }
 @media(max-width:360px) { .kobags-v5 .quick-placement { grid-template-columns:repeat(3,minmax(0,1fr)); } }
 .kobags-v5 .studio-compact .artwork-add button { flex-wrap:wrap; }
 .kobags-v5 .studio-compact .artwork-add button span { max-width:100%; overflow-wrap:anywhere; }
 @media(max-width:400px) { .kobags-v5 .artwork-add button > svg:last-child { display:none; } }
 
-/* Selection and quick resizing stay visible while logo/QR settings scroll. */
+/* Selection and quick resizing follow the preview during page scrolling. */
 .mobile-artwork-tools { display:none; }
 @media(max-width:800px) {
-  .kobags-v5 .studio-compact[data-editing-artwork="true"] .preview-stage { height:clamp(190px,24svh,250px); min-height:12em; }
-  .kobags-v5 .mobile-artwork-tools { display:flex; flex:none; align-items:center; gap:8px; padding:5px 8px; background:#f3f7f3; border-bottom:1px solid #d6e3dc; }
+  .kobags-v5 .mobile-artwork-tools { display:flex; position:sticky; top:calc(56px + var(--phone-stage)); z-index:9; flex:none; align-items:center; gap:8px; padding:5px 8px; background:#f3f7f3; border-block:1px solid #d6e3dc; }
   .kobags-v5 .mobile-artwork-tools select { width:0; min-width:0; flex:1; min-height:44px; padding:8px 25px 8px 9px; border:1px solid #ccdcd2; border-radius:7px; background-color:white; color:#123442; font-size:16px; text-overflow:ellipsis; }
   .kobags-v5 .mobile-artwork-size { display:flex; flex:none; align-items:center; border:1px solid #ccdcd2; border-radius:7px; background:white; }
   .kobags-v5 .mobile-artwork-size button { width:44px; min-height:44px; display:grid; place-items:center; flex:none; border-radius:6px; color:#087a36; touch-action:manipulation; }
   .kobags-v5 .mobile-artwork-size button:disabled { opacity:.4; }
   .kobags-v5 .mobile-artwork-size output { min-width:36px; text-align:center; font-size:12px; font-weight:650; font-variant-numeric:tabular-nums; }
+  .kobags-v5 .studio-compact .editor-body { scroll-margin-top: calc(122px + var(--phone-stage)); }
+  .kobags-v5 .studio-compact .editor-body :is(input, textarea, button, select, [role="slider"], summary) { scroll-margin-block: calc(126px + var(--phone-stage)) 110px; }
+  .kobags-v5 .studio-compact .studio:has(input:focus, textarea:focus) .preview-stage,
+  .kobags-v5 .studio-compact .studio:has(input:focus, textarea:focus) .mobile-artwork-tools { position:relative; top:auto; }
+}
+@media(max-width:800px) and (max-height:620px) {
+  .kobags-v5 .mobile-artwork-tools { position:relative; top:auto; }
+  .kobags-v5 .studio-compact .studio-quote { position:relative; }
+  .kobags-v5 .studio-compact .editor-body :is(input, textarea, button, select, [role="slider"], summary) { scroll-margin-block: 70px 20px; }
+}
+@media(max-width:360px) {
+  .studio-editor-expand > span { display:none; }
+  .mobile-preview-mode > span { display:none; }
+  .kobags-v5 .studio-compact .studio-quote { grid-template-columns:minmax(0, 1fr); }
+  .kobags-v5 .studio-compact .studio-quote > div { display:none; }
 }

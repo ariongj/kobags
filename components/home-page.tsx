@@ -48,8 +48,8 @@ export default function HomePage() {
           </h1>
           <p className="industrial-lead">
             {t(
-              "Custom non-woven bags for retail, events and everyday carry. Choose your specification, add your branding and plan your wholesale order.",
-              "Çanta jo të endura për dyqane, evente dhe përdorim të përditshëm. Zgjidhni specifikimet, shtoni markën tuaj dhe planifikoni porosinë me shumicë.",
+              "Custom non-woven bags, made in Kosova. From your first idea to your wholesale order.",
+              "Çanta jo të endura, të prodhuara në Kosovë. Nga ideja juaj e parë te porosia me shumicë.",
             )}
           </p>
           <div className="actions">
@@ -77,49 +77,6 @@ export default function HomePage() {
             <br />
             {t("Finished to your specifications.", "Sipas specifikimeve tuaja.")}
           </h2>
-          <p>
-            {t(
-              "Follow the three decisions that shape your bag: its construction, its print and its finished specification.",
-              "Tri vendime përcaktojnë çantën tuaj: mënyra e punimit, shtypi dhe specifikimet përfundimtare.",
-            )}
-          </p>
-          <ol className="production-stages">
-            {[
-              [
-                t("Material & specification", "Materiali dhe specifikimet"),
-                t(
-                  "Non-woven PP, in the shape, size and fabric weight your application needs.",
-                  "PP jo i endur, me formën, madhësinë dhe peshën e materialit që ju nevojitet.",
-                ),
-              ],
-              [
-                t("Your identity, in print", "Identiteti juaj në shtyp"),
-                t(
-                  "Custom flexographic printing, with artwork reviewed before production.",
-                  "Shtyp fleksografik i personalizuar, me dizajn të miratuar para prodhimit.",
-                ),
-              ],
-              [
-                t("From production to dispatch", "Nga prodhimi te dërgimi"),
-                t(
-                  "Confirm the finished specification, production timing and destination with our team.",
-                  "Konfirmoni specifikimet përfundimtare, afatin e prodhimit dhe destinacionin me ekipin tonë.",
-                ),
-              ],
-            ].map(([title, body], i) => (
-              <li key={title}>
-                <span>0{i + 1}</span>
-                <div>
-                  <h3>{title}</h3>
-                  <p>{body}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-          <Link href="/manufacturing" className="text-button">
-            {t("Get to know our manufacturing", "Njihuni me prodhimin tonë")}{" "}
-            <ArrowUpRight size={17} />
-          </Link>
         </div>
         <figure className="home-production-film">
           <div className="production-film-heading">
@@ -159,6 +116,45 @@ export default function HomePage() {
             </div>
           </figcaption>
         </figure>
+        <div className="home-production-details">
+          <ol className="production-stages">
+            {[
+              [
+                t("Material & specification", "Materiali dhe specifikimet"),
+                t(
+                  "Non-woven PP, in the shape, size and fabric weight your application needs.",
+                  "PP jo i endur, me formën, madhësinë dhe peshën e materialit që ju nevojitet.",
+                ),
+              ],
+              [
+                t("Your identity, in print", "Identiteti juaj në shtyp"),
+                t(
+                  "Custom flexographic printing, with artwork reviewed before production.",
+                  "Shtyp fleksografik i personalizuar, me dizajn të miratuar para prodhimit.",
+                ),
+              ],
+              [
+                t("From production to dispatch", "Nga prodhimi te dërgimi"),
+                t(
+                  "Confirm the finished specification, production timing and destination with our team.",
+                  "Konfirmoni specifikimet përfundimtare, afatin e prodhimit dhe destinacionin me ekipin tonë.",
+                ),
+              ],
+            ].map(([title, body], i) => (
+              <li key={title}>
+                <span>0{i + 1}</span>
+                <div>
+                  <h3>{title}</h3>
+                  <p>{body}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+          <Link href="/manufacturing" className="text-button">
+            {t("Get to know our manufacturing", "Njihuni me prodhimin tonë")}{" "}
+            <ArrowUpRight size={17} />
+          </Link>
+        </div>
       </section>
       <BagShowcase />
       <section className="home-collection home-section">

@@ -1,0 +1,7 @@
+{
+  "decoder": "zxing-cpp",
+  "values": [
+    "https://example.com/mobile"
+  ],
+  "status": "passed"
+}
