@@ -1,5 +1,14 @@
 # Kobags website — verification record
 
+## Video-seeking fix found during the live approval audit — 20 October 2026
+
+The extended live browser audit found that the factory videos played but could not seek: the full movie was buffered, yet `seekable` reported `[0,0]` and setting the time returned to the start. Reproduced independently of browser request interception and on the compiled local Worker. The underlying static asset service ignored Range and did not expose Content-Length internally; the external full response acquired length only later.
+
+Added build-derived MP4 sizes and a streaming range adapter limited to static video paths. Single-range, open-ended and suffix requests return exact 206 bytes; invalid/multipart requests return 416 without reading the movie; stale/weak If-Range returns the full representation. Native responses and encoded/unknown representations are preserved. Client cancellation stops upstream reads; truncated sources fail explicitly. Refreshed public static video URLs invalidate previously cached responses.
+
+Validation: six focused response test groups and five existing range-parser groups passed; TypeScript/build/whitespace checks passed. The final local Worker returns `206 bytes 0-1/13165322` for the printing video's two-byte probe. All three factory videos played and sought successfully in Chromium phone emulation. Live verification after deployment is saved in the private client-review audit folder. No production inquiry or email was sent during these checks.
+
+
 ## Client approval audit and decorative numbering removal — 20 October 2026
 
 - Public read-only audit before the change: 56 routes, 46 unique sitemap URLs and 51 image/poster URLs resolve. Studio bookmarks redirect to the catalogue; intake reports enabled; anonymous CMS inquiry access returns 401; private source/handoff downloads return 404. The initial audit incorrectly expected a canonical on the noindex CMS login page; corrected the audit expectation, without changing the intentionally private login SEO behavior.

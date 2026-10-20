@@ -1,5 +1,6 @@
 "use client";
 import { studioEnabled } from "@/lib/studio-availability";
+import { publicVideoSource } from "@/lib/public-video";
 import { useCms } from "./cms/public-context";
 import { CertificateShowcase } from "./certificate-showcase";
 import Link from "@/components/site-link";
@@ -96,7 +97,7 @@ export default function HomePage() {
               "Shikoni procesin e shtypit në Kobags",
             )}
           >
-            <source src={cms.settings?.media?.printingVideo||"/assets/printing-process.mp4"} type="video/mp4" />
+            <source src={publicVideoSource(cms.settings?.media?.printingVideo||"/assets/printing-process.mp4")} type="video/mp4" />
             {t(
               "Your browser does not support video playback.",
               "Shfletuesi juaj nuk e mbështet videon.",

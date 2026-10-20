@@ -1,4 +1,6 @@
 import framework from "vinext/server/fetch-handler";
+import { staticVideoResponse } from "../lib/static-video-response";
+declare const __KOBAGS_VIDEO_SIZES__: Record<string, number>;
 
 const assetTypes: Record<string, string> = {
   webp: "image/webp", png: "image/png", jpg: "image/jpeg", jpeg: "image/jpeg",
@@ -46,6 +48,9 @@ export default {
       }
     } else {
       response = await framework.fetch(request, env, context);
+    }
+    if (asset && path.toLowerCase().endsWith(".mp4")) {
+      response = await staticVideoResponse(request, response, __KOBAGS_VIDEO_SIZES__[path]);
     }
     // Sites serves assets through the Worker; its dispatcher does not apply
     // Cloudflare's _headers file. Keep these rules on the final response.

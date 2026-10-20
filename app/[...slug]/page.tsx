@@ -4,6 +4,7 @@ import CmsPublicPage from "@/components/cms/public-page";
 
 import Certificates from "@/components/certificates";
 import Link from "@/components/site-link";
+import { publicVideoSource } from "@/lib/public-video";
 import { notFound } from "next/navigation";
 import {
   ArrowUpRight,
@@ -216,14 +217,14 @@ export default async function Page({
               </div>
               <figure className="factory-reel">
                 <video controls playsInline preload="none" poster="/assets/client-2026-09/bag-forming-poster.jpg" width="464" height="832" aria-label="Watch bags being formed on the Kobags production line">
-                  <source src="/assets/client-2026-09/bag-forming-reel.mp4" type="video/mp4" />
+                  <source src={publicVideoSource("/assets/client-2026-09/bag-forming-reel.mp4")} type="video/mp4" />
                   <L en="Your browser does not support video playback." sq="Shfletuesi juaj nuk e mbështet videon." />
                 </video>
                 <figcaption><span><L en="FORMING" sq="FORMIMI" /></span><strong><L en="On the production line" sq="Në linjën e prodhimit" /></strong></figcaption>
               </figure>
               <figure className="factory-reel">
                 <video controls playsInline preload="none" poster="/assets/client-2026-09/bag-stacking-poster.jpg" width="480" height="848" aria-label="Watch bag blanks moving into a stack">
-                  <source src="/assets/client-2026-09/bag-stacking-reel.mp4" type="video/mp4" />
+                  <source src={publicVideoSource("/assets/client-2026-09/bag-stacking-reel.mp4")} type="video/mp4" />
                   <L en="Your browser does not support video playback." sq="Shfletuesi juaj nuk e mbështet videon." />
                 </video>
                 <figcaption><span><L en="FINISHING" sq="PËRFUNDIMI" /></span><strong><L en="Into the finishing stack" sq="Vendosja në stivë" /></strong></figcaption>

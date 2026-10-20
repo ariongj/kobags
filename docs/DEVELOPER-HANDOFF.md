@@ -1,5 +1,14 @@
 # Kobags Group — code and setup handoff
 
+## Static video seeking — 20 October 2026
+
+The client-review audit reproduced videos playing with `seekable=[[0,0]]`; seeking returned to the start even after the whole file had buffered. The hosted asset binding returned full MP4 responses and omitted internal length metadata. `vite.config.ts` now derives static MP4 byte lengths from the actual build inputs. `build/worker.ts` applies `lib/static-video-response.ts` only to static MP4s: exact single-range 206 responses, 416 for invalid ranges, strong If-Range handling and full HEAD metadata. Native partial/conditional/error responses remain untouched. Data is streamed and cancelled after the requested bytes instead of buffering an entire movie in Worker memory.
+
+`lib/public-video.ts` adds a one-time revision query to default static video URLs so returning browsers refresh the previous non-seekable cache entry. CMS-uploaded media continues through its existing authorized storage/range route. The build-time size map automatically changes when static videos are replaced.
+
+Six fallback-response test groups plus the existing byte-range tests, TypeScript and the production build pass. Local browser playback and seeking pass for all three factory videos. Private post-deployment audit evidence lives in `deliverables/handoff/client-review-audit-20261020/`.
+
+
 ## Studio kept local for launch — 20 October 2026
 
 The client requested that the website go live before the physical bag scans are ready. `lib/studio-availability.ts` enables the builder only when `NODE_ENV === "development"`. Production builds disable it on both the server and client. There is no query-string, cookie, header or hosting-variable override.
