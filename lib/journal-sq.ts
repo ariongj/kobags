@@ -14,7 +14,7 @@ const translations: Record<string, JournalTranslation> = {
       },
       {
         title: "Përgatitni një kërkesë të qartë për fabrikën",
-        body: "Një kërkesë e dobishme bashkon formën dhe madhësinë, ngjyrën e materialit, numrin e ngjyrave të shtypit, sasinë dhe destinacionin. Studioja i kthen këto zgjedhje në një pikënisje vizuale të përbashkët.",
+        body: "Një kërkesë e dobishme bashkon formën dhe madhësinë, ngjyrën e materialit, numrin e ngjyrave të shtypit, sasinë dhe destinacionin. Ekipi ynë i përdor këto detaje për të përgatitur ofertën dhe kërkesat e dizajnit.",
       },
       {
         title: "Miratoni hollësitë së bashku",
@@ -52,7 +52,7 @@ const translations: Record<string, JournalTranslation> = {
       },
       {
         title: "Përdorni pamjen paraprake për të provuar ide",
-        body: "Ngarkoni një logo PNG, JPG ose WebP në studio, pastaj lëvizeni, ndryshoni madhësinë ose rrotullojeni. Ana e përparme dhe ajo e pasme mund të kenë dizajne të ndryshme. Shkarkoni një koncept për ta ndarë me kolegët para se të kërkoni ofertë.",
+        body: "Përgatitni skedarin e logos dhe përshkruani vendosjen, madhësinë dhe ngjyrat e dëshiruara të shtypit. Të dyja anët mund të kenë dizajne të ndryshme. Ekipi ynë shqyrton përmasat e shtypit dhe konfirmon me ju dizajnin para prodhimit.",
       },
       {
         title: "Vendosni sipas provës së miratuar",

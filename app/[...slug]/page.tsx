@@ -473,8 +473,8 @@ export default async function Page({
                 <p>
                   <L en="Start with your largest typical purchase, how customers carry it and how much room your logo needs. Review dimensions and a material sample before committing to production." sq="Filloni nga blerja më e madhe tipike, mënyra si e bart klienti dhe hapësira që i duhet logos suaj. Shqyrtoni përmasat dhe një mostër materiali para prodhimit." />
                 </p>
-                <Link href="/design" className="button">
-                  <L en="Design your retail bag" sq="Dizajnoni çantën tuaj" /> <ArrowUpRight size={17} />
+                <Link href="/quote" className="button">
+                  <L en="Discuss your retail bags" sq="Diskutoni çantat për dyqanin tuaj" /> <ArrowUpRight size={17} />
                 </Link>
               </div>
               <img
@@ -529,10 +529,10 @@ export default async function Page({
               <article className="section-card">
                 <h3><L en="From concept to approved artwork" sq="Nga ideja te dizajni i miratuar" /></h3>
                 <p>
-                  <L en="Use the studio to explore placement. Production still needs approved printable dimensions, a color reference and a specific artwork revision before release." sq="Përdorni studion për të provuar vendosjen e dizajnit. Para prodhimit duhen përmasat e miratuara të shtypit, referenca e ngjyrës dhe versioni i caktuar i dizajnit." />
+                  <L en="Share your logo and preferred placement with our team. We confirm printable dimensions, color references and the final artwork before production." sq="Ndani logon dhe vendosjen e dëshiruar me ekipin tonë. Konfirmojmë përmasat e shtypit, referencat e ngjyrave dhe dizajnin përfundimtar para prodhimit." />
                 </p>
-                <Link href="/design" className="text-button">
-                  <L en="Try the bag studio" sq="Provoni studion e çantave" /> ↗
+                <Link href="/quote" className="text-button">
+                  <L en="Discuss your requirements" sq="Diskutoni kërkesat tuaja" /> ↗
                 </Link>
               </article>
               <article className="section-card">

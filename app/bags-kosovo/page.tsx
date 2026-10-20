@@ -22,7 +22,7 @@ export default async function KosovoBagsPage() {
           <p className="eyebrow"><L en="MANUFACTURED IN KOSOVA" sq="PRODHIM VENDOR NË KOSOVË" /></p>
           <h2 id="kosovo-buying"><L en="Wholesale bags, close to your business." sq="Qese me logo, pranë biznesit tuaj." /></h2>
           <p><L en="From a boutique in Prishtina to a supermarket in Lipjan or an event in Prizren, the starting point is what your bag needs to carry. Kobags produces non-woven polypropylene bags with custom printing for retail, grocery, promotions and distribution." sq="Nga një butik në Prishtinë te një supermarket në Lipjan apo një event në Prizren, gjithçka fillon nga produkti që do të bartë çanta. Kobags prodhon qese dhe çanta nga polipropileni jo i endur, me shtyp të personalizuar për dyqane, ushqimore, promovime dhe shpërndarje." /></p>
-          <div className="actions"><Link className="button" href="/products"><L en="Compare bag styles" sq="Krahasoni modelet" /> ↗</Link><Link className="button secondary" href="/design"><L en="Add your logo in 3D" sq="Shtoni logon në 3D" /> ↗</Link></div>
+          <div className="actions"><Link className="button" href="/products"><L en="Compare bag styles" sq="Krahasoni modelet" /> ↗</Link><Link className="button secondary" href="/quote"><L en="Request a quote" sq="Kërkoni ofertë" /> ↗</Link></div>
         </div>
         <aside className="kosovo-contact">
           <h2><L en="Speak with the manufacturer" sq="Flisni me prodhuesin" /></h2>

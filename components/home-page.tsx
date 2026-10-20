@@ -1,4 +1,5 @@
 "use client";
+import { studioEnabled } from "@/lib/studio-availability";
 import { useCms } from "./cms/public-context";
 import { CertificateShowcase } from "./certificate-showcase";
 import Link from "@/components/site-link";
@@ -57,8 +58,8 @@ export default function HomePage() {
               {t("Explore our production", "Eksploroni prodhimin")}{" "}
               <ArrowUpRight size={18} />
             </Link>
-            <Link href="/design" className="button industrial-secondary">
-              {t("Design your bag", "Dizajnoni çantën tuaj")}{" "}
+            <Link href={studioEnabled ? "/design" : "/products"} className="button industrial-secondary">
+              {studioEnabled ? t("Design your bag", "Dizajnoni çantën tuaj") : t("Choose your bag", "Zgjidhni çantën tuaj")}{" "}
               <ArrowUpRight size={18} />
             </Link>
           </div>
@@ -156,7 +157,7 @@ export default function HomePage() {
           </Link>
         </div>
       </section>
-      <BagShowcase />
+      {studioEnabled && <BagShowcase />}
       <section className="home-collection home-section">
         <div className="section-heading">
           <div>
@@ -237,7 +238,7 @@ export default function HomePage() {
         <div className="home-process">
           {[
             [
-              t("Choose & design", "Zgjidhni dhe dizajnoni"),
+              t("Choose your bag", "Zgjidhni çantën tuaj"),
               t(
                 "Find the right shape, color and branding for your business.",
                 "Gjeni formën, ngjyrën dhe markimin për biznesin tuaj.",
@@ -350,8 +351,8 @@ export default function HomePage() {
             [
               t("Can I add my own logo?", "A mund të shtoj logon time?"),
               t(
-                "Yes. Use the design studio to upload a PNG, JPG or WebP, then place, resize and rotate it. The preview is a concept; production artwork still needs approval.",
-                "Po. Ngarkoni PNG, JPG ose WebP në studio, pastaj vendoseni, ndryshoni madhësinë dhe rrotullojeni. Dizajni për prodhim kërkon miratim.",
+                "Yes. Tell us about your logo and printing requirements when requesting a quote. Our team will confirm artwork, colors and placement with you before production.",
+                "Po. Na tregoni për logon dhe kërkesat e shtypit kur kërkoni ofertë. Ekipi ynë konfirmon dizajnin, ngjyrat dhe vendosjen me ju para prodhimit.",
               ),
             ],
             [

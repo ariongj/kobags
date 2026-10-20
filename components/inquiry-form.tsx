@@ -5,7 +5,7 @@ import Link from "@/components/site-link";
 import { CheckCircle2, ArrowRight } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useKobags } from "./kobags-context";
-import { Choice } from "./bag-studio";
+import { Choice } from "./choice";
 import { useDemo, errors } from "./demo-store";
 import { requestFieldLimits } from "@/lib/design-validation";
 import PreparedRequestActions from "./prepared-request-actions";

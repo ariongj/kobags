@@ -1,4 +1,5 @@
 "use client";
+import { studioEnabled } from "@/lib/studio-availability";
 import { CmsContact, CmsSocialProfiles } from "./cms/public-extras";
 import Link from "@/components/site-link";
 import { usePathname } from "next/navigation";
@@ -102,7 +103,7 @@ export function Header() {
           </button>
         </div>
       </header>
-      {storageStatus !== "persistent" && (
+      {studioEnabled && storageStatus !== "persistent" && (
         <p className="draft-storage-notice" role="status">{storageStatus === "session"
           ? t("Your design is saved for this tab only. Keep this tab open until you send your request.", "Dizajni ruhet vetëm në këtë skedë. Mbajeni të hapur derisa ta dërgoni kërkesën.")
           : t("Your browser cannot save this design. Download a preview before leaving, or allow browser storage to continue safely.", "Shfletuesi nuk mund ta ruajë dizajnin. Shkarkoni parapamjen para se të largoheni, ose lejoni ruajtjen në shfletues.")}</p>
@@ -118,8 +119,8 @@ export function Footer() {
         <div>
           <p className="eyebrow">
             {t(
-              "START WITH YOUR DESIGN",
-              "FILLONI ME DIZAJNIN TUAJ",
+              "LET’S PLAN YOUR ORDER",
+              "LE TË PLANIFIKOJMË POROSINË TUAJ",
             )}
           </p>
           <h2>
@@ -129,11 +130,11 @@ export function Footer() {
           </h2>
         </div>
         <Link
-          href="/design"
+          href={studioEnabled ? "/design" : "/quote"}
           className="footer-design-link"
           aria-label={t(
-            "Design your next bag",
-            "Dizajnoni çantën tuaj të ardhshme",
+            "Request a quote for your next bag",
+            "Kërkoni ofertë për çantën tuaj të ardhshme",
           )}
         >
           <ArrowUpRight size={38} />

@@ -1,0 +1,13 @@
+{
+  "status": "passed",
+  "checks": [
+    "Old EN/SQ studio and scan links redirect to the catalogue; query/cookie/host headers cannot enable production studio",
+    "Sitemap retains products and excludes the studio",
+    "22 phone pages in EN/SQ: no studio links/promotions, no horizontal overflow; mobile navigation and metadata clean",
+    "Narrow phone and desktop home/product/quote layouts fit",
+    "EN: product-to-quote, four steps, MOQ validation, lost-response retry, saved CMS inquiry and receipt reload; no placeholder artwork submitted",
+    "/sq: product-to-quote, four steps, MOQ validation, lost-response retry, saved CMS inquiry and receipt reload; no placeholder artwork submitted"
+  ],
+  "browserErrors": [],
+  "scope": "Isolated local production Worker; synthetic requests only"
+}

@@ -1,4 +1,5 @@
 "use client";
+import { studioEnabled } from "@/lib/studio-availability";
 import { useDemo } from "./demo-store";
 import { useKobags } from "./kobags-context";
 import { seed } from "@/lib/demo-domain";
@@ -16,7 +17,7 @@ const translations: Record<string, { title: string; body: string }> = {
 };
 export default function ResourceContent() {
   const { state } = useDemo();
-  const { lang } = useKobags();
+  const { lang, t } = useKobags();
   return (
     <div className="resource-guides">
       {state?.content
@@ -29,7 +30,7 @@ export default function ResourceContent() {
           return (
             <article key={c.id} className="section-card">
               <h3>{translation && c.title === original?.title ? translation.title : c.title}</h3>
-              <p>{translation && c.body === original?.body ? translation.body : c.body}</p>
+              <p>{!studioEnabled && c.id === "artwork" ? t("Start with a clear logo and your intended colors. Our team will confirm production artwork formats, printable dimensions and color matching during quotation. Approve the latest proof before production.", "Filloni me një logo të qartë dhe ngjyrat e dëshiruara. Ekipi ynë konfirmon formatin për prodhim, përmasat e shtypit dhe përputhjen e ngjyrave gjatë ofertimit. Miratoni provën e fundit para prodhimit.") : translation && c.body === original?.body ? translation.body : c.body}</p>
             </article>
           );
         })}

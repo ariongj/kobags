@@ -1,5 +1,12 @@
 # Kobags Group — design handoff
 
+## Client approval without the builder — 20 October 2026
+
+The public website presents Kobags manufacturing, product photographs, the catalogue, stock collections and quotation requests. The interactive homepage showroom, design navigation and customization buttons are hidden until the real bag scans are ready. Previous studio links lead to the catalogue. Quotation summaries show a product example and the requested specifications; printing requirements are discussed with the team.
+
+The complete mobile/desktop builder, logo and QR tools, 3D rotation and scan trial are retained in the local development environment. The following studio design notes remain relevant to that local work; they do not describe a publicly available feature during this launch phase.
+
+
 ## Phone experience — 20 October 2026
 
 The phone studio now uses normal page scrolling, with a 272–330px preview instead of a fixed-height workspace and cramped inner settings panel. Opening **Your design** brings the preview and add controls together. The bag stays visible while settings scroll; **Focus** hides the preview for detailed work and **Preview** restores it. Short viewports and focused text inputs release the pinned preview to leave room for editing.

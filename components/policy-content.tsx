@@ -27,7 +27,7 @@ export default function PolicyContent({ kind }: { kind: PolicyKind }) {
       {
         title: ["Drafts and artwork", "Dizajnet dhe skedarët"],
         paragraphs: [
-          ["The studio saves your design draft, including entered contact details, in this browser. Stock-request drafts use session storage. Clear drafts before leaving a shared device. Uploaded studio logos are resized for preview; production originals must be provided separately when requested.", "Studioja ruan në këtë shfletues dizajnin e papërfunduar, përfshirë të dhënat e kontaktit të vendosura. Kërkesat për produkte nga stoku përdorin ruajtjen e sesionit. Pastroni dizajnet para se të largoheni nga një pajisje e përbashkët. Logot në studio zvogëlohen për pamjen paraprake; origjinalet për prodhim duhen dërguar veçmas kur kërkohen."],
+          ["Your quotation draft, including entered contact details, is saved in this browser. Stock-request drafts use session storage. Clear drafts before leaving a shared device. Previously uploaded logo previews may remain in your saved drafts; production originals must be provided separately when requested.", "Kërkesa e papërfunduar për ofertë, përfshirë të dhënat e kontaktit, ruhet në këtë shfletues. Kërkesat për produkte nga stoku përdorin ruajtjen e sesionit. Pastroni dizajnet para se të largoheni nga një pajisje e përbashkët. Pamjet e logove të ngarkuara më parë mund të mbeten në skicat e ruajtura; origjinalet për prodhim duhen dërguar veçmas kur kërkohen."],
           ["Private artwork and customer review links are limited to the staff or recipients who need them. Treat a private review link as confidential; anyone you share it with may be able to review and approve the linked quotation or artwork.", "Dizajnet private dhe lidhjet për shqyrtim u jepen stafit ose marrësve që kanë nevojë për to. Mbajeni konfidenciale lidhjen private; personat me të cilët e ndani mund të shqyrtojnë dhe miratojnë ofertën ose dizajnin përkatës."],
         ],
       },
@@ -46,7 +46,7 @@ export default function PolicyContent({ kind }: { kind: PolicyKind }) {
     terms: [
       {
         title: ["Previews and requests", "Pamjet paraprake dhe kërkesat"],
-        paragraphs: [["The design studio is a visual planning tool. Colors, dimensions, material appearance and print placement require confirmation against the final production specification. Sending or saving a request does not accept an order, reserve stock or collect payment.", "Studioja e dizajnit është mjet për planifikim vizual. Ngjyrat, përmasat, pamja e materialit dhe vendosja e shtypit duhen konfirmuar sipas specifikimit përfundimtar të prodhimit. Dërgimi ose ruajtja e kërkesës nuk pranon porosi, nuk rezervon stok dhe nuk merr pagesë."]],
+        paragraphs: [["Colors, dimensions, material appearance and print placement require confirmation against the final production specification. Sending or saving a request does not accept an order, reserve stock or collect payment.", "Ngjyrat, përmasat, pamja e materialit dhe vendosja e shtypit duhen konfirmuar sipas specifikimit përfundimtar të prodhimit. Dërgimi ose ruajtja e kërkesës nuk pranon porosi, nuk rezervon stok dhe nuk merr pagesë."]],
       },
       {
         title: ["Commercial confirmation", "Konfirmimi tregtar"],
@@ -54,7 +54,7 @@ export default function PolicyContent({ kind }: { kind: PolicyKind }) {
       },
       {
         title: ["Your artwork", "Dizajni juaj"],
-        paragraphs: [["Upload only artwork and trademarks you are entitled to use. Check spelling, contact details and the final production file before approval. A studio preview download is not a production-ready print file.", "Ngarkoni vetëm dizajne dhe marka për të cilat keni të drejtë përdorimi. Kontrolloni drejtshkrimin, të dhënat e kontaktit dhe skedarin përfundimtar para miratimit. Pamja e shkarkuar nga studioja nuk është skedar i gatshëm për shtyp."]],
+        paragraphs: [["Upload only artwork and trademarks you are entitled to use. Check spelling, contact details and the final production file before approval. Website product images and design previews are not production-ready print files.", "Ngarkoni vetëm dizajne dhe marka për të cilat keni të drejtë përdorimi. Kontrolloni drejtshkrimin, të dhënat e kontaktit dhe skedarin përfundimtar para miratimit. Fotografitë e produkteve dhe parapamjet e dizajnit nuk janë skedarë të gatshëm për shtyp."]],
       },
       {
         title: ["Questions about an order", "Pyetje për porosinë"],

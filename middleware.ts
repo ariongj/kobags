@@ -3,6 +3,7 @@ import { publicContent } from "./lib/cms/public";
 import { NextRequest, NextResponse } from "next/server";
 import { contentPath, languageHref } from "./lib/site-locale";
 import { indexablePath } from "./lib/seo-config";
+import { studioEnabled, isStudioPath } from "./lib/studio-availability";
 
 export async function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
@@ -13,6 +14,15 @@ export async function middleware(request: NextRequest) {
   }
   const lang = pathname === "/sq" || pathname.startsWith("/sq/") ? "sq" : "en";
   const path = contentPath(pathname);
+  // Old bookmarks lead to the catalogue; no public preview override exists.
+  if (!studioEnabled && isStudioPath(path)) {
+    url.pathname = languageHref("/products", lang);
+    url.search = "";
+    const response = NextResponse.redirect(url, 307);
+    response.headers.set("X-Robots-Tag", "noindex, nofollow");
+    response.headers.set("Cache-Control", "no-store");
+    return response;
+  }
   const redirected=await redirectedPath(path);
   if(redirected){url.pathname=languageHref(redirected,lang);return NextResponse.redirect(url,301);}
   // Preserve the chosen language on legacy links from the original website.

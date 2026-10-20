@@ -1,4 +1,5 @@
 "use client";
+import { studioEnabled } from "@/lib/studio-availability";
 import { useRef, useState } from "react";
 import Link from "@/components/site-link";
 import { ArrowUpRight, ArrowLeft, Maximize2, ChevronLeft, ChevronRight, ZoomIn, ZoomOut } from "lucide-react";
@@ -16,7 +17,7 @@ import { products, productMedia, Product, getProduct, preferredBagColor } from "
 import { localizeProduct } from "@/lib/product-copy";
 import { useCms } from "./cms/public-context";
 import { useDemo } from "./demo-store";
-import { Choice } from "./bag-studio";
+import { Choice } from "./choice";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "./ui/dialog";
 import { languageHref } from "@/lib/site-locale";
 import { CollectionCategories } from "./collection-categories";
@@ -47,8 +48,8 @@ export function ProductCatalog() {
         </h1>
         <p className="intro">
           {t(
-            "Compare handle styles, dimensions and fabric weights. Select a bag to inspect the photos or start a design.",
-            "Krahasoni dorezat, përmasat dhe peshën e materialit. Zgjidhni një çantë për të parë fotografitë ose për të filluar dizajnin.",
+            "Compare handle styles, dimensions and fabric weights. Select a bag to inspect its photos and prepare a quotation request.",
+            "Krahasoni dorezat, përmasat dhe peshën e materialit. Zgjidhni një çantë për të parë fotografitë dhe për të përgatitur kërkesën për ofertë.",
           )}
         </p>
         <div className="catalog-heading-bags" aria-hidden="true">
@@ -363,7 +364,7 @@ export function ProductDetail({ product: original }: { product: Product }) {
             {(cms.options(p.slug)?.moq || cms.settings?.moq || state?.settings.moq || 5000).toLocaleString()} {t("bags. We’ll confirm the mix of sizes, colors and designs with your quotation.", "çanta. Kombinimin e madhësive, ngjyrave dhe dizajneve e konfirmojmë në ofertë.")}
           </p>
           <div className="actions">
-            <button
+            {studioEnabled && <button
               className="button"
               onClick={() => {
                 update({ product: p.slug, size, color: preferredBagColor(cms.options(p.slug)?.colors), printColors: 1 });
@@ -372,9 +373,9 @@ export function ProductDetail({ product: original }: { product: Product }) {
             >
               {t("Design this bag", "Dizajnoni këtë çantë")}{" "}
               <ArrowUpRight size={17} />
-            </button>
+            </button>}
             <button
-              className="button secondary"
+              className={studioEnabled ? "button secondary" : "button"}
               onClick={() => {
                 update({ product: p.slug, size, color: preferredBagColor(cms.options(p.slug)?.colors), printColors: 1 });
                 window.location.assign(languageHref("/quote", lang));

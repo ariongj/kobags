@@ -59,9 +59,9 @@ export default function JournalArticle({ source, photo }: { source: Article; pho
         <aside className="journal-aside">
           <p className="eyebrow">{t("MAKE IT YOURS", "BËJENI TUAJËN")}</p>
           <h2>{t("Your next bag starts here.", "Çanta juaj e radhës fillon këtu.")}</h2>
-          <p>{t("Choose a shape and see your brand on it.", "Zgjidhni formën dhe shihni markën tuaj mbi të.")}</p>
-          <Link href="/design" className="button">
-            {t("Open the studio", "Hapni studion")} <ArrowUpRight size={17} />
+          <p>{t("Compare bag shapes and discuss your printing requirements.", "Krahasoni format dhe diskutoni kërkesat tuaja të shtypit.")}</p>
+          <Link href="/products" className="button">
+            {t("Choose your bag", "Zgjidhni çantën tuaj")} <ArrowUpRight size={17} />
           </Link>
           <Link href="/samples" className="text-button">
             {t("Ask about samples", "Pyesni për mostra")} ↗

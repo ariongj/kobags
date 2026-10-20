@@ -20,7 +20,7 @@ export const articles: Article[] = [
       },
       {
         title: "Give the factory a clear brief",
-        body: "A useful brief brings together the selected shape and size, material color, print colors, quantity and destination. The studio turns those choices into a shared visual starting point.",
+        body: "A useful brief brings together the selected shape and size, material color, print colors, quantity and destination. Our team uses these details to prepare your quotation and artwork requirements.",
       },
       {
         title: "Approve the details together",
@@ -62,7 +62,7 @@ export const articles: Article[] = [
       },
       {
         title: "Use the preview to explore",
-        body: "Upload a PNG, JPG or WebP logo in the studio, then move, resize or rotate it. Front and back can have different artwork. Download a concept to share with colleagues before requesting a quotation.",
+        body: "Prepare your logo file and describe its preferred placement, size and print colors. Front and back can have different artwork. Our team will review printable dimensions and confirm an artwork proof with you before production.",
       },
       {
         title: "Use the proof to decide",

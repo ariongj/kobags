@@ -1,5 +1,6 @@
 import { articles } from "./journal";
 import { products } from "./catalog";
+import { studioEnabled } from "./studio-availability";
 export const siteSections = [
   {
     title: "01 / Discover the brand",
@@ -14,12 +15,12 @@ export const siteSections = [
     ],
   },
   {
-    title: "02 / Find and design a bag",
-    description: "The original collection, with the new design experience.",
+    title: "02 / Choose a bag and request a quote",
+    description: "The collection, specifications and quotation journey. Studio testing remains local.",
     pages: [
       ["/products", "Collection & comparison"],
       ...products.map((p) => ["/products/" + p.slug, p.name]),
-      ["/design", "Your brand. Your bag. / Design studio"],
+      ...(studioEnabled ? [["/design", "Local design studio"]] : []),
       ["/quote", "Four-step quote request"],
       ["/samples", "Sample inquiry"],
     ],

@@ -1,0 +1,10 @@
+{
+  "status": "passed",
+  "checks": [
+    "EN: local studio and navigation available, five bags, 3D renderer ready, Natural default",
+    "/sq: local studio and navigation available, five bags, 3D renderer ready, Natural default",
+    "Local mobile QR creation, layer selection and resizing preserved",
+    "Uploaded coffee scan test route remains available locally"
+  ],
+  "browserErrors": []
+}

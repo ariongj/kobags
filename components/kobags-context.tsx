@@ -1,4 +1,5 @@
 "use client";
+import { studioEnabled } from "@/lib/studio-availability";
 import { useCms } from "./cms/public-context";
 import { enableLayers } from "@/lib/studio-artwork";
 import {
@@ -117,7 +118,7 @@ export function KobagsProvider({ children, initialLanguage = "en" }: { children:
         };
       }
     ).modelContext;
-    if (!context?.registerTool || !ready) return;
+    if (!studioEnabled || !context?.registerTool || !ready) return;
     const lifecycle = new AbortController();
     const tools = [
       {

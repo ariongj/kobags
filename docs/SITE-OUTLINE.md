@@ -1,5 +1,10 @@
 # Kobags site outline
 
+## Current public launch scope — 20 October 2026
+
+The bag builder is local-only pending the real bag scans. Public hero actions lead to manufacturing and **Choose your bag**. The interactive showroom and studio links are hidden; product pages lead directly to quotation requests. `/design` and `/sq/design` temporarily redirect to their catalogue equivalents. The catalogue, stock collections, manufacturing, responsibility, contact, partner and quote journeys remain public. The earlier outline below records the complete planned experience, including the locally retained studio.
+
+
 ## Brand homepage — `/`
 
 1. Original production-facility photograph and “Manufacturing bags. Building brands.” headline.

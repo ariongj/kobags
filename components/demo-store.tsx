@@ -3,9 +3,9 @@ import { useEffect, useState, useCallback } from "react";
 import { DemoState } from "@/lib/demo-domain";
 export const errors: Record<string, [string, string]> = {
   RATE_LIMIT: ["Too many requests were made from this connection. Please wait and retry; your design has been kept.", "Janë bërë shumë kërkesa nga kjo lidhje. Ju lutemi prisni dhe provoni përsëri; dizajni juaj është ruajtur."],
-  INVALID_VARIANT: ["This bag or size is no longer available. Return to the studio and choose an available option.", "Kjo çantë ose madhësi nuk është më e disponueshme. Kthehuni në studio dhe zgjidhni një opsion të disponueshëm."],
-  INVALID_COLOR: ["This bag color is no longer available. Choose another color in the studio.", "Kjo ngjyrë e çantës nuk është më e disponueshme. Zgjidhni një ngjyrë tjetër në studio."],
-  INVALID_PRINT_COLORS: ["The print-color limit has changed. Review your design in the studio.", "Kufiri i ngjyrave të shtypit ka ndryshuar. Shqyrtoni dizajnin në studio."],
+  INVALID_VARIANT: ["This bag or size is no longer available. Review your bag specifications and choose an available option.", "Kjo çantë ose madhësi nuk është më e disponueshme. Shqyrtoni specifikimet dhe zgjidhni një opsion të disponueshëm."],
+  INVALID_COLOR: ["This bag color is no longer available. Choose another bag color.", "Kjo ngjyrë e çantës nuk është më e disponueshme. Zgjidhni një ngjyrë tjetër të çantës."],
+  INVALID_PRINT_COLORS: ["The print-color limit has changed. Review the printing specifications.", "Kufiri i ngjyrave të shtypit ka ndryshuar. Shqyrtoni specifikimet e shtypit."],
   REQUEST_KEY_CONFLICT: [
     "An earlier version of this request is already saved. Please retry to save your updated design separately.",
     "Një version i mëparshëm i kërkesës është ruajtur. Provoni përsëri për ta ruajtur veçmas dizajnin e përditësuar.",

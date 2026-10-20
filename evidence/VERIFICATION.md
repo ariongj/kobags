@@ -1,5 +1,19 @@
 # Kobags website — verification record
 
+## Public studio paused; local testing retained — 20 October 2026
+
+Client launch decision: keep the builder local while the physical bags are scanned. The shared development-only gate removes the public showroom, navigation, product customization and browser design tools. Direct EN/SQ studio and scan URLs temporarily redirect to the catalogue with noindex/no-store; neither URL parameters, cookies nor forwarded host headers enable the production builder. The sitemap excludes it. Product, manufacturing, stock and inquiry functionality stays available.
+
+Public quotation requests show product photos and specifications, explain how printing is agreed with staff, and omit hidden/sample editor artwork from submissions. Browser drafts and historical CMS inquiries remain intact. Buyer guidance, errors, EN/SQ metadata, policies and downloadable checklists were aligned with this phase. Shared select fields no longer import the entire builder.
+
+Validation on the final compiled Worker:
+
+- `qa/studio_local_only_checks.py`: six groups passed. Direct links and scan URLs redirect; sitemap excludes the studio; 22 EN/SQ phone pages contain no studio links/promotions or document overflow; 320px and desktop home/product/quote layouts fit. Both language product-to-quote journeys retain the selected product, enforce MOQ, save durable synthetic inquiries in the isolated local D1 inbox, recover the same request after a lost response, and reload their receipts. No sample artwork is submitted. No captured browser errors.
+- `qa/studio_development_checks.py`: four groups passed on `npm run dev`. EN/SQ builder and navigation remain available, five bags render in 3D with Natural default, mobile QR creation/selection/resizing works, and the coffee scan viewer reaches ready state. No captured browser errors.
+- TypeScript, the official production build and `git diff --check` passed. Phone screenshots were inspected. Reports/captures: `evidence/studio-local-only-20261020/`.
+- Browser tests used Chromium touch emulation and software WebGL, not physical phone hardware. An outdated studio reference in resources was caught and corrected before the final pass. The copied QA settings initially had intake disabled; it was enabled only in `/tmp/kobags-studio-hidden-state` for the live-inbox-path test. Production data/settings were not changed or used for test submissions. Existing public audience, domain, CMS access and intake authorization remain unchanged.
+
+
 ## Phone experience release — 20 October 2026
 
 - Replaced the fixed-height mobile studio and nested settings scrollbar with natural page scrolling. The preview is 272–330px high, with full-width framing; all five real-photo silhouettes measure approximately 231px tall at 393×750. Opening the artwork step brings the preview, selection/resize and three add actions into view. Focus mode provides more editing room. Undo/redo, photo/3D switching, front/back and fullscreen remain beside the bag.

@@ -1,4 +1,5 @@
 "use client";
+import { studioEnabled } from "@/lib/studio-availability";
 import { useEffect, useState } from "react";
 import Link from "@/components/site-link";
 import {
@@ -33,7 +34,8 @@ import {
 } from "@/components/ui/table";
 import { useKobags } from "./kobags-context";
 import { useDemo, errors } from "./demo-store";
-import { Choice, BagPreview } from "./bag-studio";
+import { Choice } from "./choice";
+import { BagPreview } from "./bag-preview";
 import { DemoJourney } from "./demo-journey";
 import { initialDesign } from "@/lib/catalog";
 import { workspaceLabel, workspaceEvent } from "@/lib/workspace-copy";
@@ -260,8 +262,8 @@ export default function DemoWorkspace({
           <button className="button secondary small" onClick={() => refresh()}>
             {t("Refresh", "Rifresko")}
           </button>
-          <Link className="button small" href="/design">
-            {t("Open bag studio", "Hap studion e çantave")} <ArrowUpRight size={15} />
+          <Link className="button small" href={studioEnabled ? "/design" : "/products"}>
+            {studioEnabled ? t("Open bag studio", "Hap studion e çantave") : t("Choose your bag", "Zgjidhni çantën tuaj")} <ArrowUpRight size={15} />
           </Link>
         </div>
       </div>
@@ -339,11 +341,11 @@ export default function DemoWorkspace({
                 <Inbox size={32} />
                 <h3>{t("Your first design starts here.", "Dizajni juaj i parë fillon këtu.")}</h3>
                 <p>
-                  {t("Submit a bag from the studio, or create a fictional example to explore the approval journey.", "Ruani një çantë nga studioja ose krijoni një shembull fiktiv për të provuar procesin e miratimit.")}
+                  {t("Prepare a bag quotation request, or create a fictional example to explore the approval journey.", "Përgatitni një kërkesë për ofertë ose krijoni një shembull fiktiv për të provuar procesin e miratimit.")}
                 </p>
                 <div className="actions">
-                  <Link href="/design" className="button">
-                    {t("Design a bag", "Dizajnoni një çantë")}
+                  <Link href={studioEnabled ? "/design" : "/products"} className="button">
+                    {t("Choose a bag", "Zgjidhni një çantë")}
                   </Link>
                   <button
                     className="button secondary"

@@ -1,4 +1,5 @@
 "use client";
+import { studioEnabled } from "@/lib/studio-availability";
 import { useLiveInquiry, LiveReceipt } from "./cms/live-inquiry";
 import { useCms } from "./cms/public-context";
 import { useEffect, useState } from "react";
@@ -12,7 +13,8 @@ import {
   Pencil,
 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Choice, BagPreview } from "./bag-studio";
+import { Choice } from "./choice";
+import { BagPreview } from "./bag-preview";
 import { useKobags } from "./kobags-context";
 import { useDemo, errors } from "./demo-store";
 import { Design, colors, preferredBagColor } from "@/lib/catalog";
@@ -39,7 +41,10 @@ export default function QuoteFlow() {
   const collectionNames: Record<string,string> = {"thank-you":"Thank you bags",smiley:"Smiley bags"};
   const collectionName = collectionNames[collection] || "";
   const collectionPrefix = collectionName ? `Collection: ${collectionName}\n\n` : "";
-  const requestDesign = collectionPrefix ? {...design,note:collectionPrefix+design.note.replace(/^Collection: (?:Thank you bags|Smiley bags)\n\n/, "")} : design;
+  // Public requests contain specifications only while the studio is local-only.
+  // Keep browser artwork untouched so local testing / existing drafts are retained.
+  const quoteDesign = studioEnabled ? design : { ...design, logo: "", logoName: "", text: "", backLogo: "", backLogoName: "", backText: "", elements: [] };
+  const requestDesign = collectionPrefix ? {...quoteDesign,note:collectionPrefix+design.note.replace(/^Collection: (?:Thank you bags|Smiley bags)\n\n/, "")} : quoteDesign;
   const p = getProduct(design.product);
   const variant =
     p.variants.find((v) => v.name === design.size) || p.variants[0];
@@ -273,12 +278,12 @@ export default function QuoteFlow() {
   return (
     <main>
       <div className="page-heading quote-heading">
-        <Link href="/design" className="text-button">
+        <Link href={studioEnabled ? "/design" : "/products"} className="text-button">
           <ArrowLeft size={14} />
-          {t("Back to the studio", "Kthehu në studio")}
+          {studioEnabled ? t("Back to the studio", "Kthehu në studio") : t("Back to bags", "Kthehu te çantat")}
         </Link>
         <p className="eyebrow">
-          {t("FROM YOUR DESIGN TO A QUOTATION", "NGA DIZAJNI JUAJ TE OFERTA")}
+          {t("YOUR NEXT WHOLESALE ORDER", "POROSIA JUAJ E RADHËS ME SHUMICË")}
         </p>
         <h1>
           {t("Let’s get the details right.", "Le t’i saktësojmë detajet.")}
@@ -419,7 +424,7 @@ export default function QuoteFlow() {
             )}
             {step === 1 && (
               <div className="form-grid">
-                <div className="full quote-artwork-review">
+                {studioEnabled ? <div className="full quote-artwork-review">
                   <div className="quote-artwork-pair">
                     {(["front", "back"] as const).map((side) => {
                       return (
@@ -445,7 +450,10 @@ export default function QuoteFlow() {
                       "Ndrysho dizajnin në studio",
                     )}
                   </Link>
-                </div>
+                </div> : <div className="full">
+                  <h2>{t("Tell us about your print", "Na tregoni për shtypin tuaj")}</h2>
+                  <p>{t("Choose the number of print colors. Describe your logo and preferred placement in the notes at the last step; our team will arrange artwork and approval with you.", "Zgjidhni numrin e ngjyrave të shtypit. Përshkruani logon dhe vendosjen e dëshiruar te shënimet në hapin e fundit; ekipi ynë organizon dizajnin dhe miratimin me ju.")}</p>
+                </div>}
                 <Choice
                   id="q-print"
                   label={t("Print colors", "Ngjyrat e shtypit")}
@@ -469,7 +477,7 @@ export default function QuoteFlow() {
                 </div>
                 <p className="notice full">
                   {t(
-                    "The product pages describe flexographic printing with up to four colors. Your image is an indicative preview; the team will check color separations and the printable area.",
+                    "Flexographic printing supports up to four colors. Our team will confirm color separations, the printable area and final artwork before production.",
                     "Faqet e produkteve përshkruajnë shtyp fleksografik deri në katër ngjyra. Ekipi do të kontrollojë ngjyrat dhe zonën e shtypit.",
                   )}
                 </p>
@@ -629,7 +637,7 @@ export default function QuoteFlow() {
                 {busy
                   ? t("Saving…", "Duke ruajtur…")
                   : step === 3
-                    ? t("Save design request", "Ruaj kërkesën e dizajnit")
+                    ? t("Send quote request", "Dërgo kërkesën për ofertë")
                     : t("Continue", "Vazhdo")}
                 <ArrowRight size={16} />
               </button>
@@ -638,11 +646,14 @@ export default function QuoteFlow() {
           <aside className="quote-summary">
             <div className="summary-top">
               <h3>{t("Your bag, so far.", "Çanta juaj deri tani.")}</h3>
-              <Link href="/design" aria-label={t("Edit bag", "Ndrysho çantën")}>
+              {studioEnabled && <Link href="/design" aria-label={t("Edit bag", "Ndrysho çantën")}>
                 <Pencil size={16} />
-              </Link>
+              </Link>}
             </div>
-            <BagPreview design={design} compact />
+            {studioEnabled ? <BagPreview design={design} compact /> : <figure className="quote-product-photo">
+              <img src={p.image} alt={p.name} width="400" height="400" />
+              <figcaption>{t("Product example. Requested color and printing are confirmed with your quote.", "Shembull produkti. Ngjyra dhe shtypi i kërkuar konfirmohen në ofertë.")}</figcaption>
+            </figure>}
             <h2>{p.name}</h2>
             <dl>
               {[
@@ -661,7 +672,7 @@ export default function QuoteFlow() {
                     " " +
                     t("color(s) · flexographic", "ngjyra · fleksografik"),
                 ],
-                [t("Artwork sides", "Anët me dizajn"), artworkSummary],
+                ...(studioEnabled ? [[t("Artwork sides", "Anët me dizajn"), artworkSummary]] : []),
                 [t("Quantity", "Sasia"), design.quantity.toLocaleString()],
                 [
                   t("Destination", "Destinacioni"),

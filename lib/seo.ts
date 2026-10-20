@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { absolutePage, DEFAULT_SOCIAL_IMAGE, indexablePath, seoPages, SITE_NAME, SITE_ORIGIN } from "./seo-config";
 import type { SiteLanguage } from "./site-locale";
+import { studioEnabled } from "./studio-availability";
 
 export async function requestLanguage(): Promise<SiteLanguage> {
   return (await headers()).get("x-kobags-language") === "sq" ? "sq" : "en";
@@ -13,6 +14,10 @@ export async function pageMetadata(path: string, override?: { title: string; des
   const record = seoPages[path];
   const cms=(await publishedRecords()).find(r=>r.published?.path===path)?.published;
   if(cms) override={title:cms.seoTitle[lang]||cms.title[lang],description:cms.seoDescription[lang]||cms.description[lang],image:cms.image||undefined};
+  // Older published home metadata may still advertise the paused 3D studio.
+  if (!studioEnabled && path === "/" && override && /\b(3d|studio\w*)\b/i.test(override.description)) {
+    override = { ...override, description: record.description[lang === "sq" ? 1 : 0] };
+  }
   const title = override?.title ?? record?.title[lang === "sq" ? 1 : 0] ?? (lang === "sq" ? "Faqja nuk u gjet" : "Page not found");
   const description = override?.description ?? record?.description[lang === "sq" ? 1 : 0] ?? "";
   const index = indexablePath(path) || (!!cms && seoPages[path]?.index !== false);

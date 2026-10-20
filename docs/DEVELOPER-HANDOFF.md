@@ -1,5 +1,18 @@
 # Kobags Group — code and setup handoff
 
+## Studio kept local for launch — 20 October 2026
+
+The client requested that the website go live before the physical bag scans are ready. `lib/studio-availability.ts` enables the builder only when `NODE_ENV === "development"`. Production builds disable it on both the server and client. There is no query-string, cookie, header or hosting-variable override.
+
+- Run `npm run dev`, then open the printed localhost URL at `/design` (normally `http://localhost:5173/design`). Albanian `/sq/design` and the scan trial `/design?model=coffee-test` remain available there. Do not expose the development server through a public tunnel.
+- Compiled/public `/design` links redirect temporarily (307, no-store, noindex) to the catalogue in the selected language, including scan-query URLs. The page has a second server-side redirect guard. The sitemap excludes the studio.
+- Public navigation, homepage showroom and product customization actions are hidden. Quotes use real product photographs, specification choices and printing notes. Submissions omit artwork from the hidden editor without deleting the saved browser draft. Historical inquiries and CMS records remain intact.
+- Shared `Choice` fields live in `components/choice.tsx`; catalogue, contact and quote forms no longer import the full builder module. Browser design-configuration tools are disabled in production too.
+- When scans and the studio are approved, explicitly change the availability policy in code, restore index eligibility if wanted, run the studio and quote regression suites and deploy a new build. An uploaded model alone does not expose the feature publicly.
+
+Acceptance: `qa/studio_local_only_checks.py` targets a compiled localhost Worker with isolated D1 storage; `qa/studio_development_checks.py` targets the development server. Supply `KOBAGS_BASE_URL` for the respective localhost port. The former creates synthetic requests only in the isolated local inbox. Prior mobile studio suites now belong on the development server while this launch policy is active.
+
+
 ## Phone layout implementation — 20 October 2026
 
 `app/mobile.css` remains the final responsive layer. At ≤800px, `.studio` has natural height and the standard preview wrapper uses `display: contents`, allowing the full-width stage to stick within the complete studio. Explicit widths on the picker/history/stage are necessary because the outer flex container aligns to the start. `--phone-stage` controls both preview height and the selected-element toolbar offset. Settings no longer own an independent scrollbar.
