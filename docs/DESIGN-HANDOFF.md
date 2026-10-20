@@ -1,5 +1,11 @@
 # Kobags Group — design handoff
 
+## Client media and contact update — 20 October 2026
+
+The homepage factory film now uses the client's six-second Emona printing clip, with an exact-frame poster oriented to match the portrait video. The player keeps the full frame visible within a compact, height-limited layout. On Manufacturing, the Print photograph now shows black material with gold Fresh Food artwork, and the second reel has the single caption “Production Line” (“Linja e prodhimit” in Albanian).
+
+The header shows the KOBAGS wordmark without the lower GROUP line, retaining the green KO and navy BAGS. A compact WhatsApp button links to the client-confirmed +383 43 877 753, with a labelled footer link as well. The floating button is omitted from the CMS, quotation/receipt routes and local studio so it does not obstruct those workspaces.
+
 ## Unnumbered public sections — 20 October 2026
 
 Removed decorative 01/02/03/04 labels from homepage manufacturing and ordering sections, bag cards, catalogue photographs, manufacturing titles and video captions, responsibility cards, partner cards, certificates and journal cards. Compact heading spacing closes the space previously used by the numerals. The public studio remains hidden. Functional quotation progress, certificate identifiers, dimensions and stock quantities remain meaningful content.

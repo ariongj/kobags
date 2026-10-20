@@ -227,7 +227,7 @@ export default async function Page({
                   <source src={publicVideoSource("/assets/client-2026-09/bag-stacking-reel.mp4")} type="video/mp4" />
                   <L en="Your browser does not support video playback." sq="Shfletuesi juaj nuk e mbështet videon." />
                 </video>
-                <figcaption><span><L en="FINISHING" sq="PËRFUNDIMI" /></span><strong><L en="Into the finishing stack" sq="Vendosja në stivë" /></strong></figcaption>
+                <figcaption><strong><L en="Production Line" sq="Linja e prodhimit" /></strong></figcaption>
               </figure>
             </section>
             <div className="manufacturing-photo-rail" aria-label="Inside Kobags production">
@@ -236,7 +236,7 @@ export default async function Page({
                 <figcaption><L en="Material" sq="Materiali" /></figcaption>
               </figure>
               <figure>
-                <img src="/assets/client-2026-09/printing-rollers.jpg" alt="Printing rollers in the Kobags production line" loading="lazy" width="800" height="533" />
+                <img src="/assets/client-2026-10/printing-line-fresh-food.jpg" alt="Black bag material with gold printing passing through the Kobags production rollers" loading="lazy" width="1200" height="1600" />
                 <figcaption><L en="Print" sq="Shtypi" /></figcaption>
               </figure>
               <figure>

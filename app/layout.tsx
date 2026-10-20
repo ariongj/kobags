@@ -7,7 +7,7 @@ import "./responsibility.css";
 import "./mobile.css";
 import { KobagsProvider } from "@/components/kobags-context";
 import { LocalizedCopy } from "@/components/localized-copy";
-import { Header, Footer } from "@/components/site-shell";
+import { Header, Footer, WhatsAppContact } from "@/components/site-shell";
 import { requestLanguage } from "@/lib/seo";
 import { SITE_NAME, SITE_ORIGIN } from "@/lib/seo-config";
 import { company } from "@/lib/company";
@@ -49,6 +49,7 @@ export default async function RootLayout({
           <CmsCampaigns />
           <div id="main-content">{children}</div>
           <Footer />
+          <WhatsAppContact />
         </KobagsProvider></CmsPublicProvider>
       </body>
     </html>

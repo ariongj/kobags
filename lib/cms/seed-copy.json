@@ -580,13 +580,8 @@
     "source": "app/[...slug]/page.tsx"
   },
   {
-    "en": "02 / FINISHING",
-    "sq": "02 / PËRFUNDIMI",
-    "source": "app/[...slug]/page.tsx"
-  },
-  {
-    "en": "Into the finishing stack",
-    "sq": "Vendosja në stivë",
+    "en": "Production Line",
+    "sq": "Linja e prodhimit",
     "source": "app/[...slug]/page.tsx"
   },
   {

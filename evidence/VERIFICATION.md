@@ -1,5 +1,12 @@
 # Kobags website — verification record
 
+## Client media, header wordmark and WhatsApp — 20 October 2026
+
+- Replaced the homepage printing film with the supplied six-second MP4 and an exact-frame poster. Browser inspection identified the source's -90° rotation metadata; the final poster and player preserve its 576×1024 portrait presentation.
+- Replaced the Manufacturing Print photograph with the supplied black/gold printing photo. The second production reel now has only “Production Line” (translated in SQ). The header wordmark omits GROUP, and the WhatsApp button/footer link use the client-confirmed +383 43 877 753.
+- TypeScript, production build and whitespace checks passed. Read-only Chromium checks passed 12 home/manufacturing layouts across EN/SQ at 320, 393 and 1440px: no horizontal overflow or page errors, correctly cropped wordmark, 48px+ WhatsApp target, new photo loaded, and the requested caption. Phone navigation opens/closes by keyboard. The new film plays, seeks to four seconds and returns HTTP 206 for byte ranges. Public studio URLs still redirect to the catalogue.
+- Reports and screenshots: private `deliverables/handoff/client-media-20261020/`. Coverage is browser emulation, not a physical iPhone certification. WhatsApp link destination was checked; no messages or customer requests were sent.
+
 ## Video-seeking fix found during the live approval audit — 20 October 2026
 
 The extended live browser audit found that the factory videos played but could not seek: the full movie was buffered, yet `seekable` reported `[0,0]` and setting the time returned to the start. Reproduced independently of browser request interception and on the compiled local Worker. The underlying static asset service ignored Range and did not expose Content-Length internally; the external full response acquired length only later.

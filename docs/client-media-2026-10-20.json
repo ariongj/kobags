@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-20",
+  "source": "Client media and placement instructions supplied in chat",
+  "selected": [
+    {
+      "source": "Client photo supplied in chat on 2026-10-20",
+      "publicPath": "/assets/client-2026-10/printing-line-fresh-food.jpg",
+      "originalFilename": "codex-clipboard-b17f8599-9c73-460f-aae4-0e6f009497ef.jpg",
+      "usage": "Manufacturing printing photo rail, replacing the orange printing rollers photo",
+      "processing": "Original photograph copied without modification; responsive cropping uses the existing photo rail layout.",
+      "sha256": "f2a2e8f46cd22430dc18a17a849975117d594089fac588ee6987944642be3de5",
+      "bytes": 189446
+    },
+    {
+      "publicPath": "/assets/client-2026-10/printing-emona.mp4",
+      "source": "WhatsApp Video 2026-10-20 at 17.39.25.mp4",
+      "usage": "Homepage printing film: original client-supplied MP4 unchanged (H.264/AAC, 1024x576 encoded, -90-degree rotation gives 576x1024 display, 6.09 seconds, fast-start metadata).",
+      "sha256": "87759d6b2bee0324363b5fc2061b55925d322842d996e01c623ca0bdf8b74124",
+      "bytes": 1064777
+    },
+    {
+      "publicPath": "/assets/client-2026-10/printing-emona-poster.webp",
+      "source": "WhatsApp Video 2026-10-20 at 17.39.25.mp4",
+      "usage": "Homepage printing film poster: exact frame at 1 second, oriented using the source video rotation metadata (-90 degrees), encoded as WebP. Display dimensions 576x1024.",
+      "sha256": "a62fd0b84cba2817ee5bffaade28b1be97a4d0de01075e20bb77190730b571a8",
+      "bytes": 41372
+    }
+  ]
+}

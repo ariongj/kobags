@@ -89,15 +89,15 @@ export default function HomePage() {
             controls
             playsInline
             preload="none"
-            poster={cms.settings?.media?.printingPoster||"/assets/client-2026-09/home-film-poster-640.webp"}
-            width={1000}
-            height={750}
+            poster={cms.settings?.media?.printingPoster||"/assets/client-2026-10/printing-emona-poster.webp"}
+            width={576}
+            height={1024}
             aria-label={t(
               "Watch the Kobags printing process",
               "Shikoni procesin e shtypit në Kobags",
             )}
           >
-            <source src={publicVideoSource(cms.settings?.media?.printingVideo||"/assets/printing-process.mp4")} type="video/mp4" />
+            <source src={publicVideoSource(cms.settings?.media?.printingVideo||"/assets/client-2026-10/printing-emona.mp4")} type="video/mp4" />
             {t(
               "Your browser does not support video playback.",
               "Shfletuesi juaj nuk e mbështet videon.",

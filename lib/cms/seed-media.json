@@ -542,5 +542,29 @@
     "type": "image/webp",
     "size": 304018,
     "hash": "62791942e0a588af1dafaebf3c5286436f859e8b96301bbddde1a1054560f2e6"
+  },
+  {
+    "id": "source-0b218aa17d96534744c4",
+    "path": "/assets/client-2026-10/printing-line-fresh-food.jpg",
+    "filename": "printing-line-fresh-food.jpg",
+    "type": "image/jpeg",
+    "size": 189446,
+    "hash": "f2a2e8f46cd22430dc18a17a849975117d594089fac588ee6987944642be3de5"
+  },
+  {
+    "id": "source-6847aaa4e1e12dae72c0",
+    "path": "/assets/client-2026-10/printing-emona.mp4",
+    "filename": "printing-emona.mp4",
+    "type": "video/mp4",
+    "size": 1064777,
+    "hash": "87759d6b2bee0324363b5fc2061b55925d322842d996e01c623ca0bdf8b74124"
+  },
+  {
+    "id": "source-7f280ebd6c69fbf1f2e3",
+    "path": "/assets/client-2026-10/printing-emona-poster.webp",
+    "filename": "printing-emona-poster.webp",
+    "type": "image/webp",
+    "size": 41372,
+    "hash": "a62fd0b84cba2817ee5bffaade28b1be97a4d0de01075e20bb77190730b571a8"
   }
 ]

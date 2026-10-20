@@ -22,6 +22,30 @@
 .home-production-copy { grid-area: intro; }
 .home-production-details { grid-area: details; }
 .home-production-film { grid-area: film; align-self: center; }
+.kobags-v5 .home-production-film video { height: clamp(280px, 30vw, 440px); aspect-ratio: auto; object-fit: contain; }
+.whatsapp-contact {
+  position: fixed;
+  right: max(18px, env(safe-area-inset-right));
+  bottom: max(18px, env(safe-area-inset-bottom));
+  z-index: 30;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-width: 48px;
+  min-height: 48px;
+  padding: 12px 17px;
+  border: 1px solid #ffffff70;
+  border-radius: 999px;
+  background: #087b3a;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: 0 4px 18px #12344225;
+}
+.whatsapp-contact:hover { background: #066530; }
+.whatsapp-contact:focus-visible { outline: 3px solid #123442; outline-offset: 3px; }
+body:has(.whatsapp-contact) .footer-bottom { padding-bottom: 82px; }
 .kobags-v5 .studio-editor-nav .editor-tabs {
   width: 100%;
 }
@@ -59,6 +83,9 @@
   .kobags-v5 { --section-space: 28px; --card-space: 16px; }
   .kobags-v5 .header { height: 56px; padding-inline: 14px; }
   .kobags-v5 .header .brand img { width: 116px; }
+  .header .brand-wordmark { width: 116px; }
+  .whatsapp-contact { right: max(12px, env(safe-area-inset-right)); bottom: max(12px, env(safe-area-inset-bottom)); padding: 12px; }
+  .whatsapp-contact > span { display: none; }
   .kobags-v5 .header .nav { top: 56px; max-height: calc(100dvh - 56px); }
   .kobags-v5 .home-section { padding-inline: 16px; }
   .kobags-v5 .section-heading { gap: 12px; margin-bottom: 16px; }
@@ -79,7 +106,7 @@
   .kobags-v5 .production-stages h3 { font-size: 15px; }
   .kobags-v5 .production-stages p { font-size: 13px; margin-top: 4px; }
   .kobags-v5 .production-stages p { line-height: 1.55; }
-  .kobags-v5 .home-production-film video { aspect-ratio: 16/9; }
+  .kobags-v5 .home-production-film video { height: clamp(280px, 82vw, 340px); aspect-ratio: auto; }
   .kobags-v5 .bag-showcase { padding: 22px 16px; scroll-margin-top: 56px; }
   .kobags-v5 .showcase-copy { padding-top: 16px; }
   .kobags-v5 .showcase-personalize { margin: 14px 0; }

@@ -964,21 +964,26 @@ body.kobags-v5:has(.studio-compact) .footer-top p {
   }
 }
 
-/* Client-requested lime KO and GROUP; the original logo silhouette stays intact. */
+/* Crop the existing header artwork to the KOBAGS wordmark; retain the green KO. */
 .header .brand-wordmark {
   position: relative;
   display: block;
   line-height: 0;
+  width: 140px;
+  aspect-ratio: 344 / 64;
+  overflow: hidden;
 }
 .header .brand-wordmark::after {
   content: "";
   position: absolute;
   inset: 0;
+  bottom: auto;
+  height: 148.4375%;
   pointer-events: none;
   background: #a6d17a;
   mask: url("/assets/logo-web.png") center / 100% 100% no-repeat;
   -webkit-mask: url("/assets/logo-web.png") center / 100% 100% no-repeat;
-  clip-path: polygon(0 0, 32% 0, 32% 70%, 100% 70%, 100% 100%, 0 100%);
+  clip-path: inset(0 68% 0 0);
 }
 
 /* A concise view of the client's actual production line. */

@@ -1,5 +1,11 @@
 # Kobags Group — code and setup handoff
 
+## Client media and WhatsApp — 20 October 2026
+
+New original media and the generated exact-frame poster live under `public/assets/client-2026-10/`; hashes and provenance are in `docs/client-media-2026-10-20.json`, with CMS seed-media entries. The MP4 is already fast-start H.264/AAC and is copied without re-encoding. Its encoded dimensions are 1024×576, with a -90° display matrix; the browser and poster display 576×1024. The build-derived video size map includes the new MP4 for HTTP range delivery.
+
+HomePage uses the new film/poster as source defaults and still respects CMS media overrides. Manufacturing uses the new printing photo and a single translated Production Line caption. The header crops the original wordmark using CSS and keeps its existing green mask. WhatsAppContact is a plain external link to `https://wa.me/38343877753`; it loads no third-party widget and sends no message automatically.
+
 ## Static video seeking — 20 October 2026
 
 The client-review audit reproduced videos playing with `seekable=[[0,0]]`; seeking returned to the start even after the whole file had buffered. The hosted asset binding returned full MP4 responses and omitted internal length metadata. `vite.config.ts` now derives static MP4 byte lengths from the actual build inputs. `build/worker.ts` applies `lib/static-video-response.ts` only to static MP4s: exact single-range 206 responses, 416 for invalid ranges, strong If-Range handling and full HEAD metadata. Native partial/conditional/error responses remain untouched. Data is streamed and cancelled after the requested bytes instead of buffering an entire movie in Worker memory.

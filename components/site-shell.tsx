@@ -4,7 +4,7 @@ import { CmsContact, CmsSocialProfiles } from "./cms/public-extras";
 import Link from "@/components/site-link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, ReactNode } from "react";
-import { ArrowUpRight, Menu, Globe2, X } from "lucide-react";
+import { ArrowUpRight, Menu, Globe2, X, MessageCircle } from "lucide-react";
 import { useKobags } from "./kobags-context";
 import { contentPath, languageHref } from "@/lib/site-locale";
 export function Header() {
@@ -28,11 +28,11 @@ export function Header() {
   return (
     <>
       <header className="header">
-        <Link href="/" className="brand" aria-label={t("Kobags Group home", "Ballina e Kobags Group")}>
+        <Link href="/" className="brand" aria-label={t("Kobags home", "Ballina e Kobags")}>
           <span className="brand-wordmark">
             <img
               src="/assets/logo-web.png"
-              alt="Kobags Group"
+              alt="Kobags"
               width="344"
               height="95"
             />
@@ -174,6 +174,7 @@ export function Footer() {
           <h3>{t("Let’s talk bags", "Le të flasim për çantat")}</h3>
           <CmsContact part="email"/>
           <CmsContact part="phone"/>
+          <a href="https://wa.me/38343877753" target="_blank" rel="noopener noreferrer">WhatsApp · +383 43 877 753</a>
           <CmsSocialProfiles />
           <Link href="/contact">
             {t("General inquiries", "Pyetje të përgjithshme")} <ArrowUpRight size={14} />
@@ -189,6 +190,23 @@ export function Footer() {
         </div>
       </div>
     </footer>
+  );
+}
+export function WhatsAppContact() {
+  const { t } = useKobags();
+  const path = contentPath(usePathname());
+  if (/^\/(?:cms|design|quote|request)(?:\/|$)/.test(path)) return null;
+  return (
+    <a
+      className="whatsapp-contact"
+      href="https://wa.me/38343877753"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={t("Contact Kobags on WhatsApp: +383 43 877 753", "Kontaktoni Kobags në WhatsApp: +383 43 877 753")}
+    >
+      <MessageCircle size={22} aria-hidden="true" />
+      <span>WhatsApp</span>
+    </a>
   );
 }
 export function PageHeading({
