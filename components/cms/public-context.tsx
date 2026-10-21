@@ -11,7 +11,7 @@ export function useCms(){
  const records=useContext(Context);const entries=records.filter(r=>r.kind==='product'&&r.content.product);
  const products:Product[]=records.some(r=>r.kind==='settings')?entries.map(r=>({...r.content.product!,copySq:r.content.productSq})):sourceProducts;
  const settings=records.find(r=>r.kind==='settings')?.content.settings;
- const collections=records.some(r=>r.kind==='settings')?records.filter(r=>r.kind==='collection'&&r.content.collection):stockDefaults.map(c=>({id:'collection-'+c.slug,kind:'collection',slug:c.slug,revision:1,content:{title:c.title,description:c.description,image:'',sections:[],path:'',seoTitle:{en:'',sq:''},seoDescription:{en:'',sq:''},collection:c.collection}}));
+ const collections=records.some(r=>r.kind==='settings')?records.filter(r=>r.kind==='collection'&&r.content.collection):stockDefaults.map(c=>({id:'collection-'+c.slug,kind:'collection',slug:c.slug,revision:1,content:{title:c.title,description:c.description,image:c.image,sections:[],path:'',seoTitle:{en:'',sq:''},seoDescription:{en:'',sq:''},collection:c.collection}}));
  return {records,products,collections,settings,enabled:settings?.liveInquiries===true,options:(slug:string)=>entries.find(r=>r.slug===slug)?.content,getProduct:(slug:string)=>products.find(p=>p.slug===slug)||sourceProducts.find(p=>p.slug===slug)||sourceProducts[0]};
 }
 

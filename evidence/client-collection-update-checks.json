@@ -1,0 +1,9 @@
+{
+  "status": "passed",
+  "checks": [
+    "published: stock/photo changed only as requested, history preserved, repeat safe",
+    "customized: stock/photo changed only as requested, history preserved, repeat safe",
+    "unpublished: stock/photo changed only as requested, history preserved, repeat safe",
+    "archived: stock/photo changed only as requested, history preserved, repeat safe"
+  ]
+}

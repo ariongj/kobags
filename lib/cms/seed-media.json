@@ -646,5 +646,13 @@
     "type": "image/webp",
     "size": 25388,
     "hash": "55aadfc7857e997f87d0d233b59d0b5814c7ab54c0639470023bad33946a0c0e"
+  },
+  {
+    "id": "client-thank-you-stock-20261021",
+    "path": "/assets/client-2026-10/thank-you-stock.jpg",
+    "filename": "thank-you-stock.jpg",
+    "type": "image/jpeg",
+    "size": 211802,
+    "hash": "82b97f6edce34259c6de9772a8438f72b7dd7490397eed402d15cd1c620276bb"
   }
 ]

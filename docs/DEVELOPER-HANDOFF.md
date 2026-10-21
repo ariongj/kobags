@@ -1,5 +1,9 @@
 # Kobags Group — code and setup handoff
 
+## Client collection update — 21 October 2026
+
+`drizzle/0006_client_collection_update.sql` applies the client's Smiley availability update and Thank you photograph once, preserving prior CMS versions and other fields. It keeps unpublished/archived records hidden and records per-record events so later staff edits survive redeployment. `stockDefaults` and new imports match the same state. `collectionUnavailable` derives the UI from CMS variant statuses; restoring any variant restores the normal form. Existing server validation rejects stock variants marked `out`. Original-photo provenance: `docs/client-collection-media-2026-10-21.json`. Migration fixture coverage: `qa/client_collection_update_checks.py`.
+
 ## Bag-photo references and manufacturing player — 20 October 2026
 
 `productMedia` maps the five homepage covers to the original PDF-matching `/assets/*-bag.webp` photographs. New 320/640px WebP variants use explicit width descriptors. Existing CMS-custom images still take precedence; no product records or specifications were changed. The same corrected reference images feed the product galleries, and the unverified Handle detail was removed. Provenance: `docs/bag-photo-reference-2026-10-20.json`.

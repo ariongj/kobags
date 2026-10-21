@@ -1,5 +1,11 @@
 # Kobags Group — design handoff
 
+## Collection photo and stock notice — 21 October 2026
+
+The Thank you collection uses the client's original photograph of three white bags with green, orange and black prints. It appears in the homepage/catalogue collection card and on the stock request page. The original JPEG is unchanged; print colors and new stock combinations have not been inferred from it.
+
+Smiley is temporarily out of stock. Its collection card carries an EN/SQ availability label; its request page presents an unavailable state and a link to other bags instead of an order form. All current Smiley variants are marked out in CMS. A one-time data migration records the prior draft/published versions, preserves unrelated content, and leaves subsequent staff restocking authoritative. The public studio remains hidden. Domain changes are handled by the owner.
+
 ## PDF bag references and production cards — 20 October 2026
 
 The five homepage bag cards now use the original Kobags photographs shown in the client's “5 bag types.pdf”: black D-Cut, green Handle with red loops, black Box, white T-Shirt with integrated handles, and white String. The incorrect separate-handle T-Shirt cover and box-style Handle cover are removed from public use; the Handle gallery uses two verified views of its green/red bag. The catalogue retains its correctly classified client-photo variants, with the PDF photographs available in each gallery.

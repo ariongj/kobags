@@ -1,4 +1,24 @@
 /* Mobile layout layer. Keep one editor and one preview in the DOM at every size. */
+.collection-mark.collection-photo {
+  display: block;
+  width: 112px;
+  height: auto;
+  aspect-ratio: 1280 / 1035;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #edf2ec;
+}
+.collection-stock-status { display: block; margin-top: 7px; color: #72521b; font-size: 12px; font-weight: 600; line-height: 1.4; }
+.collection-category > span:not(.collection-mark) { min-width: 0; }
+.stock-unavailable h2 { font-size: 24px; line-height: 1.2; }
+.stock-unavailable p { margin: 12px 0 18px; color: #526862; }
+.stock-summary img { border-radius: 6px; margin-bottom: 16px; }
+@media (max-width: 600px) {
+  .collection-mark.collection-photo { width: 88px; }
+  .collection-category:has(.collection-photo) { padding: 12px; gap: 12px; }
+  .collection-category:has(.collection-photo) strong { font-size: 17px; }
+  .collection-category:has(.collection-photo) small { font-size: 9px; letter-spacing: .06em; }
+}
 .studio-editor-expand,
 .studio-editor-context,
 .studio-view-toggle {

@@ -1,5 +1,8 @@
 export type StockVariant = { id: string; gsm: number; color: string; colorSq: string; status: 'available'|'out'|'check' };
 export type StockCollection = { dimensions: string; variants: StockVariant[] };
+export function collectionUnavailable(stock?: StockCollection) {
+ return !!stock?.variants.length && stock.variants.every(variant=>variant.status==='out');
+}
 // Client-confirmed finished T-Shirt stock, 12 October 2026. CMS edits remain
 // authoritative; this only supplies defaults for a new installation/import.
 export const tshirtStockVariants: StockVariant[] = [
@@ -12,5 +15,6 @@ export const tshirtStockVariants: StockVariant[] = [
 export const stockDefaults = ['thank-you','smiley'].map(slug=>({
  slug,title:{en:slug==='smiley'?'Smiley bags':'Thank you bags',sq:slug==='smiley'?'Çanta Smiley':'Çanta Thank you'},
  description:{en:'Finished, pre-printed T-Shirt bags. Order the existing design from stock.',sq:'Çanta T-Shirt të gatshme, me shtyp të përfunduar. Porositni dizajnin ekzistues nga stoku.'},
- collection:{dimensions:'L31 × H55 × W18 cm',variants:tshirtStockVariants.map(variant=>({...variant}))}
+ image:slug==='thank-you'?'/assets/client-2026-10/thank-you-stock.jpg':'',
+ collection:{dimensions:'L31 × H55 × W18 cm',variants:tshirtStockVariants.map(variant=>({...variant,status:slug==='smiley'?'out' as const:variant.status}))}
 }));
