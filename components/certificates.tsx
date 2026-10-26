@@ -72,7 +72,7 @@ export default function Certificates() {
             <button
               type="button"
               className="certificate-scan"
-              aria-label={`${t("Inspect", "Shqyrto")} ${c.standard}`}
+              aria-label={`${t("Inspect document", "Shqyrto dokumentin")}: ${c.standard}`}
               onClick={(e) => {
                 opener.current = e.currentTarget;
                 setSelected(c);
