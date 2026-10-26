@@ -69,7 +69,7 @@ function loadDemo() {
     });
   return pendingRead;
 }
-export function useDemo() {
+export function useDemo({ loadOnVisit = true }: { loadOnVisit?: boolean } = {}) {
   const [state, setState] = useState<DemoState | null>(null);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
@@ -82,6 +82,10 @@ export function useDemo() {
     }
   }, []);
   useEffect(() => {
+    // Live inquiry forms need a browser session only when the visitor submits.
+    // Historical prepared receipts still restore their original workspace.
+    const query = new URLSearchParams(location.search);
+    if (!loadOnVisit && !query.has("prepared") && !query.has("submitted")) return;
     let mounted = true;
     loadDemo().then((value) => {
       if (mounted) { setState(value); setError(""); }
@@ -96,7 +100,7 @@ export function useDemo() {
       window.removeEventListener("focus", f);
       window.removeEventListener("kobags-change", f);
     };
-  }, [refresh]);
+  }, [refresh, loadOnVisit]);
   const act = async (a: Record<string, unknown>) => {
     setBusy(true);
     setError("");

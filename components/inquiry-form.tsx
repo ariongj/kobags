@@ -15,8 +15,8 @@ export default function InquiryForm({
   kind: "sample" | "partner" | "contact";
 }) {
   const { t, lang, design } = useKobags();
-  const { state, act, busy:demoBusy, error:demoError } = useDemo();
   const live=useLiveInquiry();
+  const { state, act, busy:demoBusy, error:demoError } = useDemo({ loadOnVisit: !live.enabled });
   const busy=demoBusy||live.busy;
   const error=live.error||demoError;
   const [done, setDone] = useState("");

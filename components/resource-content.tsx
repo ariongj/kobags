@@ -15,11 +15,11 @@ const translations: Record<string, { title: string; body: string }> = {
   },
 };
 export default function ResourceContent() {
-  const { state } = useDemo();
+  const { state } = useDemo({ loadOnVisit: false });
   const { lang, t, studioEnabled } = useKobags();
   return (
     <div className="resource-guides">
-      {state?.content
+      {(state?.content || originalRecords)
         .filter(
           (c) => ["guide", "faq"].includes(c.type) && c.status === "published",
         )

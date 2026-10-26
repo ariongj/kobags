@@ -62,7 +62,6 @@ import {
   artworkSides,
   readableInk,
 } from "@/lib/studio-checks";
-import { useDemo } from "./demo-store";
 import {
   products,
   colors,
@@ -287,8 +286,7 @@ export default function BagStudio() {
   const backgroundEdit = backgroundEdits[`${design.side}/${activeLayer}`];
   const canRestoreBackground =
     backgroundEdit?.cleaned === art.logo && !!art.logo;
-  const { state } = useDemo();
-  const minimum = available?.moq || cms.settings?.moq || state?.settings.moq || 5000;
+  const minimum = available?.moq || cms.settings?.moq || 5000;
   const setArtworkPosition = (axis: "x" | "y", value: number) => {
     if (!Number.isFinite(value)) return;
     const clamped = Math.max(

@@ -81,7 +81,10 @@ export function KobagsProvider({ children, initialLanguage = "en", studioEnabled
       const d = readStoredDraft();
       draftRef.current = limitDesignText({ ...initialDesign, ...d, previewVersion: d ? d.previewVersion : initialDesign.previewVersion });
       setDesign(draftRef.current);
-      setStorageStatus(writeStoredDraft(draftRef.current));
+      // A brochure visit does not need a saved draft. Persist an existing
+      // draft or the first explicit edit, never a new record on every visit.
+      if (d || /^\/(?:sq\/)?(?:design|quote)(?:\/|$)/.test(location.pathname))
+        setStorageStatus(writeStoredDraft(draftRef.current));
     } catch {}
     setReady(true);
     const syncDraft = (event: StorageEvent) => {
@@ -97,13 +100,8 @@ export function KobagsProvider({ children, initialLanguage = "en", studioEnabled
     return () => window.removeEventListener("storage", syncDraft);
   }, []);
   useEffect(() => {
-    if (ready) {
-      try {
-        localStorage.setItem("kobags-language", lang);
-      } catch {}
-    }
     document.documentElement.lang = lang;
-  }, [design, lang, ready]);
+  }, [lang]);
   useEffect(() => {
     if (storageStatus !== "unavailable") return;
     const warn = (event: BeforeUnloadEvent) => { event.preventDefault(); event.returnValue = ""; };

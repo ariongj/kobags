@@ -15,7 +15,6 @@ import { useKobags } from "./kobags-context";
 import { products, productMedia, Product, getProduct, preferredBagColor } from "@/lib/catalog";
 import { localizeProduct } from "@/lib/product-copy";
 import { useCms } from "./cms/public-context";
-import { useDemo } from "./demo-store";
 import { Choice } from "./choice";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "./ui/dialog";
 import { languageHref } from "@/lib/site-locale";
@@ -258,11 +257,10 @@ export function ProductCatalog() {
   );
 }
 export function ProductDetail({ product: original }: { product: Product }) {
-  const { state } = useDemo();
   const cms = useCms();
   const { update, t, lang, studioEnabled } = useKobags();
   const p = localizeProduct(
-    cms.records.some(r=>r.kind==='product') ? cms.getProduct(original.slug) : state?.catalog.find((x) => x.slug === original.slug) || original,
+    cms.records.some(r=>r.kind==='product') ? cms.getProduct(original.slug) : original,
     lang,
   );
   const [size, setSize] = useState(cms.options(p.slug)?.activeSizes?.[0] || p.variants[0].name);
@@ -357,7 +355,7 @@ export function ProductDetail({ product: original }: { product: Product }) {
           </dl>
           <p className="notice">
             {t("Wholesale orders from", "Porosi me shumicë nga")} {" "}
-            {(cms.options(p.slug)?.moq || cms.settings?.moq || state?.settings.moq || 5000).toLocaleString()} {t("bags. We’ll confirm the mix of sizes, colors and designs with your quotation.", "çanta. Kombinimin e madhësive, ngjyrave dhe dizajneve e konfirmojmë në ofertë.")}
+            {(cms.options(p.slug)?.moq || cms.settings?.moq || 5000).toLocaleString()} {t("bags. We’ll confirm the mix of sizes, colors and designs with your quotation.", "çanta. Kombinimin e madhësive, ngjyrave dhe dizajneve e konfirmojmë në ofertë.")}
           </p>
           <div className="actions">
             {studioEnabled && <button
@@ -389,7 +387,7 @@ export function ProductDetail({ product: original }: { product: Product }) {
         <div className="section-card">
           <h2>{t("Plan your production", "Planifikoni prodhimin")}</h2>
           <p>
-            {(lang === "en" ? cms.settings?.leadTime || state?.settings.leadTime : cms.settings?.leadTimeSq) ||
+            {(lang === "en" ? cms.settings?.leadTime : cms.settings?.leadTimeSq) ||
               t("Timing is confirmed with your quotation.", "Afati konfirmohet me ofertën tuaj.")}{" "}
             {t("Transport time depends on your destination. Custom dimensions are reviewed for feasibility.", "Koha e transportit varet nga destinacioni. Përmasat e veçanta vlerësohen për realizueshmëri.")}
           </p>

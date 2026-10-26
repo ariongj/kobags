@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-17T14:48:47.342487+00:00",
-  "packageLockSha256": "ec5b94b7e6fd9e0520775134a139d60e8018406ada81ad2e896dc225cdc39440",
+  "generatedAt": "2026-10-26T18:18:44.955697+00:00",
+  "packageLockSha256": "f6165748226f0441cb846265c05e94d4430c3f18be777c7608f7d925c2ff5c37",
   "scope": "Declared licenses for every locked package; full notices supplied by installed packages or separately preserved exact-source notices. Optional packages absent on this OS are inventoried, not redistributed.",
-  "lockedPackageRecords": 864,
-  "installedPackageRecords": 690,
+  "lockedPackageRecords": 863,
+  "installedPackageRecords": 686,
   "declaredLicenseCounts": {
     "0BSD": 2,
     "Apache-2.0": 46,
@@ -16,7 +16,7 @@
     "CC0-1.0": 2,
     "ISC": 31,
     "LGPL-3.0-or-later": 10,
-    "MIT": 716,
+    "MIT": 715,
     "MIT AND ISC": 1,
     "MIT OR Apache-2.0": 4,
     "MPL-2.0": 28,
@@ -586,15 +586,10 @@
       "license": "MIT",
       "location": "node_modules/@emnapi/core",
       "developmentOnly": true,
-      "installed": true,
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/toyobayashi/emnapi.git"
-      },
-      "noticeHashes": [
-        "2088f55c6731498410b20c95ebd345ed4a4a800bf74c0fba4d282fd2a021daaa"
-      ],
-      "rootNotice": true
+      "installed": false,
+      "repository": null,
+      "noticeHashes": [],
+      "rootNotice": false
     },
     {
       "name": "@emnapi/runtime",
@@ -618,15 +613,10 @@
       "license": "MIT",
       "location": "node_modules/@emnapi/wasi-threads",
       "developmentOnly": true,
-      "installed": true,
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/toyobayashi/emnapi.git"
-      },
-      "noticeHashes": [
-        "2088f55c6731498410b20c95ebd345ed4a4a800bf74c0fba4d282fd2a021daaa"
-      ],
-      "rootNotice": true
+      "installed": false,
+      "repository": null,
+      "noticeHashes": [],
+      "rootNotice": false
     },
     {
       "name": "@esbuild-kit/core-utils",
@@ -2066,7 +2056,7 @@
     },
     {
       "name": "@next/env",
-      "version": "16.3.8",
+      "version": "16.4.3",
       "license": "MIT",
       "location": "node_modules/@next/env",
       "developmentOnly": false,
@@ -2081,11 +2071,11 @@
       ],
       "rootNotice": true,
       "upstreamNotice": "node_modules/next/license.md",
-      "upstreamNoticeBasis": "Shared upstream project license supplied by the installed parent/sibling package. Package license declaration separately retained."
+      "upstreamNoticeBasis": "Shared upstream project license supplied by the installed next@16.4.3 parent/sibling package. Package license declaration separately retained."
     },
     {
       "name": "@next/eslint-plugin-next",
-      "version": "16.3.8",
+      "version": "16.4.3",
       "license": "MIT",
       "location": "node_modules/@next/eslint-plugin-next",
       "developmentOnly": true,
@@ -2099,11 +2089,11 @@
       ],
       "rootNotice": true,
       "upstreamNotice": "node_modules/next/license.md",
-      "upstreamNoticeBasis": "Shared upstream project license supplied by the installed parent/sibling package. Package license declaration separately retained."
+      "upstreamNoticeBasis": "Shared upstream project license supplied by the installed next@16.4.3 parent/sibling package. Package license declaration separately retained."
     },
     {
       "name": "@next/swc-darwin-arm64",
-      "version": "16.3.8",
+      "version": "16.4.3",
       "license": "MIT",
       "location": "node_modules/@next/swc-darwin-arm64",
       "developmentOnly": false,
@@ -2114,7 +2104,7 @@
     },
     {
       "name": "@next/swc-darwin-x64",
-      "version": "16.3.8",
+      "version": "16.4.3",
       "license": "MIT",
       "location": "node_modules/@next/swc-darwin-x64",
       "developmentOnly": false,
@@ -2125,7 +2115,7 @@
     },
     {
       "name": "@next/swc-linux-arm64-gnu",
-      "version": "16.3.8",
+      "version": "16.4.3",
       "license": "MIT",
       "location": "node_modules/@next/swc-linux-arm64-gnu",
       "developmentOnly": false,
@@ -2136,7 +2126,7 @@
     },
     {
       "name": "@next/swc-linux-arm64-musl",
-      "version": "16.3.8",
+      "version": "16.4.3",
       "license": "MIT",
       "location": "node_modules/@next/swc-linux-arm64-musl",
       "developmentOnly": false,
@@ -2147,7 +2137,7 @@
     },
     {
       "name": "@next/swc-linux-x64-gnu",
-      "version": "16.3.8",
+      "version": "16.4.3",
       "license": "MIT",
       "location": "node_modules/@next/swc-linux-x64-gnu",
       "developmentOnly": false,
@@ -2162,11 +2152,11 @@
       ],
       "rootNotice": true,
       "upstreamNotice": "node_modules/next/license.md",
-      "upstreamNoticeBasis": "Shared upstream project license supplied by the installed parent/sibling package. Package license declaration separately retained."
+      "upstreamNoticeBasis": "Shared upstream project license supplied by the installed next@16.4.3 parent/sibling package. Package license declaration separately retained."
     },
     {
       "name": "@next/swc-linux-x64-musl",
-      "version": "16.3.8",
+      "version": "16.4.3",
       "license": "MIT",
       "location": "node_modules/@next/swc-linux-x64-musl",
       "developmentOnly": false,
@@ -2181,11 +2171,11 @@
       ],
       "rootNotice": true,
       "upstreamNotice": "node_modules/next/license.md",
-      "upstreamNoticeBasis": "Shared upstream project license supplied by the installed parent/sibling package. Package license declaration separately retained."
+      "upstreamNoticeBasis": "Shared upstream project license supplied by the installed next@16.4.3 parent/sibling package. Package license declaration separately retained."
     },
     {
       "name": "@next/swc-win32-arm64-msvc",
-      "version": "16.3.8",
+      "version": "16.4.3",
       "license": "MIT",
       "location": "node_modules/@next/swc-win32-arm64-msvc",
       "developmentOnly": false,
@@ -2196,7 +2186,7 @@
     },
     {
       "name": "@next/swc-win32-x64-msvc",
-      "version": "16.3.8",
+      "version": "16.4.3",
       "license": "MIT",
       "location": "node_modules/@next/swc-win32-x64-msvc",
       "developmentOnly": false,
@@ -2263,7 +2253,7 @@
     },
     {
       "name": "@oxc-project/types",
-      "version": "0.133.0",
+      "version": "0.155.0",
       "license": "MIT",
       "location": "node_modules/@oxc-project/types",
       "developmentOnly": true,
@@ -3969,8 +3959,19 @@
       "upstreamNoticeBasis": "Exact source commit identified by the published package."
     },
     {
+      "name": "@rolldown/binding-android-arm-eabi",
+      "version": "1.2.15",
+      "license": "MIT",
+      "location": "node_modules/@rolldown/binding-android-arm-eabi",
+      "developmentOnly": true,
+      "installed": false,
+      "repository": null,
+      "noticeHashes": [],
+      "rootNotice": false
+    },
+    {
       "name": "@rolldown/binding-android-arm64",
-      "version": "1.0.3",
+      "version": "1.2.15",
       "license": "MIT",
       "location": "node_modules/@rolldown/binding-android-arm64",
       "developmentOnly": true,
@@ -3981,7 +3982,7 @@
     },
     {
       "name": "@rolldown/binding-darwin-arm64",
-      "version": "1.0.3",
+      "version": "1.2.15",
       "license": "MIT",
       "location": "node_modules/@rolldown/binding-darwin-arm64",
       "developmentOnly": true,
@@ -3992,7 +3993,7 @@
     },
     {
       "name": "@rolldown/binding-darwin-x64",
-      "version": "1.0.3",
+      "version": "1.2.15",
       "license": "MIT",
       "location": "node_modules/@rolldown/binding-darwin-x64",
       "developmentOnly": true,
@@ -4003,7 +4004,7 @@
     },
     {
       "name": "@rolldown/binding-freebsd-x64",
-      "version": "1.0.3",
+      "version": "1.2.15",
       "license": "MIT",
       "location": "node_modules/@rolldown/binding-freebsd-x64",
       "developmentOnly": true,
@@ -4014,7 +4015,7 @@
     },
     {
       "name": "@rolldown/binding-linux-arm-gnueabihf",
-      "version": "1.0.3",
+      "version": "1.2.15",
       "license": "MIT",
       "location": "node_modules/@rolldown/binding-linux-arm-gnueabihf",
       "developmentOnly": true,
@@ -4025,7 +4026,7 @@
     },
     {
       "name": "@rolldown/binding-linux-arm64-gnu",
-      "version": "1.0.3",
+      "version": "1.2.15",
       "license": "MIT",
       "location": "node_modules/@rolldown/binding-linux-arm64-gnu",
       "developmentOnly": true,
@@ -4036,7 +4037,7 @@
     },
     {
       "name": "@rolldown/binding-linux-arm64-musl",
-      "version": "1.0.3",
+      "version": "1.2.15",
       "license": "MIT",
       "location": "node_modules/@rolldown/binding-linux-arm64-musl",
       "developmentOnly": true,
@@ -4047,7 +4048,7 @@
     },
     {
       "name": "@rolldown/binding-linux-ppc64-gnu",
-      "version": "1.0.3",
+      "version": "1.2.15",
       "license": "MIT",
       "location": "node_modules/@rolldown/binding-linux-ppc64-gnu",
       "developmentOnly": true,
@@ -4058,7 +4059,7 @@
     },
     {
       "name": "@rolldown/binding-linux-s390x-gnu",
-      "version": "1.0.3",
+      "version": "1.2.15",
       "license": "MIT",
       "location": "node_modules/@rolldown/binding-linux-s390x-gnu",
       "developmentOnly": true,
@@ -4069,7 +4070,7 @@
     },
     {
       "name": "@rolldown/binding-linux-x64-gnu",
-      "version": "1.0.3",
+      "version": "1.2.15",
       "license": "MIT",
       "location": "node_modules/@rolldown/binding-linux-x64-gnu",
       "developmentOnly": true,
@@ -4083,31 +4084,23 @@
         "23ecfff35a5a2e80d92142f75228912c3b1abc4b5a8337a821ff4397e2f9f734"
       ],
       "rootNotice": true,
-      "upstreamNotice": "https://raw.githubusercontent.com/rolldown/rolldown/a287faaa3db70e9e4145b6bc16567f596a3c2e1f/LICENSE",
-      "upstreamNoticeBasis": "Exact source commit identified by the published package."
+      "upstreamNotice": "node_modules/rolldown/LICENSE",
+      "upstreamNoticeBasis": "Shared upstream project license supplied by the installed parent package at version 1.2.15; package declaration retained."
     },
     {
       "name": "@rolldown/binding-linux-x64-musl",
-      "version": "1.0.3",
+      "version": "1.2.15",
       "license": "MIT",
       "location": "node_modules/@rolldown/binding-linux-x64-musl",
       "developmentOnly": true,
-      "installed": true,
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/rolldown/rolldown.git",
-        "directory": "packages/rolldown"
-      },
-      "noticeHashes": [
-        "23ecfff35a5a2e80d92142f75228912c3b1abc4b5a8337a821ff4397e2f9f734"
-      ],
-      "rootNotice": true,
-      "upstreamNotice": "https://raw.githubusercontent.com/rolldown/rolldown/a287faaa3db70e9e4145b6bc16567f596a3c2e1f/LICENSE",
-      "upstreamNoticeBasis": "Exact source commit identified by the published package."
+      "installed": false,
+      "repository": null,
+      "noticeHashes": [],
+      "rootNotice": false
     },
     {
       "name": "@rolldown/binding-openharmony-arm64",
-      "version": "1.0.3",
+      "version": "1.2.15",
       "license": "MIT",
       "location": "node_modules/@rolldown/binding-openharmony-arm64",
       "developmentOnly": true,
@@ -4117,41 +4110,8 @@
       "rootNotice": false
     },
     {
-      "name": "@rolldown/binding-wasm32-wasi",
-      "version": "1.0.3",
-      "license": "MIT",
-      "location": "node_modules/@rolldown/binding-wasm32-wasi",
-      "developmentOnly": true,
-      "installed": false,
-      "repository": null,
-      "noticeHashes": [],
-      "rootNotice": false
-    },
-    {
-      "name": "@emnapi/runtime",
-      "version": "1.10.0",
-      "license": "MIT",
-      "location": "node_modules/@rolldown/binding-wasm32-wasi/node_modules/@emnapi/runtime",
-      "developmentOnly": true,
-      "installed": false,
-      "repository": null,
-      "noticeHashes": [],
-      "rootNotice": false
-    },
-    {
-      "name": "@napi-rs/wasm-runtime",
-      "version": "1.2.5",
-      "license": "MIT",
-      "location": "node_modules/@rolldown/binding-wasm32-wasi/node_modules/@napi-rs/wasm-runtime",
-      "developmentOnly": true,
-      "installed": false,
-      "repository": null,
-      "noticeHashes": [],
-      "rootNotice": false
-    },
-    {
       "name": "@rolldown/binding-win32-arm64-msvc",
-      "version": "1.0.3",
+      "version": "1.2.15",
       "license": "MIT",
       "location": "node_modules/@rolldown/binding-win32-arm64-msvc",
       "developmentOnly": true,
@@ -4162,7 +4122,7 @@
     },
     {
       "name": "@rolldown/binding-win32-x64-msvc",
-      "version": "1.0.3",
+      "version": "1.2.15",
       "license": "MIT",
       "location": "node_modules/@rolldown/binding-win32-x64-msvc",
       "developmentOnly": true,
@@ -4595,15 +4555,10 @@
       "license": "MIT",
       "location": "node_modules/@tybys/wasm-util",
       "developmentOnly": true,
-      "installed": true,
-      "repository": {
-        "type": "git",
-        "url": "https://github.com/toyobayashi/wasm-util.git"
-      },
-      "noticeHashes": [
-        "09e436100bf926e78df875ec80cf3d0c643dfec779b52cfe2aa96afa0de714cb"
-      ],
-      "rootNotice": true
+      "installed": false,
+      "repository": null,
+      "noticeHashes": [],
+      "rootNotice": false
     },
     {
       "name": "@types/d3-array",
@@ -7788,7 +7743,7 @@
     },
     {
       "name": "eslint-config-next",
-      "version": "16.3.8",
+      "version": "16.4.3",
       "license": "MIT",
       "location": "node_modules/eslint-config-next",
       "developmentOnly": true,
@@ -7802,7 +7757,7 @@
       ],
       "rootNotice": true,
       "upstreamNotice": "node_modules/next/license.md",
-      "upstreamNoticeBasis": "Shared upstream project license supplied by the installed parent/sibling package. Package license declaration separately retained."
+      "upstreamNoticeBasis": "Shared upstream project license supplied by the installed next@16.4.3 parent/sibling package. Package license declaration separately retained."
     },
     {
       "name": "globals",
@@ -8249,7 +8204,7 @@
     },
     {
       "name": "fast-uri",
-      "version": "3.1.8",
+      "version": "3.1.9",
       "license": "BSD-3-Clause",
       "location": "node_modules/fast-uri",
       "developmentOnly": false,
@@ -10070,7 +10025,7 @@
     },
     {
       "name": "nanoid",
-      "version": "3.3.18",
+      "version": "3.3.20",
       "license": "MIT",
       "location": "node_modules/nanoid",
       "developmentOnly": false,
@@ -10127,7 +10082,7 @@
     },
     {
       "name": "next",
-      "version": "16.3.8",
+      "version": "16.4.3",
       "license": "MIT",
       "location": "node_modules/next",
       "developmentOnly": false,
@@ -11134,7 +11089,7 @@
     },
     {
       "name": "rolldown",
-      "version": "1.0.3",
+      "version": "1.2.15",
       "license": "MIT",
       "location": "node_modules/rolldown",
       "developmentOnly": true,
@@ -12189,7 +12144,7 @@
     },
     {
       "name": "undici",
-      "version": "7.29.1",
+      "version": "7.30.1",
       "license": "MIT",
       "location": "node_modules/undici",
       "developmentOnly": true,
@@ -12415,7 +12370,7 @@
     },
     {
       "name": "vite",
-      "version": "8.0.16",
+      "version": "8.3.5",
       "license": "MIT",
       "location": "node_modules/vite",
       "developmentOnly": true,
@@ -12426,7 +12381,7 @@
         "directory": "packages/vite"
       },
       "noticeHashes": [
-        "21d9391f0a581d83e5f4faceac10136ef6b90588ef10ef7fb681a228044cc562"
+        "a22152baa1aef74402443008e767e7c689a524c0909d19b0431d97f5ab066a13"
       ],
       "rootNotice": true
     },
@@ -12506,7 +12461,7 @@
     },
     {
       "name": "lightningcss",
-      "version": "1.32.0",
+      "version": "1.33.0",
       "license": "MPL-2.0",
       "location": "node_modules/vite/node_modules/lightningcss",
       "developmentOnly": true,
@@ -12522,7 +12477,7 @@
     },
     {
       "name": "lightningcss-android-arm64",
-      "version": "1.32.0",
+      "version": "1.33.0",
       "license": "MPL-2.0",
       "location": "node_modules/vite/node_modules/lightningcss-android-arm64",
       "developmentOnly": true,
@@ -12533,7 +12488,7 @@
     },
     {
       "name": "lightningcss-darwin-arm64",
-      "version": "1.32.0",
+      "version": "1.33.0",
       "license": "MPL-2.0",
       "location": "node_modules/vite/node_modules/lightningcss-darwin-arm64",
       "developmentOnly": true,
@@ -12544,7 +12499,7 @@
     },
     {
       "name": "lightningcss-darwin-x64",
-      "version": "1.32.0",
+      "version": "1.33.0",
       "license": "MPL-2.0",
       "location": "node_modules/vite/node_modules/lightningcss-darwin-x64",
       "developmentOnly": true,
@@ -12555,7 +12510,7 @@
     },
     {
       "name": "lightningcss-freebsd-x64",
-      "version": "1.32.0",
+      "version": "1.33.0",
       "license": "MPL-2.0",
       "location": "node_modules/vite/node_modules/lightningcss-freebsd-x64",
       "developmentOnly": true,
@@ -12566,7 +12521,7 @@
     },
     {
       "name": "lightningcss-linux-arm-gnueabihf",
-      "version": "1.32.0",
+      "version": "1.33.0",
       "license": "MPL-2.0",
       "location": "node_modules/vite/node_modules/lightningcss-linux-arm-gnueabihf",
       "developmentOnly": true,
@@ -12577,7 +12532,7 @@
     },
     {
       "name": "lightningcss-linux-arm64-gnu",
-      "version": "1.32.0",
+      "version": "1.33.0",
       "license": "MPL-2.0",
       "location": "node_modules/vite/node_modules/lightningcss-linux-arm64-gnu",
       "developmentOnly": true,
@@ -12588,7 +12543,7 @@
     },
     {
       "name": "lightningcss-linux-arm64-musl",
-      "version": "1.32.0",
+      "version": "1.33.0",
       "license": "MPL-2.0",
       "location": "node_modules/vite/node_modules/lightningcss-linux-arm64-musl",
       "developmentOnly": true,
@@ -12599,7 +12554,7 @@
     },
     {
       "name": "lightningcss-linux-x64-gnu",
-      "version": "1.32.0",
+      "version": "1.33.0",
       "license": "MPL-2.0",
       "location": "node_modules/vite/node_modules/lightningcss-linux-x64-gnu",
       "developmentOnly": true,
@@ -12615,23 +12570,18 @@
     },
     {
       "name": "lightningcss-linux-x64-musl",
-      "version": "1.32.0",
+      "version": "1.33.0",
       "license": "MPL-2.0",
       "location": "node_modules/vite/node_modules/lightningcss-linux-x64-musl",
       "developmentOnly": true,
-      "installed": true,
-      "repository": {
-        "type": "git",
-        "url": "https://github.com/parcel-bundler/lightningcss.git"
-      },
-      "noticeHashes": [
-        "5eba353fe5076ac3432177f8ab1cf75e3afcd0584251e37c3bfead5f447d040e"
-      ],
-      "rootNotice": true
+      "installed": false,
+      "repository": null,
+      "noticeHashes": [],
+      "rootNotice": false
     },
     {
       "name": "lightningcss-win32-arm64-msvc",
-      "version": "1.32.0",
+      "version": "1.33.0",
       "license": "MPL-2.0",
       "location": "node_modules/vite/node_modules/lightningcss-win32-arm64-msvc",
       "developmentOnly": true,
@@ -12642,7 +12592,7 @@
     },
     {
       "name": "lightningcss-win32-x64-msvc",
-      "version": "1.32.0",
+      "version": "1.33.0",
       "license": "MPL-2.0",
       "location": "node_modules/vite/node_modules/lightningcss-win32-x64-msvc",
       "developmentOnly": true,
@@ -12653,7 +12603,7 @@
     },
     {
       "name": "picomatch",
-      "version": "4.0.4",
+      "version": "4.0.7",
       "license": "MIT",
       "location": "node_modules/vite/node_modules/picomatch",
       "developmentOnly": true,
@@ -12661,6 +12611,19 @@
       "repository": "micromatch/picomatch",
       "noticeHashes": [
         "d0cd141b0c322fded5dfad1d4645bb2fedfc05b7321fe1009469638190d59ef9"
+      ],
+      "rootNotice": true
+    },
+    {
+      "name": "postcss",
+      "version": "8.5.31",
+      "license": "MIT",
+      "location": "node_modules/vite/node_modules/postcss",
+      "developmentOnly": true,
+      "installed": true,
+      "repository": "postcss/postcss",
+      "noticeHashes": [
+        "5be1f3465bba68a626777f984878814aaf35e7ef8e9fd314d469bcf887050fb8"
       ],
       "rootNotice": true
     },
@@ -12997,7 +12960,7 @@
     },
     {
       "name": "zod",
-      "version": "3.25.76",
+      "version": "4.6.7",
       "license": "MIT",
       "location": "node_modules/zod",
       "developmentOnly": false,

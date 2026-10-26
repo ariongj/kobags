@@ -26,7 +26,7 @@ export default function QuoteFlow() {
   const cms = useCms();
   const getProduct = cms.getProduct;
   const { t, lang, design, update, ready, studioEnabled } = useKobags();
-  const { state, error:demoError, busy:demoBusy, act, refresh } = useDemo();
+  const { state, error:demoError, busy:demoBusy, act, refresh } = useDemo({ loadOnVisit: !cms.enabled });
   const live=useLiveInquiry();
   const busy=demoBusy||live.busy;
   const error=live.error||demoError;

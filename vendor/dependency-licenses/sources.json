@@ -370,5 +370,47 @@
     "sourceCommit": "83b7e8fe3fddd3b0368dbafd6ce56995bd25e3c8",
     "declaredLicense": "MIT",
     "status": "source-notice"
+  },
+  "@next/env@16.4.3": {
+    "file": "vendor/dependency-licenses/ee765244e2d59f52.txt",
+    "sha256": "ee765244e2d59f5234d474f62e0766fa0c8b99af967fdd4c0cb8dcb0c76ea224",
+    "source": "node_modules/next/license.md",
+    "sourceBasis": "Shared upstream project license supplied by the installed next@16.4.3 parent/sibling package. Package license declaration separately retained.",
+    "status": "source-notice"
+  },
+  "@next/eslint-plugin-next@16.4.3": {
+    "file": "vendor/dependency-licenses/ee765244e2d59f52.txt",
+    "sha256": "ee765244e2d59f5234d474f62e0766fa0c8b99af967fdd4c0cb8dcb0c76ea224",
+    "source": "node_modules/next/license.md",
+    "sourceBasis": "Shared upstream project license supplied by the installed next@16.4.3 parent/sibling package. Package license declaration separately retained.",
+    "status": "source-notice"
+  },
+  "@next/swc-linux-x64-gnu@16.4.3": {
+    "file": "vendor/dependency-licenses/ee765244e2d59f52.txt",
+    "sha256": "ee765244e2d59f5234d474f62e0766fa0c8b99af967fdd4c0cb8dcb0c76ea224",
+    "source": "node_modules/next/license.md",
+    "sourceBasis": "Shared upstream project license supplied by the installed next@16.4.3 parent/sibling package. Package license declaration separately retained.",
+    "status": "source-notice"
+  },
+  "@next/swc-linux-x64-musl@16.4.3": {
+    "file": "vendor/dependency-licenses/ee765244e2d59f52.txt",
+    "sha256": "ee765244e2d59f5234d474f62e0766fa0c8b99af967fdd4c0cb8dcb0c76ea224",
+    "source": "node_modules/next/license.md",
+    "sourceBasis": "Shared upstream project license supplied by the installed next@16.4.3 parent/sibling package. Package license declaration separately retained.",
+    "status": "source-notice"
+  },
+  "eslint-config-next@16.4.3": {
+    "file": "vendor/dependency-licenses/ee765244e2d59f52.txt",
+    "sha256": "ee765244e2d59f5234d474f62e0766fa0c8b99af967fdd4c0cb8dcb0c76ea224",
+    "source": "node_modules/next/license.md",
+    "sourceBasis": "Shared upstream project license supplied by the installed next@16.4.3 parent/sibling package. Package license declaration separately retained.",
+    "status": "source-notice"
+  },
+  "@rolldown/binding-linux-x64-gnu@1.2.15": {
+    "file": "vendor/dependency-licenses/23ecfff35a5a2e80.txt",
+    "sha256": "23ecfff35a5a2e80d92142f75228912c3b1abc4b5a8337a821ff4397e2f9f734",
+    "source": "node_modules/rolldown/LICENSE",
+    "sourceBasis": "Shared upstream project license supplied by the installed parent package at version 1.2.15; package declaration retained.",
+    "status": "source-notice"
   }
 }

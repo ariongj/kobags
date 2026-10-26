@@ -51,11 +51,14 @@ export function CertificateShowcase() {
             </div>
             <div className="certificate-mini-paper">
               <img
-                src={c.image || `/assets/certificate-iso${c.id}.webp`}
+                src={c.image || `/assets/certificate-iso${c.id}-480.webp`}
+                srcSet={!c.image || c.image === `/assets/certificate-iso${c.id}.webp` ? `/assets/certificate-iso${c.id}-240.webp 240w, /assets/certificate-iso${c.id}-480.webp 480w` : undefined}
+                sizes="(max-width: 767px) 35vw, 240px"
                 width={390}
                 height={550}
                 alt={`${c.standard} — ${t("published certificate scan", "certifikatë e publikuar")}`}
                 loading="lazy"
+                decoding="async"
               />
             </div>
             <h3>{c.standard}</h3>

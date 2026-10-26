@@ -5,7 +5,6 @@ import { CertificateShowcase } from "./certificate-showcase";
 import Link from "@/components/site-link";
 import { ArrowUpRight } from "lucide-react";
 import { useKobags } from "./kobags-context";
-import { useDemo } from "./demo-store";
 import { products, productMedia } from "@/lib/catalog";
 import { localizeProduct } from "@/lib/product-copy";
 import { CollectionCategories } from "./collection-categories";
@@ -14,8 +13,7 @@ import BagShowcase from "./bag-showcase";
 export default function HomePage() {
   const { t, lang, studioEnabled } = useKobags();
   const cms=useCms();
-  const { state } = useDemo();
-  const minimum = cms.settings?.moq || state?.settings.moq || 5000;
+  const minimum = cms.settings?.moq || 5000;
   return (
     <main className="brand-home brand-home-v5">
       <section className="industrial-hero">
@@ -331,7 +329,7 @@ export default function HomePage() {
             [
               t("How long does production take?", "Sa zgjat prodhimi?"),
               t(
-                cms.settings?.leadTime || state?.settings.leadTime ||
+                cms.settings?.leadTime ||
                   "Timing is confirmed with your quotation.",
                 cms.settings?.leadTimeSq || "Afati konfirmohet me ofertën tuaj.",
               ),

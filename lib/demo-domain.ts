@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "./schema";
 import { enableLayers, artworkLayers } from "./studio-artwork";
 import { isCalendarDate, requestFieldLimits } from "./design-validation";
 import {

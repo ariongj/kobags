@@ -1,4 +1,5 @@
 import { stockDefaults } from "@/lib/stock-collections";
+import { cache } from "react";
 import mediaSeed from "./seed-media.json";
 import copySeed from "./seed-copy.json";
 import pageSeed from "./seed-pages.json";
@@ -16,10 +17,12 @@ import { env } from 'cloudflare:workers';
 import { activateInquiriesForLaunch } from './launch-activation';
 export function emptyContent(title = ""): Content { return {title:{en:title,sq:""},description:{en:"",sq:""},image:"",sections:[],seoTitle:{en:"",sq:""},seoDescription:{en:"",sq:""},path:""}; }
 export function record(row: Record<string, unknown>): CmsRecord { return {...row,draft:JSON.parse(String(row.draft)),published:row.published?JSON.parse(String(row.published)):null} as CmsRecord; }
-export async function publishedRecords() {
+// React memoization lasts only for this server render; staff publications are
+// visible on the next request, with no cross-visitor or cross-host cache.
+export const publishedRecords = cache(async function publishedRecords() {
  try { await activateInquiriesForLaunch(db(),env.CMS_ACTIVATE_INQUIRIES); const rows=await db().prepare("SELECT * FROM cms_records WHERE archived=0 AND published IS NOT NULL ORDER BY slug").all(); return rows.results.map(record).filter(r=>!r.published?.start||r.published.start<=now()).filter(r=>!r.published?.end||r.published.end>now()); }
  catch { return []; } // The source-owned site remains available before migration/initial import.
-}
+});
 export async function seedCms(actor: string) {
  const seeds:{id:string;kind:string;slug:string;data:Content;published:boolean}[]=[];
  for(const c of stockDefaults)seeds.push({id:'collection-'+c.slug,kind:'collection',slug:c.slug,data:{...emptyContent(),title:c.title,description:c.description,image:c.image,collection:c.collection},published:true});

@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from '../schema';
 import { db,id,now,hash,audit,CmsError } from './core';
 import { quotation } from './validation';
 import { inquiryStatuses,orderStatuses,type Staff } from './types';

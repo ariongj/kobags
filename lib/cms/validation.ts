@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "../schema";
 import { validSocialProfile, type SocialPlatform } from "@/lib/social-profiles";
 const profile = (platform: SocialPlatform) => z.string().trim().max(500).refine(value => validSocialProfile(platform, value), "Enter the official HTTPS profile URL for this platform, or leave blank.").optional();
 const socialProfiles = z.object({facebook:profile("facebook"),instagram:profile("instagram"),linkedin:profile("linkedin"),youtube:profile("youtube")});

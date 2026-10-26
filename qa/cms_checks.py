@@ -72,7 +72,9 @@ async def main():
   await post(owner,'/api/cms/records',{'id':record['id'],'action':'publish','revision':record['revision']+1})
   await get(guest,'/api/inquiries')
   page=await guest.new_page();errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
-  await page.goto(BASE+'/design',wait_until='networkidle')
+  # The public business domain keeps the studio offline. The quote page owns
+  # the same saved design draft and is the actual public entry to this journey.
+  await page.goto(BASE+'/quote',wait_until='networkidle')
   design=await page.evaluate("JSON.parse(localStorage.getItem('kobags-design-v1'))")
   design.update({'company':'QA Factory '+suffix,'contact':'QA Buyer','email':'buyer-'+suffix+'@example.test','country':'Kosovo','city':'Prishtina','quantity':5000,'date':'','consent':True,'key':str(uuid.uuid4()),'text':'QA FRONT','backText':'QA BACK','note':'Synthetic acceptance request','customDimensions':'','purpose':'Retail'})
   saved=await post(guest,'/api/inquiries',{'kind':'quote','design':design,'language':'sq'},201);ref=saved['id']
@@ -136,8 +138,9 @@ async def main():
   reports=await get(owner,'/api/cms/reports');assert any(row['label']=='quote' for row in reports['byKind'])
   await post(owner,'/api/cms/queue-quote',{'id':q2['id']},422)
   assert not session['emailReady']
-  outbox=(await get(owner,'/api/cms/outbox'))['results'];assert outbox
-  await post(owner,'/api/cms/send-email',{'id':outbox[0]['id'],'confirm':True},503)
+  outbox=(await get(owner,'/api/cms/outbox'))['results'];assert isinstance(outbox,list)
+  # A deployment without notification recipients correctly has an empty outbox.
+  await post(owner,'/api/cms/send-email',{'id':outbox[0]['id'] if outbox else 'qa-no-delivery','confirm':True},503)
   printable=await owner.request.get(BASE+'/cms/quotation/'+qid);assert printable.status==200
   printed=await printable.text();assert 'Oferta tregtare' in printed and 'QA bank transfer evidence' not in printed
   bad_upload=await owner.request.post(BASE+'/api/cms/media',headers={'Origin':BASE},multipart={'file':{'name':'fake.png','mimeType':'image/png','buffer':b'<script>invalid</script>'},'visibility':'public','altEn':'Invalid','altSq':'Jo valide'})

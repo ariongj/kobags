@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "../schema";
 import { env } from "cloudflare:workers";
 import { applyAction, seed } from "@/lib/demo-domain";
 import { demoSession } from "@/lib/demo-session";

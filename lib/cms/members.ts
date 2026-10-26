@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "../schema";
 import { db,id,now,hash,token,audit,CmsError } from "./core";
 import { roles, type Staff } from "./types";
 export async function inviteStaff(input:Record<string,unknown>,member:Staff) {
