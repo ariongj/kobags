@@ -23,6 +23,9 @@ async def main():
    c=await browser.new_context(viewport={'width':width,'height':852 if width<800 else 1000},is_mobile=width<800,has_touch=width<800,reduced_motion='reduce')
    async def route(r):
     u=urlsplit(r.request.url)
+    # Allow the host's normal browser verification; still block all application writes.
+    if LIVE and u.hostname in ['kobags.itdks.tech','kobags-group.com','www.kobags-group.com'] and u.path.startswith('/cdn-cgi/challenge-platform/'):
+     await r.continue_();return
     if r.request.method not in ['GET','HEAD','OPTIONS']:
      errors.append('Unexpected write blocked: '+u.path);await r.abort();return
     if LIVE:
