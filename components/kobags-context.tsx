@@ -1,5 +1,4 @@
 "use client";
-import { studioEnabled } from "@/lib/studio-availability";
 import { useCms } from "./cms/public-context";
 import { enableLayers } from "@/lib/studio-artwork";
 import {
@@ -34,6 +33,7 @@ function readableTextForBag(design: Design): Design {
   return next;
 }
 type Context = {
+  studioEnabled: boolean;
   lang: "en" | "sq";
   setLang: (v: "en" | "sq") => void;
   t: (en: string, sq?: string) => string;
@@ -44,7 +44,7 @@ type Context = {
   storageStatus: DraftStorageStatus;
 };
 const C = createContext<Context>(null!);
-export function KobagsProvider({ children, initialLanguage = "en" }: { children: ReactNode; initialLanguage?: SiteLanguage }) {
+export function KobagsProvider({ children, initialLanguage = "en", studioEnabled = false }: { children: ReactNode; initialLanguage?: SiteLanguage; studioEnabled?: boolean }) {
   const cms=useCms();
   const wording=new Map(cms.records.filter(r=>r.kind==='copy').flatMap(r=>r.content.sections.filter(s=>s.visible&&s.original).map(s=>[s.original!.en,s.body] as const)));
   // The URL determines the rendered language, including the first crawler response.
@@ -206,10 +206,11 @@ export function KobagsProvider({ children, initialLanguage = "en" }: { children:
         ).catch(() => {});
       } catch {}
     return () => lifecycle.abort();
-  }, [design, ready]);
+  }, [design, ready, studioEnabled]);
   return (
     <C.Provider
       value={{
+        studioEnabled,
         lang,
         setLang,
         t: (en, sq) => wording.get(en)?.[lang] || (lang === "sq" ? sq || en : en),

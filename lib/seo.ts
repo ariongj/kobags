@@ -3,7 +3,9 @@ import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { absolutePage, DEFAULT_SOCIAL_IMAGE, indexablePath, seoPages, SITE_NAME, SITE_ORIGIN } from "./seo-config";
 import type { SiteLanguage } from "./site-locale";
-import { studioEnabled } from "./studio-availability";
+import { STUDIO_PREVIEW_ORIGIN } from "./studio-availability";
+import { requestStudioEnabled, requestStudioPreview } from "./studio-request";
+import { languageHref } from "./site-locale";
 
 export async function requestLanguage(): Promise<SiteLanguage> {
   return (await headers()).get("x-kobags-language") === "sq" ? "sq" : "en";
@@ -11,6 +13,8 @@ export async function requestLanguage(): Promise<SiteLanguage> {
 
 export async function pageMetadata(path: string, override?: { title: string; description: string; image?: string; article?: boolean }): Promise<Metadata> {
   const lang = await requestLanguage();
+  const studioEnabled = await requestStudioEnabled();
+  const studioPreview = await requestStudioPreview();
   const record = seoPages[path];
   const cms=(await publishedRecords()).find(r=>r.published?.path===path)?.published;
   if(cms) override={title:cms.seoTitle[lang]||cms.title[lang],description:cms.seoDescription[lang]||cms.description[lang],image:cms.image||undefined};
@@ -20,8 +24,9 @@ export async function pageMetadata(path: string, override?: { title: string; des
   }
   const title = override?.title ?? record?.title[lang === "sq" ? 1 : 0] ?? (lang === "sq" ? "Faqja nuk u gjet" : "Page not found");
   const description = override?.description ?? record?.description[lang === "sq" ? 1 : 0] ?? "";
-  const index = indexablePath(path) || (!!cms && seoPages[path]?.index !== false);
-  const canonical = absolutePage(path, lang);
+  const index = !studioPreview && (indexablePath(path) || (!!cms && seoPages[path]?.index !== false));
+  const canonical = studioPreview && path === "/design"
+    ? STUDIO_PREVIEW_ORIGIN + languageHref(path, lang) : absolutePage(path, lang);
   const image = SITE_ORIGIN + (override?.image ?? DEFAULT_SOCIAL_IMAGE);
   return {
     title: { absolute: `${title} | ${SITE_NAME}` },

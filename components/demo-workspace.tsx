@@ -1,5 +1,4 @@
 "use client";
-import { studioEnabled } from "@/lib/studio-availability";
 import { useEffect, useState } from "react";
 import Link from "@/components/site-link";
 import {
@@ -89,7 +88,7 @@ export default function DemoWorkspace({
 }: {
   role: "admin" | "customer";
 }) {
-  const { t, lang, replace } = useKobags();
+  const { t, lang, replace, studioEnabled } = useKobags();
   const money = (n: number) => formatMoney(n, lang);
   const date = (value: string) => formatDate(value, lang);
   const label = (value: string) => workspaceLabel(value, lang);

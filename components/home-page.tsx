@@ -1,5 +1,4 @@
 "use client";
-import { studioEnabled } from "@/lib/studio-availability";
 import { FactoryVideo } from "./factory-video";
 import { useCms } from "./cms/public-context";
 import { CertificateShowcase } from "./certificate-showcase";
@@ -13,7 +12,7 @@ import { CollectionCategories } from "./collection-categories";
 import BagShowcase from "./bag-showcase";
 
 export default function HomePage() {
-  const { t, lang } = useKobags();
+  const { t, lang, studioEnabled } = useKobags();
   const cms=useCms();
   const { state } = useDemo();
   const minimum = cms.settings?.moq || state?.settings.moq || 5000;

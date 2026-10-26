@@ -1,4 +1,5 @@
 import framework from "vinext/server/fetch-handler";
+import { studioEnabledForHost, isStudioPreviewHost } from "../lib/studio-availability";
 import { staticVideoResponse } from "../lib/static-video-response";
 declare const __KOBAGS_VIDEO_SIZES__: Record<string, number>;
 
@@ -14,10 +15,11 @@ export default {
   async fetch(request: Request, env: Cloudflare.Env, context: ExecutionContext) {
     const requestUrl = new URL(request.url);
     const path = requestUrl.pathname;
+    const studioPreview = isStudioPreviewHost(requestUrl.hostname);
     // Enable the canonical redirect only after the operator verifies business
     // DNS/TLS and switches the runtime origin. Local previews stay local.
     if (env.PUBLIC_SITE_ORIGIN?.replace(/\/$/, "") === "https://kobags-group.com"
-      && ["kobags.itdks.tech", "www.kobags-group.com", "kobags-bag-studio.ariongj.chatgpt.site"].includes(requestUrl.hostname)
+      && ["www.kobags-group.com", "kobags-bag-studio.ariongj.chatgpt.site"].includes(requestUrl.hostname)
       && ["GET", "HEAD"].includes(request.method) && !path.startsWith("/api/")) {
       const destination = new URL("https://kobags-group.com");
       destination.pathname = path;
@@ -47,7 +49,10 @@ export default {
         response = await env.ASSETS.fetch(request);
       }
     } else {
-      response = await framework.fetch(request, env, context);
+      const requestHeaders = new Headers(request.headers);
+      requestHeaders.set("x-kobags-studio-enabled", studioEnabledForHost(requestUrl.hostname) ? "1" : "0");
+      requestHeaders.set("x-kobags-studio-preview", studioPreview ? "1" : "0");
+      response = await framework.fetch(new Request(request, { headers: requestHeaders }), env, context);
     }
     if (asset && path.toLowerCase().endsWith(".mp4")) {
       response = await staticVideoResponse(request, response, __KOBAGS_VIDEO_SIZES__[path]);
@@ -70,6 +75,10 @@ export default {
       const publicMedia = path.startsWith("/api/media/") && [200, 206, 304].includes(response.status)
         && /^public(?:,|$)/i.test(headers.get("Cache-Control") ?? "") && !headers.has("set-cookie");
       if (!publicMedia) headers.set("Cache-Control", "private, no-store");
+    }
+    if (!asset && studioPreview) {
+      headers.set("X-Robots-Tag", "noindex, nofollow");
+      headers.set("Cache-Control", "private, no-store");
     }
     if (!asset) return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
     if (path.startsWith("/documents/")) headers.set("X-Robots-Tag", "noindex, nofollow");

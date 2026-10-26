@@ -1,5 +1,9 @@
 # Kobags Group — code and setup handoff
 
+## Studio testing subdomain — 26 October 2026
+
+The studio is enabled only on `kobags.itdks.tech` (EN and SQ) and local development. The business domain and `www` keep the studio hidden and redirect editor bookmarks to the catalogue. The Worker and middleware derive availability from the actual request URL and overwrite internal headers; the server passes the result to client context. Forwarded headers, cookies and query parameters cannot enable it on the business domain. The review host stays separate from the canonical-domain redirect, sends noindex/no-store, disallows crawling and has an empty sitemap. Main-domain SEO and the customer CMS/inbox remain unchanged. No DNS or runtime settings are changed by this release. Earlier local-only notes below describe the previous launch phase.
+
 ## Client collection update — 21 October 2026
 
 `drizzle/0006_client_collection_update.sql` applies the client's Smiley availability update and Thank you photograph once, preserving prior CMS versions and other fields. It keeps unpublished/archived records hidden and records per-record events so later staff edits survive redeployment. `stockDefaults` and new imports match the same state. `collectionUnavailable` derives the UI from CMS variant statuses; restoring any variant restores the normal form. Existing server validation rejects stock variants marked `out`. Original-photo provenance: `docs/client-collection-media-2026-10-21.json`. Migration fixture coverage: `qa/client_collection_update_checks.py`.

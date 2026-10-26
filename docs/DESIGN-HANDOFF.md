@@ -1,5 +1,9 @@
 # Kobags Group — design handoff
 
+## Studio testing subdomain — 26 October 2026
+
+The studio is enabled only on `kobags.itdks.tech` (EN and SQ) and local development. The business domain and `www` keep the studio hidden and redirect editor bookmarks to the catalogue. The Worker and middleware derive availability from the actual request URL and overwrite internal headers; the server passes the result to client context. Forwarded headers, cookies and query parameters cannot enable it on the business domain. The review host stays separate from the canonical-domain redirect, sends noindex/no-store, disallows crawling and has an empty sitemap. Main-domain SEO and the customer CMS/inbox remain unchanged. No DNS or runtime settings are changed by this release. Earlier local-only notes below describe the previous launch phase.
+
 ## Collection photo and stock notice — 21 October 2026
 
 The Thank you collection uses the client's original photograph of three white bags with green, orange and black prints. It appears in the homepage/catalogue collection card and on the stock request page. The original JPEG is unchanged; print colors and new stock combinations have not been inferred from it.

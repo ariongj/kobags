@@ -3,7 +3,7 @@
 import type { ComponentProps } from "react";
 import { useKobags } from "./kobags-context";
 import { languageHref } from "@/lib/site-locale";
-import { studioEnabled, isStudioPath } from "@/lib/studio-availability";
+import { isStudioPath } from "@/lib/studio-availability";
 
 /**
  * Native document navigation avoids the installed Vinext production Link
@@ -11,7 +11,7 @@ import { studioEnabled, isStudioPath } from "@/lib/studio-availability";
  * Keep ordinary anchor behavior (new tab, downloads and fragment links).
  */
 export default function SiteLink(props: ComponentProps<"a">) {
-  const { lang } = useKobags();
+  const { lang, studioEnabled } = useKobags();
   // Also suppress any older studio links supplied by managed page content.
   if (!studioEnabled && props.href && isStudioPath(props.href)) return null;
   return <a {...props} href={props.href ? languageHref(props.href, lang) : undefined} />;

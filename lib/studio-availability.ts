@@ -1,9 +1,17 @@
-/**
- * The studio stays on the development machine while real bag scans are prepared.
- * This is compiled into both client and server bundles. Production builds cannot
- * enable it through a URL, cookie, request header or runtime hosting setting.
- */
+/** Public launch stays unchanged; studio testing belongs to this exact host. */
+export const STUDIO_PREVIEW_HOST = "kobags.itdks.tech";
+export const STUDIO_PREVIEW_ORIGIN = `https://${STUDIO_PREVIEW_HOST}`;
+// Only used by the private, static handoff outline. Rendered UI uses request context.
 export const studioEnabled = process.env.NODE_ENV === "development";
+
+export function isStudioPreviewHost(hostname: string) {
+  return hostname.toLowerCase() === STUDIO_PREVIEW_HOST;
+}
+
+export function studioEnabledForHost(hostname: string, environment = process.env.NODE_ENV) {
+  return isStudioPreviewHost(hostname) || (environment === "development"
+    && ["localhost", "127.0.0.1", "::1", "[::1]"].includes(hostname.toLowerCase()));
+}
 
 export function isStudioPath(href: string) {
   try {

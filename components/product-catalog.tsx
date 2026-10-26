@@ -1,5 +1,4 @@
 "use client";
-import { studioEnabled } from "@/lib/studio-availability";
 import { useRef, useState } from "react";
 import Link from "@/components/site-link";
 import { ArrowUpRight, ArrowLeft, Maximize2, ChevronLeft, ChevronRight, ZoomIn, ZoomOut } from "lucide-react";
@@ -261,7 +260,7 @@ export function ProductCatalog() {
 export function ProductDetail({ product: original }: { product: Product }) {
   const { state } = useDemo();
   const cms = useCms();
-  const { update, t, lang } = useKobags();
+  const { update, t, lang, studioEnabled } = useKobags();
   const p = localizeProduct(
     cms.records.some(r=>r.kind==='product') ? cms.getProduct(original.slug) : state?.catalog.find((x) => x.slug === original.slug) || original,
     lang,

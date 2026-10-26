@@ -1,5 +1,4 @@
 "use client";
-import { studioEnabled } from "@/lib/studio-availability";
 import { useLiveInquiry, LiveReceipt } from "./cms/live-inquiry";
 import { useCms } from "./cms/public-context";
 import { useEffect, useState } from "react";
@@ -26,7 +25,7 @@ import PreparedRequestActions from "./prepared-request-actions";
 export default function QuoteFlow() {
   const cms = useCms();
   const getProduct = cms.getProduct;
-  const { t, lang, design, update, ready } = useKobags();
+  const { t, lang, design, update, ready, studioEnabled } = useKobags();
   const { state, error:demoError, busy:demoBusy, act, refresh } = useDemo();
   const live=useLiveInquiry();
   const busy=demoBusy||live.busy;

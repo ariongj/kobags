@@ -9,6 +9,7 @@ import { KobagsProvider } from "@/components/kobags-context";
 import { LocalizedCopy } from "@/components/localized-copy";
 import { Header, Footer, WhatsAppContact } from "@/components/site-shell";
 import { requestLanguage } from "@/lib/seo";
+import { requestStudioEnabled } from "@/lib/studio-request";
 import { SITE_NAME, SITE_ORIGIN } from "@/lib/seo-config";
 import { company } from "@/lib/company";
 import { publishedRecords } from "@/lib/cms/records";
@@ -32,12 +33,13 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const lang = await requestLanguage();
+  const studioEnabled = await requestStudioEnabled();
   const cms = (await publishedRecords()).map(r=>({id:r.id,kind:r.kind,slug:r.slug,revision:r.revision,content:r.published!}));
   const settings=cms.find(r=>r.kind==='settings')?.content.settings;
   return (
     <html lang={lang}>
       <body className="kobags-v5">
-        <CmsPublicProvider records={cms}><KobagsProvider initialLanguage={lang}>
+        <CmsPublicProvider records={cms}><KobagsProvider initialLanguage={lang} studioEnabled={studioEnabled}>
           <StructuredData data={{ "@context": "https://schema.org", "@graph": [
             { "@type": "Organization", "@id": SITE_ORIGIN + "/#organization", name: SITE_NAME, url: SITE_ORIGIN + "/", logo: SITE_ORIGIN + "/assets/logo.png", email: settings?.email||company.email, telephone: settings?.phone||company.telephone, address: { "@type": "PostalAddress", streetAddress: settings?.address||company.streetAddress, addressCountry: company.country }, areaServed: { "@type": "Country", name: company.country } },
             { "@type": "WebSite", "@id": SITE_ORIGIN + "/#website", name: SITE_NAME, url: SITE_ORIGIN + "/", publisher: { "@id": SITE_ORIGIN + "/#organization" }, inLanguage: ["en", "sq"] },

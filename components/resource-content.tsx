@@ -1,5 +1,4 @@
 "use client";
-import { studioEnabled } from "@/lib/studio-availability";
 import { useDemo } from "./demo-store";
 import { useKobags } from "./kobags-context";
 import { seed } from "@/lib/demo-domain";
@@ -17,7 +16,7 @@ const translations: Record<string, { title: string; body: string }> = {
 };
 export default function ResourceContent() {
   const { state } = useDemo();
-  const { lang, t } = useKobags();
+  const { lang, t, studioEnabled } = useKobags();
   return (
     <div className="resource-guides">
       {state?.content

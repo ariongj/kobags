@@ -1,5 +1,4 @@
 "use client";
-import { studioEnabled } from "@/lib/studio-availability";
 import { CmsContact, CmsSocialProfiles } from "./cms/public-extras";
 import Link from "@/components/site-link";
 import { usePathname } from "next/navigation";
@@ -8,7 +7,7 @@ import { ArrowUpRight, Menu, Globe2, X, MessageCircle } from "lucide-react";
 import { useKobags } from "./kobags-context";
 import { contentPath, languageHref } from "@/lib/site-locale";
 export function Header() {
-  const { t, lang, setLang, storageStatus } = useKobags();
+  const { t, lang, setLang, storageStatus, studioEnabled } = useKobags();
   const [open, setOpen] = useState(false);
   const path = contentPath(usePathname());
   const menuButton = useRef<HTMLButtonElement>(null);
@@ -112,7 +111,7 @@ export function Header() {
   );
 }
 export function Footer() {
-  const { t } = useKobags();
+  const { t, studioEnabled } = useKobags();
   return (
     <footer className="footer footer-v5">
       <div className="footer-invitation">
