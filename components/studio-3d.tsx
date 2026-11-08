@@ -11,14 +11,16 @@ import {
   LoaderCircle,
   SlidersHorizontal,
   X,
+  Download,
 } from "lucide-react";
 import type { Design } from "@/lib/catalog";
 import { placementPatch, type ArtworkLayer } from "@/lib/studio-artwork";
 import type { StudioSelection, StudioScene } from "@/lib/studio-scene";
-import { BagPreview, renderArtworkTexture, renderBlankBagTexture } from "./bag-preview";
+import { BagPreview, renderArtworkTexture } from "./bag-preview";
 import { useKobags } from "./kobags-context";
 export default function Studio3D({
   design,
+  dimensions,
   onReady,
   onChange,
   onSelectLayer,
@@ -30,6 +32,7 @@ export default function Studio3D({
   onDragChange,
 }: {
   design: Design;
+  dimensions?: string;
   onReady?: (ready: boolean) => void;
   onChange?: (patch: Partial<Design>) => void;
   onSelectLayer?: (layer: ArtworkLayer, side: Design["side"]) => void;
@@ -45,6 +48,9 @@ export default function Studio3D({
   const scene = useRef<StudioScene | null>(null);
   const controlsId = useId();
   const [controlsOpen, setControlsOpen] = useState(false);
+  const [brightness, setBrightness] = useState(1.1);
+  const [snapshotBusy, setSnapshotBusy] = useState(false);
+  const [snapshotError, setSnapshotError] = useState(false);
   const controlsToggle = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     if (!controlsOpen) return;
@@ -58,6 +64,8 @@ export default function Studio3D({
     return () => window.removeEventListener("keydown", close);
   }, [controlsOpen]);
   const latest = useRef(design);
+  const latestDimensions = useRef(dimensions);
+  useLayoutEffect(() => { latestDimensions.current = dimensions; }, [dimensions]);
   useLayoutEffect(() => { latest.current = design; }, [design]);
   const [selected, setSelected] = useState(editing);
   const skipSideView = useRef<Design["side"] | null>(null);
@@ -95,14 +103,12 @@ export default function Studio3D({
     setPreviousView({ side: design.side, editing, viewKey });
     setSpinning(false);
   }
-  const autoplayed = useRef(false);
   const [reduced, setReduced] = useState(false);
   const sync = useRef<(d: Design) => void>(() => {});
   useEffect(() => {
     const element = host.current!;
     let disposed = false;
     let unavailable = false;
-    autoplayed.current = false;
     onReady?.(false);
     const motion = matchMedia("(prefers-reduced-motion: reduce)");
     const motionChange = () => {
@@ -147,29 +153,18 @@ export default function Studio3D({
             ? selection.layer
             : undefined,
         ),
-        renderBlankBagTexture(d),
       ] as const)
-        .then(([front, back, photo]) => {
+        .then(([front, back]) => {
           if (
             disposed ||
             ticket !== generation.current ||
             scene.current !== instance
           )
             return;
-          instance.update(d, front, back, selection, photo);
+          instance.update(d, front, back, selection, latestDimensions.current);
           setStatus("ready");
           onReady?.(true);
-          if (
-            !autoplayed.current &&
-            !motion.matches &&
-            !d.logo &&
-            d.text === "YOUR\nBRAND" &&
-            !settings.current.selected
-          ) {
-            autoplayed.current = true;
-            instance.spin(true);
-            setSpinning(true);
-          }
+
         })
         .catch(fail);
     };
@@ -206,6 +201,7 @@ export default function Studio3D({
             },
           },
         );
+        scene.current.light(brightness);
         if (latest.current.side === "back") scene.current.view("back");
         sync.current(latest.current);
       })
@@ -218,10 +214,10 @@ export default function Studio3D({
       scene.current?.dispose();
       scene.current = null;
     };
-  }, [design.product, onReady]);
+  }, [onReady]);
   useEffect(() => {
     sync.current(design);
-  }, [design, selected, activeLayer, guides]);
+  }, [design, dimensions, selected, activeLayer, guides]);
   useEffect(() => {
     scene.current?.spin(spinning && !reduced);
   }, [spinning, reduced]);
@@ -238,8 +234,22 @@ export default function Studio3D({
     scene.current?.spin(false);
     if (scene.current) fn(scene.current);
   };
+  const download3D = async () => {
+    const instance=scene.current;
+    if (!instance || snapshotBusy) return;
+    setSnapshotBusy(true);setSnapshotError(false);
+    try {
+      const d=latest.current;
+      const [front,back]=await Promise.all([renderArtworkTexture({...d,side:"front"}),renderArtworkTexture({...d,side:"back"})]);
+      if(scene.current!==instance) return;
+      instance.update(d,front,back,null,latestDimensions.current);
+      const link=document.createElement("a");link.href=instance.snapshot();link.download=`kobags-${d.product}-3d.png`;link.click();
+      sync.current(latest.current);
+    } catch { setSnapshotError(true); }
+    finally { setSnapshotBusy(false); }
+  };
   return (
-    <div className="studio-3d" data-status={status}>
+    <div className="studio-3d" data-status={status} data-controls-open={controlsOpen}>
       <div
         className="studio-3d-host"
         ref={host}
@@ -272,8 +282,12 @@ export default function Studio3D({
           </p>
         </>
       )}
+      {snapshotError && <p className="studio-3d-fallback" role="status">{t("Could not save this view. Please try again.", "Pamja nuk u ruajt. Provoni përsëri.")}</p>}
       {status === "ready" && (
         <>
+        <div className="studio-view-presets" role="group" aria-label={t("Inspect the bag", "Shikoni çantën")}>
+          {([['angle','3/4','3/4'],['side','Side','Anash'],['inside','Inside','Brenda']] as const).map(([view,en,sq]) => <button type="button" key={view} onClick={()=>action(s=>s.view(view))} aria-label={t(`View ${en.toLowerCase()}`,`Pamja ${sq.toLowerCase()}`)}>{t(en,sq)}</button>)}
+        </div>
         <button
           type="button"
           className="studio-view-toggle"
@@ -293,6 +307,10 @@ export default function Studio3D({
           role="group"
           aria-label={t("3D view controls", "Kontrollet e pamjes 3D")}
         >
+          <label className="studio-light-control">
+            <span>{t("Light", "Drita")}</span>
+            <input type="range" min="0.7" max="1.5" step="0.05" value={brightness} onChange={e=>{const value=Number(e.target.value);setBrightness(value);scene.current?.light(value);}} aria-label={t("Preview brightness", "Ndriçimi i parapamjes")}/>
+          </label>
           <strong className="studio-3d-badge" aria-hidden="true">
             360°
           </strong>
@@ -323,6 +341,7 @@ export default function Studio3D({
           >
             <Plus size={16} />
           </button>
+          <button type="button" aria-label={t("Save 3D image", "Ruaj imazhin 3D")} title={t("Save this 3D view", "Ruaj këtë pamje 3D")} onClick={download3D} disabled={snapshotBusy}><Download size={16}/></button>
           <button
             aria-label={t("Reset 3D view", "Rivendos pamjen 3D")}
             title={t("Reset view", "Rivendos pamjen")}

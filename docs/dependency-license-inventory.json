@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-26T18:18:44.955697+00:00",
-  "packageLockSha256": "f6165748226f0441cb846265c05e94d4430c3f18be777c7608f7d925c2ff5c37",
+  "generatedAt": "2026-11-08T21:38:04.226540+00:00",
+  "packageLockSha256": "5fbfeb1c343fb3353b75fe24d1110b18c4a89267ca21bcda0ae4350c6968421f",
   "scope": "Declared licenses for every locked package; full notices supplied by installed packages or separately preserved exact-source notices. Optional packages absent on this OS are inventoried, not redistributed.",
-  "lockedPackageRecords": 863,
-  "installedPackageRecords": 686,
+  "lockedPackageRecords": 864,
+  "installedPackageRecords": 689,
   "declaredLicenseCounts": {
     "0BSD": 2,
     "Apache-2.0": 46,
@@ -11,7 +11,7 @@
     "Apache-2.0 AND LGPL-3.0-or-later AND MIT": 1,
     "BSD-2-Clause": 11,
     "BSD-3-Clause": 6,
-    "BlueOak-1.0.0": 1,
+    "BlueOak-1.0.0": 2,
     "CC-BY-4.0": 1,
     "CC0-1.0": 2,
     "ISC": 31,
@@ -23,6 +23,7 @@
     "Python-2.0": 1
   },
   "installedPackagesWithoutRootNotice": [
+    "@rolldown/binding-linux-x64-musl@1.2.15",
     "css-box-shadow@1.0.0-3",
     "drizzle-kit@0.31.10",
     "stable-hash@0.0.5"
@@ -1944,6 +1945,19 @@
       "repository": null,
       "noticeHashes": [],
       "rootNotice": false
+    },
+    {
+      "name": "@isaacs/nonrecursive-glob-match",
+      "version": "1.1.0",
+      "license": "BlueOak-1.0.0",
+      "location": "node_modules/@isaacs/nonrecursive-glob-match",
+      "developmentOnly": true,
+      "installed": true,
+      "repository": null,
+      "noticeHashes": [
+        "8a1af140fdfbf5afd3df27f7e662f989c5b963a300020dfafce42033cae9e004"
+      ],
+      "rootNotice": true
     },
     {
       "name": "@jridgewell/gen-mapping",
@@ -4093,8 +4107,12 @@
       "license": "MIT",
       "location": "node_modules/@rolldown/binding-linux-x64-musl",
       "developmentOnly": true,
-      "installed": false,
-      "repository": null,
+      "installed": true,
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/rolldown/rolldown.git",
+        "directory": "packages/rolldown"
+      },
       "noticeHashes": [],
       "rootNotice": false
     },
@@ -4885,19 +4903,6 @@
       "rootNotice": true
     },
     {
-      "name": "fflate",
-      "version": "0.8.3",
-      "license": "MIT",
-      "location": "node_modules/@types/three/node_modules/fflate",
-      "developmentOnly": true,
-      "installed": true,
-      "repository": "https://github.com/101arrowz/fflate",
-      "noticeHashes": [
-        "0a1df3a083d0c010560aa342e87959c8c1070e6fd54545741f083f22d0c8b551"
-      ],
-      "rootNotice": true
-    },
-    {
       "name": "@types/use-sync-external-store",
       "version": "0.0.6",
       "license": "MIT",
@@ -5117,7 +5122,7 @@
     },
     {
       "name": "minimatch",
-      "version": "10.2.5",
+      "version": "11.0.1",
       "license": "BlueOak-1.0.0",
       "location": "node_modules/@typescript-eslint/typescript-estree/node_modules/minimatch",
       "developmentOnly": true,
@@ -6597,7 +6602,7 @@
     },
     {
       "name": "css-gradient-parser",
-      "version": "0.0.16",
+      "version": "0.0.17",
       "license": "MIT",
       "location": "node_modules/css-gradient-parser",
       "developmentOnly": true,
@@ -8236,14 +8241,14 @@
     },
     {
       "name": "fflate",
-      "version": "0.7.5",
+      "version": "0.8.3",
       "license": "MIT",
       "location": "node_modules/fflate",
       "developmentOnly": true,
       "installed": true,
       "repository": "https://github.com/101arrowz/fflate",
       "noticeHashes": [
-        "62249119bb7df6e54300f37a37145c26a6d4420410aac8881a119c5b427cf751"
+        "0a1df3a083d0c010560aa342e87959c8c1070e6fd54545741f083f22d0c8b551"
       ],
       "rootNotice": true
     },
@@ -8585,6 +8590,22 @@
       },
       "noticeHashes": [
         "f65c5d9f22a317b2a10803bd1868461ce6499c2ed7217bc80c0cc772a748789c"
+      ],
+      "rootNotice": true
+    },
+    {
+      "name": "harfbuzzjs",
+      "version": "0.10.0",
+      "license": "MIT",
+      "location": "node_modules/harfbuzzjs",
+      "developmentOnly": true,
+      "installed": true,
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/harfbuzz/harfbuzzjs.git"
+      },
+      "noticeHashes": [
+        "c85596583d1b7e4cfb4f21165ce0988aabd72e80a8c3a2ab6aaeedc1965e8288"
       ],
       "rootNotice": true
     },
@@ -11170,7 +11191,7 @@
     },
     {
       "name": "satori",
-      "version": "0.16.0",
+      "version": "0.33.5",
       "license": "MPL-2.0",
       "location": "node_modules/satori",
       "developmentOnly": true,
@@ -12574,10 +12595,15 @@
       "license": "MPL-2.0",
       "location": "node_modules/vite/node_modules/lightningcss-linux-x64-musl",
       "developmentOnly": true,
-      "installed": false,
-      "repository": null,
-      "noticeHashes": [],
-      "rootNotice": false
+      "installed": true,
+      "repository": {
+        "type": "git",
+        "url": "https://github.com/parcel-bundler/lightningcss.git"
+      },
+      "noticeHashes": [
+        "5eba353fe5076ac3432177f8ab1cf75e3afcd0584251e37c3bfead5f447d040e"
+      ],
+      "rootNotice": true
     },
     {
       "name": "lightningcss-win32-arm64-msvc",

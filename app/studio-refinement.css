@@ -1,0 +1,31 @@
+/* The supplied non-woven viewer fits the existing Kobags layout. */
+.studio-view-presets {
+  position: absolute; left: 14px; bottom: 53px; display: flex; gap: 3px;
+  padding: 3px; border: 1px solid #dae5de; border-radius: 8px;
+  background: #fffffff0; z-index: 3;
+}
+.studio-view-presets button {
+  min-height: 34px; min-width: 42px; padding: 6px 10px; border-radius: 5px;
+  color: #24493b; font-size: 12px; font-weight: 600;
+}
+.studio-view-presets button:hover { background: #e9f2ec; }
+.studio-light-control { display: flex; align-items: center; gap: 8px; font-size: 11px; color: #345b52; padding: 0 6px; }
+.studio-light-control input { width: 78px; accent-color: #087a36; min-height: 32px; }
+.studio-3d-tools { max-width: calc(100% - 28px); flex-wrap: wrap; justify-content: center; }
+.studio-view-presets button:focus-visible,.studio-light-control input:focus-visible { outline: 2px solid #087a36; outline-offset: 2px; }
+@media (min-width: 761px) and (max-width: 1150px) {
+  .studio-light-control { width: 100%; justify-content: space-between; }
+  .studio-light-control input { flex: 1; max-width: 160px; }
+  .studio-3d-tools { width: 260px; }
+}
+@media (max-width: 760px) {
+  .studio-view-presets { display: none; left: auto; right: 6px; bottom: 160px; gap: 4px; }
+  .studio-3d[data-controls-open="true"] .studio-view-presets { display: flex; }
+  .studio-view-presets button { min-height: 44px; min-width: 64px; }
+  .kobags-v5 .studio-3d .studio-3d-tools[data-open="true"] { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
+  .studio-3d-tools { width: 318px; max-width: calc(100% - 12px); padding: 4px; }
+  .studio-3d-tools > strong,.studio-3d-tools > span { display: none; }
+  .studio-light-control { grid-column: 1 / -1; min-width: 0; justify-content: space-between; padding: 0 8px; font-size: 12px; }
+  .studio-light-control input { flex: 1; max-width: 215px; min-height: 40px; }
+  .kobags-v5 .studio-3d .studio-3d-tools button { width: 100%; min-width: 0; height: 44px; }
+}

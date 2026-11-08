@@ -688,8 +688,8 @@ export default function BagStudio() {
             </div>
             {viewMode === "3d" ? (
               <Studio3D
-                key={design.product}
                 design={design}
+                dimensions={v.dimensions}
                 onReady={setPreviewReady}
                 {...studioEditing}
               />
@@ -1356,7 +1356,7 @@ export default function BagStudio() {
               <span>{t("See material, stitching and shape", "Shihni materialin, qepjet dhe formën")}</span>
             </div>
             <div className="studio-real-samples-images">
-              {[p.image, productMedia[p.slug].home, ...(p.slug === "d-cut-bag" ? [] : [productMedia[p.slug].detail])].map((src, index) => (
+              {Array.from(new Set([p.image, productMedia[p.slug].home, ...(p.slug === "d-cut-bag" ? [] : [productMedia[p.slug].detail])])).map((src, index) => (
                 <button
                   type="button"
                   key={src}
@@ -1434,7 +1434,7 @@ export default function BagStudio() {
           </DialogDescription>
           <div className="fullscreen-studio-view">
             {viewMode === "3d" ? (
-              <Studio3D key={design.product} design={design} {...studioEditing} />
+              <Studio3D design={design} dimensions={v.dimensions} {...studioEditing} />
             ) : (
               <BagPreview design={design} onChange={update} activeLayer={activeLayer} onSelectLayer={selectArtwork} onDragChange={artworkDrag} guides={guides && tab === "artwork"} />
             )}

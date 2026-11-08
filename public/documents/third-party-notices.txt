@@ -211,6 +211,9 @@ Notices: 73ba74dfaa520b49
 @img/sharp-wasm32@0.35.5 — declared license: Apache-2.0 AND LGPL-3.0-or-later AND MIT
 Notices: 73ba74dfaa520b49
 
+@isaacs/nonrecursive-glob-match@1.1.0 — declared license: BlueOak-1.0.0
+Notices: 8a1af140fdfbf5af
+
 @jridgewell/gen-mapping@0.3.13 — declared license: MIT
 Notices: 769d154fbde32a91
 
@@ -566,6 +569,10 @@ Notice provenance: Exact source commit identified by the published package.
 Notices: 23ecfff35a5a2e80
 Notice provenance: Shared upstream project license supplied by the installed parent package at version 1.2.15; package declaration retained.
 
+@rolldown/binding-linux-x64-musl@1.2.15 — declared license: MIT
+Publisher package has no standalone root license text; declaration retained. See source repository/maintainer for complete terms.
+Repository: {"type": "git", "url": "git+https://github.com/rolldown/rolldown.git", "directory": "packages/rolldown"}
+
 @rolldown/pluginutils@1.0.1 — declared license: MIT
 Notices: e1919b3b98b8bf6c
 
@@ -669,9 +676,6 @@ Notices: c2cfccb812fe4821
 @types/three@0.186.0 — declared license: MIT
 Notices: c2cfccb812fe4821
 
-fflate@0.8.3 — declared license: MIT
-Notices: 0a1df3a083d0c010
-
 @types/use-sync-external-store@0.0.6 — declared license: MIT
 Notices: c2cfccb812fe4821
 
@@ -711,7 +715,7 @@ Notices: d408f38ffa3355c5
 brace-expansion@5.0.12 — declared license: MIT
 Notices: 9c63a23124d68cd3
 
-minimatch@10.2.5 — declared license: BlueOak-1.0.0
+minimatch@11.0.1 — declared license: BlueOak-1.0.0
 Notices: 2c7c5d22ed5a8ee9
 
 semver@7.8.0 — declared license: ISC
@@ -966,7 +970,7 @@ Repository: null
 css-color-keywords@1.0.0 — declared license: ISC
 Notices: 17a548211b4a0cfa
 
-css-gradient-parser@0.0.16 — declared license: MIT
+css-gradient-parser@0.0.17 — declared license: MIT
 Notices: 112f34fd9cb305e6
 
 css-to-react-native@3.2.0 — declared license: MIT
@@ -1234,8 +1238,8 @@ Notices: b010b0dfdfdb23d7
 fastq@1.20.1 — declared license: ISC
 Notices: c3367f6d01a79d36
 
-fflate@0.7.5 — declared license: MIT
-Notices: 62249119bb7df6e5
+fflate@0.8.3 — declared license: MIT
+Notices: 0a1df3a083d0c010
 
 file-entry-cache@8.0.0 — declared license: MIT
 Notices: a0e2f73971f663b4
@@ -1303,6 +1307,9 @@ Notices: d90bf0a089da4cf4
 
 graceful-fs@4.2.11 — declared license: ISC
 Notices: f65c5d9f22a317b2
+
+harfbuzzjs@0.10.0 — declared license: MIT
+Notices: c85596583d1b7e4c
 
 has-bigints@1.1.0 — declared license: MIT
 Notices: cfc3f455254c0af0
@@ -1778,7 +1785,7 @@ Notices: 5e325595b4ea8cfe
 safe-regex-test@1.1.0 — declared license: MIT
 Notices: d90bf0a089da4cf4
 
-satori@0.16.0 — declared license: MPL-2.0
+satori@0.33.5 — declared license: MPL-2.0
 Notices: 1f256ecad1928805
 
 scheduler@0.27.0 — declared license: MIT
@@ -2038,6 +2045,9 @@ lightningcss@1.33.0 — declared license: MPL-2.0
 Notices: 5eba353fe5076ac3
 
 lightningcss-linux-x64-gnu@1.33.0 — declared license: MPL-2.0
+Notices: 5eba353fe5076ac3
+
+lightningcss-linux-x64-musl@1.33.0 — declared license: MPL-2.0
 Notices: 5eba353fe5076ac3
 
 picomatch@4.0.7 — declared license: MIT
@@ -2360,7 +2370,7 @@ SOFTWARE.
 
 ==============================================================================
 NOTICE 0a1df3a083d0c010
-node_modules/@types/three/node_modules/fflate/LICENSE
+node_modules/fflate/LICENSE
 
 MIT License
 
@@ -7464,6 +7474,7 @@ node_modules/lightningcss-linux-x64-gnu/LICENSE
 node_modules/lightningcss-linux-x64-musl/LICENSE
 node_modules/vite/node_modules/lightningcss/LICENSE
 node_modules/vite/node_modules/lightningcss-linux-x64-gnu/LICENSE
+node_modules/vite/node_modules/lightningcss-linux-x64-musl/LICENSE
 
  Mozilla Public License Version 2.0
 ==================================
@@ -7924,32 +7935,6 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR
 ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-==============================================================================
-NOTICE 62249119bb7df6e5
-node_modules/fflate/LICENSE
-
-MIT License
-
-Copyright (c) 2020 Arjun Barrett
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
 
 ==============================================================================
 NOTICE 6236fa0b88a4a0cc
@@ -9181,6 +9166,7 @@ SOFTWARE.
 
 ==============================================================================
 NOTICE 8a1af140fdfbf5af
+node_modules/@isaacs/nonrecursive-glob-match/LICENSE.md
 node_modules/next/dist/compiled/tar/LICENSE
 
 # Blue Oak Model License
@@ -15229,6 +15215,33 @@ node_modules/next/dist/compiled/@opentelemetry/api/LICENSE
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
+
+==============================================================================
+NOTICE c85596583d1b7e4c
+node_modules/harfbuzzjs/LICENSE
+
+Apache license for Zephyr libc implementations (zephyr-string.c),
+emmalloc.cpp (from emscripten project) and MIT for rest of the project
+
+Copyright (c) 2019 Ebrahim Byagowi
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 ==============================================================================
 NOTICE c8df456c7ccba74b
