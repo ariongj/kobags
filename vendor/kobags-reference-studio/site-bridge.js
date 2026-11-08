@@ -63,6 +63,7 @@ function quotePreviews() {
 }
 window.addEventListener('message', e => {
   if (e.source !== window.parent || e.origin !== location.origin || !bridgeReady) return;
+  if (e.data?.type === 'kobags:studio-status') sendWebsite('kobags:studio-ready');
   if (e.data?.type === 'kobags:request-quote') {
     storeStudioDraft();
     try { sendWebsite('kobags:quote-design', { bag: { ...state }, front: printForQuote('front'), back: printForQuote('back'), referenceStudio: quotePreviews() }); }

@@ -79,7 +79,11 @@ async def main():
   async with page.expect_download() as d: await f.evaluate('() => document.getElementById("shot").click()')
   dl=await d.value; await dl.save_as(str(OUT/f'{MODE}-export-{WIDTH}.png'))
   print('EXPORTED',flush=True)
-  await page.get_by_role('button',name='Continue to quote',exact=True).click()
+  print('QUOTE BUTTON',await page.evaluate('() => {const b=document.querySelector(".reference-studio-bar button");return {text:b?.textContent,disabled:b?.disabled}}'),flush=True)
+  await page.wait_for_function('() => {const b=document.querySelector(".reference-studio-bar button");return b && !b.disabled && b.textContent.includes("Continue to quote")}',polling=200,timeout=45000)
+  button=await page.evaluate('() => {const b=document.querySelector(".reference-studio-bar button");b.scrollIntoView({block:"center"});const r=b.getBoundingClientRect();return {x:r.left+r.width/2,y:r.top+r.height/2}}')
+  if WIDTH<800:await page.touchscreen.tap(button['x'],button['y'])
+  else:await page.mouse.click(button['x'],button['y'])
   await page.wait_for_url('**/quote',timeout=120000)
   draft=await page.evaluate('() => JSON.parse(localStorage.getItem("kobags-design-v1"))')
   assert draft['customDimensions']=='40 × 38.5 × 17 cm'

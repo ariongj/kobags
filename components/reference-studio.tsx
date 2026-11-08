@@ -41,12 +41,16 @@ export default function ReferenceStudio() {
       router.push(languageHref('/quote', lang));
     };
     window.addEventListener('message', receive);
+    // The cached viewer can finish before the outer page hydrates. Ask for its
+    // current status after installing the listener instead of relying on a
+    // single startup message arriving at exactly the right time.
+    frame.current?.contentWindow?.postMessage({ type: 'kobags:studio-status' }, location.origin);
     return () => window.removeEventListener('message', receive);
   }, [update, router, lang, design.note]);
   return <section className="reference-studio-shell" aria-label={t('Kobags 3D design studio', 'Studioja 3D e Kobags')}>
     <div className="reference-studio-bar"><strong>{t('Your bag, in 3D.', 'Çanta juaj, në 3D.')}</strong><button type="button" className="button" disabled={!ready || busy} onClick={() => { setQuoteError(false); setBusy(true); frame.current?.contentWindow?.postMessage({ type: 'kobags:request-quote' }, location.origin); }}>{t(busy ? 'Preparing…' : !ready ? unavailable ? 'Studio unavailable' : 'Loading studio…' : 'Continue to quote', busy ? 'Duke përgatitur…' : !ready ? unavailable ? 'Studioja nuk është e disponueshme' : 'Duke hapur studion…' : 'Vazhdoni te oferta')}<ArrowUpRight size={16}/></button></div>
     {quoteError && <p className="reference-studio-storage" role="alert">{t('Your design could not be prepared. Please try again, or save an image and contact us.', 'Dizajni nuk u përgatit. Provoni përsëri, ose ruani një imazh dhe na kontaktoni.')}</p>}
     {storageError && <p className="reference-studio-storage" role="status">{t('Your browser could not save this draft. Download your design before closing this page.', 'Shfletuesi nuk e ruajti draftin. Shkarkoni dizajnin përpara mbylljes së faqes.')}</p>}
-    <iframe ref={frame} src={languageHref('/design/viewer', lang)} className="reference-studio-frame" title={t('Interactive Kobags bag configurator', 'Konfiguruesi interaktiv i çantave Kobags')} />
+    <iframe ref={frame} src={languageHref('/design/viewer', lang)} onLoad={() => frame.current?.contentWindow?.postMessage({ type: 'kobags:studio-status' }, location.origin)} className="reference-studio-frame" title={t('Interactive Kobags bag configurator', 'Konfiguruesi interaktiv i çantave Kobags')} />
   </section>;
 }

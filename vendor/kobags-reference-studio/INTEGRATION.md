@@ -9,6 +9,7 @@ Delivery changes are separate from the upstream file:
 
 - `scripts/build-reference-studio.mjs`: bundles dependencies, emits hashed assets and the same-origin HTML document; catches startup failures with a reload message. It corrects `setAnimationLoop(render)` to `setAnimationLoop(() => render())` because Three's timestamp was being interpreted as the source's `force` argument. Geometry and lighting are unchanged.
 - `site-bridge.js`: essential browser draft persistence, restoration of uploaded artwork and handle settings, origin-checked parent messages, and bounded front/back artwork plus 3D preview images for the existing quote flow. No analytics, upload service or external data connection is added.
+- The parent and viewer exchange a ready-state handshake after hydration and iframe loading. Cached reloads do not depend on a one-time message. The existing cookie settings clear the studio draft too, including other open studio tabs; restored upload IDs remain unique.
 - `/design`: site navigation and a quote button around the original studio.
 - `/design/viewer`: the original full-screen document; `?preview=1` uses the same renderer without the control panel for the homepage.
 - Host checks permit studio routes only on `kobags.itdks.tech` (and local development). The main domain continues to redirect studio paths to its product catalogue.
