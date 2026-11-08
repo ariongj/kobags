@@ -47,6 +47,7 @@ export default function QuoteFlow() {
   const p = getProduct(design.product);
   const variant =
     p.variants.find((v) => v.name === design.size) || p.variants[0];
+  const studioSpecification = studioEnabled ? design.referenceStudio : undefined;
   const sizeSq: Record<string, string> = { Small: "E vogël", Medium: "Mesatare", Large: "E madhe" };
   const displaySize = t(design.size, sizeSq[design.size]);
   const displayColor = t(design.color, colors.find((color) => color.name === design.color)?.sq);
@@ -367,6 +368,7 @@ export default function QuoteFlow() {
                       size: cms.options(product)?.activeSizes?.[0] || getProduct(product).variants[0].name,
                       color: preferredBagColor(cms.options(product)?.colors, design.color),
                       printColors: Math.min(design.printColors, cms.options(product)?.printColors || 4),
+                      ...(studioSpecification ? { customDimensions: "" } : {}),
                     })
                   }
                   options={cms.products.map((p) => ({
@@ -377,12 +379,12 @@ export default function QuoteFlow() {
                 <Choice
                   id="q-size"
                   label={t("Size", "Madhësia")}
-                  value={design.size}
-                  onChange={(size) => update({ size })}
-                  options={p.variants.filter(v=>!cms.options(p.slug)?.activeSizes || cms.options(p.slug)!.activeSizes!.includes(v.name)).map((v) => ({
+                  value={studioSpecification ? "reference-studio" : design.size}
+                  onChange={(size) => { if (size !== "reference-studio") update({ size, ...(studioSpecification ? { customDimensions: "" } : {}) }); }}
+                  options={[...(studioSpecification ? [{ value: "reference-studio", label: `${t("Studio", "Studio")} · ${studioSpecification.size} · ${studioSpecification.dimensions}` }] : []), ...p.variants.filter(v=>!cms.options(p.slug)?.activeSizes || cms.options(p.slug)!.activeSizes!.includes(v.name)).map((v) => ({
                     value: v.name,
                     label: t(v.name, sizeSq[v.name]) + " · " + v.dimensions,
-                  }))}
+                  }))]}
                 />
                 <Choice
                   id="q-purpose"
