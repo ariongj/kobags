@@ -63,8 +63,10 @@ async def main():
   checks.append('Direct back-side editing; independent text/QR; artwork picker, duplicate, position nudge and size controls')
   await frame.locator('#copySide').click();await frame.locator('.studio-copy-confirm').wait_for(state='visible')
   await frame.locator('.studio-copy-confirm').get_by_role('button',name='Cancel',exact=True).click()
+  assert await frame.locator('#copySide').evaluate('(e)=>document.activeElement===e')
   assert await frame.evaluate('() => JSON.stringify(__api.design.front)')==front_before
   await frame.locator('#copySide').click();await frame.locator('#confirm-copy').click()
+  assert await frame.locator('#copySide').evaluate('(e)=>document.activeElement===e')
   equal=await frame.evaluate('''() => {const strip=x=>x.map(({id,...other})=>other);return JSON.stringify(strip(__api.design.front))===JSON.stringify(strip(__api.design.back))}''');assert equal
   checks.append('Copy confirmation protects existing artwork; cancel preserves it; replace copies both sides')
   await page.wait_for_timeout(700)

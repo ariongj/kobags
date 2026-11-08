@@ -40,8 +40,8 @@ if (!isWebsitePreview) {
   const confirmation=make('div','studio-copy-confirm');confirmation.hidden=true;confirmation.setAttribute('role','group');confirmation.setAttribute('aria-label','Replace other side artwork');
   confirmation.append(make('span','','Replace the artwork on the other side?'));
   const originalCopy=copyBtn.onclick;
-  const replaceCopy=action('Replace artwork',()=>{originalCopy();confirmation.hidden=true;syncFriendlyControls();});replaceCopy.id='confirm-copy';
-  confirmation.append(replaceCopy,action('Cancel',()=>{confirmation.hidden=true;}));document.getElementById('sideSeg').after(confirmation);
+  const replaceCopy=action('Replace artwork',()=>{originalCopy();confirmation.hidden=true;syncFriendlyControls();copyBtn.focus();});replaceCopy.id='confirm-copy';
+  confirmation.append(replaceCopy,action('Cancel',()=>{confirmation.hidden=true;copyBtn.focus();}));document.getElementById('sideSeg').after(confirmation);
   copyBtn.onclick=()=>{const other=side==='front'?'back':'front';if(design[other].length){confirmation.hidden=false;replaceCopy.focus();}else{originalCopy();syncFriendlyControls();}};
   function syncFriendlyControls(){
     const items=design[side]; const remembered=String(selId??'');
