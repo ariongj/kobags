@@ -1,0 +1,9 @@
+.reference-studio-shell { width: 100%; background: #e9e7e3; }
+.reference-studio-bar { min-height: 48px; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 6px 18px; border-bottom: 1px solid #dcd9d3; background: #f8f7f4; }
+.reference-studio-bar strong { font-size: 15px; }
+.reference-studio-bar .button { min-height: 36px; padding: 7px 14px; font-size: 12px; }
+.reference-studio-frame { width: 100%; height: calc(100svh - 122px); min-height: 640px; display: block; border: 0; }
+.reference-studio-storage { padding: 8px 18px; font-size: 13px; background: #fff; }
+.reference-showcase-frame { display: block; width: 100%; height: 570px; border: 0; border-radius: 12px; }
+.reference-quote-image { display: block; width: 100%; height: auto; aspect-ratio: 1; max-height: 320px; object-fit: contain; border-radius: 8px; }
+@media(max-width:760px) { .reference-studio-bar { padding: 6px 10px; }.reference-studio-bar strong { font-size: 13px; }.reference-studio-frame { height: calc(100svh - 104px); min-height: 610px; }.reference-showcase-frame { height: 440px; } }

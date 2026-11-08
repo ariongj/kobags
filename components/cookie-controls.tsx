@@ -13,7 +13,10 @@ export default function CookieControls() {
         onClick={() => {
           clearStoredDraft();
           replace({ ...initialDesign, key: crypto.randomUUID() });
-          try { localStorage.removeItem("kobags-quote-step"); } catch {}
+          try {
+            localStorage.removeItem("kobags-quote-step");
+            localStorage.removeItem("kobags-reference-studio-v1");
+          } catch {}
           setDone(true);
         }}
       >

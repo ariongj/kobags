@@ -412,5 +412,15 @@
     "source": "node_modules/rolldown/LICENSE",
     "sourceBasis": "Shared upstream project license supplied by the installed parent package at version 1.2.15; package declaration retained.",
     "status": "source-notice"
+  },
+  "qrcode-generator@1.4.4": {
+    "file": "vendor/dependency-licenses/3a850fa5f08101db.txt",
+    "sha256": "3a850fa5f08101db6f40676c2786e10bd2cd5fff7b12ffdf1e0c434d4e49d90c",
+    "source": "https://raw.githubusercontent.com/kazuhikoarase/qrcode-generator/83b7e8fe3fddd3b0368dbafd6ce56995bd25e3c8/LICENSE",
+    "sourceCommit": "83b7e8fe3fddd3b0368dbafd6ce56995bd25e3c8",
+    "declaredLicense": "MIT",
+    "status": "source-notice-review",
+    "sourceBasis": "Upstream project MIT permission text preserved alongside the explicit MIT/copyright header shipped in qrcode-generator 1.4.4. The 1.4.4 npm release has no standalone license file or gitHead; this is not claimed to be a version-specific license file.",
+    "reviewRequired": "Standalone 1.4.4 license file was not included by the publisher. Its shipped source explicitly declares MIT with Copyright (c) 2009 Kazuhiko Arase."
   }
 }

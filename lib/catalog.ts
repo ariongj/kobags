@@ -122,6 +122,15 @@ export type ArtworkPlacement = {
   rotation: number;
 };
 export type Design = {
+  referenceStudio?: {
+    source: 'ariongj-mo-b23cd8f';
+    productName: string;
+    size: string;
+    dimensions: string;
+    fabric: string;
+    front: string;
+    back: string;
+  };
   elements?: ArtworkElement[];
   layeredArtwork?: boolean;
   textPlacement?: ArtworkPlacement;

@@ -400,7 +400,10 @@ export function BagPreview({
   const art = sideArtwork(design, activeLayer);
   const p = getProduct(design.product);
   const interactive = Boolean(onChange);
+  const referenceImage = design.referenceStudio?.[design.side];
+  const useReferenceImage = !interactive && !canvasRef && typeof referenceImage === 'string' && /^data:image\/(png|webp);base64,/.test(referenceImage);
   useEffect(() => {
+    if (useReferenceImage) return;
     let current = true;
     onReady?.(false);
     if (ref.current) ref.current.dataset.ready = "false";
@@ -430,7 +433,7 @@ export function BagPreview({
     return () => {
       current = false;
     };
-  }, [design, guides, compact, ref, interactive, onReady, activeLayer, p.slug]);
+  }, [design, guides, compact, ref, interactive, onReady, activeLayer, p.slug, useReferenceImage]);
   const position = (event: React.PointerEvent<HTMLCanvasElement>) => {
     const rect = event.currentTarget.getBoundingClientRect();
     const contain = getComputedStyle(event.currentTarget).objectFit === "contain";
@@ -460,6 +463,7 @@ export function BagPreview({
     event.currentTarget.style.cursor = "grab";
     if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
   };
+  if (useReferenceImage) return <img className="reference-quote-image" src={referenceImage} width={800} height={800} alt={`${design.referenceStudio!.productName} · ${design.side}`} onLoad={() => onReady?.(true)} />;
   return (
     <>
       {failed ? (

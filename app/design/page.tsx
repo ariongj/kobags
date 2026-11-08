@@ -1,4 +1,4 @@
-import BagStudio from "@/components/bag-studio";
+import ReferenceStudio from "@/components/reference-studio";
 import { pageMetadata } from "@/lib/seo";
 import { requestStudioEnabled } from "@/lib/studio-request";
 import { redirect } from "next/navigation";
@@ -9,7 +9,7 @@ export default async function DesignPage() {
   if (!(await requestStudioEnabled())) redirect(languageHref("/products", await requestLanguage()));
   return (
     <main>
-      <BagStudio />
+      <ReferenceStudio />
     </main>
   );
 }

@@ -68,6 +68,8 @@ export function KobagsProvider({ children, initialLanguage = "en", studioEnabled
     // survive even when its storage event has not been delivered yet.
     const base = { ...draftRef.current, ...readStoredDraft() };
     const merged = limitDesignText({ ...base, ...patch });
+    if (!patch.referenceStudio && ['product', 'size', 'color', 'customDimensions'].some(key => key in patch && patch[key as keyof Design] !== base[key as keyof Design]))
+      merged.referenceStudio = undefined;
     const next = patch.color && patch.color !== draftRef.current.color && patch.ink === undefined && patch.backInk === undefined
       ? readableTextForBag(merged)
       : merged;

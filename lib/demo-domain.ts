@@ -183,6 +183,15 @@ const placementSchema = z.object({
   rotation: z.number().min(-45).max(45),
 });
 export const designSchema = z.object({
+  referenceStudio: z.object({
+    source: z.literal('ariongj-mo-b23cd8f'),
+    productName: z.string().min(1).max(40),
+    size: z.string().min(1).max(10),
+    dimensions: z.string().min(1).max(100),
+    fabric: z.string().regex(/^#[0-9a-fA-F]{6}$/),
+    front: image,
+    back: image,
+  }).optional(),
   elements: z.array(z.object({
     id: z.string().regex(/^[a-zA-Z0-9-]{1,60}$/),
     side: z.enum(["front", "back"]),
@@ -316,7 +325,7 @@ export function applyAction(
     for (const side of ["front", "back"] as const) {
       if (artworkLayers({ ...d, side }).length > 4) throw Error("TOO_MANY_ARTWORK_ELEMENTS");
     }
-    for (const image of [d.logo, d.backLogo, ...(d.elements || []).map(e => e.logo)]) {
+    for (const image of [d.logo, d.backLogo, d.referenceStudio?.front, d.referenceStudio?.back, ...(d.elements || []).map(e => e.logo)]) {
       if (image) {
         const bytes = atob(image.split(",")[1]);
         if (!(
@@ -338,8 +347,8 @@ export function applyAction(
       notes: [],
       snapshot: {
         ...d,
-        productName: p.name,
-        dimensions: v.dimensions,
+        productName: d.referenceStudio?.productName || p.name,
+        dimensions: d.referenceStudio?.dimensions || v.dimensions,
         gsm: v.gsm,
         description: p.description,
       },

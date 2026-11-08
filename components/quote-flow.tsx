@@ -42,7 +42,7 @@ export default function QuoteFlow() {
   const collectionPrefix = collectionName ? `Collection: ${collectionName}\n\n` : "";
   // Public requests contain specifications only while the studio is local-only.
   // Keep browser artwork untouched so local testing / existing drafts are retained.
-  const quoteDesign = studioEnabled ? design : { ...design, logo: "", logoName: "", text: "", backLogo: "", backLogoName: "", backText: "", elements: [] };
+  const quoteDesign = studioEnabled ? design : { ...design, referenceStudio: undefined, logo: "", logoName: "", text: "", backLogo: "", backLogoName: "", backText: "", elements: [] };
   const requestDesign = collectionPrefix ? {...quoteDesign,note:collectionPrefix+design.note.replace(/^Collection: (?:Thank you bags|Smiley bags)\n\n/, "")} : quoteDesign;
   const p = getProduct(design.product);
   const variant =
@@ -428,7 +428,7 @@ export default function QuoteFlow() {
                     {(["front", "back"] as const).map((side) => {
                       return (
                         <div key={side} className="quote-artwork-face">
-                          <BagPreview design={{ ...design, side }} compact />
+                          {design.referenceStudio ? <img className="reference-quote-image" src={design.referenceStudio[side]} alt={`${design.referenceStudio.productName} · ${side}`} width={800} height={800}/> : <BagPreview design={{ ...design, side }} compact />}
                           <h3>
                             {t(
                               side === "front" ? "Front" : "Back",
@@ -649,16 +649,16 @@ export default function QuoteFlow() {
                 <Pencil size={16} />
               </Link>}
             </div>
-            {studioEnabled ? <BagPreview design={design} compact /> : <figure className="quote-product-photo">
+            {studioEnabled ? design.referenceStudio ? <img className="reference-quote-image" src={design.referenceStudio.front} alt={design.referenceStudio.productName} width={800} height={800}/> : <BagPreview design={design} compact /> : <figure className="quote-product-photo">
               <img src={p.image} alt={p.name} width="400" height="400" />
               <figcaption>{t("Product example. Requested color and printing are confirmed with your quote.", "Shembull produkti. Ngjyra dhe shtypi i kërkuar konfirmohen në ofertë.")}</figcaption>
             </figure>}
-            <h2>{p.name}</h2>
+            <h2>{studioEnabled && design.referenceStudio ? design.referenceStudio.productName : p.name}</h2>
             <dl>
               {[
                 [
                   t("Size", "Madhësia"),
-                  displaySize + " · " + variant.dimensions,
+                  studioEnabled && design.referenceStudio ? design.referenceStudio.size + ' · ' + design.referenceStudio.dimensions : displaySize + " · " + variant.dimensions,
                 ],
                 [
                   t("Material", "Materiali"),

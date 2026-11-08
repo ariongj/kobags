@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-11-08T21:38:04.226540+00:00",
-  "packageLockSha256": "5fbfeb1c343fb3353b75fe24d1110b18c4a89267ca21bcda0ae4350c6968421f",
+  "generatedAt": "2026-11-08T22:22:00.489777+00:00",
+  "packageLockSha256": "94e6231ef6cec413b20220748634e5ace94c8094e894489c525335365ec891bf",
   "scope": "Declared licenses for every locked package; full notices supplied by installed packages or separately preserved exact-source notices. Optional packages absent on this OS are inventoried, not redistributed.",
-  "lockedPackageRecords": 864,
-  "installedPackageRecords": 689,
+  "lockedPackageRecords": 866,
+  "installedPackageRecords": 691,
   "declaredLicenseCounts": {
     "0BSD": 2,
     "Apache-2.0": 46,
@@ -16,7 +16,7 @@
     "CC0-1.0": 2,
     "ISC": 31,
     "LGPL-3.0-or-later": 10,
-    "MIT": 715,
+    "MIT": 717,
     "MIT AND ISC": 1,
     "MIT OR Apache-2.0": 4,
     "MPL-2.0": 28,
@@ -26,6 +26,7 @@
     "@rolldown/binding-linux-x64-musl@1.2.15",
     "css-box-shadow@1.0.0-3",
     "drizzle-kit@0.31.10",
+    "qrcode-generator@1.4.4",
     "stable-hash@0.0.5"
   ],
   "packages": [
@@ -10691,6 +10692,25 @@
       "upstreamNoticeBasis": "Exact source commit identified by the published package."
     },
     {
+      "name": "qrcode-generator",
+      "version": "1.4.4",
+      "license": "MIT",
+      "location": "node_modules/qrcode-studio",
+      "developmentOnly": false,
+      "installed": true,
+      "repository": {
+        "type": "git",
+        "url": "https://github.com/kazuhikoarase/qrcode-generator.git"
+      },
+      "noticeHashes": [
+        "3a850fa5f08101db6f40676c2786e10bd2cd5fff7b12ffdf1e0c434d4e49d90c"
+      ],
+      "rootNotice": false,
+      "upstreamNotice": "https://raw.githubusercontent.com/kazuhikoarase/qrcode-generator/83b7e8fe3fddd3b0368dbafd6ce56995bd25e3c8/LICENSE",
+      "upstreamNoticeBasis": "Upstream project MIT permission text preserved alongside the explicit MIT/copyright header shipped in qrcode-generator 1.4.4. The 1.4.4 npm release has no standalone license file or gitHead; this is not claimed to be a version-specific license file.",
+      "noticeReview": "Standalone 1.4.4 license file was not included by the publisher. Its shipped source explicitly declares MIT with Copyright (c) 2009 Kazuhiko Arase."
+    },
+    {
       "name": "queue-microtask",
       "version": "1.2.3",
       "license": "MIT",
@@ -11838,6 +11858,24 @@
       },
       "noticeHashes": [
         "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+      ],
+      "rootNotice": true
+    },
+    {
+      "name": "three",
+      "version": "0.169.0",
+      "license": "MIT",
+      "location": "node_modules/three-studio",
+      "developmentOnly": false,
+      "installed": true,
+      "repository": {
+        "type": "git",
+        "url": "https://github.com/mrdoob/three.js"
+      },
+      "noticeHashes": [
+        "35e8279356d7890871c4fce804d157e3f21456a7311ef2caab5cb4705c71b6bd",
+        "38751245389e1e23f73e6f5384b5cbe7fa972cc4410c5adc9c04b082a0b9561a",
+        "4c40a1ef62450b857c3b2aaf294936304cd552d965fbcd9d32d4c5bcf4ba4454"
       ],
       "rootNotice": true
     },

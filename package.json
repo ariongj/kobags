@@ -8,7 +8,7 @@
   "scripts": {
     "install:ci": "node scripts/install-ci.mjs",
     "dev": "node scripts/run-framework.mjs dev",
-    "build": "node scripts/run-framework.mjs build && node scripts/route-static-assets.mjs",
+    "build": "node scripts/build-reference-studio.mjs && node scripts/run-framework.mjs build && node scripts/route-static-assets.mjs",
     "start": "node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js dev --config dist/server/wrangler.json --local --persist-to .wrangler/state --ip 127.0.0.1 --inspector-port 0",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
     "db:generate": "drizzle-kit generate"
@@ -28,6 +28,7 @@
     "next": "16.4.3",
     "next-themes": "^0.4.6",
     "qrcode-generator": "2.0.4",
+    "qrcode-studio": "npm:qrcode-generator@1.4.4",
     "radix-ui": "^1.6.7",
     "react": "19.2.8",
     "react-day-picker": "^10.0.1",
@@ -38,6 +39,7 @@
     "sonner": "^2.0.8",
     "tailwind-merge": "3.6.0",
     "three": "^0.186.0",
+    "three-studio": "npm:three@0.169.0",
     "vaul": "^1.1.2",
     "zod": "4.6.7"
   },
