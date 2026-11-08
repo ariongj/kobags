@@ -49,6 +49,7 @@ function printForQuote(which) {
 }
 function quotePreviews() {
   const position = camera.position.clone(), target = controls.target.clone();
+  const cameraChoice = document.getElementById('mobile-camera-view')?.value;
   const shots = {};
   try {
     for (const which of ['front', 'back']) {
@@ -58,7 +59,7 @@ function quotePreviews() {
       c.width = Math.round(original.width * ratio); c.height = Math.round(original.height * ratio);
       c.getContext('2d').drawImage(original, 0, 0, c.width, c.height); shots[which] = boundedImage(c);
     }
-  } finally { tween = null; camera.position.copy(position); controls.target.copy(target); controls.update(); dirty = true; }
+  } finally { tween = null; camera.position.copy(position); controls.target.copy(target); controls.update(); dirty = true; if (cameraChoice !== undefined) document.getElementById('mobile-camera-view').value = cameraChoice; }
   return { source: 'ariongj-mo-b23cd8f', productName: TYPES[state.type].name, size: state.size, dimensions: `${state.W} × ${state.H} × ${state.D} cm`, fabric: state.bag, ...shots };
 }
 window.addEventListener('message', e => {
@@ -89,7 +90,7 @@ async function restoreStudioDraft() {
       assets.set(id, { name: String(a.name || 'Logo').slice(0, 200), mask: toCanvas(mask), color: toCanvas(color) });
     }
     design.front = []; design.back = []; applyType(s.type); applySize(s.size);
-    Object.assign(state, { bag: s.bag, handle: s.handle === 'match' || /^#[\da-f]{6}$/i.test(s.handle) ? s.handle : 'match', strap: s.strap === 'webbing' ? 'webbing' : 'fabric', pose: s.pose === 'relaxed' ? 'relaxed' : 'upright' });
+    Object.assign(state, { bag: s.bag, handle: s.handle === 'match' || /^#[\da-f]{6}$/i.test(s.handle) ? s.handle : 'match', strap: s.strap === 'webbing' ? 'webbing' : 'fabric', pose: s.pose === 'relaxed' ? 'relaxed' : 'upright', vestView: s.vestView === 'flat' ? 'flat' : 'open' });
     if (Number.isFinite(s.drop)) state.drop = Math.max(6, Math.min(35, s.drop));
     for (const k of ['front', 'back']) design[k] = saved.design[k].filter(el => ['text', 'logo', 'graphic', 'qr'].includes(el.kind) && [el.x, el.y, el.w].every(Number.isFinite) && /^#[\da-f]{6}$/i.test(el.ink) && (el.kind !== 'logo' || assets.has(el.asset)) && (el.kind !== 'graphic' || Object.hasOwn(graphics, el.graphic))).map(el => { const copy = { ...el, id: nextId++, text: String(el.text || '').slice(0, 2000), data: String(el.data || '').slice(0, 2000) }; clampEl(copy); return copy; });
     side = saved.side === 'back' ? 'back' : 'front'; selId = null;

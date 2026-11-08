@@ -24,3 +24,12 @@ These are the supplied procedural models, not newly created calibrated scans. Ph
 - `usability.js` / `.css`: persistent front/back design buttons, an artwork picker, duplicate/nudge/size controls, protected copy-to-other-side, accessible logo activation and keyboard tabs. Mobile keeps the 3D preview above a scrollable control panel; add actions are above the print canvas.
 - `reference-gallery.js` / `.css`: on-demand approved production photographs with an accessible dialog, matched to the selected family. No unrelated Bottle photograph is substituted.
 - Validation: `node qa/reference_studio_geometry.mjs`; `qa/reference_studio_usability.py --width 393` or `--live --width 320` with the configured browser runtime. These remain procedural previews, not calibrated scans.
+
+Client-review refinement, 9 November 2026:
+
+- T-shirt side gussets now open through the body and mouth, tapering only through the upper vest handles. The shell stays hollow, within its selected depth, with continuous side seams and the original cut-out/tab masks. Shallow vertical pull folds add fabric relief.
+- The T-shirt preview offers Opened (default) and Folded / flat. The folded view uses the original flat-tube geometry. This presentation setting persists with the essential local draft and is identified in quote notes without changing dimensions or artwork.
+- Loop handles have softer shoulders and subtly offset crowns while both ends remain attached to the actual body surface.
+- Mobile design controls reuse the existing artwork selector and adjustment buttons in a compact dock. Add opens logo/text/QR actions; Edit goes to the selected item's settings. Front and back remember their selection independently. Controls move back to their original positions on desktop.
+- Expand canvas provides a larger touch workspace with the same artwork, side selector and adjustment controls. The regular canvas fits the available phone panel, and small-item resize hit areas leave their centres draggable. A compact camera menu keeps the bag's handles clear of the view controls.
+- `qa/reference_studio_client.py` exercises both native T-shirt views and the both-side mobile artwork journey through the quote handoff, with no customer request submission. Geometry QA separately validates 162 body and 240 handle configurations, exact original geometry in Folded mode and an open T-shirt cavity in Opened mode.

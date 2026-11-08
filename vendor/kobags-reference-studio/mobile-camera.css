@@ -1,0 +1,6 @@
+#mobile-camera-view{display:none;}
+@media(max-width:760px){
+ html:not([data-embed=preview]) #views{display:none;}
+ #mobile-camera-view{display:block;position:absolute;top:9px;left:9px;width:100px;min-height:40px;padding:6px;font:12px var(--f-body);color:var(--ink);background:var(--chip);border:1px solid var(--line);border-radius:6px;}
+ #mobile-camera-view:focus-visible{outline:2px solid var(--focus);outline-offset:2px;}
+}

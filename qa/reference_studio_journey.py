@@ -28,9 +28,13 @@ async def main():
   await page.frame_locator('.reference-studio-frame').locator('html[data-studio-source]').wait_for(timeout=120000)
   f=next(f for f in page.frames if '/design/viewer' in f.url)
   await f.evaluate('() => __api.renderer.setAnimationLoop(null)')
+  async def open_add_menu():
+   toggle=f.locator('#studio-add-toggle')
+   if await toggle.is_visible() and await toggle.get_attribute('aria-expanded')!='true':await toggle.click()
   
   
   await f.locator('#tabs button[data-tab=design]').click()
+  await open_add_menu()
   await f.locator('#addText').click()
   await f.locator('#pText').fill('CLIENT REVIEW')
   ed=f.locator('#editor');await ed.scroll_into_view_if_needed()
@@ -47,7 +51,7 @@ async def main():
   assert await f.evaluate('() => __api.design.front.at(-1).x')!=before
   await f.locator('#pSize').evaluate("e=>{e.value='12';e.dispatchEvent(new Event('input',{bubbles:true}))}")
   assert await f.evaluate('() => __api.design.front.at(-1).w')==12
-  await f.locator('#addQr').click()
+  await open_add_menu();await f.locator('#addQr').click()
   await f.locator('#pQr').fill('https://kobags-group.com/')
   assert not await f.evaluate('() => document.documentElement.scrollWidth>innerWidth')
   assert not await page.evaluate('() => document.documentElement.scrollWidth>innerWidth')
@@ -55,7 +59,7 @@ async def main():
   print('loaded input',await f.locator('#addLogo').count(),flush=True)
   from PIL import Image,ImageDraw
   logo=Image.new('RGB',(160,80),'white');ImageDraw.Draw(logo).rectangle((20,20,140,60),fill='#143442');logo.save(OUT/'qa-logo.png')
-  await f.locator('#addLogo').set_input_files(str(OUT/'qa-logo.png'))
+  await open_add_menu();await f.locator('#addLogo').set_input_files(str(OUT/'qa-logo.png'))
   print('SET INPUT done',page.url,flush=True)
   await page.wait_for_timeout(1000)
   print('frames after upload',[(x.url,x.parent_frame is None) for x in page.frames],flush=True)
@@ -63,7 +67,10 @@ async def main():
   print('DOM after upload',await f.evaluate('() => ({url:location.href,body:!!document.body,inputs:document.querySelectorAll("input").length,note:document.getElementById("designNote")?.textContent})'),flush=True)
 
   assert await f.evaluate('() => __api.design.front.some(e=>e.kind==="logo")')
-  await f.evaluate('() => {document.querySelector("#pMethod button[data-v=full]").click();document.getElementById("copySide").click();document.querySelector("#sideSeg button[data-v=back]").click()}')
+  await f.locator('#pMethod button[data-v=full]').click()
+  await f.locator('#copySide').click()
+  if await f.locator('.studio-copy-confirm').is_visible():await f.locator('#confirm-copy').click()
+  await f.locator('#edit-back').click()
   await page.wait_for_timeout(1200)
   saved=await f.evaluate('() => JSON.parse(localStorage.getItem("kobags-reference-studio-v1"))')
   assert saved['uploaded'] and len(saved['design']['back'])==len(saved['design']['front'])

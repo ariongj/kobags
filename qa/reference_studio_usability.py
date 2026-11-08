@@ -14,6 +14,11 @@ async def main():
  async with async_playwright() as p:
   browser=await launch(p);ctx=await browser.new_context(viewport={'width':args.width,'height':852},is_mobile=args.width<800,has_touch=args.width<800,extra_http_headers={'Cache-Control':'no-cache'})
   page=await ctx.new_page();page.set_default_timeout(30000)
+  page.set_default_navigation_timeout(120000)
+  async def add_artwork(frame, selector):
+   toggle=frame.locator('#studio-add-toggle')
+   if await toggle.is_visible() and await toggle.get_attribute('aria-expanded')!='true':await toggle.click()
+   await frame.locator(selector).click()
   page.on('pageerror',lambda e:errors.append(str(e)))
   async def route(r):
    u=urlsplit(r.request.url)
@@ -37,9 +42,9 @@ async def main():
   await frame.locator('#edit-back').click();assert await frame.evaluate('() => __api.getSide()')=='back'
   assert await frame.locator('[data-pane=design]').is_visible()
   assert await frame.locator('.studio-edit-title').text_content()=='Back artwork'
-  await frame.locator('#addText').click();await frame.locator('#pText').fill('BACK ONLY · TEST')
+  await add_artwork(frame,'#addText');await frame.locator('#pText').fill('BACK ONLY · TEST')
   text_id=await frame.evaluate('() => __api.design.back.at(-1).id')
-  await frame.locator('#addQr').click();await frame.locator('#pQr').fill('https://kobags-group.com/back-review')
+  await add_artwork(frame,'#addQr');await frame.locator('#pQr').fill('https://kobags-group.com/back-review')
   assert await frame.evaluate('() => JSON.stringify(__api.design.front)')==front_before
   await frame.locator('#artwork-picker').select_option(str(text_id));assert await frame.locator('#pText').input_value()=='BACK ONLY · TEST'
   await frame.locator('#duplicate-artwork').click()

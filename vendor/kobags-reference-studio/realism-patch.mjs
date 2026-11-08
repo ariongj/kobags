@@ -10,6 +10,45 @@ export function refineStudioModule(source) {
     source = source.replace(before, after);
   };
 
+  // Opened is also the fallback for older saved drafts with no vestView field.
+  replace("  type: 'box', size: 'XS',", "  type: 'box', size: 'XS', vestView: 'open',", 'default vest presentation');
+
+  // The factory photographs show the vest bag opened for use. Keep the
+  // original folded-tube construction and width/depth; unfold its gussets
+  // through the body and mouth, then taper only the upper handle region.
+  // Front, back and both gusset halves consume this one profile so they meet.
+  replace(`    // a T-shirt bag is a flat folded tube: sealed flat across the bottom, a little open in the body, flat in the handles
+    const yb = tshirtCut().yb, open = (0.5 + 3 * state.full) * smooth(0, H * 0.18, y) * (1 - smooth(H * 0.3, yb - 1, y));
+    const d = 0.12 + Math.min(open, g * 0.9);`, `    if (state.vestView === 'flat') {
+      // Retain the supplied folded presentation, including its original relief.
+      const yb = tshirtCut().yb, open = (0.5 + 3 * state.full) * smooth(0, H * 0.18, y) * (1 - smooth(H * 0.3, yb - 1, y));
+      const d = 0.12 + Math.min(open, g * 0.9);
+      return { d, s: Math.sqrt(Math.max(g * g - d * d, 0)) };
+    }
+    // Expanded side gussets leave usable space inside the open fabric shell.
+    // There is no cap or solid fill; the original U-cut, tab and artwork stay.
+    const yb = tshirtCut().yb;
+    const base = smooth(0, H * 0.14, y);
+    const shoulder = 1 - 0.1 * smooth(H * 0.5, yb, y);
+    const handles = 1 - smooth(yb + 0.4, H - 0.8, y);
+    const expansion = 0.72 + 0.26 * Math.min(1, Math.max(0, state.full));
+    const d = 0.12 + Math.max(0, g - 0.12) * expansion * base * shoulder * handles;`, 'expanded vest gussets');
+
+  replace('  return profile(y).d + bulge + buckle + pressed + ((T.handles', `  if (T.handles === 'tshirt' && state.vestView !== 'flat') {
+    const g = state.D / 2, yb = tshirtCut().yb;
+    let fold = 0;
+    // Shallow vertical pull folds emerge from the welded lower corners.
+    // They fade at all shared edges and below the print-safe handle cut-out.
+    for (const sx of [-1, 1]) {
+      const line = x - sx * (W / 2 - g * 0.55 - 0.025 * y);
+      fold -= 0.13 * Math.exp(-((line / 0.65) ** 2))
+        * Math.sin(Math.PI * Math.min(1, y / yb)) * flat * edge;
+    }
+    // Fabric relief must stay inside the selected nominal bag depth.
+    return Math.max(0.12, Math.min(g, profile(y).d + bulge + buckle + fold));
+  }
+  return profile(y).d + bulge + buckle + pressed + ((T.handles`, 'vest fabric folds and depth bounds');
+
   // Pull lines under the welded handle pads are sub-millimetre relief, not
   // random dents. Their boundary fade preserves the shared gusset seams.
   replace('  // folded hem is two layers thick; on the string bag it is a cord channel, so it puffs out more', `  let handleTension = 0;
@@ -29,11 +68,13 @@ export function refineStudioModule(source) {
 
   // Keep the real two-layer strap width and thickness. Attach its buried ends
   // to the actual panel surface, rather than a box-depth approximation.
-  replace("const tilt = state.pose === 'relaxed' ? (side > 0 ? 0.62 : 0.85) : 0.1;", "const tilt = state.pose === 'relaxed' ? (side > 0 ? 0.62 : 0.85) : (side > 0 ? 0.075 : 0.12);", 'handle fall');
+  replace("const tilt = state.pose === 'relaxed' ? (side > 0 ? 0.62 : 0.85) : 0.1;", "const tilt = state.pose === 'relaxed' ? (side > 0 ? 0.62 : 0.85) : (side > 0 ? 0.12 : 0.18);", 'handle fall');
   replace('const zIn = y => side * (profile(Math.min(y, H)).d - 0.2);', 'const zIn = (y, x = 0) => side * (panelZ(x, Math.min(y, H), side > 0 ? 1 : 2) - 0.09);', 'handle attachment surface');
   replace('if (y <= H) return new THREE.Vector3(x, y, zIn(y));', 'if (y <= H) return new THREE.Vector3(x, y, zIn(y, x));', 'embedded handle ends');
   replace('return new THREE.Vector3(x, H + h * Math.cos(f), zIn(H) + side * h * Math.sin(f));', `const drift = 0.12 * Math.sin(Math.PI * Math.min(1, h / drop)) * Math.sin(x / a * 0.8 + side);
     return new THREE.Vector3(x + drift, H + h * Math.cos(f), zIn(H, x) + side * h * Math.sin(f));`, 'handle asymmetry');
+  replace("const out = state.pose === 'relaxed' ? 0.6 : 0, sh = state.pose === 'relaxed' ? 0.74 : 0.88;", "const out = state.pose === 'relaxed' ? 0.6 : 0.22, sh = state.pose === 'relaxed' ? 0.74 : 0.88;", 'soft handle shoulders');
+  replace('P(-a * sh, H + 0.84 * drop), P(0, H + drop),', 'P(-a * sh, H + 0.84 * drop), P(side * 0.28, H + drop * (side > 0 ? 1 : 0.985)),', 'offset handle crown');
   replace('const N = 200, pts = curve.getSpacedPoints(N), K = 14;', 'const N = 200, pts = curve.getSpacedPoints(N), K = 20;', 'rounder handle edges');
   replace('    for (const [rx, ry] of ring) {\n      pos.push((p.x + Wv.x * rx * sw / 2 + Nn.x * ry * ht) * CM, (p.y + Wv.y * rx * sw / 2 + Nn.y * ry * ht) * CM, (p.z + Wv.z * rx * sw / 2 + Nn.z * ry * ht) * CM);', `    const free = smooth(H, H + 2, p.y);
     for (const [rx, ry] of ring) {
