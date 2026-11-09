@@ -1,6 +1,7 @@
 {
   "repository": "https://github.com/ariongj/mo",
-  "commit": "b23cd8fb92cded92b01bef683a96d449da808dca",
-  "indexSha256": "7ccbde627047bd4c6ab08af51a90300f7432d07020d66d43878023a608cc2a64",
-  "purpose": "User explicitly requested the actual supplied studio, including its models, samples, lighting and controls."
+  "commit": "191b5aa21533e3b1638e3d82ffd0ba339c6ba32c",
+  "indexSha256": "94643df9d550089a26057c5cf31f08dc25e1970ed52f8d4dd9a89d13fd26cb81",
+  "purpose": "User explicitly requested the actual supplied studio, including its models, samples, lighting and controls.",
+  "previousCommit": "b23cd8fb92cded92b01bef683a96d449da808dca"
 }

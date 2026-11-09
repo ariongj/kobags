@@ -19187,3 +19187,7 @@ Files located in the node_modules and vendor directories are externally
 maintained libraries used by this software which have their own
 licenses; we recommend you read them, as their terms may differ from the
 terms above.
+
+
+Landing page typography: Inter and Inter Tight, SIL Open Font License 1.1.
+License copies: /assets/landing-2026-11/fonts/inter-OFL.txt and /assets/landing-2026-11/fonts/intertight-OFL.txt.

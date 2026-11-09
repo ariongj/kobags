@@ -16,6 +16,8 @@ const module = whiteStudioBackdrop(refineVideoRealism(refineFabricAppearance(ref
   // Three passes a timestamp to its callback. The source calls this parameter
   // "force", accidentally rendering continuously even while the bag is idle.
   // Preserve its scene and transitions, but respect the existing dirty flag.
+  .replace("const h = decodeURIComponent(location.hash.slice(1)).toLowerCase();", "let h; try { h = decodeURIComponent(location.hash.slice(1)).toLowerCase(); } catch { return false; }")
+  .replace('if (TYPES[h]) {', 'if (Object.hasOwn(TYPES, h)) {')
   .replace('renderer.setAnimationLoop(render);', 'renderer.setAnimationLoop(() => render());')
   .replace('const w = stage.clientWidth, h = stage.clientHeight;', "const w = stage.clientWidth, h = Math.max(1, stage.clientHeight - (parseFloat(getComputedStyle(stage).paddingBottom) || 0));")
   .replace('let s = avail / W; if (H * s > 340) s = 340 / H;', `const mobile = matchMedia('(max-width:760px), (max-width:1000px) and (max-height:500px)').matches, focused = document.documentElement.dataset.canvasFocus === 'true';

@@ -105,7 +105,8 @@ async function restoreStudioDraft() {
 const startup = setInterval(async () => {
   if (!window.__ready) return;
   clearInterval(startup);
-  await restoreStudioDraft();
+  // An explicit product/sample link takes precedence over a previously saved draft.
+  if (!openFromHash()) await restoreStudioDraft();
   bridgeReady = true;
   document.documentElement.dataset.studioSource = 'ariongj-mo-b23cd8f';
   sendWebsite('kobags:studio-ready');
