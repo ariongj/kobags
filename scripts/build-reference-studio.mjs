@@ -5,6 +5,7 @@ import { build } from 'esbuild';
 import { refineStudioModule } from '../vendor/kobags-reference-studio/realism-patch.mjs';
 import { refineFabricAppearance } from '../vendor/kobags-reference-studio/appearance-patch.mjs';
 import { refineVideoRealism } from '../vendor/kobags-reference-studio/video-realism-patch.mjs';
+import { naturalFolds } from '../vendor/kobags-reference-studio/natural-folds-patch.mjs';
 import { builderPerformance } from '../vendor/kobags-reference-studio/builder-performance-patch.mjs';
 import { previewPerformance } from '../vendor/kobags-reference-studio/preview-performance-patch.mjs';
 import { whiteStudioBackdrop } from '../vendor/kobags-reference-studio/white-stage-patch.mjs';
@@ -14,7 +15,7 @@ import { whiteStudioBackdrop } from '../vendor/kobags-reference-studio/white-sta
 const root = process.cwd();
 const original = await readFile(resolve(root, 'vendor/kobags-reference-studio/index.html'), 'utf8');
 const css = original.match(/<style>([\s\S]*?)<\/style>/)[1];
-const module = builderPerformance(previewPerformance(whiteStudioBackdrop(refineVideoRealism(refineFabricAppearance(refineStudioModule(original.match(/<script type="module">([\s\S]*?)<\/script>/)[1]
+const module = builderPerformance(previewPerformance(whiteStudioBackdrop(naturalFolds(refineVideoRealism(refineFabricAppearance(refineStudioModule(original.match(/<script type="module">([\s\S]*?)<\/script>/)[1]
   // Three passes a timestamp to its callback. The source calls this parameter
   // "force", accidentally rendering continuously even while the bag is idle.
   // Preserve its scene and transitions, but respect the existing dirty flag.
@@ -25,7 +26,7 @@ const module = builderPerformance(previewPerformance(whiteStudioBackdrop(refineV
   .replace('let s = avail / W; if (H * s > 340) s = 340 / H;', `const mobile = matchMedia('(max-width:760px), (max-width:1000px) and (max-height:500px)').matches, focused = document.documentElement.dataset.canvasFocus === 'true';
   const editorCap = mobile ? Math.max(96, focused ? document.querySelector('.studio-canvas-body').clientHeight - 20 : Math.min(340, document.getElementById('panes').clientHeight - 24)) : 340;
   let s = avail / W; if (H * s > editorCap) s = editorCap / H;`)
-  .replace("if (s) { const [w, h] = elementSize(s); if (Math.abs(x - (s.x + w / 2)) < tol && Math.abs(y - (s.y + h / 2)) < tol) return [s, 'resize']; }", "if (s) { const [w, h] = elementSize(s), reach = Math.min(tol, Math.min(w, h) * 0.4); if (Math.abs(x - (s.x + w / 2)) < reach && Math.abs(y - (s.y + h / 2)) < reach) return [s, 'resize']; }")))))));
+  .replace("if (s) { const [w, h] = elementSize(s); if (Math.abs(x - (s.x + w / 2)) < tol && Math.abs(y - (s.y + h / 2)) < tol) return [s, 'resize']; }", "if (s) { const [w, h] = elementSize(s), reach = Math.min(tol, Math.min(w, h) * 0.4); if (Math.abs(x - (s.x + w / 2)) < reach && Math.abs(y - (s.y + h / 2)) < reach) return [s, 'resize']; }"))))))));
 const bridge = await readFile(resolve(root, 'vendor/kobags-reference-studio/site-bridge.js'), 'utf8');
 const usability = await readFile(resolve(root, 'vendor/kobags-reference-studio/usability.js'), 'utf8');
 const references = await readFile(resolve(root, 'vendor/kobags-reference-studio/reference-gallery.js'), 'utf8');
