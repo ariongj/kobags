@@ -51,3 +51,9 @@ Fabric appearance refinement, 9 November 2026:
 - A filtered PCF shadow with radius 3.5 and a lighter ground contribution replaces the sharp silhouette. The shadow map stays 2048px; no new texture assets or lighting dependencies are introduced.
 - Handle attachment relief remains below half a millimetre; a subtle crosswise cup softens the free strap. Dimensions, print UVs and cut-outs remain unchanged. `node qa/reference_studio_geometry.mjs --appearance` checks the composed geometry against the existing construction constraints.
 - These are photo-guided approximations, not measured scans or proof of a particular material specification.
+
+Handle and vest drape refinement, 9 November 2026:
+
+- Open T-shirt models add a shallow crosswise cup through each handle strip and unequal paired tension folds below the U-cut shoulders. A low-amplitude side-gusset crease fades before the hand-opening rails. Shared seams, welded crowns, cut-out masks and print UVs retain their construction coordinates; the folded T-shirt envelope is unchanged.
+- Open loop handles have modest lateral drift, an offset crown and gradual ribbon rotation rather than identical arches. Buried ends still follow the actual panel surface. These refinements reuse the existing mesh resolution and material maps.
+- `node qa/reference_studio_geometry.mjs --appearance` verifies the complete composed geometry. Browser evidence for this pass is under `deliverables/handoff/studio-handle-folds-20261109/` (local handoff output, not shipped customer content).

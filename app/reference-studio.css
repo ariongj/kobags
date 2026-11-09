@@ -8,3 +8,17 @@
 .reference-quote-image { display: block; width: 100%; height: auto; aspect-ratio: 1; max-height: 320px; object-fit: contain; border-radius: 8px; }
 @media (max-width:760px), (max-width:1000px) and (max-height:500px) { .reference-studio-bar { padding: 4px 10px; min-height: 48px; }.reference-studio-bar strong { font-size: 13px; }.reference-studio-bar .button { min-height: 40px; }.reference-studio-frame { height: var(--studio-mobile-height, calc(100dvh - 112px)); min-height: 0; } }
 @media(max-width:760px) { .reference-showcase-frame { height: 440px; } }
+/* A sideways phone uses the same compact header as the studio beneath it. */
+@media (min-width:801px) and (max-width:1000px) and (max-height:500px) {
+  .kobags-v5:has(.reference-studio-shell) .header { height:56px; padding:0 14px; }
+  .kobags-v5:has(.reference-studio-shell) .header .brand img { width:124px; }
+  .kobags-v5:has(.reference-studio-shell) .header-actions { gap:7px; }
+  .kobags-v5:has(.reference-studio-shell) .header-actions > .button { display:none; }
+  .kobags-v5:has(.reference-studio-shell) .header .mobile-toggle,
+  .kobags-v5:has(.reference-studio-shell) .header .language { display:flex; min-width:44px; min-height:44px; align-items:center; justify-content:center; }
+  .kobags-v5:has(.reference-studio-shell) .header .nav { display:none; }
+  .kobags-v5:has(.reference-studio-shell) .header .nav.open { display:flex; position:absolute; top:100%; left:0; right:0; flex-direction:column; align-items:stretch; gap:0; padding:8px 14px; max-height:calc(100dvh - 56px); overflow-y:auto; overscroll-behavior:contain; background:white; border-bottom:1px solid #dce5df; z-index:40; }
+  .kobags-v5:has(.reference-studio-shell) .header .nav.open a { display:flex; align-items:center; min-height:44px; padding:10px 8px; border-bottom:1px solid #e5ece5; }
+  .kobags-v5:has(.reference-studio-shell) .header .nav.open a:after { display:none; }
+  .kobags-v5:has(.reference-studio-shell) .header .nav.open .nav-quote { color:var(--green); gap:10px; }
+}

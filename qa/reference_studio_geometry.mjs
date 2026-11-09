@@ -17,7 +17,7 @@ import { refineStudioModule } from '../vendor/kobags-reference-studio/realism-pa
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const appearance = process.argv.includes('--appearance');
-const evidence = resolve(root, appearance ? 'deliverables/handoff/studio-realism-20261109/geometry.json' : 'deliverables/handoff/studio-all-bags-20261109/geometry.json');
+const evidence = resolve(root, appearance ? 'deliverables/handoff/studio-handle-folds-20261109/geometry.json' : 'deliverables/handoff/studio-all-bags-20261109/geometry.json');
 const html = await readFile(resolve(root, 'vendor/kobags-reference-studio/index.html'), 'utf8');
 const patch = await readFile(resolve(root, 'vendor/kobags-reference-studio/realism-patch.mjs'), 'utf8');
 const original = html.match(/<script type="module">([\s\S]*?)<\/script>/)?.[1];

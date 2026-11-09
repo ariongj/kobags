@@ -58,8 +58,29 @@ function profile(y) {`, 'shared bag presentation');
       fold -= 0.13 * Math.exp(-((line / 0.65) ** 2))
         * Math.sin(Math.PI * Math.min(1, y / yb)) * flat * edge;
     }
+    // The cut-out transfers load into the two handle roots. Broad paired
+    // ridges fade down the shoulder; their unequal strength avoids mirrored
+    // grooves while leaving the print panel and shared seams undisturbed.
+    const { c, hw } = tshirtCut(), down = yb - y, reach = yb * 0.62;
+    if (down > 0 && down < reach) {
+      const fade = Math.pow(Math.sin(Math.PI * down / reach), 1.3) * edge;
+      for (const sx of [-1, 1]) {
+        const line = x - sx * (c + hw * 0.22 + down * 0.10);
+        const width = 0.7 + down * 0.025;
+        const weight = (0.85 + sx * (seed === 1 ? 0.15 : -0.15)) * (1 - 0.35 * full);
+        fold += weight * fade * (-0.34 * Math.exp(-((line / width) ** 2))
+          + 0.16 * Math.exp(-(((line - sx * 1.2) / (width * 1.4)) ** 2)));
+      }
+    }
+    // Vest handles are continuous folded fabric, not perfectly flat boards.
+    // A shallow crosswise cup rounds each free strip, fading to zero at the
+    // welded crown and outer seam. Front and back retain separate surfaces.
+    const strip = Math.max(0, Math.min(1, (Math.abs(x) - c) / hw));
+    const rise = Math.max(0, Math.min(1, (y - yb + 2.5) / (H - yb + 2.5)));
+    const handleCup = 0.42 * Math.sin(Math.PI * strip) * Math.sin(Math.PI * rise)
+      * (0.88 + 0.12 * Math.sin(x * 0.28 + seed)) * edge;
     // Fabric relief must stay inside the selected nominal bag depth.
-    return Math.max(0.12, Math.min(g, profile(y).d + bulge + buckle + fold));
+    return Math.max(0.12, Math.min(g, profile(y).d + bulge + buckle + fold + handleCup));
   }
   return profile(y).d + bulge + buckle + pressed + ((T.handles`, 'vest fabric folds and depth bounds');
 
@@ -168,15 +189,23 @@ function buildBody() {`, 'physical vest handle openings');
   replace('  return mergeGeometries(parts);', `  const geometry = mergeGeometries(parts);
   return TYPES[state.type].handles === 'tshirt' ? cutVestHandleOpenings(geometry) : geometry;`, 'cut upper vest gussets');
 
+  // A shallow travelling crease softens the expanded side gusset. All four
+  // gusset boundaries stay fixed, including the hand-opening rails.
+  replace('      const p = [sx * (W / 2 - s * u + bow), y,', `      const vestDrape = TYPES[state.type].handles === 'tshirt' && !foldedBag()
+        ? 0.16 * Math.sin(Math.PI * u) * Math.sin(Math.PI * y / H)
+          * Math.sin(y / H * Math.PI * 2.2 + sx * 0.7 + (half === 'f' ? 0 : 0.5))
+          * (1 - smooth(tshirtCut().yb - 1.5, tshirtCut().yb + 0.4, y)) : 0;
+      const p = [sx * (W / 2 - s * u + bow + vestDrape), y,`, 'vest side-gusset drape');
+
   // Keep the real two-layer strap width and thickness. Attach its buried ends
   // to the actual panel surface, rather than a box-depth approximation.
   replace("const tilt = state.pose === 'relaxed' ? (side > 0 ? 0.62 : 0.85) : 0.1;", "const tilt = foldedBag() ? (side > 0 ? 0.004 : 0.008) : state.pose === 'relaxed' ? (side > 0 ? 0.62 : 0.85) : (side > 0 ? 0.12 : 0.18);", 'handle fall');
   replace('const zIn = y => side * (profile(Math.min(y, H)).d - 0.2);', 'const zIn = (y, x = 0) => side * (panelZ(x, Math.min(y, H), side > 0 ? 1 : 2) - 0.09);', 'handle attachment surface');
   replace('if (y <= H) return new THREE.Vector3(x, y, zIn(y));', 'if (y <= H) return new THREE.Vector3(x, y, zIn(y, x));', 'embedded handle ends');
-  replace('return new THREE.Vector3(x, H + h * Math.cos(f), zIn(H) + side * h * Math.sin(f));', `const drift = 0.12 * Math.sin(Math.PI * Math.min(1, h / drop)) * Math.sin(x / a * 0.8 + side);
+  replace('return new THREE.Vector3(x, H + h * Math.cos(f), zIn(H) + side * h * Math.sin(f));', `const drift = (foldedBag() ? 0.12 : 0.42) * Math.sin(Math.PI * Math.min(1, h / drop)) * Math.sin(x / a * 0.8 + side);
     return new THREE.Vector3(x + drift, H + h * Math.cos(f), zIn(H, x) + side * h * Math.sin(f));`, 'handle asymmetry');
   replace("const out = state.pose === 'relaxed' ? 0.6 : 0, sh = state.pose === 'relaxed' ? 0.74 : 0.88;", "const out = state.pose === 'relaxed' ? 0.6 : 0.22, sh = state.pose === 'relaxed' ? 0.74 : 0.88;", 'soft handle shoulders');
-  replace('P(-a * sh, H + 0.84 * drop), P(0, H + drop),', 'P(-a * sh, H + 0.84 * drop), P(side * 0.28, H + drop * (side > 0 ? 1 : 0.985)),', 'offset handle crown');
+  replace('P(-a * sh, H + 0.84 * drop), P(0, H + drop),', 'P(-a * sh, H + (foldedBag() ? 0.84 : 0.80) * drop), P(side * (foldedBag() ? 0.28 : 0.65), H + drop * (side > 0 ? 1 : 0.975)),', 'offset handle crown');
   replace('const N = 200, pts = curve.getSpacedPoints(N), K = 14;', 'const N = 200, pts = curve.getSpacedPoints(N), K = 20;', 'rounder handle edges');
   replace('    for (const [rx, ry] of ring) {\n      pos.push((p.x + Wv.x * rx * sw / 2 + Nn.x * ry * ht) * CM, (p.y + Wv.y * rx * sw / 2 + Nn.y * ry * ht) * CM, (p.z + Wv.z * rx * sw / 2 + Nn.z * ry * ht) * CM);', `    const free = smooth(H, H + 2, p.y);
     for (const [rx, ry] of ring) {
@@ -186,7 +215,7 @@ function buildBody() {`, 'physical vest handle openings');
       const depth = ry * ht + cup;
       pos.push((p.x + Wv.x * rx * sw / 2 + Nn.x * depth) * CM, (p.y + Wv.y * rx * sw / 2 + Nn.y * depth) * CM, (p.z + Wv.z * rx * sw / 2 + Nn.z * depth) * CM);`, 'soft strap cross-section');
 
-  replace('const th = 0.2 * Math.sin(out * 0.32 + side * 1.7)', 'const th = (foldedBag() ? 0.035 : 0.2) * Math.sin(out * 0.32 + side * 1.7)', 'folded handle twist');
+  replace('const th = 0.2 * Math.sin(out * 0.32 + side * 1.7)', 'const th = (foldedBag() ? 0.035 : 0.32) * Math.sin(out * 0.26 + side * 1.7)', 'folded handle twist');
   replace('[sx * (W / 2 + 1.9), H * 0.62, -1.2]', '[sx * (W / 2 + 1.9), H * 0.62, foldedBag() ? -0.25 : -1.2]', 'folded upper cord');
   replace('[sx * (W / 2 + 1.5), H * 0.3, -1.9]', '[sx * (W / 2 + 1.5), H * 0.3, foldedBag() ? -0.3 : -1.9]', 'folded lower cord');
   replace('[sx * (W / 2 - 0.3), 2.4, az - 0.7]', '[sx * (W / 2 - 0.3), 2.4, az - (foldedBag() ? 0.2 : 0.7)]', 'folded cord return');
