@@ -1,7 +1,7 @@
 "use client";
 import { useLiveInquiry, LiveReceipt } from "./cms/live-inquiry";
 import { useCms } from "./cms/public-context";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import Link from "@/components/site-link";
 import {
   ArrowLeft,
@@ -10,6 +10,7 @@ import {
   CheckCircle2,
   LockKeyhole,
   Pencil,
+  ChevronDown,
 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Choice } from "./choice";
@@ -27,6 +28,8 @@ import { isCalendarDate, requestFieldLimits } from "@/lib/design-validation";
 import PreparedRequestActions from "./prepared-request-actions";
 export default function QuoteFlow() {
   const cms = useCms();
+  const [summaryOpen, setSummaryOpen] = useState(false);
+  const summaryId = useId();
   const getProduct = cms.getProduct;
   const { t, lang, design, update, ready, studioEnabled } = useKobags();
   const { state, error:demoError, busy:demoBusy, act, refresh } = useDemo({ loadOnVisit: !cms.enabled });
@@ -678,7 +681,11 @@ export default function QuoteFlow() {
               </button>
             </div>
           </form>
-          <aside className="quote-summary">
+          <aside className="quote-summary" data-expanded={summaryOpen}>
+            <button type="button" className="quote-summary-toggle" aria-expanded={summaryOpen} aria-controls={summaryId} onClick={() => setSummaryOpen(open => !open)}>
+              <span><strong>{t("Your bag summary", "Përmbledhja e çantës")}</strong><small>{studioSpecification?.productName || p.name} · {design.quantity.toLocaleString()}</small></span><ChevronDown size={20} aria-hidden="true" />
+            </button>
+            <div id={summaryId} className="quote-summary-content">
             <div className="summary-top">
               <h3>{t("Your bag, so far.", "Çanta juaj deri tani.")}</h3>
               {studioEnabled && <Link href="/design" aria-label={t("Edit bag", "Ndrysho çantën")}>
@@ -738,6 +745,7 @@ export default function QuoteFlow() {
             <button className="text-button" onClick={() => goToStep(0)}>
               {t("Edit specifications", "Ndrysho specifikimet")}
             </button>
+            </div>
           </aside>
         </div>
       </div>
