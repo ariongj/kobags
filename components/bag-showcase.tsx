@@ -11,7 +11,7 @@ export default function BagShowcase() {
   useEffect(() => {
     // Phones start with a real product photograph, avoiding a second WebGL
     // renderer during ordinary page scrolling. Desktop keeps its live preview.
-    const desktop = matchMedia('(min-width: 801px)');
+    const desktop = matchMedia('(min-width: 1051px) and (hover: hover)');
     const enableDesktop = () => { if (desktop.matches) setPreviewActive(true); };
     enableDesktop(); desktop.addEventListener('change', enableDesktop);
     return () => desktop.removeEventListener('change', enableDesktop);
@@ -24,7 +24,7 @@ export default function BagShowcase() {
         <h2 id="showcase-heading">{t('Imagine it.', 'Imagjinojeni.')}<br/><em>{t('Make it yours.', 'Personalizojeni.')}</em></h2>
         <p>{t('Explore the shape, fabric and finishing from every angle. Open the studio to choose a sample, change its colours and add your own logo, text or QR code.', 'Eksploroni formën, materialin dhe përfundimin nga çdo kënd. Hapni studion për të zgjedhur një model, ndryshuar ngjyrat dhe shtuar logon, tekstin apo kodin QR.')}</p>
         <Link href="/design" className="button showcase-cta">{t('Open the design studio', 'Hapni studion e dizajnit')}<ArrowUpRight size={20}/></Link>
-        <p className="showcase-note">{t('Drag the bag to turn it around. Your design starts in the studio.', 'Tërhiqeni çantën për ta rrotulluar. Dizajni juaj fillon në studio.')}</p>
+        <p className="showcase-note">{previewActive ? t('Drag the bag to turn it around. Your design starts in the studio.', 'Tërhiqeni çantën për ta rrotulluar. Dizajni juaj fillon në studio.') : t('Tap Explore in 3D to turn the bag around.', 'Prekni Shikojeni në 3D për ta rrotulluar çantën.')}</p>
       </div>
       <div className="showcase-preview-shell">
         {previewActive ? <iframe src={languageHref('/design/viewer?preview=1', lang)} loading="lazy" className="reference-showcase-frame" title={t('Rotate the Kobags sample in 3D', 'Rrotulloni modelin Kobags në 3D')} /> :
