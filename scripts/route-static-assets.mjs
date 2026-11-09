@@ -1,7 +1,7 @@
 // Sites dispatches physical asset paths before the Worker and ignores the
 // generated Wrangler run_worker_first setting. Keep public URLs owned by the
 // Worker, while ASSETS retains the compiled bytes under unlinked storage keys.
-import { mkdir, rename, rm, access, readdir } from "node:fs/promises";
+import { mkdir, rename, rm, access, readdir, readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 
 const client = resolve("dist/client");
@@ -18,6 +18,23 @@ await mkdir(stored, { recursive: true });
 for (const tree of ["assets", "documents", "_next"]) {
   await rm(resolve(stored, tree), { recursive: true, force: true });
   await rename(resolve(client, tree), resolve(stored, tree));
+}
+// Historical renderer bundles accumulate in public/ between releases. Keep
+// every retained loader's dependencies, but omit orphan bundles from delivery.
+// Originals stay in source; the current studio and cached loaders are preserved.
+const studio = resolve(stored, "assets/reference-studio");
+const studioFiles = await readdir(studio);
+const studioReferences = new Set();
+const referenceSources = [await readFile(resolve("lib/reference-studio-document.ts"), "utf8")];
+for (const name of studioFiles.filter(name => /^boot-[a-f0-9]+\.js$/.test(name))) {
+  referenceSources.push(await readFile(resolve(studio, name), "utf8"));
+}
+for (const source of referenceSources) {
+  for (const name of source.match(/studio-[a-f0-9]+\.js/g) ?? []) studioReferences.add(name);
+}
+for (const name of studioReferences) await access(resolve(studio, name));
+for (const name of studioFiles.filter(name => /^studio-[a-f0-9]+\.js$/.test(name))) {
+  if (!studioReferences.has(name)) await rm(resolve(studio, name));
 }
 // The Worker owns response headers; this host does not process this file.
 await rm(resolve(client, "_headers"), { force: true });
