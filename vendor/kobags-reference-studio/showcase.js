@@ -6,7 +6,7 @@ if (isWebsitePreview) {
     clearInterval(start);
     renderer.setAnimationLoop(null);
     controls.enabled = false;
-    renderer.setPixelRatio(Math.min(devicePixelRatio, 1.35));
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 1.2));
     renderer.setClearColor(0xf3f6f1, 1);
     scene.background = new THREE.Color(0xf3f6f1);
     const models=[];
@@ -25,7 +25,8 @@ if (isWebsitePreview) {
       };
       const material=m=>{
         if(materials.has(m))return materials.get(m);
-        const copy=m.clone();copy.onBeforeCompile=m.onBeforeCompile;copy.customProgramCacheKey=m.customProgramCacheKey;
+        const copy=m.clone();if (copy.isMeshPhysicalMaterial) copy.transmission=0;
+        copy.onBeforeCompile=m.onBeforeCompile;copy.customProgramCacheKey=m.customProgramCacheKey;
         for(const k of ['map','alphaMap','bumpMap','roughnessMap','normalMap'])copy[k]=snapshot(m[k]);
         materials.set(m,copy);return copy;
       };
@@ -39,7 +40,14 @@ if (isWebsitePreview) {
     bag.visible=false;contact.visible=false;
     const pedestal=new THREE.Mesh(new THREE.CylinderGeometry(.205,.22,.05,64),new THREE.MeshStandardMaterial({color:0xe4eadd,roughness:.95}));
     pedestal.position.y=.025;pedestal.receiveShadow=true;pedestal.castShadow=true;scene.add(pedestal);
-    ground.material.opacity=.13;
+    // Stable soft contact shadow: no four shadow-map redraws per frame.
+    ground.visible=false;
+    const shadowCanvas=document.createElement('canvas');shadowCanvas.width=128;shadowCanvas.height=128;
+    const ctx=shadowCanvas.getContext('2d'),gradient=ctx.createRadialGradient(64,64,14,64,64,64);
+    gradient.addColorStop(0,'rgba(26,48,37,.25)');gradient.addColorStop(1,'rgba(26,48,37,0)');
+    ctx.fillStyle=gradient;ctx.fillRect(0,0,128,128);
+    const shadow=new THREE.Mesh(new THREE.PlaneGeometry(.64,.55),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(shadowCanvas),transparent:true,depthWrite:false}));
+    shadow.rotation.x=-Math.PI/2;shadow.position.y=.001;scene.add(shadow);
     Object.assign(key.shadow.camera,{left:-.7,right:.7,top:1,bottom:-.4,near:.1,far:4});key.shadow.camera.updateProjectionMatrix();key.shadow.mapSize.set(1024,1024);key.shadow.map?.dispose();key.shadow.map=null;
     key.position.set(-.6,1.3,1);key.target.position.set(0,.25,0);
     tween=null;
@@ -64,7 +72,7 @@ if (isWebsitePreview) {
     }
     function tick(time){
       raf=0;if(!visible||document.hidden)return;
-      if(redraw||(!paused&&!motion.matches&&time-last>66)){
+      if(redraw||(!paused&&!motion.matches&&time-last>=30)){
         if(!paused&&!motion.matches&&last)angle+=Math.min(.15,(time-last)/1000)*.30;
         draw();last=time;
       }
@@ -78,7 +86,7 @@ if (isWebsitePreview) {
     document.addEventListener('visibilitychange',schedule);motion.addEventListener('change',schedule);
     new ResizeObserver(schedule).observe(stage);
     window.addEventListener('pagehide',()=>{cancelAnimationFrame(raf);renderer.setAnimationLoop(null);});
-    window.__showcase={models,renderer,get angle(){return angle;},get paused(){return paused||motion.matches;},get visible(){return visible;}};
+    window.__showcase={models,renderer,performanceVersion:2,get angle(){return angle;},get paused(){return paused||motion.matches;},get visible(){return visible;}};
     draw();parent.postMessage({type:'kobags:showcase-ready'},location.origin);
   },80);
 }
