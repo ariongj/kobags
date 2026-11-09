@@ -1,6 +1,6 @@
 /**
  * Geometry-only acceptance checks for the supplied studio and its realism patch.
- * Run: node qa/reference_studio_geometry.mjs [--appearance]
+ * Run: node qa/reference_studio_geometry.mjs [--appearance | --video]
  * This uses the actual Three.js geometry builders, without a browser or GPU.
  * It does not substitute for visual review of materials, shadows or cut-outs.
  */
@@ -13,16 +13,19 @@ import * as THREE from 'three-studio';
 import { mergeGeometries } from 'three-studio/examples/jsm/utils/BufferGeometryUtils.js';
 import { transform } from 'esbuild';
 import { refineFabricAppearance } from '../vendor/kobags-reference-studio/appearance-patch.mjs';
+import { refineVideoRealism } from '../vendor/kobags-reference-studio/video-realism-patch.mjs';
 import { refineStudioModule } from '../vendor/kobags-reference-studio/realism-patch.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const appearance = process.argv.includes('--appearance');
-const evidence = resolve(root, appearance ? 'deliverables/handoff/studio-handle-folds-20261109/geometry.json' : 'deliverables/handoff/studio-all-bags-20261109/geometry.json');
+const video = process.argv.includes('--video');
+const appearance = video || process.argv.includes('--appearance');
+const evidence = resolve(root, video ? 'deliverables/handoff/video-realism-20261109/geometry.json' : appearance ? 'deliverables/handoff/studio-handle-folds-20261109/geometry.json' : 'deliverables/handoff/studio-all-bags-20261109/geometry.json');
 const html = await readFile(resolve(root, 'vendor/kobags-reference-studio/index.html'), 'utf8');
 const patch = await readFile(resolve(root, 'vendor/kobags-reference-studio/realism-patch.mjs'), 'utf8');
 const original = html.match(/<script type="module">([\s\S]*?)<\/script>/)?.[1];
 assert.ok(original, 'The pinned source must contain its module');
-const refined = appearance ? refineFabricAppearance(refineStudioModule(original)) : refineStudioModule(original);
+const baseline = appearance ? refineFabricAppearance(refineStudioModule(original)) : refineStudioModule(original);
+const refined = video ? refineVideoRealism(baseline) : baseline;
 await transform(refined, { format: 'esm', target: 'es2022' });
 const cutouts = source => source.slice(source.indexOf('function cutPath('), source.indexOf('function redrawAtlas('));
 assert.equal(cutouts(refined), cutouts(original), 'The approved handle cut-out and centre-tab masks remain unchanged');
@@ -191,17 +194,18 @@ for (const [type, def] of Object.entries(after.TYPES)) {
       assert.deepEqual(body.getAttribute(channel).array.slice(0, originalUV.length), originalUV, `${label}: original artwork and fabric UV coordinates are preserved`);
     }
     if (type === 'tshirt') {
-      if (bagView === 'flat') assert.deepEqual(body.getAttribute('position').array.slice(0, originalBody.getAttribute('position').array.length), originalBody.getAttribute('position').array, `${label}: Folded retains the original envelope outside the physical openings`);
+      if (bagView === 'flat' && !video) assert.deepEqual(body.getAttribute('position').array.slice(0, originalBody.getAttribute('position').array.length), originalBody.getAttribute('position').array, `${label}: Folded retains the original envelope outside the physical openings`);
       assert.ok(body.index.count < originalBody.index.count, `${label}: physical side openings remove triangles, not just a painted mask`);
     }
     originalBody.dispose();
     assert.ok(body.boundingBox.min.y >= -1e-6 && body.boundingBox.max.y <= H / 100 + 1e-6, `${label}: body stays within its specified height`);
+    if (video && type==='tshirt' && bagView==='flat') assert.ok((body.boundingBox.max.z-body.boundingBox.min.z)*100 < .8, `${label}: pressed vest is less than 8mm deep`);
     // Loop-handle refinements preserve construction boundaries. The vest bag
     // intentionally unfolds, but its base/top and shared panel edges must match.
     for (const seed of [1, 2]) for (let n = 0; n <= 20; n++) {
       const y = H * n / 20, x = -W / 2 + W * n / 20;
       for (const [px, py] of (type === 'tshirt' ? [[x, 0], [x, H]] : bagView === 'open' ? [[-W / 2, y], [W / 2, y], [x, 0], [x, H]] : []))
-        assert.ok(Math.abs(after.panelZ(px, py, seed) - before.panelZ(px, py, seed)) < 1e-9, `${label}: seam boundary unchanged`);
+        assert.ok((video && type==='string' && py===H) || Math.abs(after.panelZ(px, py, seed) - before.panelZ(px, py, seed)) < 1e-9, `${label}: seam boundary unchanged (string top follows its gathered rim)`);
       if (type === 'tshirt') for (const edge of [-W / 2, W / 2])
         assert.ok(Math.abs(after.panelZ(edge, y, seed) - after.profile(y).d) < 1e-9, `${label}: vest edge follows the shared gusset profile`);
       for (let i = 0; i <= 20; i++) {
@@ -209,7 +213,7 @@ for (const [type, def] of Object.entries(after.TYPES)) {
         const change = Math.abs(after.panelZ(xx, y, seed) - before.panelZ(xx, y, seed));
         if (type !== 'tshirt' && bagView === 'open') {
           maxPanelChangeCm = Math.max(maxPanelChangeCm, change);
-          assert.ok(change <= .05, `${label}: attachment relief stays below half a millimetre`);
+          assert.ok(change <= (video ? .5 : .05), `${label}: panel relief stays within the reviewed displacement budget`);
         }
       }
     }
@@ -268,7 +272,8 @@ const result = {
   node: process.version, threeRevision: THREE.REVISION,
   sourceSha256: createHash('sha256').update(html).digest('hex'),
   realismPatchSha256: createHash('sha256').update(patch).digest('hex'),
-  checks: ['Guarded source refinements and full transformed-module syntax', 'Finite positions, normals and both UV channels', 'Original artwork and fabric UV coordinates preserved exactly', 'Valid triangle indices and body/handle bounds', 'Unchanged non-vest boundaries and all sealed bases/handle tops', 'Actual vest panel/gusset seam continuity at all 111 mesh rows in both modes', 'Vest mouth/torso volume within nominal depth; conserved gusset fabric width', 'Ray through open vest cavity reaches the base without a lid', 'Folded T-shirt envelope retains original coordinates; hand gaps are real mesh openings', 'Every other folded body retains fabric thickness below 1cm; original UVs stay unchanged', 'Actual folded panel, gusset and base seams join, including zero-gusset pouches', 'Folded handles do not cross the centre plane; rims and drawstrings follow the flat body', 'Every type supports Opened/Folded; legacy T-shirt drafts migrate without affecting other types', 'Unchanged front/back U-cut, centre-tab and artwork mask functions', 'Side rays pass through each upper vest hand gap; top welded bridge and lower gussets remain solid', 'Sub-millimetre handle-attachment relief', 'Both handle ends follow the actual front/back panel surface'],
+  checks: ['Guarded source refinements and full transformed-module syntax', 'Finite positions, normals and both UV channels', 'Original artwork and fabric UV coordinates preserved exactly', 'Valid triangle indices and body/handle bounds', 'Unchanged non-vest boundaries and all sealed bases/handle tops', 'Actual vest panel/gusset seam continuity at all 111 mesh rows in both modes', 'Vest mouth/torso volume within nominal depth; conserved gusset fabric width', 'Ray through open vest cavity reaches the base without a lid', video ? 'Folded T-shirt is a thin pressed stack under 8mm; hand gaps remain real mesh openings' : 'Folded T-shirt envelope retains original coordinates; hand gaps are real mesh openings', 'Every other folded body retains fabric thickness below 1cm; original UVs stay unchanged', 'Actual folded panel, gusset and base seams join, including zero-gusset pouches', 'Folded handles do not cross the centre plane; rims and drawstrings follow the flat body', 'Every type supports Opened/Folded; legacy T-shirt drafts migrate without affecting other types', 'Unchanged front/back U-cut, centre-tab and artwork mask functions', 'Side rays pass through each upper vest hand gap; top welded bridge and lower gussets remain solid', video ? 'Panel displacement bounded to 5mm; seam attachments remain shared' : 'Sub-millimetre handle-attachment relief', 'Both handle ends follow the actual front/back panel surface'],
+  videoPatchSha256: video ? createHash('sha256').update(await readFile(resolve(root, 'vendor/kobags-reference-studio/video-realism-patch.mjs'))).digest('hex') : null,
   appearancePatchSha256: appearance ? createHash('sha256').update(await readFile(resolve(root, 'vendor/kobags-reference-studio/appearance-patch.mjs'))).digest('hex') : null,
   bodyConfigurations: bodies.length, handleConfigurations: handles.length,
   maxPanelChangeCm, maxAttachmentErrorCm, maxVestSeamErrorCm, maxFoldedSeamErrorCm,

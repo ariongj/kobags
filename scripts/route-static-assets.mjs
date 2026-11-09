@@ -23,11 +23,12 @@ for (const tree of ["assets", "documents", "_next"]) {
 // every retained loader's dependencies, but omit orphan bundles from delivery.
 // Originals stay in source; the current studio and cached loaders are preserved.
 const studio = resolve(stored, "assets/reference-studio");
-// Retire the superseded November 8 bootstrap from the delivery archive only.
+// Retire superseded November 8 bootstraps from the delivery archive only.
 // Its source and saved release remain available for rollback. Current and recent
 // loaders stay intact; HTML is revalidated and points to the current hash. This
 // keeps expanded release archives below the upload service's observed truncation.
-await rm(resolve(studio, "boot-3ae21f8d446261c6.js"), { force: true });
+for (const name of ["boot-3ae21f8d446261c6.js", "boot-1eedafbe1d4393b1.js"])
+  await rm(resolve(studio, name), { force: true });
 const studioFiles = await readdir(studio);
 const studioReferences = new Set();
 const referenceSources = [await readFile(resolve("lib/reference-studio-document.ts"), "utf8")];
