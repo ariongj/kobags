@@ -44,3 +44,10 @@ All-family presentation update, 9 November 2026:
 - The T-shirt upper side gussets have real rounded hand openings, retaining the narrow fabric rails, welded top bridge and intact lower gusset. These are mesh openings in both presentations; the original front/back print coordinates and U-cut/tab masks remain unchanged.
 - The viewer explicitly uses the website's light theme: a white stage and panel, navy text and subtle green-tinted controls. The stage keeps its product/contact shadows. System dark mode no longer switches the embedded studio to a dark backdrop.
 - `white-stage-patch.mjs` composites the white backdrop after material tone mapping, so saved images also have white corners. It preserves unpremultiplied white clear RGB for transmission, distinguishes opaque fabric coverage from its transmission lighting, and keeps the existing material tone mapping and floor-shadow contributions without another render pass.
+
+Fabric appearance refinement, 9 November 2026:
+
+- `appearance-patch.mjs` runs after the geometry patch. Light fabric retains subtle diffuse transmission, with much less glass-like refraction. Print and weld roughness stay matte; emboss noise is deterministic and fine fibre contrast is slightly stronger.
+- A filtered PCF shadow with radius 3.5 and a lighter ground contribution replaces the sharp silhouette. The shadow map stays 2048px; no new texture assets or lighting dependencies are introduced.
+- Handle attachment relief remains below half a millimetre; a subtle crosswise cup softens the free strap. Dimensions, print UVs and cut-outs remain unchanged. `node qa/reference_studio_geometry.mjs --appearance` checks the composed geometry against the existing construction constraints.
+- These are photo-guided approximations, not measured scans or proof of a particular material specification.

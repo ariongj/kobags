@@ -1,6 +1,6 @@
 /**
  * Geometry-only acceptance checks for the supplied studio and its realism patch.
- * Run from the application repository: node qa/reference_studio_geometry.mjs
+ * Run: node qa/reference_studio_geometry.mjs [--appearance]
  * This uses the actual Three.js geometry builders, without a browser or GPU.
  * It does not substitute for visual review of materials, shadows or cut-outs.
  */
@@ -12,15 +12,17 @@ import { createHash } from 'node:crypto';
 import * as THREE from 'three-studio';
 import { mergeGeometries } from 'three-studio/examples/jsm/utils/BufferGeometryUtils.js';
 import { transform } from 'esbuild';
+import { refineFabricAppearance } from '../vendor/kobags-reference-studio/appearance-patch.mjs';
 import { refineStudioModule } from '../vendor/kobags-reference-studio/realism-patch.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const evidence = resolve(root, 'deliverables/handoff/studio-all-bags-20261109/geometry.json');
+const appearance = process.argv.includes('--appearance');
+const evidence = resolve(root, appearance ? 'deliverables/handoff/studio-realism-20261109/geometry.json' : 'deliverables/handoff/studio-all-bags-20261109/geometry.json');
 const html = await readFile(resolve(root, 'vendor/kobags-reference-studio/index.html'), 'utf8');
 const patch = await readFile(resolve(root, 'vendor/kobags-reference-studio/realism-patch.mjs'), 'utf8');
 const original = html.match(/<script type="module">([\s\S]*?)<\/script>/)?.[1];
 assert.ok(original, 'The pinned source must contain its module');
-const refined = refineStudioModule(original);
+const refined = appearance ? refineFabricAppearance(refineStudioModule(original)) : refineStudioModule(original);
 await transform(refined, { format: 'esm', target: 'es2022' });
 const cutouts = source => source.slice(source.indexOf('function cutPath('), source.indexOf('function redrawAtlas('));
 assert.equal(cutouts(refined), cutouts(original), 'The approved handle cut-out and centre-tab masks remain unchanged');
@@ -267,6 +269,7 @@ const result = {
   sourceSha256: createHash('sha256').update(html).digest('hex'),
   realismPatchSha256: createHash('sha256').update(patch).digest('hex'),
   checks: ['Guarded source refinements and full transformed-module syntax', 'Finite positions, normals and both UV channels', 'Original artwork and fabric UV coordinates preserved exactly', 'Valid triangle indices and body/handle bounds', 'Unchanged non-vest boundaries and all sealed bases/handle tops', 'Actual vest panel/gusset seam continuity at all 111 mesh rows in both modes', 'Vest mouth/torso volume within nominal depth; conserved gusset fabric width', 'Ray through open vest cavity reaches the base without a lid', 'Folded T-shirt envelope retains original coordinates; hand gaps are real mesh openings', 'Every other folded body retains fabric thickness below 1cm; original UVs stay unchanged', 'Actual folded panel, gusset and base seams join, including zero-gusset pouches', 'Folded handles do not cross the centre plane; rims and drawstrings follow the flat body', 'Every type supports Opened/Folded; legacy T-shirt drafts migrate without affecting other types', 'Unchanged front/back U-cut, centre-tab and artwork mask functions', 'Side rays pass through each upper vest hand gap; top welded bridge and lower gussets remain solid', 'Sub-millimetre handle-attachment relief', 'Both handle ends follow the actual front/back panel surface'],
+  appearancePatchSha256: appearance ? createHash('sha256').update(await readFile(resolve(root, 'vendor/kobags-reference-studio/appearance-patch.mjs'))).digest('hex') : null,
   bodyConfigurations: bodies.length, handleConfigurations: handles.length,
   maxPanelChangeCm, maxAttachmentErrorCm, maxVestSeamErrorCm, maxFoldedSeamErrorCm,
   limitation: 'Geometry-only test. Does not measure real fabric accuracy, GPU performance or verify rendered materials/shadows/cut-outs; browser visual review is separate.',
