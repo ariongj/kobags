@@ -16,7 +16,7 @@ const module = whiteStudioBackdrop(refineFabricAppearance(refineStudioModule(ori
   // "force", accidentally rendering continuously even while the bag is idle.
   // Preserve its scene and transitions, but respect the existing dirty flag.
   .replace('renderer.setAnimationLoop(render);', 'renderer.setAnimationLoop(() => render());')
-  .replace('const w = stage.clientWidth, h = stage.clientHeight;', "const w = stage.clientWidth, h = Math.max(120, stage.clientHeight - (document.documentElement.dataset.embed === 'preview' ? 0 : 56));")
+  .replace('const w = stage.clientWidth, h = stage.clientHeight;', "const w = stage.clientWidth, h = Math.max(120, stage.clientHeight - (parseFloat(getComputedStyle(stage).paddingBottom) || 0));")
   .replace('let s = avail / W; if (H * s > 340) s = 340 / H;', `const mobile = matchMedia('(max-width:760px), (max-width:1000px) and (max-height:500px)').matches, focused = document.documentElement.dataset.canvasFocus === 'true';
   const editorCap = mobile ? Math.max(96, focused ? document.querySelector('.studio-canvas-body').clientHeight - 20 : Math.min(340, document.getElementById('panes').clientHeight - 24)) : 340;
   let s = avail / W; if (H * s > editorCap) s = editorCap / H;`)
@@ -25,11 +25,12 @@ const bridge = await readFile(resolve(root, 'vendor/kobags-reference-studio/site
 const usability = await readFile(resolve(root, 'vendor/kobags-reference-studio/usability.js'), 'utf8');
 const references = await readFile(resolve(root, 'vendor/kobags-reference-studio/reference-gallery.js'), 'utf8');
 const mobileCamera = await readFile(resolve(root, 'vendor/kobags-reference-studio/mobile-camera.js'), 'utf8');
-const refinementCss = await readFile(resolve(root, 'vendor/kobags-reference-studio/usability.css'), 'utf8') + await readFile(resolve(root, 'vendor/kobags-reference-studio/reference-gallery.css'), 'utf8') + await readFile(resolve(root, 'vendor/kobags-reference-studio/mobile-camera.css'), 'utf8');
+const workspacePanel = await readFile(resolve(root, 'vendor/kobags-reference-studio/workspace-panel.js'), 'utf8');
+const refinementCss = await readFile(resolve(root, 'vendor/kobags-reference-studio/usability.css'), 'utf8') + await readFile(resolve(root, 'vendor/kobags-reference-studio/reference-gallery.css'), 'utf8') + await readFile(resolve(root, 'vendor/kobags-reference-studio/mobile-camera.css'), 'utf8') + await readFile(resolve(root, 'vendor/kobags-reference-studio/workspace-panel.css'), 'utf8');
 const directory = resolve(root, 'public/assets/reference-studio');
 await mkdir(directory, { recursive: true });
 const bundled = await build({
-  stdin: { contents: `import qrcode from 'qrcode-studio';\nwindow.qrcode=qrcode;\n${module}\n${bridge}\n${usability}\n${references}\n${mobileCamera}`, resolveDir: root, sourcefile: 'kobags-reference-studio.js' },
+  stdin: { contents: `import qrcode from 'qrcode-studio';\nwindow.qrcode=qrcode;\n${module}\n${bridge}\n${usability}\n${references}\n${mobileCamera}\n${workspacePanel}`, resolveDir: root, sourcefile: 'kobags-reference-studio.js' },
   bundle: true, write: false, format: 'esm', minify: true, target: ['es2022'], legalComments: 'inline',
   banner: { js: '/*! QR Code Generator for JavaScript: Copyright (c) 2009 Kazuhiko Arase. MIT license. Full notices: /documents/third-party-notices.txt */' },
   plugins: [{ name: 'original-three-version', setup(b) {
