@@ -39,11 +39,28 @@ if (!isWebsitePreview) {
 
   // Invert the atlas UVs on the real triangles. This keeps the selection frame
   // attached to folds in both opened and folded geometry, including T-shirts.
+  // Index the UV triangles once per geometry instead of searching the whole
+  // dense mesh for each corner on every pointer move. No geometry is simplified.
+  let projectionGeometry=null,projectionBins=[];
+  const projectionCells=48;
+  const uvCell=v=>Math.max(0,Math.min(projectionCells-1,Math.floor(v*projectionCells)));
+  function triangleCandidates(g,u,v){
+    if(projectionGeometry!==g){
+      projectionGeometry=g;projectionBins=Array.from({length:projectionCells*projectionCells},()=>[]);
+      const uv=g.getAttribute('uv'),idx=g.index,count=idx?idx.count:uv.count;
+      for(let i=0;i<count;i+=3){
+        const a=idx?idx.getX(i):i,b=idx?idx.getX(i+1):i+1,c=idx?idx.getX(i+2):i+2;
+        const loX=uvCell(Math.min(uv.getX(a),uv.getX(b),uv.getX(c))-1e-7),hiX=uvCell(Math.max(uv.getX(a),uv.getX(b),uv.getX(c))+1e-7);
+        const loY=uvCell(Math.min(uv.getY(a),uv.getY(b),uv.getY(c))-1e-7),hiY=uvCell(Math.max(uv.getY(a),uv.getY(b),uv.getY(c))+1e-7);
+        for(let y=loY;y<=hiY;y++)for(let x=loX;x<=hiX;x++)projectionBins[y*projectionCells+x].push(i);
+      }
+    }
+    return projectionBins[uvCell(v)*projectionCells+uvCell(u)];
+  }
   function projected(which,x,y) {
     const g=outer.geometry,uv=g.getAttribute('uv'),pos=g.getAttribute('position'),idx=g.index;
     const u=(L[which][0]+x)/L.AW,v=1-(L[which][1]+y)/L.AH;
-    const count=idx?idx.count:pos.count;
-    for(let i=0;i<count;i+=3){
+    for(const i of triangleCandidates(g,u,v)){
       const a=idx?idx.getX(i):i,b=idx?idx.getX(i+1):i+1,c=idx?idx.getX(i+2):i+2;
       const ax=uv.getX(a),ay=uv.getY(a),bx=uv.getX(b),by=uv.getY(b),cx=uv.getX(c),cy=uv.getY(c);
       if(u<Math.min(ax,bx,cx)-1e-7||u>Math.max(ax,bx,cx)+1e-7||v<Math.min(ay,by,cy)-1e-7||v>Math.max(ay,by,cy)+1e-7)continue;
@@ -188,7 +205,10 @@ if (!isWebsitePreview) {
   document.addEventListener('visibilitychange',()=>{if(document.hidden&&gesture)finish();});
   canvas.addEventListener('webglcontextlost',()=>{if(gesture)finish();});
   const priorProps=syncProps;syncProps=function(){priorProps();update(true);};
-  const priorRender=render;render=function(force=false){priorRender(force);update();};
+  const priorRender=render;render=function(force=false){
+    const frame=renderer.info.render.frame;priorRender(force);
+    if(force||frame!==renderer.info.render.frame)update();
+  };
   new ResizeObserver(()=>{if(gesture)finish();update(true);}).observe(stage);
   update(true);
 }
