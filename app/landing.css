@@ -303,3 +303,38 @@ body:has(.kobags-landing) .footer-invitation{display:none}
  .kobags-landing .contact{font-size:14px}
  .kobags-landing .process{gap:18px}.kobags-landing .process li{padding:16px 0 0}
 }
+/* Four full-size product turntables share one renderer. */
+.kobags-landing .rotating-showcase{margin-top:76px;padding:56px 0 36px;background:var(--navy);color:white}
+.kobags-landing .rotating-showcase-heading{display:flex;align-items:center;justify-content:space-between;gap:32px;margin-bottom:30px}
+.kobags-landing .rotating-showcase .eyebrow{color:var(--leaf)}
+.kobags-landing .rotating-showcase h2{font-size:clamp(38px,5.4vw,68px);line-height:1.04;margin:12px 0}
+.kobags-landing .rotating-showcase-heading p{margin:0;color:#d7e3e5;font-size:17px}
+.kobags-landing .showcase-primary{background:var(--leaf);color:var(--navy);padding:20px 28px;font-size:20px;min-height:68px;flex:none;font-weight:700;gap:20px;box-shadow:0 8px 30px #0002}
+.kobags-landing .showcase-primary:hover{background:white;color:var(--navy)}
+.kobags-landing .rotating-display{position:relative;height:370px;background:#f3f6f1;border-radius:18px;overflow:hidden;border:1px solid #ffffff30}
+.kobags-landing .rotating-display-frame{width:100%;height:100%;border:0;display:block;opacity:0;pointer-events:none}
+.kobags-landing .rotating-display.is-ready .rotating-display-frame{opacity:1}
+.kobags-landing .rotating-fallback{position:absolute;inset:0 0 44px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.kobags-landing .rotating-fallback>div{overflow:hidden;position:relative}
+.kobags-landing .rotating-fallback img{height:100%;width:400%;max-width:none;object-fit:fill;position:absolute;top:0}
+.kobags-landing .rotating-labels{position:absolute;inset:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));pointer-events:none}
+.kobags-landing .rotating-labels a{pointer-events:auto;align-self:end;display:flex;justify-content:center;align-items:center;gap:8px;margin:0 12px 10px;min-height:44px;padding:8px 10px;font-size:14px;font-weight:600;color:var(--navy);text-decoration:none;border-radius:8px;background:#ffffffd9}
+.kobags-landing .rotating-labels a:hover{background:var(--leaf)}
+.kobags-landing .rotating-caption{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:14px;color:#d7e3e5;font-size:14px;min-height:44px}
+.kobags-landing .rotating-caption button{display:flex;gap:8px;align-items:center;min-height:44px;padding:8px 12px;border:1px solid #ffffff50;border-radius:8px;background:transparent;color:white;font:inherit;cursor:pointer}
+@media(max-width:760px){
+ .kobags-landing .rotating-showcase{margin-top:48px;padding:32px 0 20px}
+ .kobags-landing .rotating-showcase-heading{display:grid;gap:18px;margin-bottom:20px}
+ .kobags-landing .rotating-showcase h2{font-size:clamp(36px,9.6vw,52px)}
+ .kobags-landing .rotating-showcase-heading p{font-size:15px}
+ .kobags-landing .showcase-primary{width:100%;padding:16px 22px;min-height:58px;font-size:19px;justify-content:space-between}
+ .kobags-landing .rotating-display{height:510px;border-radius:14px}
+ .kobags-landing .rotating-labels,.kobags-landing .rotating-fallback{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:1fr 1fr}
+ .kobags-landing .rotating-fallback{inset:0}
+ .kobags-landing .rotating-labels a{margin:0 5px 6px;padding:6px;font-size:12px;gap:4px;min-height:44px;text-align:center}
+ .kobags-landing .rotating-labels a svg{width:14px;flex:none}
+ .kobags-landing .rotating-caption{font-size:12px;gap:8px}
+}
+@media(min-width:761px) and (max-width:1000px){.kobags-landing .rotating-showcase-heading{align-items:start}.kobags-landing .showcase-primary{font-size:17px;padding:16px 20px}.kobags-landing .rotating-display{height:330px}}
+
+.kobags-landing .rotating-showcase{scroll-margin-top:80px}
