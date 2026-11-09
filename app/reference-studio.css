@@ -1,5 +1,5 @@
-.reference-studio-shell { width: 100%; background: #e9e7e3; }
-.reference-studio-bar { min-height: 48px; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 6px 18px; border-bottom: 1px solid #dcd9d3; background: #f8f7f4; }
+.reference-studio-shell { width: 100%; background: #fff; }
+.reference-studio-bar { min-height: 48px; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 6px 18px; border-bottom: 1px solid #dce5df; background: #fff; }
 .reference-studio-bar strong { font-size: 15px; }
 .reference-studio-bar .button { min-height: 36px; padding: 7px 14px; font-size: 12px; }
 .reference-studio-frame { width: 100%; height: calc(100svh - 122px); min-height: 640px; display: block; border: 0; }

@@ -1,4 +1,5 @@
 :root { --focus:#087c43; }
+:root[data-theme=light] { --stage:#fff; --panel:#fff; --ink:#123442; --muted:#5e6f70; --line:#dce5df; --chip:#f7faf7; --sel:#123442; --sel-ink:#fff; --vig:transparent; color-scheme:light; }
 html:not([data-embed=preview]) #stage { padding-bottom:56px; }
 #panel { width:380px; }
 #panel .head { padding-block:12px 8px; }
@@ -6,10 +7,10 @@ html:not([data-embed=preview]) #stage { padding-bottom:56px; }
 #tabs button.on, .studio-side-button.on { background:#123442; color:#fff; border-color:#123442; }
 .studio-side-tools { position:absolute;left:50%;transform:translateX(-50%);bottom:8px;display:flex;gap:6px;padding:4px;background:var(--panel);border:1px solid var(--line);border-radius:10px;box-shadow:0 4px 18px #12344212; }
 .studio-side-button { min-height:40px; min-width:112px; border:0; font-weight:600; }
-.studio-vest-view {display:flex;flex:none;align-items:center;gap:5px;padding-block:5px;background:var(--panel);border-bottom:1px solid var(--line);}
-.studio-vest-view > span {margin-right:auto;font-size:12px;font-weight:600;}
-.studio-vest-view button {min-height:40px;min-width:76px;padding:6px 9px;font-size:12px;}
-.studio-vest-view button.on {background:#123442;color:#fff;border-color:#123442;}
+.studio-bag-view {display:flex;flex:none;align-items:center;gap:5px;padding-block:5px;background:var(--panel);border-bottom:1px solid var(--line);}
+.studio-bag-view > span {margin-right:auto;font-size:12px;font-weight:600;}
+.studio-bag-view button {min-height:40px;min-width:76px;padding:6px 9px;font-size:12px;}
+.studio-bag-view button.on {background:#123442;color:#fff;border-color:#123442;}
 .hud { bottom:80px; font-size:11px; }
 #sideSeg { align-items:center;justify-content:space-between; }
 #sideSeg button[data-v] { display:none; }
@@ -71,7 +72,7 @@ html:not([data-embed=preview]) #stage { padding-bottom:56px; }
  .sum span {font-size:10px;} .sum span:last-child {display:none;}
  .sum button {min-height:40px;}
  .studio-side-tools {bottom:9px;padding:3px;}.studio-side-button{min-height:38px;min-width:100px;}
- .studio-vest-view {padding-block:3px;}.studio-vest-view > span{font-size:11px;}.studio-vest-view button{min-height:40px;min-width:72px;}
+ .studio-bag-view {padding-block:3px;}.studio-bag-view > span{font-size:11px;}.studio-bag-view button{min-height:40px;min-width:72px;}
  .hud {left:12px;bottom:61px;font-size:9px;}.hud span{display:none;}
  #views{top:9px;left:9px;gap:4px;}#views button{min-height:38px;padding:6px 9px;font-size:12px;}
  #v-front{display:none;}.light{top:9px;right:9px;}.light summary{padding:10px;font-size:12px;}

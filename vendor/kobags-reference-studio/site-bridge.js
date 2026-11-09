@@ -90,7 +90,10 @@ async function restoreStudioDraft() {
       assets.set(id, { name: String(a.name || 'Logo').slice(0, 200), mask: toCanvas(mask), color: toCanvas(color) });
     }
     design.front = []; design.back = []; applyType(s.type); applySize(s.size);
-    Object.assign(state, { bag: s.bag, handle: s.handle === 'match' || /^#[\da-f]{6}$/i.test(s.handle) ? s.handle : 'match', strap: s.strap === 'webbing' ? 'webbing' : 'fabric', pose: s.pose === 'relaxed' ? 'relaxed' : 'upright', vestView: s.vestView === 'flat' ? 'flat' : 'open' });
+    // Migrate the original T-shirt-only switch without making old drafts of
+    // other bag types folded merely because they retained a vest preference.
+    const bagView = s.bagView === 'flat' || (s.bagView == null && s.type === 'tshirt' && s.vestView === 'flat') ? 'flat' : 'open';
+    Object.assign(state, { bag: s.bag, handle: s.handle === 'match' || /^#[\da-f]{6}$/i.test(s.handle) ? s.handle : 'match', strap: s.strap === 'webbing' ? 'webbing' : 'fabric', pose: s.pose === 'relaxed' ? 'relaxed' : 'upright', bagView });
     if (Number.isFinite(s.drop)) state.drop = Math.max(6, Math.min(35, s.drop));
     for (const k of ['front', 'back']) design[k] = saved.design[k].filter(el => ['text', 'logo', 'graphic', 'qr'].includes(el.kind) && [el.x, el.y, el.w].every(Number.isFinite) && /^#[\da-f]{6}$/i.test(el.ink) && (el.kind !== 'logo' || assets.has(el.asset)) && (el.kind !== 'graphic' || Object.hasOwn(graphics, el.graphic))).map(el => { const copy = { ...el, id: nextId++, text: String(el.text || '').slice(0, 2000), data: String(el.data || '').slice(0, 2000) }; clampEl(copy); return copy; });
     side = saved.side === 'back' ? 'back' : 'front'; selId = null;

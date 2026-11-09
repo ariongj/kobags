@@ -3,13 +3,14 @@ import { resolve } from 'node:path';
 import { createHash } from 'node:crypto';
 import { build } from 'esbuild';
 import { refineStudioModule } from '../vendor/kobags-reference-studio/realism-patch.mjs';
+import { whiteStudioBackdrop } from '../vendor/kobags-reference-studio/white-stage-patch.mjs';
 
 // Preserve the owner's studio as the base. Guarded geometry refinements and
 // mobile controls are kept separate from its pinned source and delivery bridge.
 const root = process.cwd();
 const original = await readFile(resolve(root, 'vendor/kobags-reference-studio/index.html'), 'utf8');
 const css = original.match(/<style>([\s\S]*?)<\/style>/)[1];
-const module = refineStudioModule(original.match(/<script type="module">([\s\S]*?)<\/script>/)[1]
+const module = whiteStudioBackdrop(refineStudioModule(original.match(/<script type="module">([\s\S]*?)<\/script>/)[1]
   // Three passes a timestamp to its callback. The source calls this parameter
   // "force", accidentally rendering continuously even while the bag is idle.
   // Preserve its scene and transitions, but respect the existing dirty flag.
@@ -18,7 +19,7 @@ const module = refineStudioModule(original.match(/<script type="module">([\s\S]*
   .replace('let s = avail / W; if (H * s > 340) s = 340 / H;', `const mobile = innerWidth <= 760, focused = document.documentElement.dataset.canvasFocus === 'true';
   const editorCap = mobile ? Math.max(120, Math.min(340, focused ? innerHeight - 270 : document.getElementById('panes').clientHeight - 24)) : 340;
   let s = avail / W; if (H * s > editorCap) s = editorCap / H;`)
-  .replace("if (s) { const [w, h] = elementSize(s); if (Math.abs(x - (s.x + w / 2)) < tol && Math.abs(y - (s.y + h / 2)) < tol) return [s, 'resize']; }", "if (s) { const [w, h] = elementSize(s), reach = Math.min(tol, Math.min(w, h) * 0.4); if (Math.abs(x - (s.x + w / 2)) < reach && Math.abs(y - (s.y + h / 2)) < reach) return [s, 'resize']; }"));
+  .replace("if (s) { const [w, h] = elementSize(s); if (Math.abs(x - (s.x + w / 2)) < tol && Math.abs(y - (s.y + h / 2)) < tol) return [s, 'resize']; }", "if (s) { const [w, h] = elementSize(s), reach = Math.min(tol, Math.min(w, h) * 0.4); if (Math.abs(x - (s.x + w / 2)) < reach && Math.abs(y - (s.y + h / 2)) < reach) return [s, 'resize']; }")));
 const bridge = await readFile(resolve(root, 'vendor/kobags-reference-studio/site-bridge.js'), 'utf8');
 const usability = await readFile(resolve(root, 'vendor/kobags-reference-studio/usability.js'), 'utf8');
 const references = await readFile(resolve(root, 'vendor/kobags-reference-studio/reference-gallery.js'), 'utf8');

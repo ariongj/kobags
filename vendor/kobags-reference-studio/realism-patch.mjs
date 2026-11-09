@@ -10,8 +10,22 @@ export function refineStudioModule(source) {
     source = source.replace(before, after);
   };
 
-  // Opened is also the fallback for older saved drafts with no vestView field.
-  replace("  type: 'box', size: 'XS',", "  type: 'box', size: 'XS', vestView: 'open',", 'default vest presentation');
+  // Opened is the default for every bag; retain the old T-shirt draft field
+  // only when a canonical bagView has not been supplied.
+  replace("  type: 'box', size: 'XS',", "  type: 'box', size: 'XS', bagView: 'open',", 'default bag presentation');
+
+  replace('function profile(y) {', `function foldedBag() {
+  return (state.bagView ?? (state.type === 'tshirt' ? state.vestView : 'open')) === 'flat';
+}
+function profile(y) {`, 'shared bag presentation');
+  replace("  if (T.gusset === 'bottom') return { d: g * (1 - smooth(0, gussetTop(), y)), s: 0 };", `  if (foldedBag() && T.handles !== 'tshirt') {
+    // A folded pack still has several layers of fabric, not a zero-depth plane.
+    const d = Math.min(g, 0.18);
+    if (T.gusset === 'bottom') return { d: d * (1 - smooth(0, gussetTop(), y)), s: 0 };
+    // The two halves of a side gusset tuck in while keeping their fabric width.
+    return { d, s: Math.sqrt(Math.max(g * g - d * d, 0)) };
+  }
+  if (T.gusset === 'bottom') return { d: g * (1 - smooth(0, gussetTop(), y)), s: 0 };`, 'flat gusset profiles');
 
   // The factory photographs show the vest bag opened for use. Keep the
   // original folded-tube construction and width/depth; unfold its gussets
@@ -19,7 +33,7 @@ export function refineStudioModule(source) {
   // Front, back and both gusset halves consume this one profile so they meet.
   replace(`    // a T-shirt bag is a flat folded tube: sealed flat across the bottom, a little open in the body, flat in the handles
     const yb = tshirtCut().yb, open = (0.5 + 3 * state.full) * smooth(0, H * 0.18, y) * (1 - smooth(H * 0.3, yb - 1, y));
-    const d = 0.12 + Math.min(open, g * 0.9);`, `    if (state.vestView === 'flat') {
+    const d = 0.12 + Math.min(open, g * 0.9);`, `    if (foldedBag()) {
       // Retain the supplied folded presentation, including its original relief.
       const yb = tshirtCut().yb, open = (0.5 + 3 * state.full) * smooth(0, H * 0.18, y) * (1 - smooth(H * 0.3, yb - 1, y));
       const d = 0.12 + Math.min(open, g * 0.9);
@@ -34,7 +48,7 @@ export function refineStudioModule(source) {
     const expansion = 0.72 + 0.26 * Math.min(1, Math.max(0, state.full));
     const d = 0.12 + Math.max(0, g - 0.12) * expansion * base * shoulder * handles;`, 'expanded vest gussets');
 
-  replace('  return profile(y).d + bulge + buckle + pressed + ((T.handles', `  if (T.handles === 'tshirt' && state.vestView !== 'flat') {
+  replace('  return profile(y).d + bulge + buckle + pressed + ((T.handles', `  if (T.handles === 'tshirt' && !foldedBag()) {
     const g = state.D / 2, yb = tshirtCut().yb;
     let fold = 0;
     // Shallow vertical pull folds emerge from the welded lower corners.
@@ -66,9 +80,97 @@ export function refineStudioModule(source) {
   replace(' + buckle + hemStep * edge;', ' + buckle + (hemStep + handleTension) * edge;', 'bottom-gusset attachment relief');
   replace("((T.handles === 'tshirt' ? 0 : crease) + hemStep) * edge;", "((T.handles === 'tshirt' ? 0 : crease) + hemStep + handleTension) * edge;", 'side-gusset attachment relief');
 
+  replace("  if (T.gusset === 'bottom') {\n    // the base holds the panel out", `  if (foldedBag() && T.handles !== 'tshirt') {
+    const seam = profile(y).d;
+    const padding = T.gusset === 'bottom' ? 0.18 * Math.pow(Math.max(ex, 0), 0.6) * smooth(0, 2.5, y) : 0;
+    const relief = (0.018 + 0.008 * fbm(x * 0.15, y * 0.07, seed)) * Math.max(ex, 0) * ey;
+    // Modest pressed-fabric relief keeps separate front/back layers and closes
+    // every original side seam. Do not change the artwork's panel coordinates.
+    return seam + padding + relief + hemStep * edge * (T.handles === 'string' ? 1 : 0.5);
+  }
+  if (T.gusset === 'bottom') {
+    // the base holds the panel out`, 'folded panel relief');
+  replace("const bz = TYPES[state.type].handles === 'tshirt' ? profile(0).d : g;", "const bz = TYPES[state.type].handles === 'tshirt' || foldedBag() ? profile(0).d : g;", 'folded base thickness');
+  replace('p: [-W / 2 + u * W, 0, bz - v * 2 * bz]', `p: [(-W / 2 + u * W) * (foldedBag() && TYPES[state.type].handles !== 'tshirt' && TYPES[state.type].gusset === 'side' ? 1 - 2 * profile(0).s * (1 - Math.abs(1 - 2 * v)) / W : 1), 0, bz - v * 2 * bz]`, 'base follows tucked gusset boundary');
+  replace('Math.max(state.D, 2) * CM / 0.69 * 1.1', "(foldedBag() ? (state.type === 'tshirt' ? 2 : 0.9) : Math.max(state.D, 2)) * CM / 0.69 * 1.1", 'folded contact shadow');
+
+  // The folded tube's upper gusset is open between the two handle plies. Cut
+  // that hand space from the real mesh; keep the welded crown and lower gusset.
+  replace('function buildBody() {', `function cutVestHandleOpenings(geometry) {
+    const columns = 81, rows = 111, panels = 2 * columns * rows;
+    const gussetSize = 17 * rows, gussetEnd = panels + 4 * gussetSize;
+    const top = state.H - 0.9, bottom = tshirtCut().yb + 0.45;
+    const left = 0.14, right = 1.86, rx = 0.14, ry = Math.min(0.75, (top - bottom) / 4);
+    // A rounded rectangle in the unfolded side-gusset coordinates (0..2).
+    // Its two halves meet at the existing centre fold, without a central web.
+    const opening = [];
+    for (const [cx, cy, start] of [[right-rx,bottom+ry,-90],[right-rx,top-ry,0],[left+rx,top-ry,90],[left+rx,bottom+ry,180]])
+      for (let k = 0; k <= 4; k++) {
+        const a = (start + k * 22.5) * Math.PI / 180;
+        opening.push([cx + rx * Math.cos(a), cy + ry * Math.sin(a)]);
+      }
+    const channels = Object.fromEntries(Object.entries(geometry.attributes).map(([name,a]) => [name,{ size:a.itemSize, values:Array.from(a.array) }]));
+    const indices = [], intersections = new Map();
+    const point = (index, piece) => {
+      const local = index - panels - piece * gussetSize;
+      const u = (local % 17) / 16;
+      return { index, x: piece % 2 ? 2-u : u, y: channels.position.values[index*3+1] / CM };
+    };
+    const intersection = (a,b,t,piece) => {
+      if(t < 1e-10)return a;if(t > 1-1e-10)return b;
+      const x=a.x+(b.x-a.x)*t,y=a.y+(b.y-a.y)*t;
+      const key=piece+':'+x.toFixed(9)+':'+y.toFixed(9);
+      if(intersections.has(key))return intersections.get(key);
+      const index=channels.position.values.length/3;
+      for(const [name,{size,values}] of Object.entries(channels)){
+        const value=[];for(let k=0;k<size;k++)value.push(values[a.index*size+k]+(values[b.index*size+k]-values[a.index*size+k])*t);
+        if(name==='normal'){const length=Math.hypot(...value)||1;for(let k=0;k<size;k++)value[k]/=length;}
+        values.push(...value);
+      }
+      const result={index,x,y};intersections.set(key,result);return result;
+    };
+    const clip = (polygon,A,B,inside,piece) => {
+      const out=[],distance=p=>(B[0]-A[0])*(p.y-A[1])-(B[1]-A[1])*(p.x-A[0]);
+      for(let i=0;i<polygon.length;i++){
+        const a=polygon[i],b=polygon[(i+1)%polygon.length],da=distance(a),db=distance(b);
+        const keepA=inside?da>=0:da<=0,keepB=inside?db>=0:db<=0;
+        if(keepA)out.push(a);
+        if(keepA!==keepB)out.push(intersection(a,b,da/(da-db),piece));
+      }
+      return out;
+    };
+    const emit = polygon => {
+      for(let i=1;i+1<polygon.length;i++){
+        const a=polygon[0],b=polygon[i],c=polygon[i+1];
+        if(Math.abs((b.x-a.x)*(c.y-a.y)-(b.y-a.y)*(c.x-a.x))>1e-10)indices.push(a.index,b.index,c.index);
+      }
+    };
+    const original=geometry.index.array;
+    for(let i=0;i<original.length;i+=3){
+      const triangle=[original[i],original[i+1],original[i+2]];
+      const first=Math.min(...triangle),last=Math.max(...triangle);
+      if(first<panels||last>=gussetEnd){indices.push(...triangle);continue;}
+      const piece=Math.floor((first-panels)/gussetSize);
+      let remaining=triangle.map(index=>point(index,piece));
+      if(remaining.every(p=>p.y<=bottom)||remaining.every(p=>p.y>=top)){indices.push(...triangle);continue;}
+      // Subtract the convex opening by emitting each outside fragment and
+      // carrying its inside remainder to the next edge. Border vertices share
+      // interpolated UVs/normals; no coarse stair-step cut or extra solid cap.
+      for(let edge=0;edge<opening.length&&remaining.length;edge++){
+        const A=opening[edge],B=opening[(edge+1)%opening.length];
+        emit(clip(remaining,A,B,false,piece));remaining=clip(remaining,A,B,true,piece);
+      }
+    }
+    for(const [name,{size,values}] of Object.entries(channels))geometry.setAttribute(name,new THREE.Float32BufferAttribute(values,size));
+    geometry.setIndex(indices);return geometry;
+  }
+function buildBody() {`, 'physical vest handle openings');
+  replace('  return mergeGeometries(parts);', `  const geometry = mergeGeometries(parts);
+  return TYPES[state.type].handles === 'tshirt' ? cutVestHandleOpenings(geometry) : geometry;`, 'cut upper vest gussets');
+
   // Keep the real two-layer strap width and thickness. Attach its buried ends
   // to the actual panel surface, rather than a box-depth approximation.
-  replace("const tilt = state.pose === 'relaxed' ? (side > 0 ? 0.62 : 0.85) : 0.1;", "const tilt = state.pose === 'relaxed' ? (side > 0 ? 0.62 : 0.85) : (side > 0 ? 0.12 : 0.18);", 'handle fall');
+  replace("const tilt = state.pose === 'relaxed' ? (side > 0 ? 0.62 : 0.85) : 0.1;", "const tilt = foldedBag() ? (side > 0 ? 0.004 : 0.008) : state.pose === 'relaxed' ? (side > 0 ? 0.62 : 0.85) : (side > 0 ? 0.12 : 0.18);", 'handle fall');
   replace('const zIn = y => side * (profile(Math.min(y, H)).d - 0.2);', 'const zIn = (y, x = 0) => side * (panelZ(x, Math.min(y, H), side > 0 ? 1 : 2) - 0.09);', 'handle attachment surface');
   replace('if (y <= H) return new THREE.Vector3(x, y, zIn(y));', 'if (y <= H) return new THREE.Vector3(x, y, zIn(y, x));', 'embedded handle ends');
   replace('return new THREE.Vector3(x, H + h * Math.cos(f), zIn(H) + side * h * Math.sin(f));', `const drift = 0.12 * Math.sin(Math.PI * Math.min(1, h / drop)) * Math.sin(x / a * 0.8 + side);
@@ -83,6 +185,11 @@ export function refineStudioModule(source) {
       const cup = (fabric ? 0.045 : 0.025) * free * (1 - rx * rx) * Math.sin(Math.PI * i / N);
       const depth = ry * ht + cup;
       pos.push((p.x + Wv.x * rx * sw / 2 + Nn.x * depth) * CM, (p.y + Wv.y * rx * sw / 2 + Nn.y * depth) * CM, (p.z + Wv.z * rx * sw / 2 + Nn.z * depth) * CM);`, 'soft strap cross-section');
+
+  replace('const th = 0.2 * Math.sin(out * 0.32 + side * 1.7)', 'const th = (foldedBag() ? 0.035 : 0.2) * Math.sin(out * 0.32 + side * 1.7)', 'folded handle twist');
+  replace('[sx * (W / 2 + 1.9), H * 0.62, -1.2]', '[sx * (W / 2 + 1.9), H * 0.62, foldedBag() ? -0.25 : -1.2]', 'folded upper cord');
+  replace('[sx * (W / 2 + 1.5), H * 0.3, -1.9]', '[sx * (W / 2 + 1.5), H * 0.3, foldedBag() ? -0.3 : -1.9]', 'folded lower cord');
+  replace('[sx * (W / 2 - 0.3), 2.4, az - 0.7]', '[sx * (W / 2 - 0.3), 2.4, az - (foldedBag() ? 0.2 : 0.7)]', 'folded cord return');
 
   // A restrained, deterministic fibre variation prevents the unprinted handle
   // from reading as a flat plastic strip. Hue and source swatches stay intact.

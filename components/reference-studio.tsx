@@ -33,7 +33,8 @@ export default function ReferenceStudio() {
       }, colors[0]);
       const patch: Partial<Design> = { product: products[bag.type], size: 'Small', color: closest.name, customDimensions: `${bag.W} × ${bag.H} × ${bag.D} cm`, text: '', backText: '', logo: front, backLogo: back, logoName: 'Studio front artwork', backLogoName: 'Studio back artwork', side: 'front', elements: [], layeredArtwork: false, x: 50, y: 56, scale: 55, rotation: 0, backX: 50, backY: 56, backScale: 55, backRotation: 0, note: `Studio configuration: ${bag.type} · ${bag.size}\nFabric ${bag.bag}; handles ${bag.handle}; ${bag.strap} handles; ${bag.pose} shape.\nCustom dimensions: ${bag.W} × ${bag.H} × ${bag.D} cm.` };
       const customerNote = design.note.replace(/\n?\[3D studio\][\s\S]*?\[\/3D studio\]/g, '').trim();
-      if (bag.type === 'tshirt') patch.note += `\nPreview: ${bag.vestView === 'flat' ? 'Folded / flat' : 'Opened'}.`;
+      const folded = bag.bagView === 'flat' || (bag.bagView == null && bag.type === 'tshirt' && bag.vestView === 'flat');
+      patch.note += `\nPreview: ${folded ? 'Folded / flat' : 'Opened'}.`;
       patch.referenceStudio = referenceStudio;
       patch.key = crypto.randomUUID();
       patch.note = `${customerNote}${customerNote ? '\n\n' : ''}[3D studio]\n${patch.note}\n[/3D studio]`;

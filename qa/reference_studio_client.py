@@ -116,9 +116,9 @@ async def main():
             return result
 
         async def vest_mode(frame, mode):
-            await frame.locator(f"#vest-view button[data-v={mode}]").click()
-            await frame.wait_for_function("mode => __api.state.vestView === mode", arg=mode)
-            assert await frame.locator(f"#vest-view button[data-v={mode}]").get_attribute("aria-pressed") == "true"
+            await frame.locator(f"#bag-view button[data-v={mode}]").click()
+            await frame.wait_for_function("mode => __api.state.bagView === mode", arg=mode)
+            assert await frame.locator(f"#bag-view button[data-v={mode}]").get_attribute("aria-pressed") == "true"
 
         async def drag_item(frame, item_id, dx=-16, dy=-8):
             canvas = frame.locator("#editor")
@@ -155,7 +155,7 @@ async def main():
         await frame.locator("#tabs [data-tab=samples]").click()
         await frame.locator(f"#samples .sample[data-i='{index}']").click()
         await frame.locator("#tabs [data-tab=bag]").click()
-        check("New T-shirt product starts in Opened view", await frame.evaluate("() => __api.state.vestView") == "open")
+        check("New T-shirt product starts in Opened view", await frame.evaluate("() => __api.state.bagView") == "open")
         artwork_before_pose = await frame.evaluate("() => JSON.stringify(__api.design)")
         opened = await read_geometry(frame, "T-shirt supplied navy sample / opened")
         opened_views = [("34", "three-quarter")] if args.quick else [("34", "three-quarter"), ("front", "front"), ("back", "back"), ("side", "side"), ("top", "inside")]
@@ -171,7 +171,7 @@ async def main():
         await vest_mode(frame, "open")
         check("Returning to Opened preserves artwork", await frame.evaluate("() => JSON.stringify(__api.design)") == artwork_before_pose)
         if args.width <= 760:
-            controls = frame.locator("#vest-view")
+            controls = frame.locator("#bag-view")
             await controls.scroll_into_view_if_needed()
             metrics["tshirtViewControls"] = await controls.evaluate("""element=>[...element.querySelectorAll('button')].map(e=>{const r=e.getBoundingClientRect();return {label:e.textContent.trim(),width:r.width,height:r.height,left:r.left,right:r.right}})""")
             check("Both T-shirt view controls fit the mobile screen", await controls.is_visible() and len(metrics["tshirtViewControls"]) == 2 and all(item["left"] >= 0 and item["right"] <= args.width for item in metrics["tshirtViewControls"]))
@@ -317,13 +317,13 @@ async def main():
         await page.wait_for_timeout(900)
         saved = await frame.evaluate("() => JSON.parse(localStorage.getItem('kobags-reference-studio-v1'))")
         assert saved["uploaded"] and any(item.get("text") == "CLIENT BACK ONLY" for item in saved["design"]["back"])
-        assert saved["state"]["vestView"] == "flat"
+        assert saved["state"]["bagView"] == "flat"
         await page.reload(wait_until="domcontentloaded")
         frame = await ready()
         await frame.evaluate("() => __api.renderer.setAnimationLoop(null)")
         restored = await frame.evaluate("() => ({side:__api.getSide(),front:__api.design.front,back:__api.design.back})")
         check("Reload restores selected back side, independent artwork and uploaded logo", restored["side"] == "back" and any(item.get("text") == "CLIENT BACK ONLY" for item in restored["back"]) and any(item["kind"] == "logo" for item in restored["back"]) and any(item.get("data", "").endswith("/client-review") for item in restored["back"]))
-        check("Reload restores the selected Folded T-shirt view", await frame.evaluate("() => __api.state.vestView") == "flat")
+        check("Reload restores the selected Folded T-shirt view", await frame.evaluate("() => __api.state.bagView") == "flat")
         restored_mesh = await read_geometry(frame, "T-shirt folded after draft reload")
         check("Restored T-shirt mesh matches the saved Folded depth", abs(restored_mesh["sizeCm"]["depth"] - folded["sizeCm"]["depth"]) < .01)
 

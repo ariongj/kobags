@@ -15,21 +15,26 @@ if (!isWebsitePreview) {
     const b=action(which==='front'?'Front':'Back',()=>chooseSide(which),'studio-side-button'); b.id='edit-'+which;b.setAttribute('aria-label','Design the '+which);sideActions[which]=b;sideTools.append(b);
   }
   document.getElementById('stage').append(sideTools);
-  const vestView=make('div','studio-vest-view');vestView.id='vest-view';vestView.hidden=true;vestView.setAttribute('role','group');vestView.setAttribute('aria-label','T-shirt bag presentation');
-  vestView.append(make('span','','T-shirt view'));
-  const vestButtons=[];
+  const bagView=make('div','studio-bag-view');bagView.id='bag-view';bagView.setAttribute('role','group');bagView.setAttribute('aria-label','Bag presentation');
+  bagView.append(make('span','','Bag view'));
+  const viewButtons=[];
   for(const [mode,label] of [['open','Opened'],['flat','Folded']]){
     const button=action(label,()=>{
-      if(state.type!=='tshirt'||state.vestView===mode)return;
-      const cameraView=document.querySelector('#views button.on')?.dataset.view||(side==='back'?'back':'34');
-      state.vestView=mode;rebuild();setView(cameraView);syncVestView();queueStudioSave();
+      if(state.bagView===mode)return;
+      // Presentation changes geometry only. Keep the current camera, side,
+      // selected artwork and print dimensions exactly where the buyer left them.
+      state.bagView=mode;rebuild();syncBagView();queueStudioSave();
     });
-    button.dataset.v=mode;button.id='vest-'+mode;button.setAttribute('aria-label',mode==='open'?'Show T-shirt bag opened':'Show T-shirt bag folded flat');vestButtons.push(button);vestView.append(button);
+    button.dataset.v=mode;button.id='bag-view-'+mode;button.setAttribute('aria-label',mode==='open'?'Show bag opened':'Show bag folded flat');viewButtons.push(button);bagView.append(button);
   }
-  document.getElementById('tabs').before(vestView);
-  function syncVestView(){
-    vestView.hidden=state.type!=='tshirt';
-    for(const button of vestButtons){const active=button.dataset.v===(state.vestView==='flat'?'flat':'open');button.classList.toggle('on',active);button.setAttribute('aria-pressed',String(active));}
+  document.getElementById('tabs').before(bagView);
+  bagView.addEventListener('keydown',event=>{
+    const index=viewButtons.indexOf(document.activeElement);if(index<0)return;
+    let next;if(event.key==='ArrowRight'||event.key==='ArrowLeft')next=1-index;else if(event.key==='Home')next=0;else if(event.key==='End')next=1;else return;
+    event.preventDefault();viewButtons[next].focus();viewButtons[next].click();
+  });
+  function syncBagView(){
+    for(const button of viewButtons){const active=button.dataset.v===(state.bagView==='flat'?'flat':'open');button.classList.toggle('on',active);button.setAttribute('aria-pressed',String(active));}
   }
   const title=make('strong','studio-edit-title','Front artwork');document.getElementById('sideSeg').prepend(title);
   const help=make('p','note studio-edit-help','Tap an item to select it. Drag to move, or use the controls below.');document.querySelector('.editor').before(help);
@@ -151,7 +156,7 @@ if (!isWebsitePreview) {
     const summary=document.getElementById('designNote');summary.textContent=items.length?'Select an item above, drag it on the canvas, or use the move and size controls.':'This side is blank. Add your logo, a message or a QR code.';
     document.documentElement.dataset.editingSide=side;
     if(selected())sideSelection[side]=selId;
-    syncVestView();
+    syncBagView();
     syncDock();
   }
   const previousProps=syncProps;syncProps=function(){previousProps();syncFriendlyControls();};
