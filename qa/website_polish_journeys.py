@@ -21,6 +21,7 @@ OUT.mkdir(parents=True,exist_ok=True)
 async def main():
  result={'base':args.base,'checks':[],'blockedWrites':[],'mockedSubmissions':[],'errors':[]}
  capture_submission=False
+ studio_request=False
  def check(name,passed,detail=None):
   row={'name':name,'passed':bool(passed),'detail':detail};result['checks'].append(row);print(json.dumps(row),flush=True)
  async with async_playwright() as p:
@@ -35,6 +36,11 @@ async def main():
      result['mockedSubmissions'].append({'url':route.request.url,'payload':route.request.post_data_json})
      await route.fulfill(status=503,content_type='application/json',body='{"error":"QA_CAPTURED_WITHOUT_SERVER_WRITE"}');return
     result['blockedWrites'].append({'method':route.request.method,'url':route.request.url});await route.abort('blockedbyclient')
+   elif studio_request:
+    # Chromium forbids setting Host on page navigation. The request client can
+    # send it safely to this loopback preview without changing production gates.
+    response=await route.fetch(headers={**{k:v for k,v in route.request.headers.items() if k.lower()!='host'},'host':'kobags.itdks.tech'})
+    await route.fulfill(response=response)
    else:await route.continue_()
   await ctx.route('**/*',guard)
   page=await ctx.new_page();page.set_default_timeout(20000)
@@ -137,8 +143,8 @@ async def main():
    await page.locator('a.language').click();await page.wait_for_load_state('networkidle')
    check('Albanian quote keeps current step and quantity',await page.locator('html').get_attribute('lang')=='sq' and await page.locator('#q-company').count()==1)
   async def studio_reference():
-   if urlparse(args.base).hostname in ('localhost','127.0.0.1'):
-    await ctx.set_extra_http_headers({'Host':'kobags.itdks.tech'})
+   nonlocal studio_request
+   studio_request=urlparse(args.base).hostname in ('localhost','127.0.0.1')
    await go('/quote')
    original=await page.evaluate("localStorage.getItem('kobags-design-v1')")
    fixture=json.loads(original)
@@ -174,7 +180,8 @@ async def main():
    await go('/quote?collection=smiley')
    check('Unavailable collection cannot be ordered',await page.locator('.stock-form').count()==0 and await page.get_by_role('heading',name='Temporarily out of stock',exact=True).count()==1)
   async def standard_handoff():
-   if urlparse(args.base).hostname in ('localhost','127.0.0.1'):await ctx.set_extra_http_headers({'Host':'kobags.itdks.tech'})
+   nonlocal studio_request
+   studio_request=urlparse(args.base).hostname in ('localhost','127.0.0.1')
    await go('/quote');draft=await page.evaluate("JSON.parse(localStorage.getItem('kobags-design-v1'))")
    preview='data:image/webp;base64,'+base64.b64encode((ROOT/'public/assets/box-bag-320.webp').read_bytes()).decode()
    draft.update({'product':'box-bag','size':'Small','customDimensions':'40 × 38 × 17 cm','referenceStudio':{'source':'ariongj-mo-b23cd8f','productName':'Old box','size':'L','dimensions':'40 × 38 × 17 cm','fabric':'#efeee9','front':preview,'back':preview},'logo':preview,'backLogo':preview,'text':'','backText':'','elements':[]})
@@ -184,9 +191,9 @@ async def main():
    current=await page.evaluate("JSON.parse(localStorage.getItem('kobags-design-v1'))")
    check('Standard product CTA replaces prior custom/studio dimensions',current['product']=='box-bag' and current['size']=='Large' and not current.get('referenceStudio') and not current['customDimensions'] and '40 × 40 × 20 cm' in await page.locator('.quote-summary').inner_text())
   async def quote_payload():
-   nonlocal capture_submission
+   nonlocal capture_submission, studio_request
    capture_submission=True
-   if urlparse(args.base).hostname in ('localhost','127.0.0.1'):await ctx.set_extra_http_headers({'Host':'kobags.itdks.tech'})
+   studio_request=urlparse(args.base).hostname in ('localhost','127.0.0.1')
    await go('/quote');draft=await page.evaluate("JSON.parse(localStorage.getItem('kobags-design-v1'))")
    draft.update({'product':'handle-bag','size':'Small','customDimensions':'','referenceStudio':None,'logo':'','backLogo':'','text':'YOUR\nBRAND','backText':'','elements':[{'id':'qa-default','kind':'text','side':'front','text':'YOUR\nBRAND','x':50,'y':50,'scale':1,'rotation':0}],'company':'Fictional QA company','contact':'QA reviewer','email':'qa@example.test','city':'Prishtina','country':'Kosovo','quantity':5000,'consent':True,'note':'Intercepted browser acceptance check; no server write.'})
    await page.evaluate("(d)=>{localStorage.setItem('kobags-design-v1',JSON.stringify(d));localStorage.setItem('kobags-quote-step','3')}",draft)
@@ -230,7 +237,7 @@ async def main():
    try:await fn()
    except Exception as e:check(name+' journey completes',False,str(e))
    finally:
-    if name in ('studio reference','standard handoff','quote payload'):await ctx.set_extra_http_headers({})
+    if name in ('studio reference','standard handoff','quote payload'):studio_request=False
     if name=='quote payload':capture_submission=False
    (OUT/'journey-results.json').write_text(json.dumps(result,indent=2))
   application_writes=[r for r in result['blockedWrites'] if '/cdn-cgi/' not in r['url']]

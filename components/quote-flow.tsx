@@ -409,7 +409,7 @@ export default function QuoteFlow() {
                   id="q-size"
                   label={t("Size", "Madhësia")}
                   value={studioSpecification ? "reference-studio" : design.size}
-                  onChange={(size) => { if (size !== "reference-studio") update({ size, ...(studioSpecification ? { customDimensions: "" } : {}) }); }}
+                  onChange={(size) => { if (size !== "reference-studio") update({ size, ...(studioSpecification ? { customDimensions: "", referenceStudio: undefined } : {}) }); }}
                   options={[...(studioSpecification ? [{ value: "reference-studio", label: `${t("Studio", "Studio")} · ${studioSpecification.size} · ${studioSpecification.dimensions}` }] : []), ...p.variants.filter(v=>!cms.options(p.slug)?.activeSizes || cms.options(p.slug)!.activeSizes!.includes(v.name)).map((v) => ({
                     value: v.name,
                     label: t(v.name, sizeSq[v.name]) + " · " + v.dimensions,

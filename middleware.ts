@@ -8,6 +8,12 @@ import { studioEnabledForHost, isStudioPreviewHost, isStudioPath } from "./lib/s
 export async function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
   const pathname = url.pathname;
+  // Keep links to the original website's certificate scans usable after migration.
+  const legacyCertificate = pathname.match(/^\/images\/licenses\/Certifikimi(?:%20| )([12])\.png$/i);
+  if (legacyCertificate) {
+    url.pathname = `/documents/iso-${legacyCertificate[1] === "1" ? "9001" : "14001"}-original.png`;
+    return NextResponse.redirect(url, 308);
+  }
   const studioEnabled = studioEnabledForHost(url.hostname);
   const studioPreview = isStudioPreviewHost(url.hostname);
   if (pathname.length > 1 && pathname.endsWith("/")) {

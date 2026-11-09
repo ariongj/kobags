@@ -6,7 +6,7 @@ export const certificates = [
     title: "Quality management",
     titleSq: "Menaxhimi i cilësisë",
     number: "SB.26.0004.00.QMS",
-    source: "https://kobags-group.com/images/licenses/Certifikimi%201.png",
+    source: "/documents/iso-9001-original.png",
   },
   {
     id: "14001",
@@ -14,7 +14,7 @@ export const certificates = [
     title: "Environmental management",
     titleSq: "Menaxhimi mjedisor",
     number: "SB.26.0005.00.EMS",
-    source: "https://kobags-group.com/images/licenses/Certifikimi%202.png",
+    source: "/documents/iso-14001-original.png",
   },
 ] as const;
 export type Certificate = {id:string;standard:string;title:string;titleSq:string;number:string;source:string;image?:string;issued?:string;expires?:string};
