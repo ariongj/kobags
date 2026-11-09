@@ -27,11 +27,12 @@ const references = await readFile(resolve(root, 'vendor/kobags-reference-studio/
 const mobileCamera = await readFile(resolve(root, 'vendor/kobags-reference-studio/mobile-camera.js'), 'utf8');
 const workspacePanel = await readFile(resolve(root, 'vendor/kobags-reference-studio/workspace-panel.js'), 'utf8');
 const directArtwork = await readFile(resolve(root, 'vendor/kobags-reference-studio/direct-artwork.js'), 'utf8');
-const refinementCss = await readFile(resolve(root, 'vendor/kobags-reference-studio/usability.css'), 'utf8') + await readFile(resolve(root, 'vendor/kobags-reference-studio/reference-gallery.css'), 'utf8') + await readFile(resolve(root, 'vendor/kobags-reference-studio/mobile-camera.css'), 'utf8') + await readFile(resolve(root, 'vendor/kobags-reference-studio/workspace-panel.css'), 'utf8') + await readFile(resolve(root, 'vendor/kobags-reference-studio/direct-artwork.css'), 'utf8');
+const organization = await readFile(resolve(root, 'vendor/kobags-reference-studio/organization.js'), 'utf8');
+const refinementCss = await readFile(resolve(root, 'vendor/kobags-reference-studio/usability.css'), 'utf8') + await readFile(resolve(root, 'vendor/kobags-reference-studio/reference-gallery.css'), 'utf8') + await readFile(resolve(root, 'vendor/kobags-reference-studio/mobile-camera.css'), 'utf8') + await readFile(resolve(root, 'vendor/kobags-reference-studio/workspace-panel.css'), 'utf8') + await readFile(resolve(root, 'vendor/kobags-reference-studio/direct-artwork.css'), 'utf8') + await readFile(resolve(root, 'vendor/kobags-reference-studio/organization.css'), 'utf8');
 const directory = resolve(root, 'public/assets/reference-studio');
 await mkdir(directory, { recursive: true });
 const bundled = await build({
-  stdin: { contents: `import qrcode from 'qrcode-studio';\nwindow.qrcode=qrcode;\n${module}\n${bridge}\n${usability}\n${references}\n${mobileCamera}\n${workspacePanel}\n${directArtwork}`, resolveDir: root, sourcefile: 'kobags-reference-studio.js' },
+  stdin: { contents: `import qrcode from 'qrcode-studio';\nwindow.qrcode=qrcode;\n${module}\n${bridge}\n${usability}\n${references}\n${mobileCamera}\n${workspacePanel}\n${directArtwork}\n${organization}`, resolveDir: root, sourcefile: 'kobags-reference-studio.js' },
   bundle: true, write: false, format: 'esm', minify: true, target: ['es2022'], legalComments: 'inline',
   banner: { js: '/*! QR Code Generator for JavaScript: Copyright (c) 2009 Kazuhiko Arase. MIT license. Full notices: /documents/third-party-notices.txt */' },
   plugins: [{ name: 'original-three-version', setup(b) {

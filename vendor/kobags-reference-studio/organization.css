@@ -1,0 +1,46 @@
+/* One main toolbar, one contextual editing dock, one optional settings drawer. */
+html.studio-organized #studio-panel-toggle{display:none;}
+html.studio-organized #studio-toolbar{flex-wrap:nowrap;gap:8px;padding:5px 10px;}
+html.studio-organized #studio-toolbar #tabs button{padding-inline:18px;font-size:13px;}
+html.studio-organized #studio-toolbar #tabs [data-tab=samples]{color:var(--muted);}
+html.studio-organized #studio-toolbar #tabs [data-tab=samples].on{color:var(--ink);}
+html.studio-organized .studio-panel-heading{min-height:50px;}
+html.studio-organized #studio-mobile-tools{display:none!important;}
+html.studio-organized #panel .studio-canvas-heading,html.studio-organized #panel .editor,html.studio-organized #panel .studio-move,html.studio-organized #designNote,html.studio-organized #panel .studio-edit-title,html.studio-organized #panel #sideSeg > [data-v]{display:none;}
+html.studio-organized #panel .studio-artwork-picker{display:block;margin:14px 0 10px;}
+html.studio-organized #panel .studio-artwork-picker select{width:100%;min-height:44px;font-size:16px;}
+html.studio-organized #panel .props{margin:0;border:0;padding:0;}
+html.studio-organized #panel #studio-add-artwork{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;}
+html.studio-organized #panel #studio-add-artwork > *{min-height:44px;margin:0;padding:10px 5px;text-align:center;}
+.studio-design-intro{font:13px/1.5 var(--f-body);color:var(--muted);margin:0 0 12px;}
+.studio-design-extras{display:grid;gap:10px;border-top:1px solid var(--line);padding-top:14px;margin-top:18px;}
+html.studio-organized #panel .studio-design-extras #sideSeg{margin:0;padding:0;border:0;display:flex;}
+html.studio-organized #panel .studio-design-extras button{width:100%;min-height:44px;}
+.studio-options{border-top:1px solid var(--line);margin-top:12px;padding-top:2px;}
+.studio-options summary{min-height:46px;cursor:pointer;align-content:center;font:600 13px var(--f-body);padding:10px 0;box-sizing:border-box;}
+.studio-options summary h2{display:inline;font:inherit;margin:0;}
+.studio-options[open] summary{margin-bottom:10px;}
+.studio-options summary:focus-visible{outline:2px solid var(--focus);outline-offset:2px;}
+.studio-view-options-row{display:flex;gap:8px;margin-bottom:12px;}
+html.studio-organized #studio-view-options #mobile-camera-view,html.studio-organized #studio-view-options #shot{display:block;position:static;min-height:44px;min-width:0;flex:1;font:14px var(--f-body);}
+html.studio-organized #studio-view-options #mobile-camera-view{padding:5px;border:1px solid var(--line);border-radius:6px;background:var(--chip);color:var(--ink);}
+#studio-add-dock{position:absolute;z-index:6;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:6px;padding:5px;border:1px solid var(--line);border-radius:10px;background:#fffffff2;box-shadow:0 3px 16px #12344214;}
+#studio-add-dock button{min-height:44px;min-width:78px;font:600 13px var(--f-body);}
+#studio-add-dock[hidden]{display:none;}
+html.studio-organized #direct-artwork-hint{top:auto;bottom:72px;}
+@media(max-width:760px),(max-width:1000px) and (max-height:500px){
+ html.studio-organized #studio-toolbar{display:flex;padding:4px 8px;}
+ html.studio-organized #studio-toolbar #tabs button{font-size:13px;padding:6px 12px;}
+ html.studio-organized .studio-toolbar-nav{width:100%;}
+ html.studio-organized .studio-toolbar-view{position:absolute;top:calc(var(--studio-toolbar-height) + 8px);left:8px;z-index:7;}
+ html.studio-organized #studio-toolbar .studio-side-tools{background:#fffffff0;max-width:none;box-shadow:0 2px 12px #1234420a;}
+ html.studio-organized #studio-toolbar .studio-side-button{min-width:72px;font-size:12px;}
+ html.studio-organized #app #panel{width:min(340px,calc(100% - 40px));}
+ html.studio-organized .hud{left:auto;right:10px;top:12px;bottom:auto;font-size:9px;}
+ html.studio-organized #studio-view-options #mobile-camera-view{font-size:16px;}
+}
+@media(min-width:560px) and (max-width:1000px) and (max-height:500px){
+ html.studio-organized .studio-toolbar-nav{width:auto;flex:1;}
+ html.studio-organized .studio-toolbar-view{position:static;}
+ html.studio-organized #studio-toolbar .studio-side-tools{width:150px;}
+}

@@ -80,7 +80,7 @@ if (!isWebsitePreview) {
     picker.value=String(selId??'');picker.disabled=!design[side].length;
     smaller.disabled=larger.disabled=done.disabled=!item;
     width.textContent=item?`${fmt(item.w)} cm`:'';
-    dock.hidden=inDialog;hint.hidden=inDialog;
+    dock.hidden=inDialog||(!item&&document.documentElement.classList.contains('studio-organized'));hint.hidden=inDialog;
     hint.textContent=item?'Drag artwork · use ↘ or +/− to resize':'Tap artwork to edit · drag an empty area to rotate';
     outline.setAttribute('hidden','');handle.hidden=true;active=false;
     if(!item||inDialog)return;
