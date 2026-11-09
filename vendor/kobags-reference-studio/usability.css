@@ -62,6 +62,8 @@ html:not([data-embed=preview]) #stage { padding-bottom:56px; }
  html:not([data-embed=preview]),html:not([data-embed=preview]) body {overflow:hidden;}
  #app {height:100dvh;min-height:0;}
  #stage {height:clamp(220px,35dvh,300px);}
+ /* Reserve 120px of preview plus 56px of side controls; free space for editing. */
+ html[data-studio-tab=design] #stage {height:clamp(176px,26dvh,220px);}
  #panel {width:100%;flex:1;min-height:0;overflow:hidden;}
  #panel > * {padding-inline:12px;}
  #panel .head {padding-block:8px 4px;}

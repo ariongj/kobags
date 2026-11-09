@@ -37,6 +37,7 @@ Client-review refinement, 9 November 2026:
 All-family presentation update, 9 November 2026:
 
 - The shared `Bag view` control remains visible above the tabs on desktop and phones. Its buttons expose pressed state and support arrow/Home/End keys. Switching presentation leaves the camera, artwork selection, front/back contents and nominal product dimensions unchanged.
+- On phones, opening Your design reduces the 3D preview height to leave more room for the scrolling artwork controls. Its minimum still reserves the renderer's 120px canvas plus 56px for the side buttons, keeping the model's aspect ratio correct.
 - `bagView` is the canonical saved setting. Older T-shirt drafts migrate their `vestView` preference; older drafts of other families default to Opened even if they retained an inactive T-shirt preference. Invalid values fall back to Opened. No additional storage key or external service is introduced.
 - Quote notes now identify the presentation for every bag family. Main-domain restrictions and the approved public website remain unchanged.
 - The T-shirt upper side gussets have real rounded hand openings, retaining the narrow fabric rails, welded top bridge and intact lower gusset. These are mesh openings in both presentations; the original front/back print coordinates and U-cut/tab masks remain unchanged.
