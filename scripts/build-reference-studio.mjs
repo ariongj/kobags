@@ -16,8 +16,8 @@ const module = whiteStudioBackdrop(refineStudioModule(original.match(/<script ty
   // Preserve its scene and transitions, but respect the existing dirty flag.
   .replace('renderer.setAnimationLoop(render);', 'renderer.setAnimationLoop(() => render());')
   .replace('const w = stage.clientWidth, h = stage.clientHeight;', "const w = stage.clientWidth, h = Math.max(120, stage.clientHeight - (document.documentElement.dataset.embed === 'preview' ? 0 : 56));")
-  .replace('let s = avail / W; if (H * s > 340) s = 340 / H;', `const mobile = innerWidth <= 760, focused = document.documentElement.dataset.canvasFocus === 'true';
-  const editorCap = mobile ? Math.max(120, Math.min(340, focused ? innerHeight - 270 : document.getElementById('panes').clientHeight - 24)) : 340;
+  .replace('let s = avail / W; if (H * s > 340) s = 340 / H;', `const mobile = matchMedia('(max-width:760px), (max-width:1000px) and (max-height:500px)').matches, focused = document.documentElement.dataset.canvasFocus === 'true';
+  const editorCap = mobile ? Math.max(96, focused ? document.querySelector('.studio-canvas-body').clientHeight - 20 : Math.min(340, document.getElementById('panes').clientHeight - 24)) : 340;
   let s = avail / W; if (H * s > editorCap) s = editorCap / H;`)
   .replace("if (s) { const [w, h] = elementSize(s); if (Math.abs(x - (s.x + w / 2)) < tol && Math.abs(y - (s.y + h / 2)) < tol) return [s, 'resize']; }", "if (s) { const [w, h] = elementSize(s), reach = Math.min(tol, Math.min(w, h) * 0.4); if (Math.abs(x - (s.x + w / 2)) < reach && Math.abs(y - (s.y + h / 2)) < reach) return [s, 'resize']; }")));
 const bridge = await readFile(resolve(root, 'vendor/kobags-reference-studio/site-bridge.js'), 'utf8');

@@ -13,6 +13,34 @@ export default function ReferenceStudio() {
   const [ready, setReady] = useState(false), [busy, setBusy] = useState(false), [storageError, setStorageError] = useState(false);
   const [quoteError, setQuoteError] = useState(false);
   const [unavailable, setUnavailable] = useState(false);
+  useEffect(() => {
+    const mobile = matchMedia('(max-width:760px), (max-width:1000px) and (max-height:500px)');
+    const viewport = window.visualViewport;
+    let pending = 0;
+    const fit = () => {
+      cancelAnimationFrame(pending);
+      pending = requestAnimationFrame(() => {
+        const node = frame.current;
+        if (!node) return;
+        if (!mobile.matches) { node.style.removeProperty('--studio-mobile-height'); return; }
+        const height = viewport?.height ?? window.innerHeight;
+        // Use the visible viewport, including Safari's expanding toolbar and keyboard.
+        // No scroll-to-top calls: navigation and the customer's position are retained.
+        const visibleBottom = height + (viewport?.offsetTop ?? 0);
+        node.style.setProperty('--studio-mobile-height', `${Math.max(180, visibleBottom - Math.max(0, node.getBoundingClientRect().top))}px`);
+        node.contentWindow?.postMessage({ type: 'kobags:viewport', keyboard: height < window.innerHeight * 0.75 }, location.origin);
+      });
+    };
+    fit();
+    window.addEventListener('resize', fit);
+    window.addEventListener('scroll', fit, { passive: true });
+    viewport?.addEventListener('resize', fit);
+    viewport?.addEventListener('scroll', fit);
+    mobile.addEventListener('change', fit);
+    const observer = new ResizeObserver(fit);
+    if (frame.current?.parentElement) observer.observe(frame.current.parentElement.querySelector('.reference-studio-bar')!);
+    return () => { cancelAnimationFrame(pending); window.removeEventListener('resize', fit); window.removeEventListener('scroll', fit); viewport?.removeEventListener('resize', fit); viewport?.removeEventListener('scroll', fit); mobile.removeEventListener('change', fit); observer.disconnect(); };
+  }, [quoteError, storageError]);
   useEffect(() => { if (!busy) return; const timeout = setTimeout(() => { setBusy(false); setQuoteError(true); }, 45000); return () => clearTimeout(timeout); }, [busy]);
   useEffect(() => {
     const receive = (event: MessageEvent) => {

@@ -35,6 +35,13 @@
   const grid = document.createElement('div'); grid.className = 'reference-gallery-grid';
   gallery.append(summary, grid);
   document.getElementById('tabs').after(gallery);
+  const mobileReferences=matchMedia('(max-width:760px), (max-width:1000px) and (max-height:500px)');
+  const positionReferences=()=>{
+    if(mobileReferences.matches)document.querySelector('[data-pane=bag]').append(gallery);
+    else document.getElementById('tabs').after(gallery);
+  };
+  mobileReferences.addEventListener('change',positionReferences);
+  positionReferences();
 
   const dialog = document.createElement('dialog');
   dialog.id = 'reference-photo-dialog';

@@ -62,7 +62,7 @@ if (!isWebsitePreview) {
   }
   // One set of controls, moved into a compact fixed panel on phones. Keeping the
   // dock outside the scrolling pane leaves selection and adjustments within reach.
-  const mobileQuery=matchMedia('(max-width:760px)');
+  const mobileQuery=matchMedia('(max-width:760px), (max-width:1000px) and (max-height:500px)');
   const panes=document.getElementById('panes');
   const mobileTools=make('div','studio-mobile-tools');mobileTools.id='studio-mobile-tools';mobileTools.hidden=true;mobileTools.setAttribute('role','region');mobileTools.setAttribute('aria-label','Artwork controls');panes.before(mobileTools);
   const mobileRow=make('div','studio-mobile-selection');
@@ -83,7 +83,7 @@ if (!isWebsitePreview) {
   mobileTools.addEventListener('keydown',event=>{if(event.key==='Escape'&&!addTools.hidden){event.preventDefault();setAddMenu(false,true);}});
   const editorBox=document.querySelector('.editor');
   const canvasHeading=make('div','studio-canvas-heading');
-  const expandCanvas=action('Expand canvas',openCanvas);expandCanvas.id='expand-artwork-canvas';expandCanvas.setAttribute('aria-haspopup','dialog');expandCanvas.setAttribute('aria-controls','artwork-canvas-dialog');
+  const expandCanvas=action('Expand canvas',openCanvas);expandCanvas.id='expand-artwork-canvas';expandCanvas.setAttribute('aria-label','Move and resize artwork');expandCanvas.setAttribute('aria-haspopup','dialog');expandCanvas.setAttribute('aria-controls','artwork-canvas-dialog');
   canvasHeading.append(help,expandCanvas);editorBox.before(canvasHeading);
   const canvasDialog=make('dialog','studio-canvas-dialog');canvasDialog.id='artwork-canvas-dialog';canvasDialog.setAttribute('aria-labelledby','artwork-canvas-title');
   const canvasHeader=make('div','studio-canvas-header');
@@ -95,12 +95,21 @@ if (!isWebsitePreview) {
   const canvasBody=make('div','studio-canvas-body');
   canvasDialog.append(canvasHeader,canvasSides,canvasTools,canvasBody);document.body.append(canvasDialog);
   let canvasOpener=null;
+  // Keep secondary settings in the scrolling bag pane on phones. Move the real
+  // controls, not copies, so events, keyboard state and downloads stay intact.
+  const lightBox=document.getElementById('lightBox');
+  const saveImage=document.getElementById('shot');
+  saveImage.setAttribute('aria-label','Save bag image');
+  const sideHeading=document.getElementById('sideSeg');
+  const mobileMoves=[bagView,lightBox,saveImage,sideHeading].map(node=>{
+    const anchor=document.createComment('desktop control position');node.before(anchor);return{node,anchor};
+  });
   function openCanvas(){
     if(canvasDialog.open)return;
     canvasOpener=document.activeElement;setAddMenu(false);
     document.documentElement.dataset.canvasFocus='true';
     canvasSides.append(sideTools);canvasTools.append(layerField,quickAdjust,quickWidth);quickAdjust.prepend(move);quickSize.append(...sizeButtons);canvasBody.append(editorBox);
-    canvasDialog.showModal();drawEditor();ed.focus({preventScroll:true});
+    canvasDialog.showModal();drawEditor();requestAnimationFrame(drawEditor);ed.focus({preventScroll:true});
   }
   canvasDialog.addEventListener('close',()=>{
     delete document.documentElement.dataset.canvasFocus;
@@ -114,8 +123,18 @@ if (!isWebsitePreview) {
     const focused=document.activeElement;
     const focusInTools=mobileTools.contains(focused)||addTools.contains(focused)||layerField.contains(focused)||move.contains(focused)||sizeButtons.includes(focused);
     const mobile=mobileQuery.matches;
-    if(mobile){mobileRow.prepend(layerField);mobileRow.after(addTools);quickAdjust.prepend(move);quickSize.append(...sizeButtons);setAddMenu(false);}
-    else{document.querySelector('.editor').before(addTools,layerField);props.append(move);sizeRow.append(...sizeButtons);addTools.hidden=false;}
+    if(mobile){
+      mobileRow.prepend(layerField);mobileRow.insertBefore(expandCanvas,detailsButton);expandCanvas.textContent='Move';
+      mobileRow.after(addTools);quickAdjust.prepend(move);quickSize.append(...sizeButtons);setAddMenu(false);
+      const bagPane=document.querySelector('[data-pane=bag]');bagPane.prepend(bagView);bagPane.append(lightBox);
+      document.getElementById('stage').append(saveImage);saveImage.textContent='Save';
+      props.after(sideHeading);
+    }
+    else{
+      document.querySelector('.editor').before(addTools,layerField);props.append(move);sizeRow.append(...sizeButtons);addTools.hidden=false;
+      canvasHeading.append(expandCanvas);expandCanvas.textContent='Expand canvas';saveImage.textContent='Save image';
+      for(const {node,anchor} of mobileMoves)anchor.after(node);
+    }
     syncDock();
     if(focusInTools){
       const target=focused.isConnected&&focused.getClientRects().length&&!focused.matches(':disabled')?focused:document.querySelector('#tabs button.on');
@@ -134,6 +153,11 @@ if (!isWebsitePreview) {
     if(!mobileTools.hidden&&item)sideSelection[side]=item.id;
   }
   mobileQuery.addEventListener('change',layoutArtworkTools);
+  window.addEventListener('message',event=>{
+    if(event.source!==parent||event.origin!==location.origin||event.data?.type!=='kobags:viewport')return;
+    document.documentElement.dataset.studioKeyboard=String(event.data.keyboard===true);
+    requestAnimationFrame(()=>{drawEditor();if(event.data.keyboard===true&&document.activeElement?.matches('input,textarea,select'))document.activeElement.scrollIntoView({block:'nearest',behavior:'auto'});});
+  });
   const previousTab=showTab;showTab=function(tab){previousTab(tab);setAddMenu(false);syncDock();};
   const confirmation=make('div','studio-copy-confirm');confirmation.hidden=true;confirmation.setAttribute('role','group');confirmation.setAttribute('aria-label','Replace other side artwork');
   confirmation.append(make('span','','Replace the artwork on the other side?'));
