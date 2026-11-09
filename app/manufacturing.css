@@ -1,0 +1,253 @@
+.manufacture-page {
+  color: #183b37;
+  background: #fff;
+}
+.manufacture-page .manufacture-container {
+  width: 90%;
+  max-width: 1310px;
+  margin-inline: auto;
+}
+.manufacture-page .manufacture-label {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.5;
+  font-weight: 700;
+  letter-spacing: .13em;
+  color: #49705b;
+}
+.manufacture-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #173c40;
+}
+.manufacture-hero-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 54%;
+  z-index: -2;
+}
+.manufacture-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(90deg, #102e37ed 0%, #102e37c7 32%, #102e3750 60%, #102e3708 100%);
+}
+.manufacture-hero-inner {
+  position: relative;
+  min-height: 555px;
+  display: flex;
+  align-items: center;
+  padding-block: 64px 80px;
+}
+.manufacture-hero-copy {
+  width: 100%;
+  max-width: 700px;
+}
+.manufacture-page .manufacture-hero .manufacture-label { color: #d2e6ce; }
+.manufacture-page .manufacture-hero h1 {
+  margin: 22px 0;
+  color: #fff;
+  font-size: clamp(44px, 5.05vw, 73px);
+  font-weight: 600;
+  line-height: 1.04;
+  letter-spacing: -.055em;
+}
+.manufacture-hero h1 span { display: block; color: #b9de91; }
+.manufacture-hero-intro {
+  max-width: 45ch;
+  margin: 0;
+  color: #e3ece8;
+  font-size: 16px;
+  line-height: 1.7;
+}
+.manufacture-explore {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  min-height: 44px;
+  margin-top: 26px;
+  padding-block: 8px;
+  border-bottom: 1px solid #b4d9979c;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+}
+.manufacture-explore:hover { color: #c8e9a8; }
+.manufacture-origin {
+  position: absolute;
+  right: 0;
+  bottom: 26px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0;
+  padding: 9px 12px;
+  background: #102e37d9;
+  color: #edf5e7;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .13em;
+}
+.manufacture-origin > span { width: 6px; height: 6px; border-radius: 50%; background: #b9de91; }
+.manufacture-process { padding-block: 62px; scroll-margin-top: 100px; }
+.manufacture-section-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 36px;
+}
+.manufacture-page h2 {
+  margin: 13px 0 0;
+  color: #173c40;
+  font-size: clamp(30px, 3.4vw, 46px);
+  font-weight: 600;
+  line-height: 1.09;
+  letter-spacing: -.045em;
+}
+.manufacture-page h2 span { color: #087b35; }
+.manufacture-section-heading > p {
+  max-width: 35ch;
+  margin: 0 0 4px;
+  color: #586e61;
+  font-size: 15px;
+  line-height: 1.7;
+}
+.manufacture-stages {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 32px;
+}
+.manufacture-stage { min-width: 0; }
+.manufacture-stage-material { padding-top: 44px; }
+.manufacture-stage-finished { padding-top: 88px; }
+.manufacture-stage figure { position: relative; margin: 0; overflow: hidden; border-radius: 6px; }
+.manufacture-stage img { display: block; width: 100%; height: 278px; object-fit: cover; }
+.manufacture-stage-printing img { height: 390px; object-position: 50% 40%; }
+.manufacture-stage-finished img { object-position: 50% 60%; }
+.manufacture-stage figcaption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  max-width: 100%;
+  padding: 8px 12px;
+  background: #f3f6efed;
+  color: #204a3e;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+.manufacture-stage h3 { margin: 20px 0 9px; color: #163b36; font-size: 25px; font-weight: 600; line-height: 1.15; letter-spacing: -.035em; }
+.manufacture-stage-copy > p { margin: 0; color: #586b61; font-size: 14px; line-height: 1.7; }
+.manufacture-motion { background: #eff3ed; border-block: 1px solid #e1e8dd; }
+.manufacture-motion-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) repeat(2, minmax(0, 220px));
+  gap: 28px;
+  align-items: center;
+  padding-block: 38px;
+}
+.manufacture-motion-copy { padding-right: 20px; }
+.manufacture-motion-copy > p:not(.manufacture-label) { max-width: 29ch; margin: 21px 0 12px; color: #526b5d; font-size: 16px; line-height: 1.65; }
+.manufacture-motion-note { display: block; max-width: 34ch; color: #526b5d; font-size: 12px; line-height: 1.6; }
+.kobags-v5 .manufacture-page .manufacture-film { border-radius: 7px; background: white; border: 1px solid #dfe6da; }
+.kobags-v5 .manufacture-page .manufacture-film video { height: auto; aspect-ratio: auto; object-fit: contain; background: #e7ede3; }
+.kobags-v5 .manufacture-page .manufacture-film figcaption { min-height: 51px; padding: 11px 13px; background: white; }
+.kobags-v5 .manufacture-page .manufacture-film figcaption strong { color: #214d3d; font-size: 13px; }
+.manufacture-page .manufacture-brief {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 44px;
+  margin-block: 56px;
+  padding: 35px 40px;
+  border-radius: 8px;
+  background: #173d41;
+}
+.manufacture-brief > div:first-child { max-width: 680px; }
+.manufacture-page .manufacture-brief .manufacture-label { color: #b9de91; }
+.manufacture-page .manufacture-brief h2 { margin-top: 10px; color: #fff; font-size: clamp(26px, 2.5vw, 36px); }
+.manufacture-brief p:not(.manufacture-label) { max-width: 67ch; margin: 15px 0 0; color: #d0e0d8; font-size: 14px; line-height: 1.65; }
+.manufacture-brief-actions { flex-shrink: 0; display: flex; flex-direction: column; gap: 13px; align-items: center; }
+.manufacture-page .manufacture-brief .button { background: #b9de91; color: #173b32; border-color: #b9de91; font-size: 13px; }
+.manufacture-page .manufacture-brief .button:hover { background: #c8e9a8; border-color: #c8e9a8; }
+.manufacture-collection-link { display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-height: 44px; color: #eef5e9; font-size: 13px; }
+.manufacture-collection-link:hover { color: #c8e9a8; }
+.manufacture-page a:focus-visible { outline: 3px solid #b9de91; outline-offset: 5px; }
+@media (max-width: 1050px) {
+  .manufacture-hero-inner { min-height: 510px; }
+  .manufacture-hero-copy { max-width: 610px; }
+  .manufacture-stages { gap: 20px; }
+  .manufacture-stage img { height: 235px; }
+  .manufacture-stage-printing img { height: 330px; }
+  .manufacture-stage-material { padding-top: 32px; }
+  .manufacture-stage-finished { padding-top: 68px; }
+  .manufacture-stage h3 { font-size: 23px; }
+  .manufacture-motion-inner { grid-template-columns: minmax(0, 1fr) repeat(2, minmax(0, 190px)); gap: 22px; }
+  .manufacture-page .manufacture-brief { padding: 30px; gap: 28px; }
+}
+@media (max-width: 800px) {
+  .manufacture-page .manufacture-container { width: calc(100% - 32px); }
+  .manufacture-hero-inner { min-height: 470px; padding-block: 52px 70px; }
+  .manufacture-page .manufacture-hero h1 { font-size: clamp(40px, 7.2vw, 57px); }
+  .manufacture-hero-copy { max-width: 550px; }
+  .manufacture-hero::after { background: linear-gradient(90deg, #102e37e8, #102e37a3 54%, #102e3733); }
+  .manufacture-process { padding-block: 42px; }
+  .manufacture-section-heading { gap: 24px; }
+  .manufacture-section-heading > p { max-width: 27ch; font-size: 14px; }
+  .manufacture-stages { gap: 16px; margin-top: 28px; }
+  .manufacture-stage img { height: 205px; }
+  .manufacture-stage-printing img { height: 280px; }
+  .manufacture-stage h3 { font-size: 21px; }
+  .manufacture-stage-copy > p { font-size: 13px; line-height: 1.6; }
+  .manufacture-stage figcaption { padding: 7px 9px; font-size: 9px; letter-spacing: .03em; }
+  .manufacture-motion-inner { grid-template-columns: minmax(0, 1fr) repeat(2, minmax(0, 164px)); gap: 18px; padding-block: 30px; }
+  .manufacture-motion-copy { padding-right: 0; }
+  .manufacture-motion-copy > p:not(.manufacture-label) { font-size: 14px; }
+  .manufacture-motion-note { font-size: 11px; }
+  .manufacture-page .manufacture-brief { margin-block: 40px; padding: 28px; gap: 24px; }
+  .manufacture-brief-actions { max-width: 220px; }
+}
+@media (max-width: 680px) {
+  .manufacture-hero-inner { min-height: 445px; padding-block: 44px 64px; }
+  .manufacture-hero-photo { object-position: 58% center; }
+  .manufacture-page .manufacture-hero h1 { max-width: 530px; font-size: clamp(36px, 8.3vw, 49px); line-height: 1.06; margin-block: 19px; }
+  .manufacture-hero-intro { max-width: 39ch; font-size: 14px; line-height: 1.65; }
+  .manufacture-explore { margin-top: 19px; font-size: 13px; }
+  .manufacture-origin { bottom: 17px; font-size: 9px; padding: 7px 9px; }
+  .manufacture-page .manufacture-label { font-size: 10px; letter-spacing: .1em; }
+  .manufacture-section-heading { display: block; }
+  .manufacture-page h2 { font-size: 32px; }
+  .manufacture-section-heading > p { max-width: 46ch; margin-top: 17px; }
+  .manufacture-stages { grid-template-columns: 1fr; gap: 25px; margin-top: 27px; }
+  .manufacture-stage { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1fr); align-items: center; gap: 18px; padding: 0; }
+  .manufacture-stage img { height: 185px; }
+  .manufacture-stage-printing img { height: 212px; }
+  .manufacture-stage h3 { font-size: 21px; margin: 0 0 10px; }
+  .manufacture-stage figcaption { padding: 7px 8px; font-size: 8px; line-height: 1.5; }
+  .manufacture-motion-inner { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 14px; max-width: 470px; }
+  .manufacture-motion-copy { grid-column: 1 / -1; }
+  .manufacture-motion-copy h2 br { display: none; }
+  .manufacture-motion-copy h2 span::before { content: " "; }
+  .manufacture-motion-copy > p:not(.manufacture-label) { max-width: none; margin: 15px 0 0; }
+  .manufacture-motion-note { margin-top: 6px; max-width: none; }
+  .kobags-v5 .manufacture-page .manufacture-film figcaption { min-height: 50px; padding: 10px; }
+  .kobags-v5 .manufacture-page .manufacture-film figcaption strong { font-size: 12px; }
+  .manufacture-page .manufacture-brief { display: block; padding: 26px 23px; margin-block: 32px; }
+  .manufacture-page .manufacture-brief h2 { font-size: 28px; }
+  .manufacture-brief p:not(.manufacture-label) { font-size: 13px; }
+  .manufacture-brief-actions { align-items: stretch; max-width: none; margin-top: 23px; gap: 7px; }
+  .manufacture-brief-actions .button { width: 100%; }
+}
+@media (max-width: 360px) {
+  .manufacture-page .manufacture-hero h1 { font-size: 34px; }
+  .manufacture-stage { gap: 13px; grid-template-columns: minmax(0, .8fr) minmax(0, 1fr); }
+  .manufacture-stage h3 { font-size: 19px; }
+  .manufacture-stage-copy > p { font-size: 12px; }
+}

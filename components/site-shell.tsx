@@ -2,16 +2,32 @@
 import { CmsContact, CmsSocialProfiles } from "./cms/public-extras";
 import Link from "@/components/site-link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState, ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, ReactNode } from "react";
 import { ArrowUpRight, Menu, Globe2, X, MessageCircle } from "lucide-react";
 import { useKobags } from "./kobags-context";
 import { contentPath, languageHref } from "@/lib/site-locale";
 export function Header() {
-  const { t, lang, setLang, storageStatus, studioEnabled } = useKobags();
+  const { t, lang, storageStatus, studioEnabled } = useKobags();
   const [open, setOpen] = useState(false);
   const path = contentPath(usePathname());
   const menuButton = useRef<HTMLButtonElement>(null);
   const navigation = useRef<HTMLElement>(null);
+  const languageLink = useRef<HTMLAnchorElement>(null);
+  const syncLanguageLink = useCallback(() => {
+    if (languageLink.current)
+      languageLink.current.href = languageHref(location.pathname + location.search + location.hash, lang === "en" ? "sq" : "en");
+  }, [lang]);
+  useEffect(() => {
+    syncLanguageLink();
+    window.addEventListener("hashchange", syncLanguageLink);
+    window.addEventListener("popstate", syncLanguageLink);
+    window.addEventListener("pageshow", syncLanguageLink);
+    return () => {
+      window.removeEventListener("hashchange", syncLanguageLink);
+      window.removeEventListener("popstate", syncLanguageLink);
+      window.removeEventListener("pageshow", syncLanguageLink);
+    };
+  }, [path, syncLanguageLink]);
   useEffect(() => {
     if (!open) return;
     const frame = requestAnimationFrame(() => navigation.current?.querySelector<HTMLAnchorElement>("a")?.focus({ preventScroll: true }));
@@ -76,10 +92,19 @@ export function Header() {
         </nav>
         <div className="header-actions">
           <a
+            ref={languageLink}
             className="language"
             href={languageHref(path, lang === "en" ? "sq" : "en")}
             hrefLang={lang === "en" ? "sq" : "en"}
-            onClick={(event) => { event.preventDefault(); setLang(lang === "en" ? "sq" : "en"); }}
+            onFocus={syncLanguageLink}
+            onPointerDown={syncLanguageLink}
+            onContextMenu={syncLanguageLink}
+            onClick={() => {
+              // Receipt URLs can change with replaceState without a navigation event.
+              // Keep the native anchor action, including modified clicks and new tabs.
+              syncLanguageLink();
+              try { localStorage.setItem("kobags-language", lang === "en" ? "sq" : "en"); } catch {}
+            }}
             aria-label={
               lang === "en" ? "EN: Switch to Albanian" : "SQ: Kalo në anglisht"
             }
@@ -194,9 +219,9 @@ export function Footer() {
 export function WhatsAppContact() {
   const { t } = useKobags();
   const path = contentPath(usePathname());
-  if (/^\/(?:cms|design|quote|request)(?:\/|$)/.test(path)) return null;
+  if (/^\/(?:cms|design|quote|request)(?:\/|$)/.test(path) || path.startsWith("/products/") || ["/contact", "/samples", "/partners/apply"].includes(path)) return null;
   return (
-    <a
+    <aside aria-label={t("Quick contact", "Kontakt i shpejtë")}><a
       className="whatsapp-contact"
       href="https://wa.me/38343877753"
       target="_blank"
@@ -205,7 +230,7 @@ export function WhatsAppContact() {
     >
       <MessageCircle size={22} aria-hidden="true" />
       <span>WhatsApp</span>
-    </a>
+    </a></aside>
   );
 }
 export function PageHeading({

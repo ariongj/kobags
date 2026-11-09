@@ -1,0 +1,241 @@
+{
+  "/assets/client-2026-09/d-cut-bag.jpg": {
+    "width": 1280,
+    "height": 1600,
+    "base": "/assets/optimized-2026-11/product-d-cut-bag",
+    "widths": [
+      160,
+      320,
+      640,
+      960,
+      1280
+    ],
+    "fallbackWidth": 640
+  },
+  "/assets/client-2026-09/handle-bag.jpg": {
+    "width": 1280,
+    "height": 1600,
+    "base": "/assets/optimized-2026-11/product-handle-bag",
+    "widths": [
+      160,
+      320,
+      640,
+      960,
+      1280
+    ],
+    "fallbackWidth": 640
+  },
+  "/assets/client-2026-09/box-bag.jpg": {
+    "width": 1280,
+    "height": 1600,
+    "base": "/assets/optimized-2026-11/product-box-bag",
+    "widths": [
+      160,
+      320,
+      640,
+      960,
+      1280
+    ],
+    "fallbackWidth": 640
+  },
+  "/assets/client-2026-09/t-shirt-bag.jpg": {
+    "width": 1280,
+    "height": 1600,
+    "base": "/assets/optimized-2026-11/product-t-shirt-bag",
+    "widths": [
+      160,
+      320,
+      640,
+      960,
+      1280
+    ],
+    "fallbackWidth": 640
+  },
+  "/assets/client-2026-09/string-bag.jpg": {
+    "width": 1280,
+    "height": 1600,
+    "base": "/assets/optimized-2026-11/product-string-bag",
+    "widths": [
+      160,
+      320,
+      640,
+      960,
+      1280
+    ],
+    "fallbackWidth": 640
+  },
+  "/assets/client-2026-09/detail-box.jpg": {
+    "width": 1280,
+    "height": 1600,
+    "base": "/assets/optimized-2026-11/detail-box",
+    "widths": [
+      160,
+      320,
+      640,
+      960,
+      1280
+    ],
+    "fallbackWidth": 640
+  },
+  "/assets/client-2026-09/detail-t-shirt.jpg": {
+    "width": 1280,
+    "height": 1600,
+    "base": "/assets/optimized-2026-11/detail-t-shirt",
+    "widths": [
+      160,
+      320,
+      640,
+      960,
+      1280
+    ],
+    "fallbackWidth": 640
+  },
+  "/assets/client-2026-09/detail-string.jpg": {
+    "width": 1280,
+    "height": 1600,
+    "base": "/assets/optimized-2026-11/detail-string",
+    "widths": [
+      160,
+      320,
+      640,
+      960,
+      1280
+    ],
+    "fallbackWidth": 640
+  },
+  "/assets/d-cut-bag.webp": {
+    "width": 1024,
+    "height": 1280,
+    "base": "/assets/optimized-2026-11/gallery-d-cut-bag",
+    "widths": [
+      160,
+      320,
+      640,
+      960,
+      1024
+    ],
+    "fallbackWidth": 640
+  },
+  "/assets/handle-bag.webp": {
+    "width": 1024,
+    "height": 1280,
+    "base": "/assets/optimized-2026-11/gallery-handle-bag",
+    "widths": [
+      160,
+      320,
+      640,
+      960,
+      1024
+    ],
+    "fallbackWidth": 640
+  },
+  "/assets/box-bag.webp": {
+    "width": 1024,
+    "height": 1280,
+    "base": "/assets/optimized-2026-11/gallery-box-bag",
+    "widths": [
+      160,
+      320,
+      640,
+      960,
+      1024
+    ],
+    "fallbackWidth": 640
+  },
+  "/assets/t-shirt-bag.webp": {
+    "width": 1024,
+    "height": 1280,
+    "base": "/assets/optimized-2026-11/gallery-t-shirt-bag",
+    "widths": [
+      160,
+      320,
+      640,
+      960,
+      1024
+    ],
+    "fallbackWidth": 640
+  },
+  "/assets/string-bag.webp": {
+    "width": 1024,
+    "height": 1280,
+    "base": "/assets/optimized-2026-11/gallery-string-bag",
+    "widths": [
+      160,
+      320,
+      640,
+      960,
+      1024
+    ],
+    "fallbackWidth": 640
+  },
+  "/assets/client-2026-09/manufacturing-bag-forming.webp": {
+    "width": 1400,
+    "height": 933,
+    "base": "/assets/optimized-2026-11/manufacturing-bag-forming",
+    "widths": [
+      160,
+      320,
+      640,
+      960,
+      1400
+    ],
+    "fallbackWidth": 640
+  },
+  "/assets/client-2026-09/material-rolls.jpg": {
+    "width": 1600,
+    "height": 1066,
+    "base": "/assets/optimized-2026-11/material-rolls",
+    "widths": [
+      160,
+      320,
+      640,
+      960,
+      1600
+    ],
+    "fallbackWidth": 640
+  },
+  "/assets/client-2026-10/printing-line-fresh-food.jpg": {
+    "width": 1200,
+    "height": 1600,
+    "base": "/assets/optimized-2026-11/printing-line-fresh-food",
+    "widths": [
+      160,
+      320,
+      640,
+      960,
+      1200
+    ],
+    "fallbackWidth": 640
+  },
+  "/assets/client-2026-09/finished-stack-rail.jpg": {
+    "width": 1200,
+    "height": 1600,
+    "base": "/assets/optimized-2026-11/finished-stack-rail",
+    "widths": [
+      160,
+      320,
+      640,
+      960,
+      1200
+    ],
+    "fallbackWidth": 640
+  },
+  "/assets/client-2026-09/bag-forming-poster.jpg": {
+    "width": 464,
+    "height": 832,
+    "base": "/assets/optimized-2026-11/bag-forming-poster",
+    "widths": [
+      464
+    ],
+    "fallbackWidth": 464
+  },
+  "/assets/client-2026-09/bag-stacking-poster.jpg": {
+    "width": 464,
+    "height": 832,
+    "base": "/assets/optimized-2026-11/bag-stacking-poster",
+    "widths": [
+      464
+    ],
+    "fallbackWidth": 464
+  }
+}

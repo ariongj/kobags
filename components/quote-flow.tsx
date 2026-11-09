@@ -1,7 +1,7 @@
 "use client";
 import { useLiveInquiry, LiveReceipt } from "./cms/live-inquiry";
 import { useCms } from "./cms/public-context";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "@/components/site-link";
 import {
   ArrowLeft,
@@ -17,6 +17,9 @@ import { BagPreview } from "./bag-preview";
 import { useKobags } from "./kobags-context";
 import { useDemo, errors } from "./demo-store";
 import { Design, colors, preferredBagColor } from "@/lib/catalog";
+import { quoteRepresentation, quoteSpecification } from "@/lib/design-draft";
+import { localizeProduct } from "@/lib/product-copy";
+import { responsiveImageProps } from "@/lib/responsive-media";
 import { artworkSummary as summarizeArtwork } from "@/lib/studio-artwork";
 import { artworkSides } from "@/lib/studio-checks";
 import { languageHref } from "@/lib/site-locale";
@@ -31,28 +34,44 @@ export default function QuoteFlow() {
   const busy=demoBusy||live.busy;
   const error=live.error||demoError;
   const [step, setStep] = useState(0);
+  const stepHeading = useRef<HTMLHeadingElement>(null);
+  const focusStepAfterChange = useRef(false);
   const [validation, setValidation] = useState("");
   const [submitted, setSubmitted] = useState("");
   const [hydrated, setHydrated] = useState(false);
   const [showExampleDetails, setShowExampleDetails] = useState(false);
   const savedRequest = state?.requests.find(request => request.id === submitted);
+  const preparedDesign = savedRequest ? { ...savedRequest.snapshot, ...quoteRepresentation(savedRequest.snapshot, studioEnabled) } : undefined;
+  const preparedSpecification = preparedDesign ? quoteSpecification(preparedDesign, preparedDesign) : undefined;
   const [collection, setCollection] = useState("");
   const collectionNames: Record<string,string> = {"thank-you":"Thank you bags",smiley:"Smiley bags"};
   const collectionName = collectionNames[collection] || "";
   const collectionPrefix = collectionName ? `Collection: ${collectionName}\n\n` : "";
   // Public requests contain specifications only while the studio is local-only.
   // Keep browser artwork untouched so local testing / existing drafts are retained.
-  const quoteDesign = studioEnabled ? design : { ...design, referenceStudio: undefined, logo: "", logoName: "", text: "", backLogo: "", backLogoName: "", backText: "", elements: [] };
+  const quoteDesign = quoteRepresentation(design, studioEnabled);
   const requestDesign = collectionPrefix ? {...quoteDesign,note:collectionPrefix+design.note.replace(/^Collection: (?:Thank you bags|Smiley bags)\n\n/, "")} : quoteDesign;
-  const p = getProduct(design.product);
+  const p = localizeProduct(getProduct(design.product), lang);
   const variant =
     p.variants.find((v) => v.name === design.size) || p.variants[0];
-  const studioSpecification = studioEnabled ? design.referenceStudio : undefined;
+  const studioSpecification = quoteDesign.referenceStudio;
+  const specification = quoteSpecification(quoteDesign, variant);
+  const sides = artworkSides(quoteDesign);
+  const hasArtwork = Boolean(studioSpecification || sides.length);
+  const chooseProduct = (product: string) => {
+    if (product === design.product) return;
+    update({ product, size: cms.options(product)?.activeSizes?.[0] || getProduct(product).variants[0].name,
+      color: preferredBagColor(cms.options(product)?.colors, design.color),
+      printColors: Math.min(design.printColors, cms.options(product)?.printColors || 4),
+      ...(studioSpecification ? { customDimensions: "" } : {}),
+    });
+  };
   const sizeSq: Record<string, string> = { Small: "E vogël", Medium: "Mesatare", Large: "E madhe" };
-  const displaySize = t(design.size, sizeSq[design.size]);
-  const displayColor = t(design.color, colors.find((color) => color.name === design.color)?.sq);
+  const displaySize = specification.size ? t(specification.size, sizeSq[specification.size]) : t("Custom request", "Kërkesë e veçantë");
+  const displayColor = studioSpecification
+    ? `${t("Studio color", "Ngjyra në studio")} · ${studioSpecification.fabric.toUpperCase()}`
+    : t(design.color, colors.find((color) => color.name === design.color)?.sq);
   const minimum = cms.options(design.product)?.moq || cms.settings?.moq || state?.settings.moq || 5000;
-  const sides = artworkSides(design);
   const artworkSummary = sides.length
     ? sides
         .map((side) =>
@@ -93,10 +112,27 @@ export default function QuoteFlow() {
   useEffect(() => {
     if (ready && !design.key) update({ key: crypto.randomUUID() });
   }, [ready, design.key, update]);
+  useEffect(() => {
+    // Restoring a saved step must preserve the browser's focus and scroll position.
+    if (!focusStepAfterChange.current) return;
+    focusStepAfterChange.current = false;
+    stepHeading.current?.focus();
+  }, [step]);
+  const goToStep = (nextStep: number) => {
+    setValidation("");
+    if (nextStep === step) {
+      stepHeading.current?.focus();
+      return;
+    }
+    focusStepAfterChange.current = true;
+    setStep(nextStep);
+  };
   const set = (key: keyof Design, value: unknown) => update({ [key]: value });
   const validate = () => {
     if (!cms.products.some(p=>p.slug===design.product)) return 'unavailable';
-    if (step===0 && cms.options(design.product)?.activeSizes && !cms.options(design.product)!.activeSizes!.includes(design.size)) return 'unavailable';
+    if (!p.variants.some(variant => variant.name === design.size) || (cms.options(design.product)?.activeSizes && !cms.options(design.product)!.activeSizes!.includes(design.size))) return 'unavailable';
+    if (step >= 1 && (cms.options(design.product)?.colors?.length && !cms.options(design.product)!.colors!.includes(design.color))) return 'color';
+    if (step >= 1 && (!Number.isInteger(design.printColors) || design.printColors < 1 || design.printColors > (cms.options(design.product)?.printColors || 4))) return 'print';
     if (step === 2) {
       if (!Number.isInteger(design.quantity) || design.quantity < minimum || design.quantity > 10000000)
         return "quantity";
@@ -120,6 +156,8 @@ export default function QuoteFlow() {
   const messages: Record<string, [string, string]> = {
     note: ["Please shorten your additional notes to fit the collection request.","Ju lutemi shkurtoni shënimet shtesë për kërkesën e koleksionit."],
     unavailable: ['Choose an available bag and size to continue. Your artwork is kept.', 'Zgjidhni një çantë dhe madhësi të disponueshme. Dizajni juaj ruhet.'],
+    color: ["Choose an available bag color in Material & print.", "Zgjidhni një ngjyrë të disponueshme te Materiali dhe shtypi."],
+    print: ["Choose an available number of print colors in Material & print.", "Zgjidhni numrin e lejuar të ngjyrave te Materiali dhe shtypi."],
     quantity: [
       `The published wholesale minimum is ${minimum.toLocaleString()} bags. For a smaller request, use the sample inquiry.`,
       `Minimumi me shumicë është ${minimum.toLocaleString()} çanta. Për sasi më të vogël kërkoni mostra.`,
@@ -147,8 +185,7 @@ export default function QuoteFlow() {
     setValidation(problem);
     if (problem) return;
     if (step < 3) {
-      setStep(step + 1);
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      goToStep(step + 1);
       return;
     }
     try {
@@ -221,23 +258,22 @@ export default function QuoteFlow() {
             {t("Explore next steps", "Shihni hapat vijues")}{" "}
             <ArrowRight size={17} />
           </Link>
-        </div></> : savedRequest && <PreparedRequestActions reference={savedRequest.id} subject={t("Bag quotation request", "Kërkesë për ofertë të çantave")}
-          design={savedRequest.snapshot}
+        </div></> : savedRequest && preparedDesign && preparedSpecification && <PreparedRequestActions reference={savedRequest.id} subject={t("Bag quotation request", "Kërkesë për ofertë të çantave")}
+          design={preparedDesign.referenceStudio || artworkSides(preparedDesign).length ? preparedDesign : undefined}
           details={[
             `${t("Reference", "Referenca")}: ${savedRequest.id}`,
-            `${savedRequest.snapshot.productName} / ${savedRequest.snapshot.size}`,
-            `${savedRequest.snapshot.dimensions} / ${savedRequest.snapshot.gsm} GSM / ${savedRequest.snapshot.color}`,
-            `${t("Quantity", "Sasia")}: ${savedRequest.snapshot.quantity}`,
-            `${t("Print colors", "Ngjyra shtypi")}: ${savedRequest.snapshot.printColors}`,
-            `${t("Custom dimensions", "Përmasa sipas kërkesës")}: ${savedRequest.snapshot.customDimensions || "—"}`,
-            `${t("Front artwork", "Dizajni përpara")}: ${summarizeArtwork({ ...savedRequest.snapshot, side: "front" }) || "—"}`,
-            `${t("Back artwork", "Dizajni prapa")}: ${summarizeArtwork({ ...savedRequest.snapshot, side: "back" }) || "—"}`,
-            `${t("Delivery", "Dërgesa")}: ${savedRequest.snapshot.city}, ${savedRequest.snapshot.country}`,
-            `${t("Requested date", "Data e kërkuar")}: ${savedRequest.snapshot.date || "—"}`,
-            `${savedRequest.snapshot.company} / ${savedRequest.snapshot.contact}`,
-            savedRequest.snapshot.email,
-            savedRequest.snapshot.phone || "",
-            savedRequest.snapshot.note,
+            `${preparedDesign.productName} / ${preparedSpecification.size ? t(preparedSpecification.size, sizeSq[preparedSpecification.size]) : t("Custom request", "Kërkesë e veçantë")}`,
+            `${preparedSpecification.dimensions} / ${preparedSpecification.gsm === undefined ? t("GSM to confirm", "GSM për konfirmim") : preparedSpecification.gsm + " GSM"} / ${preparedSpecification.studio ? t("Studio color", "Ngjyra në studio") + " · " + preparedSpecification.color.toUpperCase() : t(preparedSpecification.color, colors.find(color => color.name === preparedSpecification.color)?.sq)}`,
+            `${t("Quantity", "Sasia")}: ${preparedDesign.quantity}`,
+            `${t("Print colors", "Ngjyra shtypi")}: ${preparedDesign.printColors}`,
+            `${t("Front artwork", "Dizajni përpara")}: ${summarizeArtwork({ ...preparedDesign, side: "front" }) || "—"}`,
+            `${t("Back artwork", "Dizajni prapa")}: ${summarizeArtwork({ ...preparedDesign, side: "back" }) || "—"}`,
+            `${t("Delivery", "Dërgesa")}: ${preparedDesign.city}, ${preparedDesign.country}`,
+            `${t("Requested date", "Data e kërkuar")}: ${preparedDesign.date || "—"}`,
+            `${preparedDesign.company} / ${preparedDesign.contact}`,
+            preparedDesign.email,
+            preparedDesign.phone || "",
+            preparedDesign.note,
           ].filter(Boolean).join("\n")}/>}
         <button
           className="text-button"
@@ -266,7 +302,10 @@ export default function QuoteFlow() {
       </label>
       <input
         id={"q-" + key}
+        name={key}
         type={type}
+        autoComplete={({ company: "organization", contact: "name", email: "email", phone: "tel", city: "address-level2" } as Partial<Record<keyof Design, string>>)[key]}
+        inputMode={type === "email" ? "email" : type === "tel" ? "tel" : undefined}
         required={required}
         value={String(design[key] ?? "")}
         onChange={(e) => set(key, e.target.value)}
@@ -330,11 +369,9 @@ export default function QuoteFlow() {
             <button
               key={i}
               className={i === step ? "current" : i < step ? "done" : ""}
+              aria-current={i === step ? "step" : undefined}
               disabled={i > step}
-              onClick={() => {
-                setStep(i);
-                setValidation("");
-              }}
+              onClick={() => goToStep(i)}
             >
               <span>{i < step ? <Check size={15} /> : i + 1}</span>
               {s}
@@ -346,7 +383,7 @@ export default function QuoteFlow() {
             <div className="step-caption">
               {t("STEP", "HAPI")} {step + 1} / 4
             </div>
-            <h2>
+            <h2 ref={stepHeading} tabIndex={-1}>
               {
                 [
                   t("Start with the right bag.", "Filloni me çantën e duhur."),
@@ -358,24 +395,16 @@ export default function QuoteFlow() {
             </h2>
             {step === 0 && (
               <div className="form-grid">
-                <Choice
-                  id="q-product"
-                  label={t("Bag family", "Lloji i çantës")}
-                  value={design.product}
-                  onChange={(product) =>
-                    update({
-                      product,
-                      size: cms.options(product)?.activeSizes?.[0] || getProduct(product).variants[0].name,
-                      color: preferredBagColor(cms.options(product)?.colors, design.color),
-                      printColors: Math.min(design.printColors, cms.options(product)?.printColors || 4),
-                      ...(studioSpecification ? { customDimensions: "" } : {}),
-                    })
-                  }
-                  options={cms.products.map((p) => ({
-                    value: p.slug,
-                    label: p.name,
-                  }))}
-                />
+                <div className="field full">
+                  <span id="q-product-label" className="quote-field-label">{t("Choose your bag", "Zgjidhni çantën tuaj")}</span>
+                  <div id="q-product" className="quote-bag-options" role="group" aria-labelledby="q-product-label">
+                    {cms.products.map(product => <button key={product.slug} type="button" aria-pressed={design.product === product.slug} onClick={() => chooseProduct(product.slug)}>
+                      <img {...responsiveImageProps(product.image, "(max-width: 800px) 45px, 72px")} alt="" decoding="async" />
+                      <span>{localizeProduct(product, lang).name}</span>
+                      {design.product === product.slug && <Check size={14} aria-hidden="true" />}
+                    </button>)}
+                  </div>
+                </div>
                 <Choice
                   id="q-size"
                   label={t("Size", "Madhësia")}
@@ -417,20 +446,20 @@ export default function QuoteFlow() {
                 )}
                 <p className="notice full">
                   {t(
-                    "Custom dimensions are a request for feasibility review. Published dimension strings are preserved; dimensional drawings must be approved before manufacturing.",
-                    "Përmasat e veçanta kërkojnë shqyrtim. Vizatimet e përmasave duhet të miratohen para prodhimit.",
+                    "Need a different size? Add the dimensions you need. We’ll confirm feasibility and the final drawing with your quotation.",
+                    "Ju duhet madhësi tjetër? Shënoni përmasat që kërkoni. Mundësinë e realizimit dhe vizatimin përfundimtar i konfirmojmë në ofertë.",
                   )}
                 </p>
               </div>
             )}
             {step === 1 && (
               <div className="form-grid">
-                {studioEnabled ? <div className="full quote-artwork-review">
+                {studioEnabled && hasArtwork ? <div className="full quote-artwork-review">
                   <div className="quote-artwork-pair">
                     {(["front", "back"] as const).map((side) => {
                       return (
                         <div key={side} className="quote-artwork-face">
-                          {design.referenceStudio ? <img className="reference-quote-image" src={design.referenceStudio[side]} alt={`${design.referenceStudio.productName} · ${side}`} width={800} height={800}/> : <BagPreview design={{ ...design, side }} compact />}
+                          {studioSpecification ? <img className="reference-quote-image" src={studioSpecification[side]} alt={`${studioSpecification.productName} · ${side}`} width={800} height={800}/> : <BagPreview design={{ ...quoteDesign, side }} compact />}
                           <h3>
                             {t(
                               side === "front" ? "Front" : "Back",
@@ -438,7 +467,7 @@ export default function QuoteFlow() {
                             )}
                           </h3>
                           <p>
-                            {summarizeArtwork({ ...design, side }) || t("No artwork · blank side", "Pa dizajn · anë bosh")}
+                            {summarizeArtwork({ ...quoteDesign, side }) || t("No artwork · blank side", "Pa dizajn · anë bosh")}
                           </p>
                         </div>
                       );
@@ -451,10 +480,14 @@ export default function QuoteFlow() {
                       "Ndrysho dizajnin në studio",
                     )}
                   </Link>
-                </div> : <div className="full">
+                </div> : <div className="full quote-print-intro">
                   <h2>{t("Tell us about your print", "Na tregoni për shtypin tuaj")}</h2>
                   <p>{t("Choose the number of print colors. Describe your logo and preferred placement in the notes at the last step; our team will arrange artwork and approval with you.", "Zgjidhni numrin e ngjyrave të shtypit. Përshkruani logon dhe vendosjen e dëshiruar te shënimet në hapin e fundit; ekipi ynë organizon dizajnin dhe miratimin me ju.")}</p>
+                  {studioEnabled && <Link href="/design" className="text-button"><Pencil size={15}/>{t("Add your artwork in the studio", "Shtoni dizajnin tuaj në studio")}</Link>}
                 </div>}
+                <Choice id="q-color" label={t("Bag color", "Ngjyra e çantës")} value={studioSpecification ? "reference-studio" : design.color}
+                  onChange={color => { if (color !== "reference-studio") update({ color, ...(studioSpecification ? { referenceStudio: undefined } : {}) }); }}
+                  options={[...(studioSpecification ? [{ value: "reference-studio", label: displayColor }] : []), ...colors.filter(color => !cms.options(p.slug)?.colors?.length || cms.options(p.slug)!.colors!.includes(color.name)).map(color => ({ value: color.name, label: t(color.name, color.sq) }))]}/>
                 <Choice
                   id="q-print"
                   label={t("Print colors", "Ngjyrat e shtypit")}
@@ -468,8 +501,8 @@ export default function QuoteFlow() {
                 <div className="field">
                   <label>
                     {t(
-                      "Published printing method",
-                      "Metoda e publikuar e shtypit",
+                      "Printing method",
+                      "Metoda e shtypit",
                     )}
                   </label>
                   <div className="readonly">
@@ -492,7 +525,7 @@ export default function QuoteFlow() {
                   </label>
                   <div className="quantity-options">
                     {[minimum, 10000, 25000]
-                      .filter((n, i, a) => a.indexOf(n) === i)
+                      .filter((n, i, a) => n >= minimum && a.indexOf(n) === i)
                       .map((n) => (
                         <button
                           key={n}
@@ -506,8 +539,10 @@ export default function QuoteFlow() {
                   </div>
                   <input
                     id="quantity"
+                    name="quantity"
                     type="number"
-                    min={1}
+                    inputMode="numeric"
+                    min={minimum}
                     max={10000000}
                     value={design.quantity || ""}
                     onChange={(e) =>
@@ -584,6 +619,7 @@ export default function QuoteFlow() {
                   </label>
                   <textarea
                     id="q-note"
+                    name="note"
                     rows={3}
                     maxLength={requestFieldLimits.note-collectionPrefix.length}
                     value={design.note}
@@ -592,6 +628,7 @@ export default function QuoteFlow() {
                 </div>
                 <label className="check-label full">
                   <Checkbox
+                    name="consent"
                     checked={design.consent}
                     onCheckedChange={(v) => update({ consent: v === true })}
                   />
@@ -621,10 +658,7 @@ export default function QuoteFlow() {
               <button
                 className="text-button"
                 type="button"
-                onClick={() => {
-                  setStep(Math.max(0, step - 1));
-                  setValidation("");
-                }}
+                onClick={() => goToStep(Math.max(0, step - 1))}
                 disabled={step === 0 || busy}
               >
                 <ArrowLeft size={16} />
@@ -651,8 +685,8 @@ export default function QuoteFlow() {
                 <Pencil size={16} />
               </Link>}
             </div>
-            {studioEnabled ? design.referenceStudio ? <img className="reference-quote-image" src={design.referenceStudio.front} alt={design.referenceStudio.productName} width={800} height={800}/> : <BagPreview design={design} compact /> : <figure className="quote-product-photo">
-              <img src={p.image} alt={p.name} width="400" height="400" />
+            {studioSpecification ? <img className="reference-quote-image" src={studioSpecification.front} alt={studioSpecification.productName} width={800} height={800}/> : hasArtwork ? <BagPreview design={quoteDesign} compact /> : <figure className="quote-product-photo">
+              <img width={400} height={500} {...responsiveImageProps(p.image, "(max-width: 800px) 65vw, 300px")} alt={p.name} fetchPriority="high" />
               <figcaption>{t("Product example. Requested color and printing are confirmed with your quote.", "Shembull produkti. Ngjyra dhe shtypi i kërkuar konfirmohen në ofertë.")}</figcaption>
             </figure>}
             <h2>{studioEnabled && design.referenceStudio ? design.referenceStudio.productName : p.name}</h2>
@@ -660,11 +694,11 @@ export default function QuoteFlow() {
               {[
                 [
                   t("Size", "Madhësia"),
-                  studioEnabled && design.referenceStudio ? design.referenceStudio.size + ' · ' + design.referenceStudio.dimensions : displaySize + " · " + variant.dimensions,
+                  displaySize + " · " + specification.dimensions,
                 ],
                 [
                   t("Material", "Materiali"),
-                  t("Non-woven PP", "PP jo i endur") + " · " + variant.gsm + " GSM",
+                  t("Non-woven PP", "PP jo i endur") + " · " + (specification.gsm === undefined ? t("GSM to confirm", "GSM për konfirmim") : specification.gsm + " GSM"),
                 ],
                 [t("Color", "Ngjyra"), displayColor],
                 [
@@ -673,7 +707,7 @@ export default function QuoteFlow() {
                     " " +
                     t("color(s) · flexographic", "ngjyra · fleksografik"),
                 ],
-                ...(studioEnabled ? [[t("Artwork sides", "Anët me dizajn"), artworkSummary]] : []),
+                ...(studioEnabled ? [[studioSpecification ? t("Preview sides", "Anët në parapamje") : t("Artwork sides", "Anët me dizajn"), artworkSummary]] : []),
                 [t("Quantity", "Sasia"), design.quantity.toLocaleString()],
                 [
                   t("Destination", "Destinacioni"),
@@ -701,7 +735,7 @@ export default function QuoteFlow() {
                 "Zgjedhjet tuaja ruhen me kërkesën.",
               )}
             </p>
-            <button className="text-button" onClick={() => setStep(0)}>
+            <button className="text-button" onClick={() => goToStep(0)}>
               {t("Edit specifications", "Ndrysho specifikimet")}
             </button>
           </aside>

@@ -7,6 +7,8 @@ import "./responsibility.css";
 import "./mobile.css";
 import "./studio-refinement.css";
 import "./reference-studio.css";
+import "./buyer-polish.css";
+import "./manufacturing.css";
 import { KobagsProvider } from "@/components/kobags-context";
 import { LocalizedCopy } from "@/components/localized-copy";
 import { Header, Footer, WhatsAppContact } from "@/components/site-shell";

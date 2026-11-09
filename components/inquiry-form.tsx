@@ -29,6 +29,7 @@ export default function InquiryForm({
     typeof crypto !== "undefined" ? crypto.randomUUID() : "",
   );
   const [consent, setConsent] = useState(false);
+  const consentInput = useRef<HTMLButtonElement>(null);
   const [model, setModel] = useState("Sales partner");
   const [invalid, setInvalid] = useState("");
   const [data, setData] = useState({
@@ -50,6 +51,7 @@ export default function InquiryForm({
           "Ju lutemi pranoni njoftimin e privatësisë.",
         ),
       );
+      consentInput.current?.focus();
       return;
     }
     sending.current = true;
@@ -134,7 +136,10 @@ export default function InquiryForm({
             <label htmlFor={"inquiry-" + k}>{label} *</label>
             <input
               id={"inquiry-" + k}
+              name={k}
               type={type}
+              autoComplete={({ company: "organization", contact: "name", email: "email", country: "country-name" } as Record<string, string>)[k]}
+              inputMode={type === "email" ? "email" : undefined}
               required
               minLength={2}
               maxLength={requestFieldLimits[k] || 150}
@@ -160,7 +165,10 @@ export default function InquiryForm({
               <label htmlFor="website">{t("Website (optional)", "Faqja e internetit (opsionale)")}</label>
               <input
                 id="website"
+                name="website"
                 type="url"
+                autoComplete="url"
+                inputMode="url"
                 value={data.website}
                 maxLength={200}
                 onChange={(e) => set("website", e.target.value)}
@@ -182,6 +190,7 @@ export default function InquiryForm({
           </label>
           <textarea
             id="inquiry-message"
+            name="message"
             required
             minLength={5}
             maxLength={2500}
@@ -192,8 +201,12 @@ export default function InquiryForm({
         </div>
         <label className="check-label full">
           <Checkbox
+            ref={consentInput}
+            name="consent"
             checked={consent}
-            onCheckedChange={(v) => setConsent(v === true)}
+            aria-invalid={!!invalid}
+            aria-describedby={invalid ? "inquiry-error" : undefined}
+            onCheckedChange={(v) => { setConsent(v === true); if (v === true) setInvalid(""); }}
           />
           <span>
             {t(
@@ -205,7 +218,7 @@ export default function InquiryForm({
         </label>
       </div>
       {(error || invalid) && (
-        <p className="error" role="alert">
+        <p className="error" role="alert" id="inquiry-error">
           {invalid ||
             (errors[error] || errors.SAVE_FAILED)[lang === "sq" ? 1 : 0]}
         </p>

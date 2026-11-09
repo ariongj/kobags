@@ -4,6 +4,7 @@ import { useKobags } from "./kobags-context";
 import { useCms } from "./cms/public-context";
 import { company } from "@/lib/company";
 import type { Design } from "@/lib/catalog";
+import { fitQuotePreview, quoteDownloadLayout, savedQuotePreview } from "@/lib/design-draft";
 
 /** An explicit email handoff while shared-inbox intake is disabled. */
 export default function PreparedRequestActions({ reference, subject, details, design }: {
@@ -17,14 +18,27 @@ export default function PreparedRequestActions({ reference, subject, details, de
     if (!design || busy) return;
     setBusy(true); setError("");
     try {
-      const { renderBagDesign } = await import("./bag-preview");
-      const output = document.createElement("canvas"); output.width = 2000; output.height = 1220;
+      const output = document.createElement("canvas"); output.width = quoteDownloadLayout.width; output.height = quoteDownloadLayout.height;
       const ctx = output.getContext("2d"); if (!ctx) throw Error("CANVAS_UNAVAILABLE");
       ctx.fillStyle = "#f6f8f9"; ctx.fillRect(0, 0, output.width, output.height);
       for (const [index, side] of (["front", "back"] as const).entries()) {
-        const canvas = document.createElement("canvas");
-        await renderBagDesign(canvas, { ...design, side }, { resolution: 1200 });
-        ctx.drawImage(canvas, index * 1000 + 40, 110, 920, 920);
+        const source = savedQuotePreview(design, side);
+        const left = index * quoteDownloadLayout.faceOffset + quoteDownloadLayout.imageLeft;
+        if (source) {
+          const capture = new Image();
+          await new Promise<void>((resolve, reject) => {
+            capture.onload = () => resolve();
+            capture.onerror = () => reject(Error("PREVIEW_IMAGE_UNAVAILABLE"));
+            capture.src = source;
+          });
+          const fitted = fitQuotePreview(capture.naturalWidth, capture.naturalHeight);
+          ctx.drawImage(capture, left + fitted.x, quoteDownloadLayout.imageTop + fitted.y, fitted.width, fitted.height);
+        } else {
+          const { renderBagDesign } = await import("./bag-preview");
+          const canvas = document.createElement("canvas");
+          await renderBagDesign(canvas, { ...design, side }, { resolution: 1200 });
+          ctx.drawImage(canvas, left, quoteDownloadLayout.imageTop, quoteDownloadLayout.imageSize, quoteDownloadLayout.imageSize);
+        }
         ctx.fillStyle = "#123442"; ctx.font = "28px Arial"; ctx.textAlign = "center";
         ctx.fillText(index ? t("BACK", "PRAPA") : t("FRONT", "PËRPARA"), index * 1000 + 500, 1065);
       }

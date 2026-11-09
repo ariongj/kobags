@@ -6,6 +6,7 @@ import { localizeProduct } from "@/lib/product-copy";
 import { absolutePage, SITE_ORIGIN } from "@/lib/seo-config";
 import { breadcrumbs, organizationReference } from "@/lib/seo-schema";
 import StructuredData from "@/components/structured-data";
+import { catalogSearch, readCatalogSelection, type CatalogQuery } from "@/lib/catalog-selection";
 export async function generateMetadata({
   params,
 }: {
@@ -20,17 +21,20 @@ export async function generateMetadata({
 }
 export default async function Page({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<CatalogQuery>;
 }) {
   const { slug } = await params;
-  const p = (await publicProducts()).find((p) => p.slug === slug);
+  const products = await publicProducts();
+  const p = products.find((p) => p.slug === slug);
   if (!p) notFound();
   const lang = await requestLanguage();
   const product = localizeProduct(p, lang);
   return <>
     <StructuredData data={{ "@context": "https://schema.org", "@type": "Product", "@id": absolutePage("/products/" + slug, lang) + "#product", url: absolutePage("/products/" + slug, lang), name: product.name, description: product.description, image: SITE_ORIGIN + product.image, brand: { "@type": "Brand", name: "Kobags Group" }, manufacturer: organizationReference, material: lang === "sq" ? "Polipropilen jo i endur (PP)" : "Non-woven polypropylene (PP)", additionalProperty: product.variants.map(v => ({ "@type": "PropertyValue", name: v.name, value: `${v.dimensions}; ${v.gsm} g/m²` })) }} />
     <StructuredData data={breadcrumbs([{ path: "/", name: lang === "sq" ? "Ballina" : "Home" }, { path: "/products", name: lang === "sq" ? "Çantat tona" : "Our bags" }, { path: "/products/" + slug, name: product.name }], lang)} />
-    <ProductDetail product={p} />
+    <ProductDetail product={p} returnTo={"/products" + catalogSearch(readCatalogSelection(await searchParams, products))} />
   </>;
 }

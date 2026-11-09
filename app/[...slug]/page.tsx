@@ -4,17 +4,11 @@ import CmsPublicPage from "@/components/cms/public-page";
 
 import Certificates from "@/components/certificates";
 import Link from "@/components/site-link";
-import { FactoryVideo } from "@/components/factory-video";
+import ManufacturingPage from "@/components/manufacturing-page";
+import ResponsibilityPage from "@/components/responsibility-page";
 import { notFound } from "next/navigation";
 import {
   ArrowUpRight,
-  Droplets,
-  Layers,
-  Leaf,
-  Paintbrush,
-  PackageCheck,
-  Recycle,
-  Sprout,
 } from "lucide-react";
 import { LocalizedCopy as L, LocalizedPageHeading, BuyerChecklistDownload } from "@/components/localized-copy";
 import InquiryForm from "@/components/inquiry-form";
@@ -123,179 +117,21 @@ export default async function Page({
   const cms=await publicContent("/"+path);
   if(cms) return <CmsPublicPage content={cms}/>;
   if (!titles[path]) notFound();
+  if (path === "manufacturing") return <ManufacturingPage />;
+  if (path === "sustainability") return <ResponsibilityPage />;
   return (
-    <main className={path === "sustainability" ? "responsibility-page" : undefined}>
-      {path === "sustainability" ? (
-        <header className="responsibility-hero">
-          <div className="responsibility-hero-inner content-width">
-            <div className="responsibility-hero-copy">
-              <p className="responsibility-label"><Leaf size={16} aria-hidden="true" /><L en="OUR RESPONSIBILITY" sq="PËRGJEGJËSIA JONË" /></p>
-              <h1><L en="Better questions." sq="Pyetje më të mira." />{" "}<span><L en="Clearer choices." sq="Zgjedhje më të qarta." /></span></h1>
-              <p className="intro"><L en="A bag’s story continues after the first trip. Understand the material, care for it and make reuse part of the everyday." sq="Historia e çantës vazhdon pas përdorimit të parë. Njihni materialin, kujdesuni për të dhe bëjeni ripërdorimin pjesë të përditshmërisë." /></p>
-              <p className="responsibility-origin"><span aria-hidden="true" /><L en="MADE IN KOSOVA · CARRIED EVERY DAY" sq="PRODHUAR NË KOSOVË · PËR ÇDO DITË" /></p>
-            </div>
-            <div className="responsibility-tag-scene">
-              <Leaf className="responsibility-leaf responsibility-leaf-one" size={88} strokeWidth={1} aria-hidden="true" />
-              <Sprout className="responsibility-leaf responsibility-leaf-two" size={100} strokeWidth={1} aria-hidden="true" />
-              <div className="responsibility-tag">
-                <span className="responsibility-tag-hole" aria-hidden="true" />
-                <Leaf size={44} strokeWidth={1.4} aria-hidden="true" />
-                <p><span><L en="USE." sq="PËRDOR." /></span><span><L en="REUSE." sq="RIPËRDOR." /></span><span><L en="REPEAT." sq="PËRSËRIT." /></span></p>
-                <span className="responsibility-tag-caption"><L en="A SIMPLE EVERYDAY HABIT" sq="NJË ZAKON I PËRDITSHËM" /></span>
-              </div>
-            </div>
-          </div>
-        </header>
-      ) : <LocalizedPageHeading
+    <main>
+      <LocalizedPageHeading
         eyebrow={"KOBAGS / " + path.split("/")[0].toUpperCase()}
         eyebrowSq={albanianEyebrows[path.split("/")[0]]}
         title={titles[path]}
         titleSq={albanianTitles[path]}
         intro={introductions[path]?.[0]}
         introSq={introductions[path]?.[1]}
-      />}
+      />
       <div className="content-width">
         {path==='resources'&&<><CmsExtras kind="guide"/><CmsExtras kind="faq"/></>}
         {path==='certifications'&&<CmsExtras kind="certificate"/>}
-        {path === "manufacturing" && (
-          <>
-            <div className="manufacturing-hero">
-              <img
-                src="/assets/client-2026-09/manufacturing-bag-forming.webp"
-                alt="Printed bag material moving through the forming line at the Kobags factory"
-                width="1200"
-                height="600"
-              />
-              <div>
-                <p className="eyebrow"><L en="MADE IN KOSOVA" sq="PRODHUAR NË KOSOVË" /></p>
-                <h2>
-                  <L en="Where your bag" sq="Këtu merr formë" />
-                  <br />
-                  <L en="takes shape." sq="çanta juaj." />
-                </h2>
-              </div>
-            </div>
-            <div className="manufacturing-grid">
-              {[
-                {
-                  icon: Layers,
-                  title: "Material",
-                  titleSq: "Materiali",
-                  body: "Define the non-woven PP material, GSM, bag shape and color for your application.",
-                  bodySq: "Përcaktoni materialin PP jo të endur, peshën në GSM, formën dhe ngjyrën e çantës sipas nevojës suaj.",
-                },
-                {
-                  icon: Paintbrush,
-                  title: "Printing",
-                  titleSq: "Shtypi",
-                  body: "Choose up to four print colors and share your artwork. We’ll confirm the print method and usable area for your selected bag.",
-                  bodySq: "Zgjidhni deri në katër ngjyra shtypi dhe na dërgoni dizajnin tuaj. Metodën e shtypit dhe sipërfaqen e përdorshme i konfirmojmë për çantën e zgjedhur.",
-                },
-                {
-                  icon: PackageCheck,
-                  title: "Approval & dispatch",
-                  titleSq: "Miratimi dhe dërgimi",
-                  body: "Review the quotation and artwork proof before production. Confirm dispatch timing and destination-dependent transport.",
-                  bodySq: "Shqyrtoni ofertën dhe provën e dizajnit para prodhimit. Konfirmoni afatin e nisjes dhe transportin sipas destinacionit.",
-                },
-              ].map(({ icon: Icon, title, titleSq, body, bodySq }) => {
-                const I = Icon;
-                return (
-                  <article className="section-card" key={title}>
-                    <I size={24} />
-                    <h3><L en={title} sq={titleSq} /></h3>
-                    <p><L en={body} sq={bodySq} /></p>
-                  </article>
-                );
-              })}
-            </div>
-            <section className="factory-reels" aria-labelledby="factory-reels-title">
-              <div className="factory-reels-intro">
-                <p className="eyebrow"><L en="FACTORY MOTION / KOSOVA" sq="LINJA E PRODHIMIT / KOSOVË" /></p>
-                <h2 id="factory-reels-title"><L en="Inside production." sq="Brenda prodhimit." /></h2>
-                <p><L en="See our bags take shape on the factory floor." sq="Shihni si marrin formë çantat në fabrikën tonë." /></p>
-              </div>
-              <FactoryVideo source="/assets/client-2026-09/bag-forming-reel.mp4" poster="/assets/client-2026-09/bag-forming-poster.jpg" width={464} height={832} title="Bag Forming" titleSq="Formimi i çantave" />
-              <FactoryVideo source="/assets/client-2026-09/bag-stacking-reel.mp4" poster="/assets/client-2026-09/bag-stacking-poster.jpg" width={480} height={848} title="Production Line" titleSq="Linja e prodhimit" />
-            </section>
-            <div className="manufacturing-photo-rail" aria-label="Inside Kobags production">
-              <figure>
-                <img src="/assets/client-2026-09/material-rolls.jpg" alt="Rolls of bag material at the Kobags factory" loading="lazy" width="800" height="533" />
-                <figcaption><L en="Material" sq="Materiali" /></figcaption>
-              </figure>
-              <figure>
-                <img src="/assets/client-2026-10/printing-line-fresh-food.jpg" alt="Black bag material with gold printing passing through the Kobags production rollers" loading="lazy" width="1200" height="1600" />
-                <figcaption><L en="Print" sq="Shtypi" /></figcaption>
-              </figure>
-              <figure>
-                <img src="/assets/client-2026-09/finished-stack-rail.jpg" alt="Stacks of finished bags at the Kobags factory" loading="lazy" width="800" height="533" />
-                <figcaption><L en="Finished bags" sq="Çantat e përfunduara" /></figcaption>
-              </figure>
-            </div>
-          </>
-        )}
-        {path === "sustainability" && (
-          <>
-            <div className="material-feature">
-              <img src="/assets/client-2026-09/material-printed-rolls.webp" alt="Printed non-woven material on rolls at the Kobags factory" width="640" height="425" loading="lazy" />
-              <div>
-                <p className="eyebrow"><L en="KNOW YOUR MATERIAL" sq="NJIHNI MATERIALIN" /></p>
-                <h2>
-                  <L en="One material." sq="Një material." />
-                  <br />
-                  <L en="Many more uses." sq="Për shumë përdorime." />
-                </h2>
-                <p>
-                  <L en="Designed for reuse. Made with one material. Recyclable by design." sq="Projektuar për ripërdorim. Prodhuar me një material. Të riciklueshme që në projektim." />
-                </p>
-              </div>
-            </div>
-            <div className="manufacturing-grid responsibility-principles">
-              {[
-                {
-                  title: "What is it made of?",
-                  icon: Layers,
-                  titleSq: "Nga çfarë përbëhet?",
-                  body: "Our non-woven bags are made entirely from polypropylene (PP). Every component, including the fabric, handles, and stitching, is made from the same material, creating a strong, lightweight, durable, and fully recyclable product. We use water-based printing inks to support responsible manufacturing.",
-                  bodySq: "Çantat tona jo të endura prodhohen tërësisht nga polipropileni (PP). Çdo pjesë, përfshirë materialin, dorezat dhe qepjet, prodhohet nga i njëjti material, duke krijuar një produkt të fortë, të lehtë, të qëndrueshëm dhe plotësisht të riciklueshëm. Përdorim bojëra shtypi me bazë uji për të mbështetur prodhimin e përgjegjshëm.",
-                },
-                {
-                  title: "Can it be recycled?",
-                  icon: Recycle,
-                  titleSq: "A mund të riciklohet?",
-                  body: "Yes! Our bags are made from 100% recyclable polypropylene (PP). By using one material throughout all bag components, we simplify the recycling process and support efficient material recovery and reuse.",
-                  bodySq: "Po! Çantat tona prodhohen nga polipropileni (PP), i cili është 100% i riciklueshëm. Duke përdorur të njëjtin material për të gjitha pjesët e çantës, thjeshtojmë procesin e riciklimit dhe mbështesim rikuperimin dhe ripërdorimin efikas të materialit.",
-                },
-                {
-                  title: "How should I care for it?",
-                  icon: Droplets,
-                  titleSq: "Si duhet të kujdesem për të?",
-                  body: "Our bags are easy to maintain. Simply wipe clean or machine wash on a gentle, low-temperature cycle. Air dry and avoid high heat to preserve their quality and durability.",
-                  bodySq: "Çantat tona mirëmbahen lehtë. Pastrojini me leckë ose lajini në lavatriçe me program delikat dhe temperaturë të ulët. Thajini në ajër dhe shmangni nxehtësinë e lartë për të ruajtur cilësinë dhe qëndrueshmërinë.",
-                },
-              ].map(({ icon: Icon, title, titleSq, body, bodySq }) => (
-                <article className="section-card" key={title}>
-                  <div className="responsibility-card-top"><Icon size={24} strokeWidth={1.6} aria-hidden="true" /></div>
-                  <h3><L en={title} sq={titleSq} /></h3>
-                  <p><L en={body} sq={bodySq} /></p>
-                </article>
-              ))}
-            </div>
-            <section className="prose responsibility-evidence">
-              <p className="eyebrow"><Sprout size={16} aria-hidden="true" /><L en="THOUGHTFUL CHOICES. CLEAR FACTS." sq="ZGJEDHJE TË MENDUARA. FAKTE TË QARTA." /></p>
-              <h2><L en="Evidence before broad claims." sq="Dëshmitë para pretendimeve të gjera." /></h2>
-              <p>
-                <L en="Figures for environmental impact, product lifetime, recycled percentage and food contact require product-specific evidence and clear scope. Ask for the relevant evidence for your bag." sq="Të dhënat për ndikimin mjedisor, jetëgjatësinë, përqindjen e materialit të ricikluar dhe kontaktin me ushqimin kërkojnë dëshmi për produktin konkret dhe fushë të qartë zbatimi. Kërkoni dëshmitë për çantën tuaj." />
-              </p>
-              <p>
-                <L en="Management-system certificates describe the certified organization and scope. They do not by themselves establish a bag’s environmental performance." sq="Certifikatat e sistemeve të menaxhimit përshkruajnë organizatën dhe fushën e certifikuar. Ato nuk provojnë vetë performancën mjedisore të një çante." />
-              </p>
-              <Link href="/certifications">
-                <L en="Review the certificate references" sq="Shikoni certifikatat" /> →
-              </Link>
-            </section>
-          </>
-        )}
         {path === "certifications" && <Certificates />}
         {path === "partners" && (
           <>

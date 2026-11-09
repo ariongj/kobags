@@ -24,13 +24,13 @@ export default async function KosovoBagsPage() {
           <p><L en="From a boutique in Prishtina to a supermarket in Lipjan or an event in Prizren, the starting point is what your bag needs to carry. Kobags produces non-woven polypropylene bags with custom printing for retail, grocery, promotions and distribution." sq="Nga një butik në Prishtinë te një supermarket në Lipjan apo një event në Prizren, gjithçka fillon nga produkti që do të bartë çanta. Kobags prodhon qese dhe çanta nga polipropileni jo i endur, me shtyp të personalizuar për dyqane, ushqimore, promovime dhe shpërndarje." /></p>
           <div className="actions"><Link className="button" href="/products"><L en="Compare bag styles" sq="Krahasoni modelet" /> ↗</Link><Link className="button secondary" href="/quote"><L en="Request a quote" sq="Kërkoni ofertë" /> ↗</Link></div>
         </div>
-        <aside className="kosovo-contact">
+        <section className="kosovo-contact" aria-label={lang === "sq" ? "Planifikoni porosinë" : "Plan your order"}>
           <h2><L en="Speak with the manufacturer" sq="Flisni me prodhuesin" /></h2>
           <address>{company.name}<br /><CmsContact part="address"/><br /><L en="Kosovo" sq="Kosovë" /></address>
           <CmsContact part="phone"/>
           <CmsContact part="email"/>
           <Link href="/manufacturing" className="text-button"><L en="Inside our production" sq="Brenda prodhimit tonë" /> ↗</Link>
-        </aside>
+        </section>
       </section>
       <section className="kosovo-coverage" aria-labelledby="coverage-title">
         <h2 id="coverage-title"><L en="Every city. All 38 municipalities." sq="Çdo qytet. Të 38 komunat." /></h2>

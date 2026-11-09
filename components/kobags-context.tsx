@@ -13,6 +13,7 @@ import { Design, initialDesign, products, colors, MAX_BRAND_TEXT_LENGTH } from "
 import { inkContrast, readableInk } from "@/lib/studio-checks";
 import { languageHref, type SiteLanguage } from "@/lib/site-locale";
 import { draftStorageKey, readStoredDraft, writeStoredDraft, type DraftStorageStatus } from "@/lib/draft-storage";
+import { mergeDesignDraft } from "@/lib/design-draft";
 function limitDesignText(design: Design): Design {
   return {
     ...design,
@@ -67,9 +68,7 @@ export function KobagsProvider({ children, initialLanguage = "en", studioEnabled
     // Merge into the latest stored draft so another open tab's unrelated edits
     // survive even when its storage event has not been delivered yet.
     const base = { ...draftRef.current, ...readStoredDraft() };
-    const merged = limitDesignText({ ...base, ...patch });
-    if (!patch.referenceStudio && ['product', 'size', 'color', 'customDimensions'].some(key => key in patch && patch[key as keyof Design] !== base[key as keyof Design]))
-      merged.referenceStudio = undefined;
+    const merged = limitDesignText(mergeDesignDraft(base, patch));
     const next = patch.color && patch.color !== draftRef.current.color && patch.ink === undefined && patch.backInk === undefined
       ? readableTextForBag(merged)
       : merged;

@@ -1,0 +1,38 @@
+/* Buyer controls stay compact and within the established navy/green palette. */
+.kobags-v5 .catalog-compare-tray { position:sticky;top:72px;z-index:20;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:12px;margin:0 0 18px;padding:10px 12px;background:#fff;border:1px solid #d5e3d7;border-radius:9px;box-shadow:0 4px 16px #1234420d; }
+.catalog-compare-count { font-size:12px;font-weight:600;white-space:nowrap; }
+.catalog-compare-picks { display:flex;gap:6px;min-width:0;overflow-x:auto;scrollbar-width:thin; }
+.catalog-compare-picks button { display:inline-flex;flex:none;align-items:center;gap:7px;min-height:40px;padding:7px 10px;border:1px solid #d5e3d7;border-radius:6px;background:#f4f8ef;color:#123442;font-size:12px; }
+.kobags-v5 .catalog-compare-tray .button { min-height:40px;padding:8px 12px;font-size:12px; }
+.kobags-v5 #bag-comparison { scroll-margin-top:150px; }
+.kobags-v5 #bag-comparison h2:focus { outline:2px solid #087c43;outline-offset:5px; }
+.kobags-v5 .comparison th a { color:#123442;text-decoration:underline;text-underline-offset:3px; }
+.comparison-scroll-hint { display:none; }
+.comparison [data-slot=table-container]:focus-visible { outline:2px solid #087c43;outline-offset:3px; }
+.kobags-v5 .industry-feature > div > p:not(.eyebrow) { color:#4b6355; }
+.quote-field-label { display:block;font-size:13px;font-weight:600;margin-bottom:8px; }
+.quote-bag-options { display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px; }
+.quote-bag-options button { position:relative;display:flex;flex-direction:column;align-items:center;gap:7px;min-width:0;padding:9px 4px;border:1px solid #d8e3dc;background:#fff;border-radius:8px;color:#123442;font-size:12px;line-height:1.35; }
+.quote-bag-options button[aria-pressed=true] { background:#f0f6eb;border-color:#087c43;box-shadow:inset 0 0 0 1px #087c43; }
+.quote-bag-options button > svg { position:absolute;right:5px;top:5px;color:#087c43; }
+.quote-bag-options img { display:block;width:72px;height:90px;max-width:90%;object-fit:contain; }
+.quote-bag-options button:focus-visible { outline:2px solid #087c43;outline-offset:3px; }
+.kobags-v5 .quote-product-photo { margin:12px 0 18px;padding:12px;background:#fff;border:1px solid #dbe5d9;border-radius:9px; }
+.kobags-v5 .quote-product-photo img { display:block;width:100%;height:280px;object-fit:contain; }
+.kobags-v5 .quote-product-photo figcaption { margin-top:8px;font-size:11px;line-height:1.5;color:#52645b; }
+.quote-print-intro > h2 { font-size:20px; }
+.quote-print-intro .text-button { margin-top:8px; }
+@media(max-width:800px) {
+ .kobags-v5 .catalog-compare-tray { top:56px;grid-template-columns:minmax(0,1fr) auto;gap:6px 10px;padding:8px 10px; }
+ .catalog-compare-picks { grid-column:1/-1;grid-row:2; }
+ .catalog-compare-picks button { min-height:44px; }
+ .kobags-v5 .catalog-compare-tray .button { min-height:44px; }
+ .kobags-v5 #bag-comparison { scroll-margin-top:180px; }
+ .kobags-v5 .comparison table { table-layout:fixed; }
+ .kobags-v5 .comparison th,.kobags-v5 .comparison td { white-space:normal;overflow-wrap:anywhere;vertical-align:top;font-size:12px;padding:9px 7px; }
+ .comparison-scroll-hint { display:block;color:#52645b;font-size:11px;margin:0 0 10px; }
+ .quote-bag-options { gap:4px; }
+ .quote-bag-options button { padding:8px 2px;font-size:10px;gap:5px; }
+ .quote-bag-options img { width:45px;height:60px; }
+ .kobags-v5 .quote-product-photo img { height:260px; }
+}
