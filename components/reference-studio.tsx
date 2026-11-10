@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useKobags } from './kobags-context';
 import { colors, type Design } from '@/lib/catalog';
 import { languageHref } from '@/lib/site-locale';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, ShoppingBag } from 'lucide-react';
 
 export default function ReferenceStudio() {
   const frame = useRef<HTMLIFrameElement>(null);
@@ -18,6 +18,13 @@ export default function ReferenceStudio() {
   const [ready, setReady] = useState(false), [busy, setBusy] = useState(false), [storageError, setStorageError] = useState(false);
   const [quoteError, setQuoteError] = useState(false);
   const [unavailable, setUnavailable] = useState(false);
+  const [slow, setSlow] = useState(false), [attempt, setAttempt] = useState(0);
+  useEffect(() => {
+    if (ready || unavailable) return;
+    const timer = setTimeout(() => setSlow(true), 25000);
+    return () => clearTimeout(timer);
+  }, [ready, unavailable, attempt]);
+  const retryStudio = () => { setReady(false); setUnavailable(false); setSlow(false); setAttempt(n => n + 1); };
   useEffect(() => {
     const mobile = matchMedia('(max-width:760px), (max-width:1000px) and (max-height:500px)');
     const viewport = window.visualViewport;
@@ -45,7 +52,7 @@ export default function ReferenceStudio() {
     const observer = new ResizeObserver(fit);
     if (frame.current?.parentElement) observer.observe(frame.current.parentElement.querySelector('.reference-studio-bar')!);
     return () => { cancelAnimationFrame(pending); window.removeEventListener('resize', fit); window.removeEventListener('scroll', fit); viewport?.removeEventListener('resize', fit); viewport?.removeEventListener('scroll', fit); mobile.removeEventListener('change', fit); observer.disconnect(); };
-  }, [quoteError, storageError, entry]);
+  }, [quoteError, storageError, entry, attempt]);
   useEffect(() => { if (!busy) return; const timeout = setTimeout(() => { setBusy(false); setQuoteError(true); }, 45000); return () => clearTimeout(timeout); }, [busy]);
   useEffect(() => {
     const receive = (event: MessageEvent) => {
@@ -86,6 +93,13 @@ export default function ReferenceStudio() {
     <div className="reference-studio-bar"><strong>{t('Bag studio', 'Studio 3D')}</strong><button type="button" className="button" disabled={!ready || busy} onClick={() => { setQuoteError(false); setBusy(true); frame.current?.contentWindow?.postMessage({ type: 'kobags:request-quote' }, location.origin); }}>{t(busy ? 'Preparing…' : !ready ? unavailable ? 'Studio unavailable' : 'Loading studio…' : 'Continue to quote', busy ? 'Duke përgatitur…' : !ready ? unavailable ? 'Studioja nuk është e disponueshme' : 'Duke hapur studion…' : 'Vazhdoni te oferta')}<ArrowUpRight size={16}/></button></div>
     {quoteError && <p className="reference-studio-storage" role="alert">{t('Your design could not be prepared. Please try again, or save an image and contact us.', 'Dizajni nuk u përgatit. Provoni përsëri, ose ruani një imazh dhe na kontaktoni.')}</p>}
     {storageError && <p className="reference-studio-storage" role="status">{t('Your browser could not save this draft. Download your design before closing this page.', 'Shfletuesi nuk e ruajti draftin. Shkarkoni dizajnin përpara mbylljes së faqes.')}</p>}
-    {entry !== null && <iframe ref={frame} src={languageHref('/design/viewer', lang) + entry} onLoad={() => frame.current?.contentWindow?.postMessage({ type: 'kobags:studio-status' }, location.origin)} className="reference-studio-frame" title={t('Interactive Kobags bag configurator', 'Konfiguruesi interaktiv i çantave Kobags')} />}
+    {(!ready || unavailable) && <div className="reference-studio-loading" role={unavailable ? 'alert' : 'status'} aria-live="polite">
+      <div className="reference-loading-bag" aria-hidden="true"><ShoppingBag size={46} strokeWidth={1.3}/></div>
+      <strong>{t(unavailable ? 'Let’s try that again.' : 'Your bag is taking shape.', unavailable ? 'Le të provojmë përsëri.' : 'Çanta juaj po merr formë.')}</strong>
+      <p>{t(unavailable ? 'The 3D studio could not start.' : slow ? 'Taking a little longer. You can wait or retry.' : 'Preparing the fabric, artwork and lighting…', unavailable ? 'Studioja 3D nuk u hap.' : slow ? 'Po zgjat pak më shumë. Mund të prisni ose të provoni përsëri.' : 'Duke përgatitur materialin, dizajnin dhe ndriçimin…')}</p>
+      {!unavailable && <span className="reference-loading-track" aria-hidden="true"><i/></span>}
+      {(unavailable || slow) && <button type="button" className="button" onClick={retryStudio}>{t('Retry studio', 'Provo përsëri')}</button>}
+    </div>}
+    {entry !== null && <iframe key={attempt} aria-hidden={!ready || unavailable} inert={!ready || unavailable} onError={() => setUnavailable(true)} ref={frame} src={languageHref('/design/viewer', lang) + entry} onLoad={() => frame.current?.contentWindow?.postMessage({ type: 'kobags:studio-status' }, location.origin)} className="reference-studio-frame" title={t('Interactive Kobags bag configurator', 'Konfiguruesi interaktiv i çantave Kobags')} />}
   </section>;
 }

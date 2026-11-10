@@ -1,4 +1,4 @@
-.reference-studio-shell { width: 100%; background: #fff; }
+.reference-studio-shell { position: relative; width: 100%; background: #fff; min-height: calc(100svh - 74px); }
 .reference-studio-bar { min-height: 48px; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 6px 18px; border-bottom: 1px solid #dce5df; background: #fff; }
 .reference-studio-bar strong { font-size: 15px; }
 .reference-studio-bar .button { min-height: 36px; padding: 7px 14px; font-size: 12px; }
@@ -8,3 +8,16 @@
 .reference-quote-image { display: block; width: 100%; height: auto; aspect-ratio: 1; max-height: 320px; object-fit: contain; border-radius: 8px; }
 @media (max-width:760px), (max-width:1000px) and (max-height:500px) { .reference-studio-bar { padding: 4px 10px; min-height: 48px; }.reference-studio-bar strong { font-size: 13px; }.reference-studio-bar .button { min-height: 40px; }.reference-studio-frame { height: var(--studio-mobile-height, calc(100dvh - 112px)); min-height: 0; } }
 @media(max-width:760px) { .reference-showcase-frame { height: 440px; } }
+
+.reference-studio-loading{position:absolute;inset:52px 0 0;z-index:8;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:28px 20px;background:radial-gradient(ellipse at center,#eef5e9 0%,#fafcf9 55%,#fff 100%);text-align:center;color:#143542}
+.reference-loading-bag{width:92px;height:92px;display:grid;place-items:center;border-radius:24px;background:#e7f0df;color:#247146;box-shadow:0 12px 36px #163b2010;animation:studio-bag-breathe 2.8s ease-in-out infinite}
+.reference-studio-loading strong{font-size:clamp(19px,3vw,25px);letter-spacing:-.03em}
+.reference-studio-loading p{font-size:13px;line-height:1.6;color:#5a6e6c;max-width:310px;margin:0}
+.reference-loading-track{width:144px;height:3px;border-radius:3px;overflow:hidden;background:#dce7d6}
+.reference-loading-track i{display:block;width:40%;height:100%;border-radius:3px;background:#257847;animation:studio-load-travel 1.7s ease-in-out infinite}
+.reference-studio-loading .button{min-height:44px}
+@keyframes studio-load-travel{0%{transform:translateX(-105%)}100%{transform:translateX(355%)}}
+@keyframes studio-bag-breathe{50%{transform:translateY(-5px)}}
+@media(prefers-reduced-motion:reduce){.reference-loading-bag,.reference-loading-track i{animation:none}.reference-loading-track i{width:70%}}
+
+@media(max-width:760px), (max-width:1000px) and (max-height:500px){.reference-studio-shell{min-height:calc(100svh - 56px)}}
