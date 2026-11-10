@@ -6,9 +6,9 @@ export function refineFabricAppearance(source) {
   };
   // PP fabric scatters light; glass-like refraction makes the opposite print
   // appear on the front. Keep diffuse backlighting and a faint inside print.
-  replace('outerMat.transmission = through > 0.2 ? 0.45 : through > 0.1 ? 0.26 : 0.06;', "outerMat.transmission = through > 0.2 ? (state.type === 'tshirt' ? 0.44 : 0.36) : through > 0.1 ? 0.12 : 0.012;");
+  replace('outerMat.transmission = through > 0.2 ? 0.45 : through > 0.1 ? 0.26 : 0.06;', "outerMat.transmission = through > 0.2 ? (state.type === 'tshirt' ? 0.60 : 0.36) : through > 0.1 ? 0.12 : 0.012;");
   replace('backLight.value = through > 0.2 ? 0.55 : through > 0.1 ? 0.32 : 0.08;', 'backLight.value = through > 0.2 ? 0.54 : through > 0.1 ? 0.28 : 0.07;');
-  replace('showThrough.value = through;', "showThrough.value = through > 0.2 ? (state.type === 'tshirt' ? 0.56 : 0.48) : through;");
+  replace('showThrough.value = through;', "showThrough.value = through > 0.2 ? (state.type === 'tshirt' ? 0.65 : 0.48) : through;");
   // Scatter transmitted light more broadly; printed ink remains more opaque
   // than the unprinted fabric rather than becoming a translucent decal.
   replace("THREE.ShaderChunk.transmission_fragment.replace('n, v, material.roughness, material.diffuseColor', 'n, v, material.roughness * 0.5, material.diffuseColor')", "'#ifdef USE_TRANSMISSION\\nmaterial.transmission *= clamp(dot(diffuseColor.rgb, vec3(0.2126, 0.7152, 0.0722)) * 1.4, 0.08, 1.0);\\n#endif\\n' + THREE.ShaderChunk.transmission_fragment.replace('n, v, material.roughness, material.diffuseColor', 'n, v, material.roughness * 0.78, material.diffuseColor')");
@@ -17,7 +17,7 @@ export function refineFabricAppearance(source) {
   replace('map: strapFibreMap, normalMap: fabN, normalScale: new THREE.Vector2(0.36, 0.36)', 'map: strapFibreMap, normalMap: fabN, normalScale: new THREE.Vector2(0.78, 0.78)');
   // Both cloth layers transmit light; the inside must not remain an opaque
   // wall behind the translucent outside. Reuse the existing transmission pass.
-  replace('innerMat.emissive.set(state.bag).multiplyScalar(through * 0.38);', 'innerMat.transmission = through > 0.2 ? 0.16 : through > 0.1 ? 0.045 : 0.004;\n  innerMat.emissive.set(state.bag).multiplyScalar(through * 0.30);');
+  replace('innerMat.emissive.set(state.bag).multiplyScalar(through * 0.38);', "innerMat.transmission = through > 0.2 ? (state.type === 'tshirt' ? 0.30 : 0.16) : through > 0.1 ? 0.045 : 0.004;\n  innerMat.emissive.set(state.bag).multiplyScalar(through * 0.30);");
   replace("innerMat.customProgramCacheKey = () => 'bag-inner-through';", `const originalInnerFabricShader=innerMat.onBeforeCompile;
   innerMat.onBeforeCompile=shader=>{originalInnerFabricShader(shader);shader.fragmentShader=shader.fragmentShader.replace('#include <opaque_fragment>', '#include <opaque_fragment>\\ngl_FragColor.a = 1.0;');};
   innerMat.customProgramCacheKey = () => 'bag-inner-through-coverage';`);

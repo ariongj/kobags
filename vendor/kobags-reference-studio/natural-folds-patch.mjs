@@ -16,5 +16,16 @@ export function naturalFolds(source) {
   replace("const vestDrape = TYPES[state.type].handles === 'tshirt' && !foldedBag()\n        ? 0.16", "const vestDrape = !foldedBag()\n        ? (TYPES[state.type].handles === 'tshirt' ? 0.18 : 0.10)");
   replace('* (1 - smooth(tshirtCut().yb - 1.5, tshirtCut().yb + 0.4, y)) : 0;', "* (TYPES[state.type].handles === 'tshirt' ? (1 - smooth(tshirtCut().yb - 1.5, tshirtCut().yb + 0.4, y)) : 1) : 0;");
   replace('const depth = ry * ht + cup;', 'const ribbonWave = fabric && !foldedBag() ? 0.025*free*(1-rx*rx)*Math.sin(Math.PI*i/N)*Math.sin(2.2*Math.PI*i/N+side) : 0;\n      const depth = ry * ht + cup + ribbonWave;');
+  // The photographed loop is a flat ribbon with a bent, off-centre crown.
+  // Shape the existing samples once during rebuild; no extra mobile vertices.
+  replace('(side > 0 ? 0.12 : 0.18);', '(side > 0 ? 0.22 : 0.34);');
+  replace("P(-a * sh, H + (foldedBag() ? 0.84 : 0.80) * drop),", "P(-a * (fabric && !foldedBag() ? 0.44 : sh), H + (foldedBag() ? 0.84 : fabric ? 0.76 : 0.80) * drop),");
+  replace('P(-a * 0.19 + side * 0.35, H + drop * (side > 0 ? 0.99 : 0.965)),', 'P(-a * (fabric && !foldedBag() ? 0.27 : 0.19) + side * 0.35, H + drop * (side > 0 ? 0.99 : 0.965)),');
+  replace('P(a * 0.15 + side * 0.35, H + drop * (side > 0 ? 1 : 0.975)),', 'P(a * (fabric && !foldedBag() ? 0.34 : 0.15) + side * 0.35, H + drop * (fabric && !foldedBag() ? (side > 0 ? 0.91 : 0.87) : (side > 0 ? 1 : 0.975))),');
+  replace('P(a * sh, H + 0.84 * drop),', 'P(a * sh, H + (fabric && !foldedBag() ? 0.72 : 0.84) * drop),');
+  replace('const th = (foldedBag() ? 0.035 : 0.32) * Math.sin(out * 0.26 + side * 1.7)', `const ribbonTurn = fabric && !foldedBag()
+      ? (0.88*Math.exp(-(((i/N-(side>0?0.44:0.56))/0.115)**2))
+        -0.32*Math.exp(-(((i/N-0.72)/0.15)**2))) * Math.sin(Math.PI*i/N) : 0;
+    const th = ((foldedBag() ? 0.035 : 0.32) * Math.sin(out * 0.26 + side * 1.7) + ribbonTurn)`);
   return source;
 }
